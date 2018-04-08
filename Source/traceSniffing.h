@@ -42,8 +42,10 @@ enum{START=14, END, TASK_SWITCHED_IN, INCREASE_TICK_COUNT, LOW_POWER_IDLE_BEGIN,
 
 
 
-/* Used to perform any necessary initialisation*/
-#define traceSTART() {sendInformationStart;sendSystemTime; sendInformationID(START);sendMessageLength(0);} // Can be used to give all numbers and their tasks to the backend
+#define fiveZeros() sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0); // Sending 5 zeros as signal for a reset
+
+/* Used to perform any necessary initialisation.*/
+#define traceSTART() {fiveZeros();sendInformationStart;sendSystemTime; sendInformationID(START);sendMessageLength(0);} // Can be used to give all numbers and their tasks to the backend
 
 
 #define traceEND()
