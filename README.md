@@ -1,8 +1,11 @@
 # Tracesniffer-Plugin
-The Tracesniffer-Plugin is the part of Tracesniffer which has to be on the traced system. We tried to make it as compact as possible, and as general as it can be, so its lightweight and can work on any system.
-In combination with the Tracesniffer-Frontend it provides a basic tool for tracing freeRTOS systems. 
 
-It is not intended, and wont be able, to replace professional tools like [Tracealyzer from Percepio](https://percepio.com/).
+![Tracesniffer-logo](Logo/TraceSnifferLogo_small.png)
+
+The Tracesniffer-Plugin is the part of Tracesniffer which has to be on the traced system. We tried to make it as compact as possible, and as general as it can be, so its lightweight and can work on any system.
+In combination with the [Tracesniffer-Frontend](https://github.com/Penlane/Tracesniffer-GUI) it provides a basic tool for tracing FreeRTOS systems. 
+
+It is not intended and wont be able to replace professional tools.
 
 For the plugin itself look under Source.
 For the implement instructions look under Source and further down in this readme.
