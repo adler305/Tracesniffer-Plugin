@@ -1,6 +1,6 @@
 # Tracesniffer-Plugin
 
-![Tracesniffer-logo](resources/img/TraceSnifferLogo_small.png)
+![Tracesniffer-logo](Logo/TraceSnifferLogo_small.png)
 
 The Tracesniffer-Plugin is the part of Tracesniffer which has to be on the traced system. We tried to make it as compact as possible, and as general as it can be, so its lightweight and can work on any system.
 In combination with the [Tracesniffer-Frontend](https://github.com/Penlane/Tracesniffer-GUI) it provides a basic tool for tracing FreeRTOS systems. 
