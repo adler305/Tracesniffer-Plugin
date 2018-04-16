@@ -43,21 +43,31 @@ enum{START=14, END, TASK_SWITCHED_IN, INCREASE_TICK_COUNT, LOW_POWER_IDLE_BEGIN,
 
 /*Interface Signals :*/
 
-#define sendInformationStart	sendByteOverInterface(0x0)
+#define sendInformationStart	sendByteOverInterface(0xff)
 // You can decide which time info you want to send. Its mandatory to send the TickCount, for everything else you can decide how many Bytes of TimerValue you want to send (1-4)
 #define sendSystemTime			sendByteOverInterface(xTaskGetTickCount()>>8);sendByteOverInterface(xTaskGetTickCount()); sendByteOverInterface((__HAL_TIM_GetCounter(&htim1)&0xFF00)>>8); sendByteOverInterface(__HAL_TIM_GetCounter(&htim1)&0xFF)
 #define sendInformationID(x)	sendByteOverInterface(x)
 #define sendMessageLength(x)	sendByteOverInterface(x)
 //Send Information
 
+//Vorteile/Nachteile? Sicher weniger Redundanz . Leere messages mit '\0'
+/*inline void packPayload(char infoType,char* message){
+	sendInformationStart;
+	sendSystemTime;
+	sendInformationID(infoType);
+	char lengthOfMessage=strlen(message);
+	sendMessageLength(lengthOfMessage);
+	if(lengthOfMessage==0){
+	}
+	else{
+		sendStringOverInterface(message);
+	}
+}*/
 
-
-
-
-#define tenZeros() sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0); // Sending 10 zeros as signal for a reset
+#define resetSignal() sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff); // Sending 10x 0xff as signal for a reset
 
 /* Used to perform any necessary initialisation.*/
-#define traceSTART() {tenZeros();sendInformationStart;sendSystemTime; sendInformationID(START);sendMessageLength(0);} // Can be used to give all numbers and their tasks to the backend
+#define traceSTART() {resetSignal();sendInformationStart;sendSystemTime; sendInformationID(START);sendMessageLength(0);} // Can be used to give all numbers and their tasks to the backend
 
 
 

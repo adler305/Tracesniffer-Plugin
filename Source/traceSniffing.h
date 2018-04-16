@@ -9,9 +9,8 @@
 #define TRACESNIFFING_H_
 
 #define configUSE_TRACE_FACILITY  1
-#include "stm32f7xx_hal.h"
-#include "selfFIFO.h"
 
+#include "selfFIFO.h"
 
 // Enumeration to define the Information ID 
 enum{START=14, END, TASK_SWITCHED_IN, INCREASE_TICK_COUNT, LOW_POWER_IDLE_BEGIN, LOW_POWER_IDLE_END, TASK_SWITCHED_OUT, TASK_PRIORITY_INHERIT, TASK_PRIORITY_DISINHERIT, BLOCKING_ON_QUEUE_RECEIVE, BLOCKING_ON_QUEUE_SEND, MOVED_TASK_TO_READY_STATE,
@@ -22,7 +21,15 @@ enum{START=14, END, TASK_SWITCHED_IN, INCREASE_TICK_COUNT, LOW_POWER_IDLE_BEGIN,
 	 EVENT_GROUP_DELETE, PEND_FUNC_CALL, PEND_FUNC_CALL_FROM_ISR, QUEUE_REGISTRY_ADD, TASK_NOTIFY_TAKE_BLOCK, TASK_NOTIFY_TAKE, TASK_NOTIFY_WAIT_BLOCK, TASK_NOTIFY_WAIT, TASK_NOTIFY, TASK_NOTIFY_FROM_ISR, TASK_NOTIFY_GIVE_FROM_ISR, CUSTOM_MARKER_1, CUSTOM_MARKER_2, CUSTOM_MARKER_3, CUSTOM_MARKER_4, CUSTOM_MARKER_5
 };
 
-
+/*
+#define queueQUEUE_TYPE_BASE				( ( uint8_t ) 0U )
+#define queueQUEUE_TYPE_SET					( ( uint8_t ) 0U )
+#define queueQUEUE_TYPE_MUTEX 				( ( uint8_t ) 1U )
+#define queueQUEUE_TYPE_COUNTING_SEMAPHORE	( ( uint8_t ) 2U )
+#define queueQUEUE_TYPE_BINARY_SEMAPHORE	( ( uint8_t ) 3U )
+#define queueQUEUE_TYPE_RECURSIVE_MUTEX		( ( uint8_t ) 4U )
+*/
+//Keine Queue Nummer sondern der QueueType wird mitgeschickt // vllt auch noch die nummer also 2 Bytes noch keine Ahnung
 
 
 /* Define here the function u want to use to send a byte over USART/serial interface*/
@@ -32,22 +39,24 @@ enum{START=14, END, TASK_SWITCHED_IN, INCREASE_TICK_COUNT, LOW_POWER_IDLE_BEGIN,
 
 /*Interface Signals :*/
 
-#define sendInformationStart	sendByteOverInterface(0x0)
+#define sendInformationStart	sendByteOverInterface(0xff)
 // You can decide which time info you want to send. Its mandatory to send the TickCount, for everything else you can decide how many Bytes of TimerValue you want to send (1-4)
-#define sendSystemTime			sendByteOverInterface(xTaskGetTickCount()>>8);sendByteOverInterface(xTaskGetTickCount()); //Add here the bytes of your timer which is responsible for the freeRTOS ticks
+#define sendSystemTime			sendByteOverInterface(xTaskGetTickCount()>>8);sendByteOverInterface(xTaskGetTickCount()); sendByteOverInterface((__HAL_TIM_GetCounter(&htim1)&0xFF00)>>8); sendByteOverInterface(__HAL_TIM_GetCounter(&htim1)&0xFF)
 #define sendInformationID(x)	sendByteOverInterface(x)
 #define sendMessageLength(x)	sendByteOverInterface(x)
 //Send Information
 
 
 
-
-#define tenZeros() sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0);sendByteOverInterface(0x0); // Sending 10 zeros as signal for a reset
+#define resetSignal() sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff);sendByteOverInterface(0xff); // Sending 10x 0xff as signal for a reset
 
 /* Used to perform any necessary initialisation.*/
-#define traceSTART() {tenZeros();sendInformationStart;sendSystemTime; sendInformationID(START);sendMessageLength(0);} // Can be used to give all numbers and their tasks to the backend
+#define traceSTART() {resetSignal();sendInformationStart;sendSystemTime; sendInformationID(START);sendMessageLength(0);} // Can be used to give all numbers and their tasks to the backend
 
 
+
+/* Use to close a trace, for example close a file into which trace has been
+written. */
 #define traceEND()
 
 #define traceCUSTOM_MARKER_1() {sendInformationStart;sendSystemTime; sendInformationID(CUSTOM_MARKER_1);sendMessageLength(1);sendByteOverInterface('1');}
