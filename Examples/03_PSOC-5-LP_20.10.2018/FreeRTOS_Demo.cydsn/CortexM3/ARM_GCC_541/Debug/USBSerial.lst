@@ -1,0 +1,1558 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"USBSerial.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	sniffIDFilter,13,4
+  20              		.comm	buffer,4098,4
+  21              		.comm	objectList,1704,4
+  22              		.global	xDelay
+  23              		.section	.rodata
+  24              		.align	2
+  25              		.type	xDelay, %object
+  26              		.size	xDelay, 4
+  27              	xDelay:
+  28 0000 64000000 		.word	100
+  29              		.global	mDelay
+  30              		.align	2
+  31              		.type	mDelay, %object
+  32              		.size	mDelay, 4
+  33              	mDelay:
+  34 0004 88130000 		.word	5000
+  35              		.comm	USBMutex,4,4
+  36              		.section	.text.usbserial_putString,"ax",%progbits
+  37              		.align	2
+  38              		.global	usbserial_putString
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	usbserial_putString, %function
+  42              	usbserial_putString:
+  43              	.LFB68:
+  44              		.file 1 "USBSerial.c"
+   1:USBSerial.c   **** /*
+   2:USBSerial.c   ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:USBSerial.c   ****     All rights reserved
+   4:USBSerial.c   **** 
+   5:USBSerial.c   ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:USBSerial.c   **** 
+   7:USBSerial.c   ****     This file is part of the FreeRTOS distribution.
+   8:USBSerial.c   **** 
+   9:USBSerial.c   ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:USBSerial.c   ****     the terms of the GNU General Public License (version 2) as published by the
+  11:USBSerial.c   ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:USBSerial.c   **** 
+  13:USBSerial.c   ****     ***************************************************************************
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 2
+
+
+  14:USBSerial.c   ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:USBSerial.c   ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:USBSerial.c   ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:USBSerial.c   ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:USBSerial.c   ****     ***************************************************************************
+  19:USBSerial.c   **** 
+  20:USBSerial.c   ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:USBSerial.c   ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:USBSerial.c   ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:USBSerial.c   ****     link: http://www.freertos.org/a00114.html
+  24:USBSerial.c   **** 
+  25:USBSerial.c   ****     ***************************************************************************
+  26:USBSerial.c   ****      *                                                                       *
+  27:USBSerial.c   ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:USBSerial.c   ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:USBSerial.c   ****      *    platform software that is more than just the market leader, it     *
+  30:USBSerial.c   ****      *    is the industry's de facto standard.                               *
+  31:USBSerial.c   ****      *                                                                       *
+  32:USBSerial.c   ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:USBSerial.c   ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:USBSerial.c   ****      *    tutorial book, reference manual, or both:                          *
+  35:USBSerial.c   ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:USBSerial.c   ****      *                                                                       *
+  37:USBSerial.c   ****     ***************************************************************************
+  38:USBSerial.c   **** 
+  39:USBSerial.c   ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:USBSerial.c   ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:USBSerial.c   ****     defined configASSERT()?
+  42:USBSerial.c   **** 
+  43:USBSerial.c   ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:USBSerial.c   ****     embedded software for free we request you assist our global community by
+  45:USBSerial.c   ****     participating in the support forum.
+  46:USBSerial.c   **** 
+  47:USBSerial.c   ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:USBSerial.c   ****     be as productive as possible as early as possible.  Now you can receive
+  49:USBSerial.c   ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:USBSerial.c   ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:USBSerial.c   **** 
+  52:USBSerial.c   ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:USBSerial.c   ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:USBSerial.c   ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:USBSerial.c   **** 
+  56:USBSerial.c   ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:USBSerial.c   ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:USBSerial.c   **** 
+  59:USBSerial.c   ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:USBSerial.c   ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:USBSerial.c   ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:USBSerial.c   **** 
+  63:USBSerial.c   ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:USBSerial.c   ****     engineered and independently SIL3 certified version for use in safety and
+  65:USBSerial.c   ****     mission critical applications that require provable dependability.
+  66:USBSerial.c   **** 
+  67:USBSerial.c   ****     1 tab == 4 spaces!
+  68:USBSerial.c   **** */
+  69:USBSerial.c   **** 
+  70:USBSerial.c   **** /**
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 3
+
+
+  71:USBSerial.c   ****  * This version of flash .c is for use on systems that have limited stack space
+  72:USBSerial.c   ****  * and no display facilities.  The complete version can be found in the 
+  73:USBSerial.c   ****  * Demo/Common/Full directory.
+  74:USBSerial.c   ****  * 
+  75:USBSerial.c   ****  * Three tasks are created, each of which flash an LED at a different rate.  The first 
+  76:USBSerial.c   ****  * LED flashes every 200ms, the second every 400ms, the third every 600ms.
+  77:USBSerial.c   ****  *
+  78:USBSerial.c   ****  * The LED flash tasks provide instant visual feedback.  They show that the scheduler 
+  79:USBSerial.c   ****  * is still operational.
+  80:USBSerial.c   ****  *
+  81:USBSerial.c   ****  */
+  82:USBSerial.c   **** 
+  83:USBSerial.c   **** 
+  84:USBSerial.c   **** #include <stdlib.h>
+  85:USBSerial.c   **** 
+  86:USBSerial.c   **** /* Scheduler include files. */
+  87:USBSerial.c   **** #include "FreeRTOS.h"
+  88:USBSerial.c   **** #include "task.h"
+  89:USBSerial.c   **** #include "semphr.h"
+  90:USBSerial.c   **** 
+  91:USBSerial.c   **** /* Demo program include files. */
+  92:USBSerial.c   **** #include "partest.h"
+  93:USBSerial.c   **** #include "USBSerial.h"
+  94:USBSerial.c   **** 
+  95:USBSerial.c   **** #define USBSerialSTACK_SIZE		configMINIMAL_STACK_SIZE
+  96:USBSerial.c   **** const TickType_t xDelay = 100 / portTICK_PERIOD_MS;
+  97:USBSerial.c   **** const TickType_t mDelay = 5000 / portTICK_PERIOD_MS;
+  98:USBSerial.c   ****     
+  99:USBSerial.c   **** /* The task that is created three times. */
+ 100:USBSerial.c   **** static portTASK_FUNCTION_PROTO( vUSBSerialTask, pvParameters );
+ 101:USBSerial.c   **** 
+ 102:USBSerial.c   **** SemaphoreHandle_t USBMutex;
+ 103:USBSerial.c   **** 
+ 104:USBSerial.c   **** /*-----------------------------------------------------------*/
+ 105:USBSerial.c   **** 
+ 106:USBSerial.c   **** void usbserial_putString(const char msg[])
+ 107:USBSerial.c   **** {
+  45              		.loc 1 107 0
+  46              		.cfi_startproc
+  47              		@ args = 0, pretend = 0, frame = 8
+  48              		@ frame_needed = 1, uses_anonymous_args = 0
+  49 0000 80B5     		push	{r7, lr}
+  50              		.cfi_def_cfa_offset 8
+  51              		.cfi_offset 7, -8
+  52              		.cfi_offset 14, -4
+  53 0002 82B0     		sub	sp, sp, #8
+  54              		.cfi_def_cfa_offset 16
+  55 0004 00AF     		add	r7, sp, #0
+  56              		.cfi_def_cfa_register 7
+  57 0006 7860     		str	r0, [r7, #4]
+ 108:USBSerial.c   ****     if(0 == USBUART_GetConfiguration()) return;
+  58              		.loc 1 108 0
+  59 0008 FFF7FEFF 		bl	USBUART_GetConfiguration
+  60 000c 0346     		mov	r3, r0
+  61 000e 002B     		cmp	r3, #0
+  62 0010 1CD0     		beq	.L6
+ 109:USBSerial.c   ****     xSemaphoreTake(USBMutex,portMAX_DELAY);
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 4
+
+
+  63              		.loc 1 109 0
+  64 0012 104B     		ldr	r3, .L7
+  65 0014 1868     		ldr	r0, [r3]
+  66 0016 0023     		movs	r3, #0
+  67 0018 4FF0FF32 		mov	r2, #-1
+  68 001c 0021     		movs	r1, #0
+  69 001e FFF7FEFF 		bl	xQueueGenericReceive
+ 110:USBSerial.c   ****     while(0 == USBUART_CDCIsReady()) vTaskDelay(xDelay);
+  70              		.loc 1 110 0
+  71 0022 03E0     		b	.L4
+  72              	.L5:
+  73              		.loc 1 110 0 is_stmt 0 discriminator 2
+  74 0024 6423     		movs	r3, #100
+  75 0026 1846     		mov	r0, r3
+  76 0028 FFF7FEFF 		bl	vTaskDelay
+  77              	.L4:
+  78              		.loc 1 110 0 discriminator 1
+  79 002c FFF7FEFF 		bl	USBUART_CDCIsReady
+  80 0030 0346     		mov	r3, r0
+  81 0032 002B     		cmp	r3, #0
+  82 0034 F6D0     		beq	.L5
+ 111:USBSerial.c   ****     USBUART_PutString(msg);
+  83              		.loc 1 111 0 is_stmt 1
+  84 0036 7868     		ldr	r0, [r7, #4]
+  85 0038 FFF7FEFF 		bl	USBUART_PutString
+ 112:USBSerial.c   ****     xSemaphoreGive(USBMutex);
+  86              		.loc 1 112 0
+  87 003c 054B     		ldr	r3, .L7
+  88 003e 1868     		ldr	r0, [r3]
+  89 0040 0023     		movs	r3, #0
+  90 0042 0022     		movs	r2, #0
+  91 0044 0021     		movs	r1, #0
+  92 0046 FFF7FEFF 		bl	xQueueGenericSend
+  93 004a 00E0     		b	.L1
+  94              	.L6:
+ 108:USBSerial.c   ****     xSemaphoreTake(USBMutex,portMAX_DELAY);
+  95              		.loc 1 108 0
+  96 004c 00BF     		nop
+  97              	.L1:
+ 113:USBSerial.c   **** }
+  98              		.loc 1 113 0
+  99 004e 0837     		adds	r7, r7, #8
+ 100              		.cfi_def_cfa_offset 8
+ 101 0050 BD46     		mov	sp, r7
+ 102              		.cfi_def_cfa_register 13
+ 103              		@ sp needed
+ 104 0052 80BD     		pop	{r7, pc}
+ 105              	.L8:
+ 106              		.align	2
+ 107              	.L7:
+ 108 0054 00000000 		.word	USBMutex
+ 109              		.cfi_endproc
+ 110              	.LFE68:
+ 111              		.size	usbserial_putString, .-usbserial_putString
+ 112              		.section	.rodata
+ 113              		.align	2
+ 114              	.LC0:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 5
+
+
+ 115 0008 55534253 		.ascii	"USBSerial\000"
+ 115      65726961 
+ 115      6C00
+ 116              		.section	.text.vStartUSBSerialTasks,"ax",%progbits
+ 117              		.align	2
+ 118              		.global	vStartUSBSerialTasks
+ 119              		.thumb
+ 120              		.thumb_func
+ 121              		.type	vStartUSBSerialTasks, %function
+ 122              	vStartUSBSerialTasks:
+ 123              	.LFB69:
+ 114:USBSerial.c   **** 
+ 115:USBSerial.c   **** void vStartUSBSerialTasks( UBaseType_t uxPriority )
+ 116:USBSerial.c   **** {
+ 124              		.loc 1 116 0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 8
+ 127              		@ frame_needed = 1, uses_anonymous_args = 0
+ 128 0000 80B5     		push	{r7, lr}
+ 129              		.cfi_def_cfa_offset 8
+ 130              		.cfi_offset 7, -8
+ 131              		.cfi_offset 14, -4
+ 132 0002 84B0     		sub	sp, sp, #16
+ 133              		.cfi_def_cfa_offset 24
+ 134 0004 02AF     		add	r7, sp, #8
+ 135              		.cfi_def_cfa 7, 16
+ 136 0006 7860     		str	r0, [r7, #4]
+ 117:USBSerial.c   ****     /*Setup the mutex to control port access*/
+ 118:USBSerial.c   ****     USBMutex = xSemaphoreCreateMutex();
+ 137              		.loc 1 118 0
+ 138 0008 0120     		movs	r0, #1
+ 139 000a FFF7FEFF 		bl	xQueueCreateMutex
+ 140 000e 0246     		mov	r2, r0
+ 141 0010 074B     		ldr	r3, .L10
+ 142 0012 1A60     		str	r2, [r3]
+ 119:USBSerial.c   **** 	/* Spawn the task. */
+ 120:USBSerial.c   **** 	xTaskCreate( vUSBSerialTask, "USBSerial", USBSerialSTACK_SIZE, NULL, uxPriority, ( TaskHandle_t * 
+ 143              		.loc 1 120 0
+ 144 0014 0023     		movs	r3, #0
+ 145 0016 0193     		str	r3, [sp, #4]
+ 146 0018 7B68     		ldr	r3, [r7, #4]
+ 147 001a 0093     		str	r3, [sp]
+ 148 001c 0023     		movs	r3, #0
+ 149 001e 6422     		movs	r2, #100
+ 150 0020 0449     		ldr	r1, .L10+4
+ 151 0022 0548     		ldr	r0, .L10+8
+ 152 0024 FFF7FEFF 		bl	xTaskCreate
+ 121:USBSerial.c   **** 
+ 122:USBSerial.c   **** }
+ 153              		.loc 1 122 0
+ 154 0028 00BF     		nop
+ 155 002a 0837     		adds	r7, r7, #8
+ 156              		.cfi_def_cfa_offset 8
+ 157 002c BD46     		mov	sp, r7
+ 158              		.cfi_def_cfa_register 13
+ 159              		@ sp needed
+ 160 002e 80BD     		pop	{r7, pc}
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 6
+
+
+ 161              	.L11:
+ 162              		.align	2
+ 163              	.L10:
+ 164 0030 00000000 		.word	USBMutex
+ 165 0034 08000000 		.word	.LC0
+ 166 0038 00000000 		.word	vUSBSerialTask
+ 167              		.cfi_endproc
+ 168              	.LFE69:
+ 169              		.size	vStartUSBSerialTasks, .-vStartUSBSerialTasks
+ 170              		.section	.text.vUSBSerialTask,"ax",%progbits
+ 171              		.align	2
+ 172              		.thumb
+ 173              		.thumb_func
+ 174              		.type	vUSBSerialTask, %function
+ 175              	vUSBSerialTask:
+ 176              	.LFB70:
+ 123:USBSerial.c   **** /*-----------------------------------------------------------*/
+ 124:USBSerial.c   **** 
+ 125:USBSerial.c   **** static portTASK_FUNCTION( vUSBSerialTask, pvParameters )
+ 126:USBSerial.c   **** {
+ 177              		.loc 1 126 0
+ 178              		.cfi_startproc
+ 179              		@ args = 0, pretend = 0, frame = 8
+ 180              		@ frame_needed = 1, uses_anonymous_args = 0
+ 181 0000 80B5     		push	{r7, lr}
+ 182              		.cfi_def_cfa_offset 8
+ 183              		.cfi_offset 7, -8
+ 184              		.cfi_offset 14, -4
+ 185 0002 82B0     		sub	sp, sp, #8
+ 186              		.cfi_def_cfa_offset 16
+ 187 0004 00AF     		add	r7, sp, #0
+ 188              		.cfi_def_cfa_register 7
+ 189 0006 7860     		str	r0, [r7, #4]
+ 127:USBSerial.c   ****    	/* The parameters are not used. */
+ 128:USBSerial.c   **** 	( void ) pvParameters;
+ 129:USBSerial.c   **** 
+ 130:USBSerial.c   ****     /* Start the USB_UART */
+ 131:USBSerial.c   ****     /* Start USBFS operation with 5-V operation. */
+ 132:USBSerial.c   ****     USBUART_Start(0, USBUART_5V_OPERATION);
+ 190              		.loc 1 132 0
+ 191 0008 0121     		movs	r1, #1
+ 192 000a 0020     		movs	r0, #0
+ 193 000c FFF7FEFF 		bl	USBUART_Start
+ 194              	.L15:
+ 133:USBSerial.c   **** 
+ 134:USBSerial.c   ****     
+ 135:USBSerial.c   **** 	for(;;)
+ 136:USBSerial.c   **** 	{
+ 137:USBSerial.c   ****         /* Host can send double SET_INTERFACE request. */
+ 138:USBSerial.c   ****         if (0u != USBUART_IsConfigurationChanged())
+ 195              		.loc 1 138 0
+ 196 0010 FFF7FEFF 		bl	USBUART_IsConfigurationChanged
+ 197 0014 0346     		mov	r3, r0
+ 198 0016 002B     		cmp	r3, #0
+ 199 0018 06D0     		beq	.L13
+ 139:USBSerial.c   ****         {
+ 140:USBSerial.c   ****             /* Initialize IN endpoints when device is configured. */
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 7
+
+
+ 141:USBSerial.c   ****             if (0u != USBUART_GetConfiguration())
+ 200              		.loc 1 141 0
+ 201 001a FFF7FEFF 		bl	USBUART_GetConfiguration
+ 202 001e 0346     		mov	r3, r0
+ 203 0020 002B     		cmp	r3, #0
+ 204 0022 01D0     		beq	.L13
+ 142:USBSerial.c   ****             {
+ 143:USBSerial.c   ****                 /* Enumeration is done, enable OUT endpoint to receive data 
+ 144:USBSerial.c   ****                  * from host. */
+ 145:USBSerial.c   ****                 USBUART_CDC_Init();
+ 205              		.loc 1 145 0
+ 206 0024 FFF7FEFF 		bl	USBUART_CDC_Init
+ 207              	.L13:
+ 146:USBSerial.c   ****             }
+ 147:USBSerial.c   ****         }
+ 148:USBSerial.c   ****         
+ 149:USBSerial.c   ****         if(0 != USBUART_GetConfiguration())
+ 208              		.loc 1 149 0
+ 209 0028 FFF7FEFF 		bl	USBUART_GetConfiguration
+ 210 002c 0346     		mov	r3, r0
+ 211 002e 002B     		cmp	r3, #0
+ 212 0030 04D0     		beq	.L14
+ 150:USBSerial.c   ****         {
+ 151:USBSerial.c   ****             /* Get and process inputs here */
+ 152:USBSerial.c   ****             vTaskDelay(mDelay);
+ 213              		.loc 1 152 0
+ 214 0032 41F28833 		movw	r3, #5000
+ 215 0036 1846     		mov	r0, r3
+ 216 0038 FFF7FEFF 		bl	vTaskDelay
+ 217              	.L14:
+ 153:USBSerial.c   ****         }
+ 154:USBSerial.c   ****         vTaskDelay(xDelay);
+ 218              		.loc 1 154 0
+ 219 003c 6423     		movs	r3, #100
+ 220 003e 1846     		mov	r0, r3
+ 221 0040 FFF7FEFF 		bl	vTaskDelay
+ 155:USBSerial.c   **** 	}
+ 222              		.loc 1 155 0
+ 223 0044 E4E7     		b	.L15
+ 224              		.cfi_endproc
+ 225              	.LFE70:
+ 226              		.size	vUSBSerialTask, .-vUSBSerialTask
+ 227 0046 00BF     		.text
+ 228              	.Letext0:
+ 229              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 230              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 231              		.file 4 ".\\Tracer/sniffPayload.h"
+ 232              		.file 5 ".\\Tracer/selfFIFO.h"
+ 233              		.file 6 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 234              		.file 7 "..\\Source\\include/task.h"
+ 235              		.file 8 "..\\Source\\include/queue.h"
+ 236              		.file 9 "..\\Source\\include/semphr.h"
+ 237              		.file 10 "Generated_Source\\PSoC5/core_cm3.h"
+ 238              		.file 11 ".\\Tracer/sniffTask.h"
+ 239              		.section	.debug_info,"",%progbits
+ 240              	.Ldebug_info0:
+ 241 0000 74030000 		.4byte	0x374
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 8
+
+
+ 242 0004 0400     		.2byte	0x4
+ 243 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 244 000a 04       		.byte	0x4
+ 245 000b 01       		.uleb128 0x1
+ 246 000c 5D000000 		.4byte	.LASF60
+ 247 0010 0C       		.byte	0xc
+ 248 0011 24030000 		.4byte	.LASF61
+ 249 0015 68030000 		.4byte	.LASF62
+ 250 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 251 001d 00000000 		.4byte	0
+ 252 0021 00000000 		.4byte	.Ldebug_line0
+ 253 0025 02       		.uleb128 0x2
+ 254 0026 04       		.byte	0x4
+ 255 0027 07       		.byte	0x7
+ 256 0028 5D020000 		.4byte	.LASF0
+ 257 002c 03       		.uleb128 0x3
+ 258 002d 04       		.byte	0x4
+ 259 002e 05       		.byte	0x5
+ 260 002f 696E7400 		.ascii	"int\000"
+ 261 0033 02       		.uleb128 0x2
+ 262 0034 08       		.byte	0x8
+ 263 0035 05       		.byte	0x5
+ 264 0036 5D010000 		.4byte	.LASF1
+ 265 003a 02       		.uleb128 0x2
+ 266 003b 08       		.byte	0x8
+ 267 003c 04       		.byte	0x4
+ 268 003d E5010000 		.4byte	.LASF2
+ 269 0041 02       		.uleb128 0x2
+ 270 0042 01       		.byte	0x1
+ 271 0043 06       		.byte	0x6
+ 272 0044 31020000 		.4byte	.LASF3
+ 273 0048 04       		.uleb128 0x4
+ 274 0049 A9010000 		.4byte	.LASF7
+ 275 004d 02       		.byte	0x2
+ 276 004e 1D       		.byte	0x1d
+ 277 004f 53000000 		.4byte	0x53
+ 278 0053 02       		.uleb128 0x2
+ 279 0054 01       		.byte	0x1
+ 280 0055 08       		.byte	0x8
+ 281 0056 0A020000 		.4byte	.LASF4
+ 282 005a 02       		.uleb128 0x2
+ 283 005b 02       		.byte	0x2
+ 284 005c 05       		.byte	0x5
+ 285 005d 2C000000 		.4byte	.LASF5
+ 286 0061 02       		.uleb128 0x2
+ 287 0062 02       		.byte	0x2
+ 288 0063 07       		.byte	0x7
+ 289 0064 93020000 		.4byte	.LASF6
+ 290 0068 04       		.uleb128 0x4
+ 291 0069 30030000 		.4byte	.LASF8
+ 292 006d 02       		.byte	0x2
+ 293 006e 3F       		.byte	0x3f
+ 294 006f 73000000 		.4byte	0x73
+ 295 0073 02       		.uleb128 0x2
+ 296 0074 04       		.byte	0x4
+ 297 0075 05       		.byte	0x5
+ 298 0076 8B010000 		.4byte	.LASF9
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 9
+
+
+ 299 007a 04       		.uleb128 0x4
+ 300 007b EB000000 		.4byte	.LASF10
+ 301 007f 02       		.byte	0x2
+ 302 0080 41       		.byte	0x41
+ 303 0081 85000000 		.4byte	0x85
+ 304 0085 02       		.uleb128 0x2
+ 305 0086 04       		.byte	0x4
+ 306 0087 07       		.byte	0x7
+ 307 0088 EA020000 		.4byte	.LASF11
+ 308 008c 02       		.uleb128 0x2
+ 309 008d 08       		.byte	0x8
+ 310 008e 07       		.byte	0x7
+ 311 008f 3D020000 		.4byte	.LASF12
+ 312 0093 02       		.uleb128 0x2
+ 313 0094 04       		.byte	0x4
+ 314 0095 07       		.byte	0x7
+ 315 0096 36000000 		.4byte	.LASF13
+ 316 009a 05       		.uleb128 0x5
+ 317 009b 04       		.byte	0x4
+ 318 009c 02       		.uleb128 0x2
+ 319 009d 01       		.byte	0x1
+ 320 009e 08       		.byte	0x8
+ 321 009f A6020000 		.4byte	.LASF14
+ 322 00a3 06       		.uleb128 0x6
+ 323 00a4 04       		.byte	0x4
+ 324 00a5 A9000000 		.4byte	0xa9
+ 325 00a9 07       		.uleb128 0x7
+ 326 00aa 9C000000 		.4byte	0x9c
+ 327 00ae 04       		.uleb128 0x4
+ 328 00af 03010000 		.4byte	.LASF15
+ 329 00b3 03       		.byte	0x3
+ 330 00b4 18       		.byte	0x18
+ 331 00b5 48000000 		.4byte	0x48
+ 332 00b9 04       		.uleb128 0x4
+ 333 00ba B4020000 		.4byte	.LASF16
+ 334 00be 03       		.byte	0x3
+ 335 00bf 2C       		.byte	0x2c
+ 336 00c0 68000000 		.4byte	0x68
+ 337 00c4 04       		.uleb128 0x4
+ 338 00c5 54020000 		.4byte	.LASF17
+ 339 00c9 03       		.byte	0x3
+ 340 00ca 30       		.byte	0x30
+ 341 00cb 7A000000 		.4byte	0x7a
+ 342 00cf 02       		.uleb128 0x2
+ 343 00d0 04       		.byte	0x4
+ 344 00d1 04       		.byte	0x4
+ 345 00d2 4B010000 		.4byte	.LASF18
+ 346 00d6 02       		.uleb128 0x2
+ 347 00d7 08       		.byte	0x8
+ 348 00d8 04       		.byte	0x4
+ 349 00d9 FC020000 		.4byte	.LASF19
+ 350 00dd 08       		.uleb128 0x8
+ 351 00de 01       		.byte	0x1
+ 352 00df 53000000 		.4byte	0x53
+ 353 00e3 04       		.byte	0x4
+ 354 00e4 10       		.byte	0x10
+ 355 00e5 14010000 		.4byte	0x114
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 10
+
+
+ 356 00e9 09       		.uleb128 0x9
+ 357 00ea C1010000 		.4byte	.LASF20
+ 358 00ee 00       		.byte	0
+ 359 00ef 09       		.uleb128 0x9
+ 360 00f0 3F000000 		.4byte	.LASF21
+ 361 00f4 01       		.byte	0x1
+ 362 00f5 09       		.uleb128 0x9
+ 363 00f6 C7010000 		.4byte	.LASF22
+ 364 00fa 02       		.byte	0x2
+ 365 00fb 09       		.uleb128 0x9
+ 366 00fc 03030000 		.4byte	.LASF23
+ 367 0100 03       		.byte	0x3
+ 368 0101 09       		.uleb128 0x9
+ 369 0102 18020000 		.4byte	.LASF24
+ 370 0106 04       		.byte	0x4
+ 371 0107 09       		.uleb128 0x9
+ 372 0108 1F030000 		.4byte	.LASF25
+ 373 010c 05       		.byte	0x5
+ 374 010d 09       		.uleb128 0x9
+ 375 010e D4020000 		.4byte	.LASF26
+ 376 0112 06       		.byte	0x6
+ 377 0113 00       		.byte	0
+ 378 0114 04       		.uleb128 0x4
+ 379 0115 25010000 		.4byte	.LASF27
+ 380 0119 04       		.byte	0x4
+ 381 011a 10       		.byte	0x10
+ 382 011b DD000000 		.4byte	0xdd
+ 383 011f 0A       		.uleb128 0xa
+ 384 0120 04       		.byte	0x4
+ 385 0121 04       		.byte	0x4
+ 386 0122 86       		.byte	0x86
+ 387 0123 58010000 		.4byte	0x158
+ 388 0127 0B       		.uleb128 0xb
+ 389 0128 AB020000 		.4byte	.LASF28
+ 390 012c 04       		.byte	0x4
+ 391 012d 87       		.byte	0x87
+ 392 012e AE000000 		.4byte	0xae
+ 393 0132 00       		.byte	0
+ 394 0133 0B       		.uleb128 0xb
+ 395 0134 00000000 		.4byte	.LASF29
+ 396 0138 04       		.byte	0x4
+ 397 0139 88       		.byte	0x88
+ 398 013a AE000000 		.4byte	0xae
+ 399 013e 01       		.byte	0x1
+ 400 013f 0B       		.uleb128 0xb
+ 401 0140 52000000 		.4byte	.LASF30
+ 402 0144 04       		.byte	0x4
+ 403 0145 89       		.byte	0x89
+ 404 0146 14010000 		.4byte	0x114
+ 405 014a 02       		.byte	0x2
+ 406 014b 0B       		.uleb128 0xb
+ 407 014c 44010000 		.4byte	.LASF31
+ 408 0150 04       		.byte	0x4
+ 409 0151 8A       		.byte	0x8a
+ 410 0152 AE000000 		.4byte	0xae
+ 411 0156 03       		.byte	0x3
+ 412 0157 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 11
+
+
+ 413 0158 04       		.uleb128 0x4
+ 414 0159 6A020000 		.4byte	.LASF32
+ 415 015d 04       		.byte	0x4
+ 416 015e 8B       		.byte	0x8b
+ 417 015f 1F010000 		.4byte	0x11f
+ 418 0163 0A       		.uleb128 0xa
+ 419 0164 0E       		.byte	0xe
+ 420 0165 04       		.byte	0x4
+ 421 0166 95       		.byte	0x95
+ 422 0167 90010000 		.4byte	0x190
+ 423 016b 0B       		.uleb128 0xb
+ 424 016c 1F000000 		.4byte	.LASF33
+ 425 0170 04       		.byte	0x4
+ 426 0171 96       		.byte	0x96
+ 427 0172 AE000000 		.4byte	0xae
+ 428 0176 00       		.byte	0
+ 429 0177 0B       		.uleb128 0xb
+ 430 0178 17010000 		.4byte	.LASF34
+ 431 017c 04       		.byte	0x4
+ 432 017d 97       		.byte	0x97
+ 433 017e AE000000 		.4byte	0xae
+ 434 0182 01       		.byte	0x1
+ 435 0183 0B       		.uleb128 0xb
+ 436 0184 DA010000 		.4byte	.LASF35
+ 437 0188 04       		.byte	0x4
+ 438 0189 98       		.byte	0x98
+ 439 018a 90010000 		.4byte	0x190
+ 440 018e 02       		.byte	0x2
+ 441 018f 00       		.byte	0
+ 442 0190 0C       		.uleb128 0xc
+ 443 0191 9C000000 		.4byte	0x9c
+ 444 0195 A0010000 		.4byte	0x1a0
+ 445 0199 0D       		.uleb128 0xd
+ 446 019a 93000000 		.4byte	0x93
+ 447 019e 0B       		.byte	0xb
+ 448 019f 00       		.byte	0
+ 449 01a0 04       		.uleb128 0x4
+ 450 01a1 51010000 		.4byte	.LASF36
+ 451 01a5 04       		.byte	0x4
+ 452 01a6 99       		.byte	0x99
+ 453 01a7 63010000 		.4byte	0x163
+ 454 01ab 0E       		.uleb128 0xe
+ 455 01ac 1C01     		.2byte	0x11c
+ 456 01ae 04       		.byte	0x4
+ 457 01af A3       		.byte	0xa3
+ 458 01b0 CD010000 		.4byte	0x1cd
+ 459 01b4 0B       		.uleb128 0xb
+ 460 01b5 F6000000 		.4byte	.LASF37
+ 461 01b9 04       		.byte	0x4
+ 462 01ba A4       		.byte	0xa4
+ 463 01bb 58010000 		.4byte	0x158
+ 464 01bf 00       		.byte	0
+ 465 01c0 0B       		.uleb128 0xb
+ 466 01c1 0B010000 		.4byte	.LASF38
+ 467 01c5 04       		.byte	0x4
+ 468 01c6 A5       		.byte	0xa5
+ 469 01c7 CD010000 		.4byte	0x1cd
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 12
+
+
+ 470 01cb 04       		.byte	0x4
+ 471 01cc 00       		.byte	0
+ 472 01cd 0C       		.uleb128 0xc
+ 473 01ce A0010000 		.4byte	0x1a0
+ 474 01d2 DD010000 		.4byte	0x1dd
+ 475 01d6 0D       		.uleb128 0xd
+ 476 01d7 93000000 		.4byte	0x93
+ 477 01db 13       		.byte	0x13
+ 478 01dc 00       		.byte	0
+ 479 01dd 04       		.uleb128 0x4
+ 480 01de 49030000 		.4byte	.LASF39
+ 481 01e2 04       		.byte	0x4
+ 482 01e3 A6       		.byte	0xa6
+ 483 01e4 AB010000 		.4byte	0x1ab
+ 484 01e8 0F       		.uleb128 0xf
+ 485 01e9 61030000 		.4byte	.LASF63
+ 486 01ed 0210     		.2byte	0x1002
+ 487 01ef 05       		.byte	0x5
+ 488 01f0 0C       		.byte	0xc
+ 489 01f1 1C020000 		.4byte	0x21c
+ 490 01f5 0B       		.uleb128 0xb
+ 491 01f6 C8020000 		.4byte	.LASF40
+ 492 01fa 05       		.byte	0x5
+ 493 01fb 0D       		.byte	0xd
+ 494 01fc 1C020000 		.4byte	0x21c
+ 495 0200 00       		.byte	0
+ 496 0201 10       		.uleb128 0x10
+ 497 0202 58010000 		.4byte	.LASF41
+ 498 0206 05       		.byte	0x5
+ 499 0207 0E       		.byte	0xe
+ 500 0208 AE000000 		.4byte	0xae
+ 501 020c 0010     		.2byte	0x1000
+ 502 020e 10       		.uleb128 0x10
+ 503 020f 19000000 		.4byte	.LASF42
+ 504 0213 05       		.byte	0x5
+ 505 0214 0F       		.byte	0xf
+ 506 0215 AE000000 		.4byte	0xae
+ 507 0219 0110     		.2byte	0x1001
+ 508 021b 00       		.byte	0
+ 509 021c 0C       		.uleb128 0xc
+ 510 021d AE000000 		.4byte	0xae
+ 511 0221 2D020000 		.4byte	0x22d
+ 512 0225 11       		.uleb128 0x11
+ 513 0226 93000000 		.4byte	0x93
+ 514 022a FF0F     		.2byte	0xfff
+ 515 022c 00       		.byte	0
+ 516 022d 04       		.uleb128 0x4
+ 517 022e 7B020000 		.4byte	.LASF43
+ 518 0232 06       		.byte	0x6
+ 519 0233 62       		.byte	0x62
+ 520 0234 73000000 		.4byte	0x73
+ 521 0238 04       		.uleb128 0x4
+ 522 0239 BC020000 		.4byte	.LASF44
+ 523 023d 06       		.byte	0x6
+ 524 023e 63       		.byte	0x63
+ 525 023f 85000000 		.4byte	0x85
+ 526 0243 04       		.uleb128 0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 13
+
+
+ 527 0244 6B010000 		.4byte	.LASF45
+ 528 0248 06       		.byte	0x6
+ 529 0249 69       		.byte	0x69
+ 530 024a C4000000 		.4byte	0xc4
+ 531 024e 04       		.uleb128 0x4
+ 532 024f 45000000 		.4byte	.LASF46
+ 533 0253 07       		.byte	0x7
+ 534 0254 67       		.byte	0x67
+ 535 0255 9A000000 		.4byte	0x9a
+ 536 0259 04       		.uleb128 0x4
+ 537 025a B3010000 		.4byte	.LASF47
+ 538 025e 08       		.byte	0x8
+ 539 025f 58       		.byte	0x58
+ 540 0260 9A000000 		.4byte	0x9a
+ 541 0264 04       		.uleb128 0x4
+ 542 0265 F8010000 		.4byte	.LASF48
+ 543 0269 09       		.byte	0x9
+ 544 026a 4F       		.byte	0x4f
+ 545 026b 59020000 		.4byte	0x259
+ 546 026f 12       		.uleb128 0x12
+ 547 0270 30010000 		.4byte	.LASF49
+ 548 0274 01       		.byte	0x1
+ 549 0275 6A       		.byte	0x6a
+ 550 0276 00000000 		.4byte	.LFB68
+ 551 027a 58000000 		.4byte	.LFE68-.LFB68
+ 552 027e 01       		.uleb128 0x1
+ 553 027f 9C       		.byte	0x9c
+ 554 0280 93020000 		.4byte	0x293
+ 555 0284 13       		.uleb128 0x13
+ 556 0285 6D736700 		.ascii	"msg\000"
+ 557 0289 01       		.byte	0x1
+ 558 028a 6A       		.byte	0x6a
+ 559 028b A3000000 		.4byte	0xa3
+ 560 028f 02       		.uleb128 0x2
+ 561 0290 91       		.byte	0x91
+ 562 0291 74       		.sleb128 -12
+ 563 0292 00       		.byte	0
+ 564 0293 12       		.uleb128 0x12
+ 565 0294 76010000 		.4byte	.LASF50
+ 566 0298 01       		.byte	0x1
+ 567 0299 73       		.byte	0x73
+ 568 029a 00000000 		.4byte	.LFB69
+ 569 029e 3C000000 		.4byte	.LFE69-.LFB69
+ 570 02a2 01       		.uleb128 0x1
+ 571 02a3 9C       		.byte	0x9c
+ 572 02a4 B7020000 		.4byte	0x2b7
+ 573 02a8 14       		.uleb128 0x14
+ 574 02a9 0E000000 		.4byte	.LASF51
+ 575 02ad 01       		.byte	0x1
+ 576 02ae 73       		.byte	0x73
+ 577 02af 38020000 		.4byte	0x238
+ 578 02b3 02       		.uleb128 0x2
+ 579 02b4 91       		.byte	0x91
+ 580 02b5 74       		.sleb128 -12
+ 581 02b6 00       		.byte	0
+ 582 02b7 15       		.uleb128 0x15
+ 583 02b8 3A030000 		.4byte	.LASF64
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 14
+
+
+ 584 02bc 01       		.byte	0x1
+ 585 02bd 7D       		.byte	0x7d
+ 586 02be 00000000 		.4byte	.LFB70
+ 587 02c2 46000000 		.4byte	.LFE70-.LFB70
+ 588 02c6 01       		.uleb128 0x1
+ 589 02c7 9C       		.byte	0x9c
+ 590 02c8 DB020000 		.4byte	0x2db
+ 591 02cc 14       		.uleb128 0x14
+ 592 02cd 86020000 		.4byte	.LASF52
+ 593 02d1 01       		.byte	0x1
+ 594 02d2 7D       		.byte	0x7d
+ 595 02d3 9A000000 		.4byte	0x9a
+ 596 02d7 02       		.uleb128 0x2
+ 597 02d8 91       		.byte	0x91
+ 598 02d9 74       		.sleb128 -12
+ 599 02da 00       		.byte	0
+ 600 02db 16       		.uleb128 0x16
+ 601 02dc 54030000 		.4byte	.LASF53
+ 602 02e0 0A       		.byte	0xa
+ 603 02e1 9606     		.2byte	0x696
+ 604 02e3 E7020000 		.4byte	0x2e7
+ 605 02e7 17       		.uleb128 0x17
+ 606 02e8 B9000000 		.4byte	0xb9
+ 607 02ec 0C       		.uleb128 0xc
+ 608 02ed AE000000 		.4byte	0xae
+ 609 02f1 FC020000 		.4byte	0x2fc
+ 610 02f5 0D       		.uleb128 0xd
+ 611 02f6 93000000 		.4byte	0x93
+ 612 02fa 0C       		.byte	0xc
+ 613 02fb 00       		.byte	0
+ 614 02fc 18       		.uleb128 0x18
+ 615 02fd 94010000 		.4byte	.LASF54
+ 616 0301 04       		.byte	0x4
+ 617 0302 12       		.byte	0x12
+ 618 0303 EC020000 		.4byte	0x2ec
+ 619 0307 05       		.uleb128 0x5
+ 620 0308 03       		.byte	0x3
+ 621 0309 00000000 		.4byte	sniffIDFilter
+ 622 030d 18       		.uleb128 0x18
+ 623 030e CD020000 		.4byte	.LASF55
+ 624 0312 05       		.byte	0x5
+ 625 0313 10       		.byte	0x10
+ 626 0314 E8010000 		.4byte	0x1e8
+ 627 0318 05       		.uleb128 0x5
+ 628 0319 03       		.byte	0x3
+ 629 031a 00000000 		.4byte	buffer
+ 630 031e 0C       		.uleb128 0xc
+ 631 031f DD010000 		.4byte	0x1dd
+ 632 0323 2E030000 		.4byte	0x32e
+ 633 0327 0D       		.uleb128 0xd
+ 634 0328 93000000 		.4byte	0x93
+ 635 032c 05       		.byte	0x5
+ 636 032d 00       		.byte	0
+ 637 032e 18       		.uleb128 0x18
+ 638 032f 14030000 		.4byte	.LASF56
+ 639 0333 0B       		.byte	0xb
+ 640 0334 0D       		.byte	0xd
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 15
+
+
+ 641 0335 1E030000 		.4byte	0x31e
+ 642 0339 05       		.uleb128 0x5
+ 643 033a 03       		.byte	0x3
+ 644 033b 00000000 		.4byte	objectList
+ 645 033f 18       		.uleb128 0x18
+ 646 0340 A2010000 		.4byte	.LASF57
+ 647 0344 01       		.byte	0x1
+ 648 0345 60       		.byte	0x60
+ 649 0346 50030000 		.4byte	0x350
+ 650 034a 05       		.uleb128 0x5
+ 651 034b 03       		.byte	0x3
+ 652 034c 00000000 		.4byte	xDelay
+ 653 0350 07       		.uleb128 0x7
+ 654 0351 43020000 		.4byte	0x243
+ 655 0355 18       		.uleb128 0x18
+ 656 0356 F1010000 		.4byte	.LASF58
+ 657 035a 01       		.byte	0x1
+ 658 035b 61       		.byte	0x61
+ 659 035c 50030000 		.4byte	0x350
+ 660 0360 05       		.uleb128 0x5
+ 661 0361 03       		.byte	0x3
+ 662 0362 00000000 		.4byte	mDelay
+ 663 0366 18       		.uleb128 0x18
+ 664 0367 28020000 		.4byte	.LASF59
+ 665 036b 01       		.byte	0x1
+ 666 036c 66       		.byte	0x66
+ 667 036d 64020000 		.4byte	0x264
+ 668 0371 05       		.uleb128 0x5
+ 669 0372 03       		.byte	0x3
+ 670 0373 00000000 		.4byte	USBMutex
+ 671 0377 00       		.byte	0
+ 672              		.section	.debug_abbrev,"",%progbits
+ 673              	.Ldebug_abbrev0:
+ 674 0000 01       		.uleb128 0x1
+ 675 0001 11       		.uleb128 0x11
+ 676 0002 01       		.byte	0x1
+ 677 0003 25       		.uleb128 0x25
+ 678 0004 0E       		.uleb128 0xe
+ 679 0005 13       		.uleb128 0x13
+ 680 0006 0B       		.uleb128 0xb
+ 681 0007 03       		.uleb128 0x3
+ 682 0008 0E       		.uleb128 0xe
+ 683 0009 1B       		.uleb128 0x1b
+ 684 000a 0E       		.uleb128 0xe
+ 685 000b 55       		.uleb128 0x55
+ 686 000c 17       		.uleb128 0x17
+ 687 000d 11       		.uleb128 0x11
+ 688 000e 01       		.uleb128 0x1
+ 689 000f 10       		.uleb128 0x10
+ 690 0010 17       		.uleb128 0x17
+ 691 0011 00       		.byte	0
+ 692 0012 00       		.byte	0
+ 693 0013 02       		.uleb128 0x2
+ 694 0014 24       		.uleb128 0x24
+ 695 0015 00       		.byte	0
+ 696 0016 0B       		.uleb128 0xb
+ 697 0017 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 16
+
+
+ 698 0018 3E       		.uleb128 0x3e
+ 699 0019 0B       		.uleb128 0xb
+ 700 001a 03       		.uleb128 0x3
+ 701 001b 0E       		.uleb128 0xe
+ 702 001c 00       		.byte	0
+ 703 001d 00       		.byte	0
+ 704 001e 03       		.uleb128 0x3
+ 705 001f 24       		.uleb128 0x24
+ 706 0020 00       		.byte	0
+ 707 0021 0B       		.uleb128 0xb
+ 708 0022 0B       		.uleb128 0xb
+ 709 0023 3E       		.uleb128 0x3e
+ 710 0024 0B       		.uleb128 0xb
+ 711 0025 03       		.uleb128 0x3
+ 712 0026 08       		.uleb128 0x8
+ 713 0027 00       		.byte	0
+ 714 0028 00       		.byte	0
+ 715 0029 04       		.uleb128 0x4
+ 716 002a 16       		.uleb128 0x16
+ 717 002b 00       		.byte	0
+ 718 002c 03       		.uleb128 0x3
+ 719 002d 0E       		.uleb128 0xe
+ 720 002e 3A       		.uleb128 0x3a
+ 721 002f 0B       		.uleb128 0xb
+ 722 0030 3B       		.uleb128 0x3b
+ 723 0031 0B       		.uleb128 0xb
+ 724 0032 49       		.uleb128 0x49
+ 725 0033 13       		.uleb128 0x13
+ 726 0034 00       		.byte	0
+ 727 0035 00       		.byte	0
+ 728 0036 05       		.uleb128 0x5
+ 729 0037 0F       		.uleb128 0xf
+ 730 0038 00       		.byte	0
+ 731 0039 0B       		.uleb128 0xb
+ 732 003a 0B       		.uleb128 0xb
+ 733 003b 00       		.byte	0
+ 734 003c 00       		.byte	0
+ 735 003d 06       		.uleb128 0x6
+ 736 003e 0F       		.uleb128 0xf
+ 737 003f 00       		.byte	0
+ 738 0040 0B       		.uleb128 0xb
+ 739 0041 0B       		.uleb128 0xb
+ 740 0042 49       		.uleb128 0x49
+ 741 0043 13       		.uleb128 0x13
+ 742 0044 00       		.byte	0
+ 743 0045 00       		.byte	0
+ 744 0046 07       		.uleb128 0x7
+ 745 0047 26       		.uleb128 0x26
+ 746 0048 00       		.byte	0
+ 747 0049 49       		.uleb128 0x49
+ 748 004a 13       		.uleb128 0x13
+ 749 004b 00       		.byte	0
+ 750 004c 00       		.byte	0
+ 751 004d 08       		.uleb128 0x8
+ 752 004e 04       		.uleb128 0x4
+ 753 004f 01       		.byte	0x1
+ 754 0050 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 17
+
+
+ 755 0051 0B       		.uleb128 0xb
+ 756 0052 49       		.uleb128 0x49
+ 757 0053 13       		.uleb128 0x13
+ 758 0054 3A       		.uleb128 0x3a
+ 759 0055 0B       		.uleb128 0xb
+ 760 0056 3B       		.uleb128 0x3b
+ 761 0057 0B       		.uleb128 0xb
+ 762 0058 01       		.uleb128 0x1
+ 763 0059 13       		.uleb128 0x13
+ 764 005a 00       		.byte	0
+ 765 005b 00       		.byte	0
+ 766 005c 09       		.uleb128 0x9
+ 767 005d 28       		.uleb128 0x28
+ 768 005e 00       		.byte	0
+ 769 005f 03       		.uleb128 0x3
+ 770 0060 0E       		.uleb128 0xe
+ 771 0061 1C       		.uleb128 0x1c
+ 772 0062 0B       		.uleb128 0xb
+ 773 0063 00       		.byte	0
+ 774 0064 00       		.byte	0
+ 775 0065 0A       		.uleb128 0xa
+ 776 0066 13       		.uleb128 0x13
+ 777 0067 01       		.byte	0x1
+ 778 0068 0B       		.uleb128 0xb
+ 779 0069 0B       		.uleb128 0xb
+ 780 006a 3A       		.uleb128 0x3a
+ 781 006b 0B       		.uleb128 0xb
+ 782 006c 3B       		.uleb128 0x3b
+ 783 006d 0B       		.uleb128 0xb
+ 784 006e 01       		.uleb128 0x1
+ 785 006f 13       		.uleb128 0x13
+ 786 0070 00       		.byte	0
+ 787 0071 00       		.byte	0
+ 788 0072 0B       		.uleb128 0xb
+ 789 0073 0D       		.uleb128 0xd
+ 790 0074 00       		.byte	0
+ 791 0075 03       		.uleb128 0x3
+ 792 0076 0E       		.uleb128 0xe
+ 793 0077 3A       		.uleb128 0x3a
+ 794 0078 0B       		.uleb128 0xb
+ 795 0079 3B       		.uleb128 0x3b
+ 796 007a 0B       		.uleb128 0xb
+ 797 007b 49       		.uleb128 0x49
+ 798 007c 13       		.uleb128 0x13
+ 799 007d 38       		.uleb128 0x38
+ 800 007e 0B       		.uleb128 0xb
+ 801 007f 00       		.byte	0
+ 802 0080 00       		.byte	0
+ 803 0081 0C       		.uleb128 0xc
+ 804 0082 01       		.uleb128 0x1
+ 805 0083 01       		.byte	0x1
+ 806 0084 49       		.uleb128 0x49
+ 807 0085 13       		.uleb128 0x13
+ 808 0086 01       		.uleb128 0x1
+ 809 0087 13       		.uleb128 0x13
+ 810 0088 00       		.byte	0
+ 811 0089 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 18
+
+
+ 812 008a 0D       		.uleb128 0xd
+ 813 008b 21       		.uleb128 0x21
+ 814 008c 00       		.byte	0
+ 815 008d 49       		.uleb128 0x49
+ 816 008e 13       		.uleb128 0x13
+ 817 008f 2F       		.uleb128 0x2f
+ 818 0090 0B       		.uleb128 0xb
+ 819 0091 00       		.byte	0
+ 820 0092 00       		.byte	0
+ 821 0093 0E       		.uleb128 0xe
+ 822 0094 13       		.uleb128 0x13
+ 823 0095 01       		.byte	0x1
+ 824 0096 0B       		.uleb128 0xb
+ 825 0097 05       		.uleb128 0x5
+ 826 0098 3A       		.uleb128 0x3a
+ 827 0099 0B       		.uleb128 0xb
+ 828 009a 3B       		.uleb128 0x3b
+ 829 009b 0B       		.uleb128 0xb
+ 830 009c 01       		.uleb128 0x1
+ 831 009d 13       		.uleb128 0x13
+ 832 009e 00       		.byte	0
+ 833 009f 00       		.byte	0
+ 834 00a0 0F       		.uleb128 0xf
+ 835 00a1 13       		.uleb128 0x13
+ 836 00a2 01       		.byte	0x1
+ 837 00a3 03       		.uleb128 0x3
+ 838 00a4 0E       		.uleb128 0xe
+ 839 00a5 0B       		.uleb128 0xb
+ 840 00a6 05       		.uleb128 0x5
+ 841 00a7 3A       		.uleb128 0x3a
+ 842 00a8 0B       		.uleb128 0xb
+ 843 00a9 3B       		.uleb128 0x3b
+ 844 00aa 0B       		.uleb128 0xb
+ 845 00ab 01       		.uleb128 0x1
+ 846 00ac 13       		.uleb128 0x13
+ 847 00ad 00       		.byte	0
+ 848 00ae 00       		.byte	0
+ 849 00af 10       		.uleb128 0x10
+ 850 00b0 0D       		.uleb128 0xd
+ 851 00b1 00       		.byte	0
+ 852 00b2 03       		.uleb128 0x3
+ 853 00b3 0E       		.uleb128 0xe
+ 854 00b4 3A       		.uleb128 0x3a
+ 855 00b5 0B       		.uleb128 0xb
+ 856 00b6 3B       		.uleb128 0x3b
+ 857 00b7 0B       		.uleb128 0xb
+ 858 00b8 49       		.uleb128 0x49
+ 859 00b9 13       		.uleb128 0x13
+ 860 00ba 38       		.uleb128 0x38
+ 861 00bb 05       		.uleb128 0x5
+ 862 00bc 00       		.byte	0
+ 863 00bd 00       		.byte	0
+ 864 00be 11       		.uleb128 0x11
+ 865 00bf 21       		.uleb128 0x21
+ 866 00c0 00       		.byte	0
+ 867 00c1 49       		.uleb128 0x49
+ 868 00c2 13       		.uleb128 0x13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 19
+
+
+ 869 00c3 2F       		.uleb128 0x2f
+ 870 00c4 05       		.uleb128 0x5
+ 871 00c5 00       		.byte	0
+ 872 00c6 00       		.byte	0
+ 873 00c7 12       		.uleb128 0x12
+ 874 00c8 2E       		.uleb128 0x2e
+ 875 00c9 01       		.byte	0x1
+ 876 00ca 3F       		.uleb128 0x3f
+ 877 00cb 19       		.uleb128 0x19
+ 878 00cc 03       		.uleb128 0x3
+ 879 00cd 0E       		.uleb128 0xe
+ 880 00ce 3A       		.uleb128 0x3a
+ 881 00cf 0B       		.uleb128 0xb
+ 882 00d0 3B       		.uleb128 0x3b
+ 883 00d1 0B       		.uleb128 0xb
+ 884 00d2 27       		.uleb128 0x27
+ 885 00d3 19       		.uleb128 0x19
+ 886 00d4 11       		.uleb128 0x11
+ 887 00d5 01       		.uleb128 0x1
+ 888 00d6 12       		.uleb128 0x12
+ 889 00d7 06       		.uleb128 0x6
+ 890 00d8 40       		.uleb128 0x40
+ 891 00d9 18       		.uleb128 0x18
+ 892 00da 9642     		.uleb128 0x2116
+ 893 00dc 19       		.uleb128 0x19
+ 894 00dd 01       		.uleb128 0x1
+ 895 00de 13       		.uleb128 0x13
+ 896 00df 00       		.byte	0
+ 897 00e0 00       		.byte	0
+ 898 00e1 13       		.uleb128 0x13
+ 899 00e2 05       		.uleb128 0x5
+ 900 00e3 00       		.byte	0
+ 901 00e4 03       		.uleb128 0x3
+ 902 00e5 08       		.uleb128 0x8
+ 903 00e6 3A       		.uleb128 0x3a
+ 904 00e7 0B       		.uleb128 0xb
+ 905 00e8 3B       		.uleb128 0x3b
+ 906 00e9 0B       		.uleb128 0xb
+ 907 00ea 49       		.uleb128 0x49
+ 908 00eb 13       		.uleb128 0x13
+ 909 00ec 02       		.uleb128 0x2
+ 910 00ed 18       		.uleb128 0x18
+ 911 00ee 00       		.byte	0
+ 912 00ef 00       		.byte	0
+ 913 00f0 14       		.uleb128 0x14
+ 914 00f1 05       		.uleb128 0x5
+ 915 00f2 00       		.byte	0
+ 916 00f3 03       		.uleb128 0x3
+ 917 00f4 0E       		.uleb128 0xe
+ 918 00f5 3A       		.uleb128 0x3a
+ 919 00f6 0B       		.uleb128 0xb
+ 920 00f7 3B       		.uleb128 0x3b
+ 921 00f8 0B       		.uleb128 0xb
+ 922 00f9 49       		.uleb128 0x49
+ 923 00fa 13       		.uleb128 0x13
+ 924 00fb 02       		.uleb128 0x2
+ 925 00fc 18       		.uleb128 0x18
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 20
+
+
+ 926 00fd 00       		.byte	0
+ 927 00fe 00       		.byte	0
+ 928 00ff 15       		.uleb128 0x15
+ 929 0100 2E       		.uleb128 0x2e
+ 930 0101 01       		.byte	0x1
+ 931 0102 03       		.uleb128 0x3
+ 932 0103 0E       		.uleb128 0xe
+ 933 0104 3A       		.uleb128 0x3a
+ 934 0105 0B       		.uleb128 0xb
+ 935 0106 3B       		.uleb128 0x3b
+ 936 0107 0B       		.uleb128 0xb
+ 937 0108 27       		.uleb128 0x27
+ 938 0109 19       		.uleb128 0x19
+ 939 010a 11       		.uleb128 0x11
+ 940 010b 01       		.uleb128 0x1
+ 941 010c 12       		.uleb128 0x12
+ 942 010d 06       		.uleb128 0x6
+ 943 010e 40       		.uleb128 0x40
+ 944 010f 18       		.uleb128 0x18
+ 945 0110 9642     		.uleb128 0x2116
+ 946 0112 19       		.uleb128 0x19
+ 947 0113 01       		.uleb128 0x1
+ 948 0114 13       		.uleb128 0x13
+ 949 0115 00       		.byte	0
+ 950 0116 00       		.byte	0
+ 951 0117 16       		.uleb128 0x16
+ 952 0118 34       		.uleb128 0x34
+ 953 0119 00       		.byte	0
+ 954 011a 03       		.uleb128 0x3
+ 955 011b 0E       		.uleb128 0xe
+ 956 011c 3A       		.uleb128 0x3a
+ 957 011d 0B       		.uleb128 0xb
+ 958 011e 3B       		.uleb128 0x3b
+ 959 011f 05       		.uleb128 0x5
+ 960 0120 49       		.uleb128 0x49
+ 961 0121 13       		.uleb128 0x13
+ 962 0122 3F       		.uleb128 0x3f
+ 963 0123 19       		.uleb128 0x19
+ 964 0124 3C       		.uleb128 0x3c
+ 965 0125 19       		.uleb128 0x19
+ 966 0126 00       		.byte	0
+ 967 0127 00       		.byte	0
+ 968 0128 17       		.uleb128 0x17
+ 969 0129 35       		.uleb128 0x35
+ 970 012a 00       		.byte	0
+ 971 012b 49       		.uleb128 0x49
+ 972 012c 13       		.uleb128 0x13
+ 973 012d 00       		.byte	0
+ 974 012e 00       		.byte	0
+ 975 012f 18       		.uleb128 0x18
+ 976 0130 34       		.uleb128 0x34
+ 977 0131 00       		.byte	0
+ 978 0132 03       		.uleb128 0x3
+ 979 0133 0E       		.uleb128 0xe
+ 980 0134 3A       		.uleb128 0x3a
+ 981 0135 0B       		.uleb128 0xb
+ 982 0136 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 21
+
+
+ 983 0137 0B       		.uleb128 0xb
+ 984 0138 49       		.uleb128 0x49
+ 985 0139 13       		.uleb128 0x13
+ 986 013a 3F       		.uleb128 0x3f
+ 987 013b 19       		.uleb128 0x19
+ 988 013c 02       		.uleb128 0x2
+ 989 013d 18       		.uleb128 0x18
+ 990 013e 00       		.byte	0
+ 991 013f 00       		.byte	0
+ 992 0140 00       		.byte	0
+ 993              		.section	.debug_aranges,"",%progbits
+ 994 0000 2C000000 		.4byte	0x2c
+ 995 0004 0200     		.2byte	0x2
+ 996 0006 00000000 		.4byte	.Ldebug_info0
+ 997 000a 04       		.byte	0x4
+ 998 000b 00       		.byte	0
+ 999 000c 0000     		.2byte	0
+ 1000 000e 0000     		.2byte	0
+ 1001 0010 00000000 		.4byte	.LFB68
+ 1002 0014 58000000 		.4byte	.LFE68-.LFB68
+ 1003 0018 00000000 		.4byte	.LFB69
+ 1004 001c 3C000000 		.4byte	.LFE69-.LFB69
+ 1005 0020 00000000 		.4byte	.LFB70
+ 1006 0024 46000000 		.4byte	.LFE70-.LFB70
+ 1007 0028 00000000 		.4byte	0
+ 1008 002c 00000000 		.4byte	0
+ 1009              		.section	.debug_ranges,"",%progbits
+ 1010              	.Ldebug_ranges0:
+ 1011 0000 00000000 		.4byte	.LFB68
+ 1012 0004 58000000 		.4byte	.LFE68
+ 1013 0008 00000000 		.4byte	.LFB69
+ 1014 000c 3C000000 		.4byte	.LFE69
+ 1015 0010 00000000 		.4byte	.LFB70
+ 1016 0014 46000000 		.4byte	.LFE70
+ 1017 0018 00000000 		.4byte	0
+ 1018 001c 00000000 		.4byte	0
+ 1019              		.section	.debug_line,"",%progbits
+ 1020              	.Ldebug_line0:
+ 1021 0000 31020000 		.section	.debug_str,"MS",%progbits,1
+ 1021      0200DD01 
+ 1021      00000201 
+ 1021      FB0E0D00 
+ 1021      01010101 
+ 1022              	.LASF29:
+ 1023 0000 696E666F 		.ascii	"informationID\000"
+ 1023      726D6174 
+ 1023      696F6E49 
+ 1023      4400
+ 1024              	.LASF51:
+ 1025 000e 75785072 		.ascii	"uxPriority\000"
+ 1025      696F7269 
+ 1025      747900
+ 1026              	.LASF42:
+ 1027 0019 77726974 		.ascii	"write\000"
+ 1027      6500
+ 1028              	.LASF33:
+ 1029 001f 6F626A65 		.ascii	"objectNumber\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 22
+
+
+ 1029      63744E75 
+ 1029      6D626572 
+ 1029      00
+ 1030              	.LASF5:
+ 1031 002c 73686F72 		.ascii	"short int\000"
+ 1031      7420696E 
+ 1031      7400
+ 1032              	.LASF13:
+ 1033 0036 73697A65 		.ascii	"sizetype\000"
+ 1033      74797065 
+ 1033      00
+ 1034              	.LASF21:
+ 1035 003f 4D555445 		.ascii	"MUTEX\000"
+ 1035      5800
+ 1036              	.LASF46:
+ 1037 0045 5461736B 		.ascii	"TaskHandle_t\000"
+ 1037      48616E64 
+ 1037      6C655F74 
+ 1037      00
+ 1038              	.LASF30:
+ 1039 0052 6F626A65 		.ascii	"objectType\000"
+ 1039      63745479 
+ 1039      706500
+ 1040              	.LASF60:
+ 1041 005d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1041      43313120 
+ 1041      352E342E 
+ 1041      31203230 
+ 1041      31363036 
+ 1042 0090 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1042      20726576 
+ 1042      6973696F 
+ 1042      6E203233 
+ 1042      37373135 
+ 1043 00c3 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1043      66756E63 
+ 1043      74696F6E 
+ 1043      2D736563 
+ 1043      74696F6E 
+ 1044              	.LASF10:
+ 1045 00eb 5F5F7569 		.ascii	"__uint32_t\000"
+ 1045      6E743332 
+ 1045      5F7400
+ 1046              	.LASF37:
+ 1047 00f6 6F626A65 		.ascii	"objectHeader\000"
+ 1047      63744865 
+ 1047      61646572 
+ 1047      00
+ 1048              	.LASF15:
+ 1049 0103 75696E74 		.ascii	"uint8_t\000"
+ 1049      385F7400 
+ 1050              	.LASF38:
+ 1051 010b 6F626A65 		.ascii	"objectArray\000"
+ 1051      63744172 
+ 1051      72617900 
+ 1052              	.LASF34:
+ 1053 0117 6C656E4F 		.ascii	"lenObjectName\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 23
+
+
+ 1053      626A6563 
+ 1053      744E616D 
+ 1053      6500
+ 1054              	.LASF27:
+ 1055 0125 4F626A65 		.ascii	"ObjectType\000"
+ 1055      63745479 
+ 1055      706500
+ 1056              	.LASF49:
+ 1057 0130 75736273 		.ascii	"usbserial_putString\000"
+ 1057      65726961 
+ 1057      6C5F7075 
+ 1057      74537472 
+ 1057      696E6700 
+ 1058              	.LASF31:
+ 1059 0144 6C656E67 		.ascii	"length\000"
+ 1059      746800
+ 1060              	.LASF18:
+ 1061 014b 666C6F61 		.ascii	"float\000"
+ 1061      7400
+ 1062              	.LASF36:
+ 1063 0151 4F626A65 		.ascii	"Object\000"
+ 1063      637400
+ 1064              	.LASF41:
+ 1065 0158 72656164 		.ascii	"read\000"
+ 1065      00
+ 1066              	.LASF1:
+ 1067 015d 6C6F6E67 		.ascii	"long long int\000"
+ 1067      206C6F6E 
+ 1067      6720696E 
+ 1067      7400
+ 1068              	.LASF45:
+ 1069 016b 5469636B 		.ascii	"TickType_t\000"
+ 1069      54797065 
+ 1069      5F7400
+ 1070              	.LASF50:
+ 1071 0176 76537461 		.ascii	"vStartUSBSerialTasks\000"
+ 1071      72745553 
+ 1071      42536572 
+ 1071      69616C54 
+ 1071      61736B73 
+ 1072              	.LASF9:
+ 1073 018b 6C6F6E67 		.ascii	"long int\000"
+ 1073      20696E74 
+ 1073      00
+ 1074              	.LASF54:
+ 1075 0194 736E6966 		.ascii	"sniffIDFilter\000"
+ 1075      66494446 
+ 1075      696C7465 
+ 1075      7200
+ 1076              	.LASF57:
+ 1077 01a2 7844656C 		.ascii	"xDelay\000"
+ 1077      617900
+ 1078              	.LASF7:
+ 1079 01a9 5F5F7569 		.ascii	"__uint8_t\000"
+ 1079      6E74385F 
+ 1079      7400
+ 1080              	.LASF47:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 24
+
+
+ 1081 01b3 51756575 		.ascii	"QueueHandle_t\000"
+ 1081      6548616E 
+ 1081      646C655F 
+ 1081      7400
+ 1082              	.LASF20:
+ 1083 01c1 51554555 		.ascii	"QUEUE\000"
+ 1083      4500
+ 1084              	.LASF22:
+ 1085 01c7 434F554E 		.ascii	"COUNTING_SEMAPHORE\000"
+ 1085      54494E47 
+ 1085      5F53454D 
+ 1085      4150484F 
+ 1085      524500
+ 1086              	.LASF35:
+ 1087 01da 6F626A65 		.ascii	"objectName\000"
+ 1087      63744E61 
+ 1087      6D6500
+ 1088              	.LASF2:
+ 1089 01e5 6C6F6E67 		.ascii	"long double\000"
+ 1089      20646F75 
+ 1089      626C6500 
+ 1090              	.LASF58:
+ 1091 01f1 6D44656C 		.ascii	"mDelay\000"
+ 1091      617900
+ 1092              	.LASF48:
+ 1093 01f8 53656D61 		.ascii	"SemaphoreHandle_t\000"
+ 1093      70686F72 
+ 1093      6548616E 
+ 1093      646C655F 
+ 1093      7400
+ 1094              	.LASF4:
+ 1095 020a 756E7369 		.ascii	"unsigned char\000"
+ 1095      676E6564 
+ 1095      20636861 
+ 1095      7200
+ 1096              	.LASF24:
+ 1097 0218 52454355 		.ascii	"RECURSIVE_MUTEX\000"
+ 1097      52534956 
+ 1097      455F4D55 
+ 1097      54455800 
+ 1098              	.LASF59:
+ 1099 0228 5553424D 		.ascii	"USBMutex\000"
+ 1099      75746578 
+ 1099      00
+ 1100              	.LASF3:
+ 1101 0231 7369676E 		.ascii	"signed char\000"
+ 1101      65642063 
+ 1101      68617200 
+ 1102              	.LASF12:
+ 1103 023d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1103      206C6F6E 
+ 1103      6720756E 
+ 1103      7369676E 
+ 1103      65642069 
+ 1104              	.LASF17:
+ 1105 0254 75696E74 		.ascii	"uint32_t\000"
+ 1105      33325F74 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 25
+
+
+ 1105      00
+ 1106              	.LASF0:
+ 1107 025d 756E7369 		.ascii	"unsigned int\000"
+ 1107      676E6564 
+ 1107      20696E74 
+ 1107      00
+ 1108              	.LASF32:
+ 1109 026a 4F626A65 		.ascii	"ObjectListHeader\000"
+ 1109      63744C69 
+ 1109      73744865 
+ 1109      61646572 
+ 1109      00
+ 1110              	.LASF43:
+ 1111 027b 42617365 		.ascii	"BaseType_t\000"
+ 1111      54797065 
+ 1111      5F7400
+ 1112              	.LASF52:
+ 1113 0286 70765061 		.ascii	"pvParameters\000"
+ 1113      72616D65 
+ 1113      74657273 
+ 1113      00
+ 1114              	.LASF6:
+ 1115 0293 73686F72 		.ascii	"short unsigned int\000"
+ 1115      7420756E 
+ 1115      7369676E 
+ 1115      65642069 
+ 1115      6E7400
+ 1116              	.LASF14:
+ 1117 02a6 63686172 		.ascii	"char\000"
+ 1117      00
+ 1118              	.LASF28:
+ 1119 02ab 7061636B 		.ascii	"packetID\000"
+ 1119      65744944 
+ 1119      00
+ 1120              	.LASF16:
+ 1121 02b4 696E7433 		.ascii	"int32_t\000"
+ 1121      325F7400 
+ 1122              	.LASF44:
+ 1123 02bc 55426173 		.ascii	"UBaseType_t\000"
+ 1123      65547970 
+ 1123      655F7400 
+ 1124              	.LASF40:
+ 1125 02c8 64617461 		.ascii	"data\000"
+ 1125      00
+ 1126              	.LASF55:
+ 1127 02cd 62756666 		.ascii	"buffer\000"
+ 1127      657200
+ 1128              	.LASF26:
+ 1129 02d4 4E554D42 		.ascii	"NUMBER_OF_OBJECTTYPES\000"
+ 1129      45525F4F 
+ 1129      465F4F42 
+ 1129      4A454354 
+ 1129      54595045 
+ 1130              	.LASF11:
+ 1131 02ea 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1131      20756E73 
+ 1131      69676E65 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccimwPqh.s 			page 26
+
+
+ 1131      6420696E 
+ 1131      7400
+ 1132              	.LASF19:
+ 1133 02fc 646F7562 		.ascii	"double\000"
+ 1133      6C6500
+ 1134              	.LASF23:
+ 1135 0303 42494E41 		.ascii	"BINARY_SEMAPHORE\000"
+ 1135      52595F53 
+ 1135      454D4150 
+ 1135      484F5245 
+ 1135      00
+ 1136              	.LASF56:
+ 1137 0314 6F626A65 		.ascii	"objectList\000"
+ 1137      63744C69 
+ 1137      737400
+ 1138              	.LASF25:
+ 1139 031f 5441534B 		.ascii	"TASK\000"
+ 1139      00
+ 1140              	.LASF61:
+ 1141 0324 55534253 		.ascii	"USBSerial.c\000"
+ 1141      65726961 
+ 1141      6C2E6300 
+ 1142              	.LASF8:
+ 1143 0330 5F5F696E 		.ascii	"__int32_t\000"
+ 1143      7433325F 
+ 1143      7400
+ 1144              	.LASF64:
+ 1145 033a 76555342 		.ascii	"vUSBSerialTask\000"
+ 1145      53657269 
+ 1145      616C5461 
+ 1145      736B00
+ 1146              	.LASF39:
+ 1147 0349 4F626A65 		.ascii	"ObjectList\000"
+ 1147      63744C69 
+ 1147      737400
+ 1148              	.LASF53:
+ 1149 0354 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1149      52784275 
+ 1149      66666572 
+ 1149      00
+ 1150              	.LASF63:
+ 1151 0361 42756666 		.ascii	"Buffer\000"
+ 1151      657200
+ 1152              	.LASF62:
+ 1153 0368 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ 1153      726F6772 
+ 1153      616D6D65 
+ 1153      5F536372 
+ 1153      69707473 
+ 1154 0397 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 1154      5F435938 
+ 1154      434B4954 
+ 1154      5F303539 
+ 1154      2D6D6173 
+ 1155              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

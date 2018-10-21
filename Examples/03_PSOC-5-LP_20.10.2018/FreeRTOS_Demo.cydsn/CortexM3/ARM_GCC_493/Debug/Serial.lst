@@ -1,0 +1,2355 @@
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Serial.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.bss
+  19              		.align	2
+  20              	xSerialTxQueue:
+  21 0000 00000000 		.space	4
+  22              		.align	2
+  23              	xSerialRxQueue:
+  24 0004 00000000 		.space	4
+  25              		.section	.text.xSerialPortInitMinimal,"ax",%progbits
+  26              		.align	2
+  27              		.global	xSerialPortInitMinimal
+  28              		.thumb
+  29              		.thumb_func
+  30              		.type	xSerialPortInitMinimal, %function
+  31              	xSerialPortInitMinimal:
+  32              	.LFB68:
+  33              		.file 1 "Serial.c"
+   1:Serial.c      **** /*
+   2:Serial.c      ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:Serial.c      ****     All rights reserved
+   4:Serial.c      **** 
+   5:Serial.c      ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:Serial.c      **** 
+   7:Serial.c      ****     This file is part of the FreeRTOS distribution.
+   8:Serial.c      **** 
+   9:Serial.c      ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:Serial.c      ****     the terms of the GNU General Public License (version 2) as published by the
+  11:Serial.c      ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:Serial.c      **** 
+  13:Serial.c      ****     ***************************************************************************
+  14:Serial.c      ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:Serial.c      ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:Serial.c      ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:Serial.c      ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:Serial.c      ****     ***************************************************************************
+  19:Serial.c      **** 
+  20:Serial.c      ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:Serial.c      ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:Serial.c      ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:Serial.c      ****     link: http://www.freertos.org/a00114.html
+  24:Serial.c      **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 2
+
+
+  25:Serial.c      ****     ***************************************************************************
+  26:Serial.c      ****      *                                                                       *
+  27:Serial.c      ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:Serial.c      ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:Serial.c      ****      *    platform software that is more than just the market leader, it     *
+  30:Serial.c      ****      *    is the industry's de facto standard.                               *
+  31:Serial.c      ****      *                                                                       *
+  32:Serial.c      ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:Serial.c      ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:Serial.c      ****      *    tutorial book, reference manual, or both:                          *
+  35:Serial.c      ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:Serial.c      ****      *                                                                       *
+  37:Serial.c      ****     ***************************************************************************
+  38:Serial.c      **** 
+  39:Serial.c      ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:Serial.c      ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:Serial.c      ****     defined configASSERT()?
+  42:Serial.c      **** 
+  43:Serial.c      ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:Serial.c      ****     embedded software for free we request you assist our global community by
+  45:Serial.c      ****     participating in the support forum.
+  46:Serial.c      **** 
+  47:Serial.c      ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:Serial.c      ****     be as productive as possible as early as possible.  Now you can receive
+  49:Serial.c      ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:Serial.c      ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:Serial.c      **** 
+  52:Serial.c      ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:Serial.c      ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:Serial.c      ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:Serial.c      **** 
+  56:Serial.c      ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:Serial.c      ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:Serial.c      **** 
+  59:Serial.c      ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:Serial.c      ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:Serial.c      ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:Serial.c      **** 
+  63:Serial.c      ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:Serial.c      ****     engineered and independently SIL3 certified version for use in safety and
+  65:Serial.c      ****     mission critical applications that require provable dependability.
+  66:Serial.c      **** 
+  67:Serial.c      ****     1 tab == 4 spaces!
+  68:Serial.c      **** */
+  69:Serial.c      **** 
+  70:Serial.c      **** #include <device.h>
+  71:Serial.c      **** #include "FreeRTOS.h"
+  72:Serial.c      **** #include "queue.h"
+  73:Serial.c      **** #include "task.h"
+  74:Serial.c      **** #include "serial.h"
+  75:Serial.c      **** /*---------------------------------------------------------------------------*/
+  76:Serial.c      **** 
+  77:Serial.c      **** #define serialSTRING_DELAY_TICKS		( portMAX_DELAY )
+  78:Serial.c      **** /*---------------------------------------------------------------------------*/
+  79:Serial.c      **** 
+  80:Serial.c      **** CY_ISR_PROTO( vUartRxISR );
+  81:Serial.c      **** CY_ISR_PROTO( vUartTxISR );
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 3
+
+
+  82:Serial.c      **** /*---------------------------------------------------------------------------*/
+  83:Serial.c      **** 
+  84:Serial.c      **** static QueueHandle_t xSerialTxQueue = NULL;
+  85:Serial.c      **** static QueueHandle_t xSerialRxQueue = NULL;
+  86:Serial.c      **** /*---------------------------------------------------------------------------*/
+  87:Serial.c      **** 
+  88:Serial.c      **** xComPortHandle xSerialPortInitMinimal( unsigned long ulWantedBaud, unsigned portBASE_TYPE uxQueueLe
+  89:Serial.c      **** {
+  34              		.loc 1 89 0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 8
+  37              		@ frame_needed = 1, uses_anonymous_args = 0
+  38 0000 80B5     		push	{r7, lr}
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  42 0002 82B0     		sub	sp, sp, #8
+  43              		.cfi_def_cfa_offset 16
+  44 0004 00AF     		add	r7, sp, #0
+  45              		.cfi_def_cfa_register 7
+  46 0006 7860     		str	r0, [r7, #4]
+  47 0008 3960     		str	r1, [r7]
+  90:Serial.c      **** 	/* Configure Rx. */
+  91:Serial.c      **** 	xSerialRxQueue = xQueueCreate( uxQueueLength, sizeof( signed char ) );	
+  48              		.loc 1 91 0
+  49 000a 3868     		ldr	r0, [r7]
+  50 000c 0121     		movs	r1, #1
+  51 000e 0022     		movs	r2, #0
+  52 0010 FFF7FEFF 		bl	xQueueGenericCreate
+  53 0014 0246     		mov	r2, r0
+  54 0016 134B     		ldr	r3, .L5
+  55 0018 1A60     		str	r2, [r3]
+  92:Serial.c      **** 	isr_UART1_RX_BYTE_RECEIVED_ClearPending();
+  56              		.loc 1 92 0
+  57 001a FFF7FEFF 		bl	isr_UART1_RX_BYTE_RECEIVED_ClearPending
+  93:Serial.c      **** 	isr_UART1_RX_BYTE_RECEIVED_StartEx(vUartRxISR);
+  58              		.loc 1 93 0
+  59 001e 1248     		ldr	r0, .L5+4
+  60 0020 FFF7FEFF 		bl	isr_UART1_RX_BYTE_RECEIVED_StartEx
+  94:Serial.c      **** 
+  95:Serial.c      **** 	/* Configure Tx */
+  96:Serial.c      **** 	xSerialTxQueue = xQueueCreate( uxQueueLength, sizeof( signed char ) );
+  61              		.loc 1 96 0
+  62 0024 3868     		ldr	r0, [r7]
+  63 0026 0121     		movs	r1, #1
+  64 0028 0022     		movs	r2, #0
+  65 002a FFF7FEFF 		bl	xQueueGenericCreate
+  66 002e 0246     		mov	r2, r0
+  67 0030 0E4B     		ldr	r3, .L5+8
+  68 0032 1A60     		str	r2, [r3]
+  97:Serial.c      **** 	isr_UART1_TX_BYTE_COMPLETE_ClearPending() ;
+  69              		.loc 1 97 0
+  70 0034 FFF7FEFF 		bl	isr_UART1_TX_BYTE_COMPLETE_ClearPending
+  98:Serial.c      **** 	isr_UART1_TX_BYTE_COMPLETE_StartEx(vUartTxISR);
+  71              		.loc 1 98 0
+  72 0038 0D48     		ldr	r0, .L5+12
+  73 003a FFF7FEFF 		bl	isr_UART1_TX_BYTE_COMPLETE_StartEx
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 4
+
+
+  99:Serial.c      **** 
+ 100:Serial.c      **** 	/* Clear the interrupt modes for the Tx for the time being. */
+ 101:Serial.c      **** 	UART_1_SetTxInterruptMode( 0 );
+  74              		.loc 1 101 0
+  75 003e 0020     		movs	r0, #0
+  76 0040 FFF7FEFF 		bl	UART_1_SetTxInterruptMode
+ 102:Serial.c      **** 
+ 103:Serial.c      **** 	/* Both configured successfully. */
+ 104:Serial.c      **** 	return ( xComPortHandle )( xSerialTxQueue && xSerialRxQueue );
+  77              		.loc 1 104 0
+  78 0044 094B     		ldr	r3, .L5+8
+  79 0046 1B68     		ldr	r3, [r3]
+  80 0048 002B     		cmp	r3, #0
+  81 004a 05D0     		beq	.L2
+  82              		.loc 1 104 0 is_stmt 0 discriminator 1
+  83 004c 054B     		ldr	r3, .L5
+  84 004e 1B68     		ldr	r3, [r3]
+  85 0050 002B     		cmp	r3, #0
+  86 0052 01D0     		beq	.L2
+  87              		.loc 1 104 0 discriminator 3
+  88 0054 0123     		movs	r3, #1
+  89 0056 00E0     		b	.L3
+  90              	.L2:
+  91              		.loc 1 104 0 discriminator 4
+  92 0058 0023     		movs	r3, #0
+  93              	.L3:
+ 105:Serial.c      **** }
+  94              		.loc 1 105 0 is_stmt 1 discriminator 6
+  95 005a 1846     		mov	r0, r3
+  96 005c 0837     		adds	r7, r7, #8
+  97              		.cfi_def_cfa_offset 8
+  98 005e BD46     		mov	sp, r7
+  99              		.cfi_def_cfa_register 13
+ 100              		@ sp needed
+ 101 0060 80BD     		pop	{r7, pc}
+ 102              	.L6:
+ 103 0062 00BF     		.align	2
+ 104              	.L5:
+ 105 0064 04000000 		.word	xSerialRxQueue
+ 106 0068 00000000 		.word	vUartRxISR
+ 107 006c 00000000 		.word	xSerialTxQueue
+ 108 0070 00000000 		.word	vUartTxISR
+ 109              		.cfi_endproc
+ 110              	.LFE68:
+ 111              		.size	xSerialPortInitMinimal, .-xSerialPortInitMinimal
+ 112              		.section	.text.vSerialPutString,"ax",%progbits
+ 113              		.align	2
+ 114              		.global	vSerialPutString
+ 115              		.thumb
+ 116              		.thumb_func
+ 117              		.type	vSerialPutString, %function
+ 118              	vSerialPutString:
+ 119              	.LFB69:
+ 106:Serial.c      **** /*---------------------------------------------------------------------------*/
+ 107:Serial.c      **** 
+ 108:Serial.c      **** void vSerialPutString( xComPortHandle pxPort, const signed char * const pcString, unsigned short us
+ 109:Serial.c      **** {
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 5
+
+
+ 120              		.loc 1 109 0
+ 121              		.cfi_startproc
+ 122              		@ args = 0, pretend = 0, frame = 24
+ 123              		@ frame_needed = 1, uses_anonymous_args = 0
+ 124 0000 80B5     		push	{r7, lr}
+ 125              		.cfi_def_cfa_offset 8
+ 126              		.cfi_offset 7, -8
+ 127              		.cfi_offset 14, -4
+ 128 0002 86B0     		sub	sp, sp, #24
+ 129              		.cfi_def_cfa_offset 32
+ 130 0004 00AF     		add	r7, sp, #0
+ 131              		.cfi_def_cfa_register 7
+ 132 0006 F860     		str	r0, [r7, #12]
+ 133 0008 B960     		str	r1, [r7, #8]
+ 134 000a 1346     		mov	r3, r2
+ 135 000c FB80     		strh	r3, [r7, #6]	@ movhi
+ 110:Serial.c      **** unsigned short usIndex = 0;
+ 136              		.loc 1 110 0
+ 137 000e 0023     		movs	r3, #0
+ 138 0010 FB82     		strh	r3, [r7, #22]	@ movhi
+ 111:Serial.c      **** 
+ 112:Serial.c      **** 	for( usIndex = 0; usIndex < usStringLength; usIndex++ )
+ 139              		.loc 1 112 0
+ 140 0012 0023     		movs	r3, #0
+ 141 0014 FB82     		strh	r3, [r7, #22]	@ movhi
+ 142 0016 14E0     		b	.L8
+ 143              	.L11:
+ 113:Serial.c      **** 	{
+ 114:Serial.c      **** 		/* Check for pre-mature end of line. */
+ 115:Serial.c      **** 		if( '\0' == pcString[ usIndex ] )
+ 144              		.loc 1 115 0
+ 145 0018 FB8A     		ldrh	r3, [r7, #22]
+ 146 001a BA68     		ldr	r2, [r7, #8]
+ 147 001c 1344     		add	r3, r3, r2
+ 148 001e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 149 0020 002B     		cmp	r3, #0
+ 150 0022 00D1     		bne	.L9
+ 116:Serial.c      **** 		{
+ 117:Serial.c      **** 			break;
+ 151              		.loc 1 117 0
+ 152 0024 11E0     		b	.L7
+ 153              	.L9:
+ 118:Serial.c      **** 		}
+ 119:Serial.c      **** 		
+ 120:Serial.c      **** 		/* Send out, one character at a time. */
+ 121:Serial.c      **** 		if( pdTRUE != xSerialPutChar( NULL, pcString[ usIndex ], serialSTRING_DELAY_TICKS ) )
+ 154              		.loc 1 121 0
+ 155 0026 FB8A     		ldrh	r3, [r7, #22]
+ 156 0028 BA68     		ldr	r2, [r7, #8]
+ 157 002a 1344     		add	r3, r3, r2
+ 158 002c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 159 002e 5BB2     		sxtb	r3, r3
+ 160 0030 0020     		movs	r0, #0
+ 161 0032 1946     		mov	r1, r3
+ 162 0034 4FF0FF32 		mov	r2, #-1
+ 163 0038 FFF7FEFF 		bl	xSerialPutChar
+ 112:Serial.c      **** 	{
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 6
+
+
+ 164              		.loc 1 112 0
+ 165 003c FB8A     		ldrh	r3, [r7, #22]
+ 166 003e 0133     		adds	r3, r3, #1
+ 167 0040 FB82     		strh	r3, [r7, #22]	@ movhi
+ 168              	.L8:
+ 112:Serial.c      **** 	{
+ 169              		.loc 1 112 0 is_stmt 0 discriminator 1
+ 170 0042 FA8A     		ldrh	r2, [r7, #22]
+ 171 0044 FB88     		ldrh	r3, [r7, #6]
+ 172 0046 9A42     		cmp	r2, r3
+ 173 0048 E6D3     		bcc	.L11
+ 174              	.L7:
+ 122:Serial.c      **** 		{
+ 123:Serial.c      **** 			/* Failed to send, this will be picked up in the receive comtest task. */
+ 124:Serial.c      **** 		}
+ 125:Serial.c      **** 	}
+ 126:Serial.c      **** }
+ 175              		.loc 1 126 0 is_stmt 1
+ 176 004a 1837     		adds	r7, r7, #24
+ 177              		.cfi_def_cfa_offset 8
+ 178 004c BD46     		mov	sp, r7
+ 179              		.cfi_def_cfa_register 13
+ 180              		@ sp needed
+ 181 004e 80BD     		pop	{r7, pc}
+ 182              		.cfi_endproc
+ 183              	.LFE69:
+ 184              		.size	vSerialPutString, .-vSerialPutString
+ 185              		.section	.text.xSerialGetChar,"ax",%progbits
+ 186              		.align	2
+ 187              		.global	xSerialGetChar
+ 188              		.thumb
+ 189              		.thumb_func
+ 190              		.type	xSerialGetChar, %function
+ 191              	xSerialGetChar:
+ 192              	.LFB70:
+ 127:Serial.c      **** /*---------------------------------------------------------------------------*/
+ 128:Serial.c      **** 
+ 129:Serial.c      **** signed portBASE_TYPE xSerialGetChar( xComPortHandle pxPort, signed char *pcRxedChar, TickType_t xBl
+ 130:Serial.c      **** {
+ 193              		.loc 1 130 0
+ 194              		.cfi_startproc
+ 195              		@ args = 0, pretend = 0, frame = 24
+ 196              		@ frame_needed = 1, uses_anonymous_args = 0
+ 197 0000 80B5     		push	{r7, lr}
+ 198              		.cfi_def_cfa_offset 8
+ 199              		.cfi_offset 7, -8
+ 200              		.cfi_offset 14, -4
+ 201 0002 86B0     		sub	sp, sp, #24
+ 202              		.cfi_def_cfa_offset 32
+ 203 0004 00AF     		add	r7, sp, #0
+ 204              		.cfi_def_cfa_register 7
+ 205 0006 F860     		str	r0, [r7, #12]
+ 206 0008 B960     		str	r1, [r7, #8]
+ 207 000a 7A60     		str	r2, [r7, #4]
+ 131:Serial.c      **** portBASE_TYPE xReturn = pdFALSE;
+ 208              		.loc 1 131 0
+ 209 000c 0023     		movs	r3, #0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 7
+
+
+ 210 000e 7B61     		str	r3, [r7, #20]
+ 132:Serial.c      **** 
+ 133:Serial.c      **** 	if( pdTRUE == xQueueReceive( xSerialRxQueue, pcRxedChar, xBlockTime ) )
+ 211              		.loc 1 133 0
+ 212 0010 084B     		ldr	r3, .L15
+ 213 0012 1B68     		ldr	r3, [r3]
+ 214 0014 1846     		mov	r0, r3
+ 215 0016 B968     		ldr	r1, [r7, #8]
+ 216 0018 7A68     		ldr	r2, [r7, #4]
+ 217 001a 0023     		movs	r3, #0
+ 218 001c FFF7FEFF 		bl	xQueueGenericReceive
+ 219 0020 0346     		mov	r3, r0
+ 220 0022 012B     		cmp	r3, #1
+ 221 0024 01D1     		bne	.L13
+ 134:Serial.c      **** 	{
+ 135:Serial.c      **** 		/* Picked up a character. */
+ 136:Serial.c      **** 		xReturn = pdTRUE;
+ 222              		.loc 1 136 0
+ 223 0026 0123     		movs	r3, #1
+ 224 0028 7B61     		str	r3, [r7, #20]
+ 225              	.L13:
+ 137:Serial.c      **** 	}
+ 138:Serial.c      **** 	return xReturn;
+ 226              		.loc 1 138 0
+ 227 002a 7B69     		ldr	r3, [r7, #20]
+ 139:Serial.c      **** }
+ 228              		.loc 1 139 0
+ 229 002c 1846     		mov	r0, r3
+ 230 002e 1837     		adds	r7, r7, #24
+ 231              		.cfi_def_cfa_offset 8
+ 232 0030 BD46     		mov	sp, r7
+ 233              		.cfi_def_cfa_register 13
+ 234              		@ sp needed
+ 235 0032 80BD     		pop	{r7, pc}
+ 236              	.L16:
+ 237              		.align	2
+ 238              	.L15:
+ 239 0034 04000000 		.word	xSerialRxQueue
+ 240              		.cfi_endproc
+ 241              	.LFE70:
+ 242              		.size	xSerialGetChar, .-xSerialGetChar
+ 243              		.section	.text.xSerialPutChar,"ax",%progbits
+ 244              		.align	2
+ 245              		.global	xSerialPutChar
+ 246              		.thumb
+ 247              		.thumb_func
+ 248              		.type	xSerialPutChar, %function
+ 249              	xSerialPutChar:
+ 250              	.LFB71:
+ 140:Serial.c      **** /*---------------------------------------------------------------------------*/
+ 141:Serial.c      **** 
+ 142:Serial.c      **** signed portBASE_TYPE xSerialPutChar( xComPortHandle pxPort, signed char cOutChar, TickType_t xBlock
+ 143:Serial.c      **** {
+ 251              		.loc 1 143 0
+ 252              		.cfi_startproc
+ 253              		@ args = 0, pretend = 0, frame = 24
+ 254              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 8
+
+
+ 255 0000 80B5     		push	{r7, lr}
+ 256              		.cfi_def_cfa_offset 8
+ 257              		.cfi_offset 7, -8
+ 258              		.cfi_offset 14, -4
+ 259 0002 86B0     		sub	sp, sp, #24
+ 260              		.cfi_def_cfa_offset 32
+ 261 0004 00AF     		add	r7, sp, #0
+ 262              		.cfi_def_cfa_register 7
+ 263 0006 F860     		str	r0, [r7, #12]
+ 264 0008 0B46     		mov	r3, r1
+ 265 000a 7A60     		str	r2, [r7, #4]
+ 266 000c FB72     		strb	r3, [r7, #11]
+ 144:Serial.c      **** portBASE_TYPE xReturn = pdFALSE;
+ 267              		.loc 1 144 0
+ 268 000e 0023     		movs	r3, #0
+ 269 0010 7B61     		str	r3, [r7, #20]
+ 145:Serial.c      **** 
+ 146:Serial.c      **** 	/* The ISR is processing characters is so just add to the end of the queue. */
+ 147:Serial.c      **** 	if( pdTRUE == xQueueSend( xSerialTxQueue, &cOutChar, xBlockTime ) )
+ 270              		.loc 1 147 0
+ 271 0012 0F4B     		ldr	r3, .L21
+ 272 0014 1A68     		ldr	r2, [r3]
+ 273 0016 07F10B03 		add	r3, r7, #11
+ 274 001a 1046     		mov	r0, r2
+ 275 001c 1946     		mov	r1, r3
+ 276 001e 7A68     		ldr	r2, [r7, #4]
+ 277 0020 0023     		movs	r3, #0
+ 278 0022 FFF7FEFF 		bl	xQueueGenericSend
+ 279 0026 0346     		mov	r3, r0
+ 280 0028 012B     		cmp	r3, #1
+ 281 002a 02D1     		bne	.L18
+ 148:Serial.c      **** 	{	
+ 149:Serial.c      **** 		xReturn = pdTRUE;
+ 282              		.loc 1 149 0
+ 283 002c 0123     		movs	r3, #1
+ 284 002e 7B61     		str	r3, [r7, #20]
+ 285 0030 01E0     		b	.L19
+ 286              	.L18:
+ 150:Serial.c      **** 	}
+ 151:Serial.c      **** 	else
+ 152:Serial.c      **** 	{
+ 153:Serial.c      **** 		/* The queue is probably full. */
+ 154:Serial.c      **** 		xReturn = pdFALSE;
+ 287              		.loc 1 154 0
+ 288 0032 0023     		movs	r3, #0
+ 289 0034 7B61     		str	r3, [r7, #20]
+ 290              	.L19:
+ 155:Serial.c      **** 	}
+ 156:Serial.c      **** 
+ 157:Serial.c      **** 	/* Make sure that the interrupt will fire in the case where:
+ 158:Serial.c      **** 	    Currently sending so the Tx Complete will fire.
+ 159:Serial.c      **** 	    Not sending so the Empty will fire.	*/
+ 160:Serial.c      **** 	taskENTER_CRITICAL();
+ 291              		.loc 1 160 0
+ 292 0036 FFF7FEFF 		bl	vPortEnterCritical
+ 161:Serial.c      **** 		UART_1_SetTxInterruptMode( UART_1_TX_STS_COMPLETE | UART_1_TX_STS_FIFO_EMPTY );
+ 293              		.loc 1 161 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 9
+
+
+ 294 003a 0320     		movs	r0, #3
+ 295 003c FFF7FEFF 		bl	UART_1_SetTxInterruptMode
+ 162:Serial.c      **** 	taskEXIT_CRITICAL();
+ 296              		.loc 1 162 0
+ 297 0040 FFF7FEFF 		bl	vPortExitCritical
+ 163:Serial.c      **** 	
+ 164:Serial.c      **** 	return xReturn;
+ 298              		.loc 1 164 0
+ 299 0044 7B69     		ldr	r3, [r7, #20]
+ 165:Serial.c      **** }
+ 300              		.loc 1 165 0
+ 301 0046 1846     		mov	r0, r3
+ 302 0048 1837     		adds	r7, r7, #24
+ 303              		.cfi_def_cfa_offset 8
+ 304 004a BD46     		mov	sp, r7
+ 305              		.cfi_def_cfa_register 13
+ 306              		@ sp needed
+ 307 004c 80BD     		pop	{r7, pc}
+ 308              	.L22:
+ 309 004e 00BF     		.align	2
+ 310              	.L21:
+ 311 0050 00000000 		.word	xSerialTxQueue
+ 312              		.cfi_endproc
+ 313              	.LFE71:
+ 314              		.size	xSerialPutChar, .-xSerialPutChar
+ 315              		.section	.text.vUartRxISR,"ax",%progbits
+ 316              		.align	2
+ 317              		.global	vUartRxISR
+ 318              		.thumb
+ 319              		.thumb_func
+ 320              		.type	vUartRxISR, %function
+ 321              	vUartRxISR:
+ 322              	.LFB72:
+ 166:Serial.c      **** /*---------------------------------------------------------------------------*/
+ 167:Serial.c      **** 
+ 168:Serial.c      **** CY_ISR(vUartRxISR)
+ 169:Serial.c      **** {
+ 323              		.loc 1 169 0
+ 324              		.cfi_startproc
+ 325              		@ args = 0, pretend = 0, frame = 24
+ 326              		@ frame_needed = 1, uses_anonymous_args = 0
+ 327 0000 80B5     		push	{r7, lr}
+ 328              		.cfi_def_cfa_offset 8
+ 329              		.cfi_offset 7, -8
+ 330              		.cfi_offset 14, -4
+ 331 0002 86B0     		sub	sp, sp, #24
+ 332              		.cfi_def_cfa_offset 32
+ 333 0004 00AF     		add	r7, sp, #0
+ 334              		.cfi_def_cfa_register 7
+ 170:Serial.c      **** portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+ 335              		.loc 1 170 0
+ 336 0006 0023     		movs	r3, #0
+ 337 0008 7B60     		str	r3, [r7, #4]
+ 171:Serial.c      **** volatile unsigned char ucStatus = 0;
+ 338              		.loc 1 171 0
+ 339 000a 0023     		movs	r3, #0
+ 340 000c FB70     		strb	r3, [r7, #3]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 10
+
+
+ 172:Serial.c      **** signed char cInChar = 0;
+ 341              		.loc 1 172 0
+ 342 000e 0023     		movs	r3, #0
+ 343 0010 BB70     		strb	r3, [r7, #2]
+ 173:Serial.c      **** unsigned long ulMask = 0;
+ 344              		.loc 1 173 0
+ 345 0012 0023     		movs	r3, #0
+ 346 0014 7B61     		str	r3, [r7, #20]
+ 174:Serial.c      **** 
+ 175:Serial.c      **** 	/* Read the status to acknowledge. */
+ 176:Serial.c      **** 	ucStatus = UART_1_ReadRxStatus();
+ 347              		.loc 1 176 0
+ 348 0016 FFF7FEFF 		bl	UART_1_ReadRxStatus
+ 349 001a 0346     		mov	r3, r0
+ 350 001c FB70     		strb	r3, [r7, #3]
+ 177:Serial.c      **** 
+ 178:Serial.c      **** 	/* Only interested in a character being received. */
+ 179:Serial.c      **** 	if( 0 != ( ucStatus & UART_1_RX_STS_FIFO_NOTEMPTY ) )
+ 351              		.loc 1 179 0
+ 352 001e FB78     		ldrb	r3, [r7, #3]
+ 353 0020 DBB2     		uxtb	r3, r3
+ 354 0022 03F02003 		and	r3, r3, #32
+ 355 0026 002B     		cmp	r3, #0
+ 356 0028 21D0     		beq	.L24
+ 180:Serial.c      **** 	{
+ 181:Serial.c      **** 		/* Get the character. */
+ 182:Serial.c      **** 		cInChar = UART_1_GetChar();
+ 357              		.loc 1 182 0
+ 358 002a FFF7FEFF 		bl	UART_1_GetChar
+ 359 002e 0346     		mov	r3, r0
+ 360 0030 DBB2     		uxtb	r3, r3
+ 361 0032 BB70     		strb	r3, [r7, #2]
+ 362              	.LBB10:
+ 363              	.LBB11:
+ 364              		.file 2 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+   1:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*
+   2:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     All rights reserved
+   4:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+   5:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+   7:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     This file is part of the FreeRTOS distribution.
+   8:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+   9:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  13:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     ***************************************************************************
+  14:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     ***************************************************************************
+  19:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  20:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 11
+
+
+  23:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     link: http://www.freertos.org/a00114.html
+  24:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  25:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     ***************************************************************************
+  26:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *                                                                       *
+  27:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *    platform software that is more than just the market leader, it     *
+  30:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *    is the industry's de facto standard.                               *
+  31:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *                                                                       *
+  32:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Source\portable\GCC\ARM_CM3/portmacro.h ****      *                                                                       *
+  37:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     ***************************************************************************
+  38:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  39:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     defined configASSERT()?
+  42:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  43:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     embedded software for free we request you assist our global community by
+  45:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     participating in the support forum.
+  46:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  47:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  52:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  56:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  59:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  63:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     mission critical applications that require provable dependability.
+  66:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  67:..\Source\portable\GCC\ARM_CM3/portmacro.h ****     1 tab == 4 spaces!
+  68:..\Source\portable\GCC\ARM_CM3/portmacro.h **** */
+  69:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  70:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  71:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifndef PORTMACRO_H
+  72:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define PORTMACRO_H
+  73:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  74:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifdef __cplusplus
+  75:..\Source\portable\GCC\ARM_CM3/portmacro.h **** extern "C" {
+  76:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+  77:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  78:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------
+  79:..\Source\portable\GCC\ARM_CM3/portmacro.h ****  * Port specific definitions.
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 12
+
+
+  80:..\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+  81:..\Source\portable\GCC\ARM_CM3/portmacro.h ****  * The settings in this file configure FreeRTOS correctly for the
+  82:..\Source\portable\GCC\ARM_CM3/portmacro.h ****  * given hardware and compiler.
+  83:..\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+  84:..\Source\portable\GCC\ARM_CM3/portmacro.h ****  * These settings should not be altered.
+  85:..\Source\portable\GCC\ARM_CM3/portmacro.h ****  *-----------------------------------------------------------
+  86:..\Source\portable\GCC\ARM_CM3/portmacro.h ****  */
+  87:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  88:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Type definitions. */
+  89:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portCHAR		char
+  90:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portFLOAT		float
+  91:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portDOUBLE		double
+  92:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portLONG		long
+  93:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portSHORT		short
+  94:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portSTACK_TYPE	uint32_t
+  95:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portBASE_TYPE	long
+  96:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  97:..\Source\portable\GCC\ARM_CM3/portmacro.h **** typedef portSTACK_TYPE StackType_t;
+  98:..\Source\portable\GCC\ARM_CM3/portmacro.h **** typedef long BaseType_t;
+  99:..\Source\portable\GCC\ARM_CM3/portmacro.h **** typedef unsigned long UBaseType_t;
+ 100:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 101:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #if( configUSE_16_BIT_TICKS == 1 )
+ 102:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	typedef uint16_t TickType_t;
+ 103:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portMAX_DELAY ( TickType_t ) 0xffff
+ 104:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #else
+ 105:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	typedef uint32_t TickType_t;
+ 106:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portMAX_DELAY ( TickType_t ) 0xffffffffUL
+ 107:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 108:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
+ 109:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	not need to be guarded with a critical section. */
+ 110:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portTICK_TYPE_IS_ATOMIC 1
+ 111:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 112:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 113:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 114:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Architecture specifics. */
+ 115:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portSTACK_GROWTH			( -1 )
+ 116:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portTICK_PERIOD_MS			( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+ 117:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portBYTE_ALIGNMENT			8
+ 118:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 119:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 120:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Scheduler utilities. */
+ 121:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portYIELD() 															\
+ 122:..\Source\portable\GCC\ARM_CM3/portmacro.h **** {																				\
+ 123:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Set a PendSV to request a context switch. */								\
+ 124:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;								\
+ 125:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 																				\
+ 126:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Barriers are normally not required but do ensure the code is completely	\
+ 127:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	within the specified behaviour for the architecture. */						\
+ 128:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile( "dsb" );													\
+ 129:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile( "isb" );													\
+ 130:..\Source\portable\GCC\ARM_CM3/portmacro.h **** }
+ 131:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 132:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portNVIC_INT_CTRL_REG		( * ( ( volatile uint32_t * ) 0xe000ed04 ) )
+ 133:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portNVIC_PENDSVSET_BIT		( 1UL << 28UL )
+ 134:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portEND_SWITCHING_ISR( xSwitchRequired ) if( xSwitchRequired != pdFALSE ) portYIELD()
+ 135:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portYIELD_FROM_ISR( x ) portEND_SWITCHING_ISR( x )
+ 136:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 13
+
+
+ 137:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 138:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Critical section management. */
+ 139:..\Source\portable\GCC\ARM_CM3/portmacro.h **** extern void vPortEnterCritical( void );
+ 140:..\Source\portable\GCC\ARM_CM3/portmacro.h **** extern void vPortExitCritical( void );
+ 141:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portSET_INTERRUPT_MASK_FROM_ISR()		ulPortRaiseBASEPRI()
+ 142:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portCLEAR_INTERRUPT_MASK_FROM_ISR(x)	vPortSetBASEPRI(x)
+ 143:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portDISABLE_INTERRUPTS()				vPortRaiseBASEPRI()
+ 144:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portENABLE_INTERRUPTS()					vPortSetBASEPRI(0)
+ 145:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portENTER_CRITICAL()					vPortEnterCritical()
+ 146:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portEXIT_CRITICAL()						vPortExitCritical()
+ 147:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 148:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 149:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 150:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Task function macros as described on the FreeRTOS.org WEB site.  These are
+ 151:..\Source\portable\GCC\ARM_CM3/portmacro.h **** not necessary for to use this port.  They are defined so the common demo files
+ 152:..\Source\portable\GCC\ARM_CM3/portmacro.h **** (which build with all the ports) will build. */
+ 153:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
+ 154:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+ 155:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 156:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 157:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Tickless idle/low power functionality. */
+ 158:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifndef portSUPPRESS_TICKS_AND_SLEEP
+ 159:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+ 160:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime ) vPortSuppressTicksAndSleep( xExpectedIdl
+ 161:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 162:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 163:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 164:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Architecture specific optimisations. */
+ 165:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
+ 166:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
+ 167:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 168:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 169:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+ 170:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 171:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Generic helper function. */
+ 172:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitma
+ 173:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	{
+ 174:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	uint8_t ucReturn;
+ 175:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 176:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		__asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
+ 177:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		return ucReturn;
+ 178:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	}
+ 179:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 180:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Check the configuration. */
+ 181:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#if( configMAX_PRIORITIES > 32 )
+ 182:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		#error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is 
+ 183:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#endif
+ 184:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 185:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Store/clear the ready priorities in a bit map. */
+ 186:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL 
+ 187:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL 
+ 188:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 189:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/*-----------------------------------------------------------*/
+ 190:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 191:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) uxTopPriority = ( 31UL - ( ui
+ 192:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 193:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 14
+
+
+ 194:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 195:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 196:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 197:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifdef configASSERT
+ 198:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	void vPortValidateInterruptPriority( void );
+ 199:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portASSERT_IF_INTERRUPT_PRIORITY_INVALID() 	vPortValidateInterruptPriority()
+ 200:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 201:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 202:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /* portNOP() is not required by this port. */
+ 203:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portNOP()
+ 204:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 205:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portINLINE	__inline
+ 206:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 207:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifndef portFORCE_INLINE
+ 208:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portFORCE_INLINE inline __attribute__(( always_inline))
+ 209:..\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 210:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 211:..\Source\portable\GCC\ARM_CM3/portmacro.h **** portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
+ 212:..\Source\portable\GCC\ARM_CM3/portmacro.h **** {
+ 213:..\Source\portable\GCC\ARM_CM3/portmacro.h **** uint32_t ulCurrentInterrupt;
+ 214:..\Source\portable\GCC\ARM_CM3/portmacro.h **** BaseType_t xReturn;
+ 215:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 216:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Obtain the number of the currently executing interrupt. */
+ 217:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile( "mrs %0, ipsr" : "=r"( ulCurrentInterrupt ) );
+ 218:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 219:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	if( ulCurrentInterrupt == 0 )
+ 220:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	{
+ 221:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		xReturn = pdFALSE;
+ 222:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	}
+ 223:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	else
+ 224:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	{
+ 225:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		xReturn = pdTRUE;
+ 226:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	}
+ 227:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 228:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	return xReturn;
+ 229:..\Source\portable\GCC\ARM_CM3/portmacro.h **** }
+ 230:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 231:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 232:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 233:..\Source\portable\GCC\ARM_CM3/portmacro.h **** portFORCE_INLINE static void vPortRaiseBASEPRI( void )
+ 234:..\Source\portable\GCC\ARM_CM3/portmacro.h **** {
+ 235:..\Source\portable\GCC\ARM_CM3/portmacro.h **** uint32_t ulNewBASEPRI;
+ 236:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 237:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile
+ 238:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	(
+ 239:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	mov %0, %1												\n"	\
+ 240:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	msr basepri, %0											\n" \
+ 241:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	isb														\n" \
+ 242:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	dsb														\n" \
+ 243:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		:"=r" (ulNewBASEPRI) : "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY )
+ 244:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	);
+ 245:..\Source\portable\GCC\ARM_CM3/portmacro.h **** }
+ 246:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 247:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 248:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 249:..\Source\portable\GCC\ARM_CM3/portmacro.h **** portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
+ 250:..\Source\portable\GCC\ARM_CM3/portmacro.h **** {
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 15
+
+
+ 251:..\Source\portable\GCC\ARM_CM3/portmacro.h **** uint32_t ulOriginalBASEPRI, ulNewBASEPRI;
+ 252:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 253:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile
+ 365              		.loc 2 253 0
+ 366              	@ 253 "..\Source\portable\GCC\ARM_CM3/portmacro.h" 1
+ 367 0034 EFF31182 			mrs r2, basepri											
+ 368 0038 4FF0A003 		mov r3, #160												
+ 369 003c 83F31188 		msr basepri, r3											
+ 370 0040 BFF36F8F 		isb														
+ 371 0044 BFF34F8F 		dsb														
+ 372              	
+ 373              	@ 0 "" 2
+ 374              		.thumb
+ 375 0048 3A61     		str	r2, [r7, #16]
+ 376 004a FB60     		str	r3, [r7, #12]
+ 254:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	(
+ 255:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	mrs %0, basepri											\n" \
+ 256:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	mov %1, %2												\n"	\
+ 257:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	msr basepri, %1											\n" \
+ 258:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	isb														\n" \
+ 259:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		"	dsb														\n" \
+ 260:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 		:"=r" (ulOriginalBASEPRI), "=r" (ulNewBASEPRI) : "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY )
+ 261:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	);
+ 262:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 263:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* This return will not be reached but is necessary to prevent compiler
+ 264:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	warnings. */
+ 265:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	return ulOriginalBASEPRI;
+ 377              		.loc 2 265 0
+ 378 004c 3B69     		ldr	r3, [r7, #16]
+ 379              	.LBE11:
+ 380              	.LBE10:
+ 183:Serial.c      **** 		
+ 184:Serial.c      **** 		/* Mask off the other RTOS interrupts to interact with the queue. */
+ 185:Serial.c      **** 		ulMask = portSET_INTERRUPT_MASK_FROM_ISR();
+ 381              		.loc 1 185 0
+ 382 004e 7B61     		str	r3, [r7, #20]
+ 186:Serial.c      **** 		{
+ 187:Serial.c      **** 			/* Try to deliver the character. */
+ 188:Serial.c      **** 			if( pdTRUE != xQueueSendFromISR( xSerialRxQueue, &cInChar, &xHigherPriorityTaskWoken ) )
+ 383              		.loc 1 188 0
+ 384 0050 0E4B     		ldr	r3, .L27
+ 385 0052 1968     		ldr	r1, [r3]
+ 386 0054 BA1C     		adds	r2, r7, #2
+ 387 0056 3B1D     		adds	r3, r7, #4
+ 388 0058 0846     		mov	r0, r1
+ 389 005a 1146     		mov	r1, r2
+ 390 005c 1A46     		mov	r2, r3
+ 391 005e 0023     		movs	r3, #0
+ 392 0060 FFF7FEFF 		bl	xQueueGenericSendFromISR
+ 393 0064 7B69     		ldr	r3, [r7, #20]
+ 394 0066 BB60     		str	r3, [r7, #8]
+ 395              	.LBB12:
+ 396              	.LBB13:
+ 266:..\Source\portable\GCC\ARM_CM3/portmacro.h **** }
+ 267:..\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 268:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 269:..\Source\portable\GCC\ARM_CM3/portmacro.h **** portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ulNewMaskValue )
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 16
+
+
+ 270:..\Source\portable\GCC\ARM_CM3/portmacro.h **** {
+ 271:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile
+ 397              		.loc 2 271 0
+ 398 0068 BB68     		ldr	r3, [r7, #8]
+ 399              	@ 271 "..\Source\portable\GCC\ARM_CM3/portmacro.h" 1
+ 400 006a 83F31188 			msr basepri, r3	
+ 401              	@ 0 "" 2
+ 402              		.thumb
+ 403              	.L24:
+ 404              	.LBE13:
+ 405              	.LBE12:
+ 189:Serial.c      **** 			{
+ 190:Serial.c      **** 				/* Run out of space. */
+ 191:Serial.c      **** 			}
+ 192:Serial.c      **** 		}
+ 193:Serial.c      **** 		portCLEAR_INTERRUPT_MASK_FROM_ISR( ulMask );
+ 194:Serial.c      **** 	}
+ 195:Serial.c      **** 
+ 196:Serial.c      **** 	/* If we delivered the character then a context switch might be required.
+ 197:Serial.c      **** 	xHigherPriorityTaskWoken was set to pdFALSE on interrupt entry.  If calling 
+ 198:Serial.c      **** 	xQueueSendFromISR() caused a task to unblock, and the unblocked task has
+ 199:Serial.c      **** 	a priority equal to or higher than the currently running task (the task this
+ 200:Serial.c      **** 	ISR interrupted), then xHigherPriorityTaskWoken will have been set to pdTRUE and
+ 201:Serial.c      **** 	portEND_SWITCHING_ISR() will request a context switch to the newly unblocked
+ 202:Serial.c      **** 	task. */
+ 203:Serial.c      **** 	portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+ 406              		.loc 1 203 0
+ 407 006e 7B68     		ldr	r3, [r7, #4]
+ 408 0070 002B     		cmp	r3, #0
+ 409 0072 07D0     		beq	.L23
+ 410              		.loc 1 203 0 is_stmt 0 discriminator 1
+ 411 0074 064B     		ldr	r3, .L27+4
+ 412 0076 4FF08052 		mov	r2, #268435456
+ 413 007a 1A60     		str	r2, [r3]
+ 414              	@ 203 "Serial.c" 1
+ 415 007c BFF34F8F 		dsb
+ 416              	@ 0 "" 2
+ 417              	@ 203 "Serial.c" 1
+ 418 0080 BFF36F8F 		isb
+ 419              	@ 0 "" 2
+ 420              		.thumb
+ 421              	.L23:
+ 204:Serial.c      **** }
+ 422              		.loc 1 204 0 is_stmt 1
+ 423 0084 1837     		adds	r7, r7, #24
+ 424              		.cfi_def_cfa_offset 8
+ 425 0086 BD46     		mov	sp, r7
+ 426              		.cfi_def_cfa_register 13
+ 427              		@ sp needed
+ 428 0088 80BD     		pop	{r7, pc}
+ 429              	.L28:
+ 430 008a 00BF     		.align	2
+ 431              	.L27:
+ 432 008c 04000000 		.word	xSerialRxQueue
+ 433 0090 04ED00E0 		.word	-536810236
+ 434              		.cfi_endproc
+ 435              	.LFE72:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 17
+
+
+ 436              		.size	vUartRxISR, .-vUartRxISR
+ 437              		.section	.text.vUartTxISR,"ax",%progbits
+ 438              		.align	2
+ 439              		.global	vUartTxISR
+ 440              		.thumb
+ 441              		.thumb_func
+ 442              		.type	vUartTxISR, %function
+ 443              	vUartTxISR:
+ 444              	.LFB73:
+ 205:Serial.c      **** /*---------------------------------------------------------------------------*/
+ 206:Serial.c      **** 
+ 207:Serial.c      **** CY_ISR(vUartTxISR)
+ 208:Serial.c      **** {
+ 445              		.loc 1 208 0
+ 446              		.cfi_startproc
+ 447              		@ args = 0, pretend = 0, frame = 24
+ 448              		@ frame_needed = 1, uses_anonymous_args = 0
+ 449 0000 80B5     		push	{r7, lr}
+ 450              		.cfi_def_cfa_offset 8
+ 451              		.cfi_offset 7, -8
+ 452              		.cfi_offset 14, -4
+ 453 0002 86B0     		sub	sp, sp, #24
+ 454              		.cfi_def_cfa_offset 32
+ 455 0004 00AF     		add	r7, sp, #0
+ 456              		.cfi_def_cfa_register 7
+ 209:Serial.c      **** portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+ 457              		.loc 1 209 0
+ 458 0006 0023     		movs	r3, #0
+ 459 0008 7B60     		str	r3, [r7, #4]
+ 210:Serial.c      **** volatile unsigned char ucStatus = 0;
+ 460              		.loc 1 210 0
+ 461 000a 0023     		movs	r3, #0
+ 462 000c FB70     		strb	r3, [r7, #3]
+ 211:Serial.c      **** signed char cOutChar = 0;
+ 463              		.loc 1 211 0
+ 464 000e 0023     		movs	r3, #0
+ 465 0010 BB70     		strb	r3, [r7, #2]
+ 212:Serial.c      **** unsigned long ulMask = 0;
+ 466              		.loc 1 212 0
+ 467 0012 0023     		movs	r3, #0
+ 468 0014 7B61     		str	r3, [r7, #20]
+ 213:Serial.c      **** 
+ 214:Serial.c      **** 	/* Read the status to acknowledge. */
+ 215:Serial.c      **** 	ucStatus = UART_1_ReadTxStatus();
+ 469              		.loc 1 215 0
+ 470 0016 FFF7FEFF 		bl	UART_1_ReadTxStatus
+ 471 001a 0346     		mov	r3, r0
+ 472 001c FB70     		strb	r3, [r7, #3]
+ 216:Serial.c      **** 	
+ 217:Serial.c      **** 	/* Check to see whether this is a genuine interrupt. */
+ 218:Serial.c      **** 	if( ( 0 != ( ucStatus & UART_1_TX_STS_COMPLETE ) ) || ( 0 != ( ucStatus & UART_1_TX_STS_FIFO_EMPTY
+ 473              		.loc 1 218 0
+ 474 001e FB78     		ldrb	r3, [r7, #3]
+ 475 0020 DBB2     		uxtb	r3, r3
+ 476 0022 03F00103 		and	r3, r3, #1
+ 477 0026 002B     		cmp	r3, #0
+ 478 0028 05D1     		bne	.L30
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 18
+
+
+ 479              		.loc 1 218 0 is_stmt 0 discriminator 1
+ 480 002a FB78     		ldrb	r3, [r7, #3]
+ 481 002c DBB2     		uxtb	r3, r3
+ 482 002e 03F00203 		and	r3, r3, #2
+ 483 0032 002B     		cmp	r3, #0
+ 484 0034 2AD0     		beq	.L31
+ 485              	.L30:
+ 486              	.LBB14:
+ 487              	.LBB15:
+ 253:..\Source\portable\GCC\ARM_CM3/portmacro.h **** 	(
+ 488              		.loc 2 253 0 is_stmt 1
+ 489              	@ 253 "..\Source\portable\GCC\ARM_CM3/portmacro.h" 1
+ 490 0036 EFF31182 			mrs r2, basepri											
+ 491 003a 4FF0A003 		mov r3, #160												
+ 492 003e 83F31188 		msr basepri, r3											
+ 493 0042 BFF36F8F 		isb														
+ 494 0046 BFF34F8F 		dsb														
+ 495              	
+ 496              	@ 0 "" 2
+ 497              		.thumb
+ 498 004a 3A61     		str	r2, [r7, #16]
+ 499 004c FB60     		str	r3, [r7, #12]
+ 265:..\Source\portable\GCC\ARM_CM3/portmacro.h **** }
+ 500              		.loc 2 265 0
+ 501 004e 3B69     		ldr	r3, [r7, #16]
+ 502              	.LBE15:
+ 503              	.LBE14:
+ 219:Serial.c      **** 	{	
+ 220:Serial.c      **** 		/* Mask off the other RTOS interrupts to interact with the queue. */
+ 221:Serial.c      **** 		ulMask = portSET_INTERRUPT_MASK_FROM_ISR();
+ 504              		.loc 1 221 0
+ 505 0050 7B61     		str	r3, [r7, #20]
+ 222:Serial.c      **** 		{
+ 223:Serial.c      **** 			if( pdTRUE == xQueueReceiveFromISR( xSerialTxQueue, &cOutChar, &xHigherPriorityTaskWoken ) )
+ 506              		.loc 1 223 0
+ 507 0052 154B     		ldr	r3, .L36
+ 508 0054 1968     		ldr	r1, [r3]
+ 509 0056 BA1C     		adds	r2, r7, #2
+ 510 0058 3B1D     		adds	r3, r7, #4
+ 511 005a 0846     		mov	r0, r1
+ 512 005c 1146     		mov	r1, r2
+ 513 005e 1A46     		mov	r2, r3
+ 514 0060 FFF7FEFF 		bl	xQueueReceiveFromISR
+ 515 0064 0346     		mov	r3, r0
+ 516 0066 012B     		cmp	r3, #1
+ 517 0068 08D1     		bne	.L33
+ 224:Serial.c      **** 			{
+ 225:Serial.c      **** 				/* Send the next character. */
+ 226:Serial.c      **** 				UART_1_PutChar( cOutChar );			
+ 518              		.loc 1 226 0
+ 519 006a BB78     		ldrb	r3, [r7, #2]	@ zero_extendqisi2
+ 520 006c DBB2     		uxtb	r3, r3
+ 521 006e 1846     		mov	r0, r3
+ 522 0070 FFF7FEFF 		bl	UART_1_PutChar
+ 227:Serial.c      **** 
+ 228:Serial.c      **** 				/* If we are firing, then the only interrupt we are interested in
+ 229:Serial.c      **** 				is the Complete. The application code will add the Empty interrupt
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 19
+
+
+ 230:Serial.c      **** 				when there is something else to be done. */
+ 231:Serial.c      **** 				UART_1_SetTxInterruptMode( UART_1_TX_STS_COMPLETE );
+ 523              		.loc 1 231 0
+ 524 0074 0120     		movs	r0, #1
+ 525 0076 FFF7FEFF 		bl	UART_1_SetTxInterruptMode
+ 526 007a 02E0     		b	.L34
+ 527              	.L33:
+ 232:Serial.c      **** 			}
+ 233:Serial.c      **** 			else
+ 234:Serial.c      **** 			{
+ 235:Serial.c      **** 				/* There is no work left so disable the interrupt until the application 
+ 236:Serial.c      **** 				puts more into the queue. */
+ 237:Serial.c      **** 				UART_1_SetTxInterruptMode( 0 );
+ 528              		.loc 1 237 0
+ 529 007c 0020     		movs	r0, #0
+ 530 007e FFF7FEFF 		bl	UART_1_SetTxInterruptMode
+ 531              	.L34:
+ 532 0082 7B69     		ldr	r3, [r7, #20]
+ 533 0084 BB60     		str	r3, [r7, #8]
+ 534              	.LBB16:
+ 535              	.LBB17:
+ 536              		.loc 2 271 0
+ 537 0086 BB68     		ldr	r3, [r7, #8]
+ 538              	@ 271 "..\Source\portable\GCC\ARM_CM3/portmacro.h" 1
+ 539 0088 83F31188 			msr basepri, r3	
+ 540              	@ 0 "" 2
+ 541              		.thumb
+ 542              	.L31:
+ 543              	.LBE17:
+ 544              	.LBE16:
+ 238:Serial.c      **** 			}
+ 239:Serial.c      **** 		}
+ 240:Serial.c      **** 		portCLEAR_INTERRUPT_MASK_FROM_ISR( ulMask );
+ 241:Serial.c      **** 	}
+ 242:Serial.c      **** 
+ 243:Serial.c      **** 	/* If we delivered the character then a context switch might be required.
+ 244:Serial.c      **** 	xHigherPriorityTaskWoken was set to pdFALSE on interrupt entry.  If calling 
+ 245:Serial.c      **** 	xQueueSendFromISR() caused a task to unblock, and the unblocked task has
+ 246:Serial.c      **** 	a priority equal to or higher than the currently running task (the task this
+ 247:Serial.c      **** 	ISR interrupted), then xHigherPriorityTaskWoken will have been set to pdTRUE and
+ 248:Serial.c      **** 	portEND_SWITCHING_ISR() will request a context switch to the newly unblocked
+ 249:Serial.c      **** 	task. */
+ 250:Serial.c      **** 	portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+ 545              		.loc 1 250 0
+ 546 008c 7B68     		ldr	r3, [r7, #4]
+ 547 008e 002B     		cmp	r3, #0
+ 548 0090 07D0     		beq	.L29
+ 549              		.loc 1 250 0 is_stmt 0 discriminator 1
+ 550 0092 064B     		ldr	r3, .L36+4
+ 551 0094 4FF08052 		mov	r2, #268435456
+ 552 0098 1A60     		str	r2, [r3]
+ 553              	@ 250 "Serial.c" 1
+ 554 009a BFF34F8F 		dsb
+ 555              	@ 0 "" 2
+ 556              	@ 250 "Serial.c" 1
+ 557 009e BFF36F8F 		isb
+ 558              	@ 0 "" 2
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 20
+
+
+ 559              		.thumb
+ 560              	.L29:
+ 251:Serial.c      **** }
+ 561              		.loc 1 251 0 is_stmt 1
+ 562 00a2 1837     		adds	r7, r7, #24
+ 563              		.cfi_def_cfa_offset 8
+ 564 00a4 BD46     		mov	sp, r7
+ 565              		.cfi_def_cfa_register 13
+ 566              		@ sp needed
+ 567 00a6 80BD     		pop	{r7, pc}
+ 568              	.L37:
+ 569              		.align	2
+ 570              	.L36:
+ 571 00a8 00000000 		.word	xSerialTxQueue
+ 572 00ac 04ED00E0 		.word	-536810236
+ 573              		.cfi_endproc
+ 574              	.LFE73:
+ 575              		.size	vUartTxISR, .-vUartTxISR
+ 576              		.text
+ 577              	.Letext0:
+ 578              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 579              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 580              		.file 5 "Generated_Source\\PSoC5/cytypes.h"
+ 581              		.file 6 "..\\Source\\include/queue.h"
+ 582              		.file 7 "..\\Common\\include/serial.h"
+ 583              		.file 8 "Generated_Source\\PSoC5/core_cm3.h"
+ 584              		.section	.debug_info,"",%progbits
+ 585              	.Ldebug_info0:
+ 586 0000 DF030000 		.4byte	0x3df
+ 587 0004 0400     		.2byte	0x4
+ 588 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 589 000a 04       		.byte	0x4
+ 590 000b 01       		.uleb128 0x1
+ 591 000c 6E000000 		.4byte	.LASF48
+ 592 0010 01       		.byte	0x1
+ 593 0011 CF010000 		.4byte	.LASF49
+ 594 0015 19030000 		.4byte	.LASF50
+ 595 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 596 001d 00000000 		.4byte	0
+ 597 0021 00000000 		.4byte	.Ldebug_line0
+ 598 0025 02       		.uleb128 0x2
+ 599 0026 01       		.byte	0x1
+ 600 0027 06       		.byte	0x6
+ 601 0028 02030000 		.4byte	.LASF0
+ 602 002c 03       		.uleb128 0x3
+ 603 002d 40000000 		.4byte	.LASF4
+ 604 0031 03       		.byte	0x3
+ 605 0032 1D       		.byte	0x1d
+ 606 0033 37000000 		.4byte	0x37
+ 607 0037 02       		.uleb128 0x2
+ 608 0038 01       		.byte	0x1
+ 609 0039 08       		.byte	0x8
+ 610 003a 4C010000 		.4byte	.LASF1
+ 611 003e 02       		.uleb128 0x2
+ 612 003f 02       		.byte	0x2
+ 613 0040 05       		.byte	0x5
+ 614 0041 AC020000 		.4byte	.LASF2
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 21
+
+
+ 615 0045 02       		.uleb128 0x2
+ 616 0046 02       		.byte	0x2
+ 617 0047 07       		.byte	0x7
+ 618 0048 7E010000 		.4byte	.LASF3
+ 619 004c 03       		.uleb128 0x3
+ 620 004d 64000000 		.4byte	.LASF5
+ 621 0051 03       		.byte	0x3
+ 622 0052 3F       		.byte	0x3f
+ 623 0053 57000000 		.4byte	0x57
+ 624 0057 02       		.uleb128 0x2
+ 625 0058 04       		.byte	0x4
+ 626 0059 05       		.byte	0x5
+ 627 005a 91010000 		.4byte	.LASF6
+ 628 005e 03       		.uleb128 0x3
+ 629 005f 61010000 		.4byte	.LASF7
+ 630 0063 03       		.byte	0x3
+ 631 0064 41       		.byte	0x41
+ 632 0065 69000000 		.4byte	0x69
+ 633 0069 02       		.uleb128 0x2
+ 634 006a 04       		.byte	0x4
+ 635 006b 07       		.byte	0x7
+ 636 006c 6C010000 		.4byte	.LASF8
+ 637 0070 02       		.uleb128 0x2
+ 638 0071 08       		.byte	0x8
+ 639 0072 05       		.byte	0x5
+ 640 0073 5E020000 		.4byte	.LASF9
+ 641 0077 02       		.uleb128 0x2
+ 642 0078 08       		.byte	0x8
+ 643 0079 07       		.byte	0x7
+ 644 007a 02020000 		.4byte	.LASF10
+ 645 007e 04       		.uleb128 0x4
+ 646 007f 04       		.byte	0x4
+ 647 0080 05       		.byte	0x5
+ 648 0081 696E7400 		.ascii	"int\000"
+ 649 0085 02       		.uleb128 0x2
+ 650 0086 04       		.byte	0x4
+ 651 0087 07       		.byte	0x7
+ 652 0088 F5010000 		.4byte	.LASF11
+ 653 008c 03       		.uleb128 0x3
+ 654 008d 19020000 		.4byte	.LASF12
+ 655 0091 04       		.byte	0x4
+ 656 0092 15       		.byte	0x15
+ 657 0093 2C000000 		.4byte	0x2c
+ 658 0097 03       		.uleb128 0x3
+ 659 0098 8B020000 		.4byte	.LASF13
+ 660 009c 04       		.byte	0x4
+ 661 009d 2C       		.byte	0x2c
+ 662 009e 4C000000 		.4byte	0x4c
+ 663 00a2 03       		.uleb128 0x3
+ 664 00a3 DB020000 		.4byte	.LASF14
+ 665 00a7 04       		.byte	0x4
+ 666 00a8 2D       		.byte	0x2d
+ 667 00a9 5E000000 		.4byte	0x5e
+ 668 00ad 05       		.uleb128 0x5
+ 669 00ae B6020000 		.4byte	.LASF15
+ 670 00b2 05       		.byte	0x5
+ 671 00b3 9201     		.2byte	0x192
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 22
+
+
+ 672 00b5 37000000 		.4byte	0x37
+ 673 00b9 02       		.uleb128 0x2
+ 674 00ba 04       		.byte	0x4
+ 675 00bb 04       		.byte	0x4
+ 676 00bc 46010000 		.4byte	.LASF16
+ 677 00c0 02       		.uleb128 0x2
+ 678 00c1 08       		.byte	0x8
+ 679 00c2 04       		.byte	0x4
+ 680 00c3 BB010000 		.4byte	.LASF17
+ 681 00c7 02       		.uleb128 0x2
+ 682 00c8 01       		.byte	0x1
+ 683 00c9 08       		.byte	0x8
+ 684 00ca 6C020000 		.4byte	.LASF18
+ 685 00ce 02       		.uleb128 0x2
+ 686 00cf 04       		.byte	0x4
+ 687 00d0 07       		.byte	0x7
+ 688 00d1 55020000 		.4byte	.LASF19
+ 689 00d5 06       		.uleb128 0x6
+ 690 00d6 04       		.byte	0x4
+ 691 00d7 03       		.uleb128 0x3
+ 692 00d8 0E030000 		.4byte	.LASF20
+ 693 00dc 02       		.byte	0x2
+ 694 00dd 62       		.byte	0x62
+ 695 00de 57000000 		.4byte	0x57
+ 696 00e2 03       		.uleb128 0x3
+ 697 00e3 35000000 		.4byte	.LASF21
+ 698 00e7 02       		.byte	0x2
+ 699 00e8 69       		.byte	0x69
+ 700 00e9 A2000000 		.4byte	0xa2
+ 701 00ed 03       		.uleb128 0x3
+ 702 00ee FC000000 		.4byte	.LASF22
+ 703 00f2 06       		.byte	0x6
+ 704 00f3 58       		.byte	0x58
+ 705 00f4 D5000000 		.4byte	0xd5
+ 706 00f8 03       		.uleb128 0x3
+ 707 00f9 55000000 		.4byte	.LASF23
+ 708 00fd 07       		.byte	0x7
+ 709 00fe 49       		.byte	0x49
+ 710 00ff D5000000 		.4byte	0xd5
+ 711 0103 07       		.uleb128 0x7
+ 712 0104 22000000 		.4byte	.LASF51
+ 713 0108 02       		.byte	0x2
+ 714 0109 F9       		.byte	0xf9
+ 715 010a A2000000 		.4byte	0xa2
+ 716 010e 03       		.byte	0x3
+ 717 010f 2A010000 		.4byte	0x12a
+ 718 0113 08       		.uleb128 0x8
+ 719 0114 79020000 		.4byte	.LASF24
+ 720 0118 02       		.byte	0x2
+ 721 0119 FB       		.byte	0xfb
+ 722 011a A2000000 		.4byte	0xa2
+ 723 011e 08       		.uleb128 0x8
+ 724 011f C2010000 		.4byte	.LASF25
+ 725 0123 02       		.byte	0x2
+ 726 0124 FB       		.byte	0xfb
+ 727 0125 A2000000 		.4byte	0xa2
+ 728 0129 00       		.byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 23
+
+
+ 729 012a 09       		.uleb128 0x9
+ 730 012b E5010000 		.4byte	.LASF52
+ 731 012f 02       		.byte	0x2
+ 732 0130 0D01     		.2byte	0x10d
+ 733 0132 03       		.byte	0x3
+ 734 0133 44010000 		.4byte	0x144
+ 735 0137 0A       		.uleb128 0xa
+ 736 0138 E4020000 		.4byte	.LASF53
+ 737 013c 02       		.byte	0x2
+ 738 013d 0D01     		.2byte	0x10d
+ 739 013f A2000000 		.4byte	0xa2
+ 740 0143 00       		.byte	0
+ 741 0144 0B       		.uleb128 0xb
+ 742 0145 0B000000 		.4byte	.LASF31
+ 743 0149 01       		.byte	0x1
+ 744 014a 58       		.byte	0x58
+ 745 014b F8000000 		.4byte	0xf8
+ 746 014f 00000000 		.4byte	.LFB68
+ 747 0153 74000000 		.4byte	.LFE68-.LFB68
+ 748 0157 01       		.uleb128 0x1
+ 749 0158 9C       		.byte	0x9c
+ 750 0159 7A010000 		.4byte	0x17a
+ 751 015d 0C       		.uleb128 0xc
+ 752 015e 19010000 		.4byte	.LASF26
+ 753 0162 01       		.byte	0x1
+ 754 0163 58       		.byte	0x58
+ 755 0164 69000000 		.4byte	0x69
+ 756 0168 02       		.uleb128 0x2
+ 757 0169 91       		.byte	0x91
+ 758 016a 74       		.sleb128 -12
+ 759 016b 0C       		.uleb128 0xc
+ 760 016c BC020000 		.4byte	.LASF27
+ 761 0170 01       		.byte	0x1
+ 762 0171 58       		.byte	0x58
+ 763 0172 69000000 		.4byte	0x69
+ 764 0176 02       		.uleb128 0x2
+ 765 0177 91       		.byte	0x91
+ 766 0178 70       		.sleb128 -16
+ 767 0179 00       		.byte	0
+ 768 017a 0D       		.uleb128 0xd
+ 769 017b 26010000 		.4byte	.LASF39
+ 770 017f 01       		.byte	0x1
+ 771 0180 6C       		.byte	0x6c
+ 772 0181 00000000 		.4byte	.LFB69
+ 773 0185 50000000 		.4byte	.LFE69-.LFB69
+ 774 0189 01       		.uleb128 0x1
+ 775 018a 9C       		.byte	0x9c
+ 776 018b C8010000 		.4byte	0x1c8
+ 777 018f 0C       		.uleb128 0xc
+ 778 0190 5A010000 		.4byte	.LASF28
+ 779 0194 01       		.byte	0x1
+ 780 0195 6C       		.byte	0x6c
+ 781 0196 F8000000 		.4byte	0xf8
+ 782 019a 02       		.uleb128 0x2
+ 783 019b 91       		.byte	0x91
+ 784 019c 6C       		.sleb128 -20
+ 785 019d 0C       		.uleb128 0xc
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 24
+
+
+ 786 019e B2010000 		.4byte	.LASF29
+ 787 01a2 01       		.byte	0x1
+ 788 01a3 6C       		.byte	0x6c
+ 789 01a4 C8010000 		.4byte	0x1c8
+ 790 01a8 02       		.uleb128 0x2
+ 791 01a9 91       		.byte	0x91
+ 792 01aa 68       		.sleb128 -24
+ 793 01ab 0C       		.uleb128 0xc
+ 794 01ac 2C020000 		.4byte	.LASF30
+ 795 01b0 01       		.byte	0x1
+ 796 01b1 6C       		.byte	0x6c
+ 797 01b2 45000000 		.4byte	0x45
+ 798 01b6 02       		.uleb128 0x2
+ 799 01b7 91       		.byte	0x91
+ 800 01b8 66       		.sleb128 -26
+ 801 01b9 0E       		.uleb128 0xe
+ 802 01ba CA020000 		.4byte	.LASF35
+ 803 01be 01       		.byte	0x1
+ 804 01bf 6E       		.byte	0x6e
+ 805 01c0 45000000 		.4byte	0x45
+ 806 01c4 02       		.uleb128 0x2
+ 807 01c5 91       		.byte	0x91
+ 808 01c6 76       		.sleb128 -10
+ 809 01c7 00       		.byte	0
+ 810 01c8 0F       		.uleb128 0xf
+ 811 01c9 CD010000 		.4byte	0x1cd
+ 812 01cd 10       		.uleb128 0x10
+ 813 01ce 04       		.byte	0x4
+ 814 01cf D3010000 		.4byte	0x1d3
+ 815 01d3 0F       		.uleb128 0xf
+ 816 01d4 25000000 		.4byte	0x25
+ 817 01d8 0B       		.uleb128 0xb
+ 818 01d9 3B020000 		.4byte	.LASF32
+ 819 01dd 01       		.byte	0x1
+ 820 01de 81       		.byte	0x81
+ 821 01df 57000000 		.4byte	0x57
+ 822 01e3 00000000 		.4byte	.LFB70
+ 823 01e7 38000000 		.4byte	.LFE70-.LFB70
+ 824 01eb 01       		.uleb128 0x1
+ 825 01ec 9C       		.byte	0x9c
+ 826 01ed 2A020000 		.4byte	0x22a
+ 827 01f1 0C       		.uleb128 0xc
+ 828 01f2 5A010000 		.4byte	.LASF28
+ 829 01f6 01       		.byte	0x1
+ 830 01f7 81       		.byte	0x81
+ 831 01f8 F8000000 		.4byte	0xf8
+ 832 01fc 02       		.uleb128 0x2
+ 833 01fd 91       		.byte	0x91
+ 834 01fe 6C       		.sleb128 -20
+ 835 01ff 0C       		.uleb128 0xc
+ 836 0200 00000000 		.4byte	.LASF33
+ 837 0204 01       		.byte	0x1
+ 838 0205 81       		.byte	0x81
+ 839 0206 2A020000 		.4byte	0x22a
+ 840 020a 02       		.uleb128 0x2
+ 841 020b 91       		.byte	0x91
+ 842 020c 68       		.sleb128 -24
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 25
+
+
+ 843 020d 0C       		.uleb128 0xc
+ 844 020e 4A020000 		.4byte	.LASF34
+ 845 0212 01       		.byte	0x1
+ 846 0213 81       		.byte	0x81
+ 847 0214 E2000000 		.4byte	0xe2
+ 848 0218 02       		.uleb128 0x2
+ 849 0219 91       		.byte	0x91
+ 850 021a 64       		.sleb128 -28
+ 851 021b 0E       		.uleb128 0xe
+ 852 021c FA020000 		.4byte	.LASF36
+ 853 0220 01       		.byte	0x1
+ 854 0221 83       		.byte	0x83
+ 855 0222 57000000 		.4byte	0x57
+ 856 0226 02       		.uleb128 0x2
+ 857 0227 91       		.byte	0x91
+ 858 0228 74       		.sleb128 -12
+ 859 0229 00       		.byte	0
+ 860 022a 10       		.uleb128 0x10
+ 861 022b 04       		.byte	0x4
+ 862 022c 25000000 		.4byte	0x25
+ 863 0230 0B       		.uleb128 0xb
+ 864 0231 A3010000 		.4byte	.LASF37
+ 865 0235 01       		.byte	0x1
+ 866 0236 8E       		.byte	0x8e
+ 867 0237 57000000 		.4byte	0x57
+ 868 023b 00000000 		.4byte	.LFB71
+ 869 023f 54000000 		.4byte	.LFE71-.LFB71
+ 870 0243 01       		.uleb128 0x1
+ 871 0244 9C       		.byte	0x9c
+ 872 0245 82020000 		.4byte	0x282
+ 873 0249 0C       		.uleb128 0xc
+ 874 024a 5A010000 		.4byte	.LASF28
+ 875 024e 01       		.byte	0x1
+ 876 024f 8E       		.byte	0x8e
+ 877 0250 F8000000 		.4byte	0xf8
+ 878 0254 02       		.uleb128 0x2
+ 879 0255 91       		.byte	0x91
+ 880 0256 6C       		.sleb128 -20
+ 881 0257 0C       		.uleb128 0xc
+ 882 0258 9A010000 		.4byte	.LASF38
+ 883 025c 01       		.byte	0x1
+ 884 025d 8E       		.byte	0x8e
+ 885 025e 25000000 		.4byte	0x25
+ 886 0262 02       		.uleb128 0x2
+ 887 0263 91       		.byte	0x91
+ 888 0264 6B       		.sleb128 -21
+ 889 0265 0C       		.uleb128 0xc
+ 890 0266 4A020000 		.4byte	.LASF34
+ 891 026a 01       		.byte	0x1
+ 892 026b 8E       		.byte	0x8e
+ 893 026c E2000000 		.4byte	0xe2
+ 894 0270 02       		.uleb128 0x2
+ 895 0271 91       		.byte	0x91
+ 896 0272 64       		.sleb128 -28
+ 897 0273 0E       		.uleb128 0xe
+ 898 0274 FA020000 		.4byte	.LASF36
+ 899 0278 01       		.byte	0x1
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 26
+
+
+ 900 0279 90       		.byte	0x90
+ 901 027a 57000000 		.4byte	0x57
+ 902 027e 02       		.uleb128 0x2
+ 903 027f 91       		.byte	0x91
+ 904 0280 74       		.sleb128 -12
+ 905 0281 00       		.byte	0
+ 906 0282 0D       		.uleb128 0xd
+ 907 0283 21020000 		.4byte	.LASF40
+ 908 0287 01       		.byte	0x1
+ 909 0288 A8       		.byte	0xa8
+ 910 0289 00000000 		.4byte	.LFB72
+ 911 028d 94000000 		.4byte	.LFE72-.LFB72
+ 912 0291 01       		.uleb128 0x1
+ 913 0292 9C       		.byte	0x9c
+ 914 0293 16030000 		.4byte	0x316
+ 915 0297 0E       		.uleb128 0xe
+ 916 0298 93020000 		.4byte	.LASF41
+ 917 029c 01       		.byte	0x1
+ 918 029d AA       		.byte	0xaa
+ 919 029e 57000000 		.4byte	0x57
+ 920 02a2 02       		.uleb128 0x2
+ 921 02a3 91       		.byte	0x91
+ 922 02a4 64       		.sleb128 -28
+ 923 02a5 0E       		.uleb128 0xe
+ 924 02a6 D2020000 		.4byte	.LASF42
+ 925 02aa 01       		.byte	0x1
+ 926 02ab AB       		.byte	0xab
+ 927 02ac 16030000 		.4byte	0x316
+ 928 02b0 02       		.uleb128 0x2
+ 929 02b1 91       		.byte	0x91
+ 930 02b2 63       		.sleb128 -29
+ 931 02b3 0E       		.uleb128 0xe
+ 932 02b4 71020000 		.4byte	.LASF43
+ 933 02b8 01       		.byte	0x1
+ 934 02b9 AC       		.byte	0xac
+ 935 02ba 25000000 		.4byte	0x25
+ 936 02be 02       		.uleb128 0x2
+ 937 02bf 91       		.byte	0x91
+ 938 02c0 62       		.sleb128 -30
+ 939 02c1 0E       		.uleb128 0xe
+ 940 02c2 F3020000 		.4byte	.LASF44
+ 941 02c6 01       		.byte	0x1
+ 942 02c7 AD       		.byte	0xad
+ 943 02c8 69000000 		.4byte	0x69
+ 944 02cc 02       		.uleb128 0x2
+ 945 02cd 91       		.byte	0x91
+ 946 02ce 74       		.sleb128 -12
+ 947 02cf 11       		.uleb128 0x11
+ 948 02d0 03010000 		.4byte	0x103
+ 949 02d4 34000000 		.4byte	.LBB10
+ 950 02d8 1A000000 		.4byte	.LBE10-.LBB10
+ 951 02dc 01       		.byte	0x1
+ 952 02dd B9       		.byte	0xb9
+ 953 02de FD020000 		.4byte	0x2fd
+ 954 02e2 12       		.uleb128 0x12
+ 955 02e3 34000000 		.4byte	.LBB11
+ 956 02e7 1A000000 		.4byte	.LBE11-.LBB11
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 27
+
+
+ 957 02eb 13       		.uleb128 0x13
+ 958 02ec 13010000 		.4byte	0x113
+ 959 02f0 02       		.uleb128 0x2
+ 960 02f1 91       		.byte	0x91
+ 961 02f2 70       		.sleb128 -16
+ 962 02f3 13       		.uleb128 0x13
+ 963 02f4 1E010000 		.4byte	0x11e
+ 964 02f8 02       		.uleb128 0x2
+ 965 02f9 91       		.byte	0x91
+ 966 02fa 6C       		.sleb128 -20
+ 967 02fb 00       		.byte	0
+ 968 02fc 00       		.byte	0
+ 969 02fd 14       		.uleb128 0x14
+ 970 02fe 2A010000 		.4byte	0x12a
+ 971 0302 68000000 		.4byte	.LBB12
+ 972 0306 06000000 		.4byte	.LBE12-.LBB12
+ 973 030a 01       		.byte	0x1
+ 974 030b C1       		.byte	0xc1
+ 975 030c 15       		.uleb128 0x15
+ 976 030d 37010000 		.4byte	0x137
+ 977 0311 02       		.uleb128 0x2
+ 978 0312 91       		.byte	0x91
+ 979 0313 68       		.sleb128 -24
+ 980 0314 00       		.byte	0
+ 981 0315 00       		.byte	0
+ 982 0316 16       		.uleb128 0x16
+ 983 0317 37000000 		.4byte	0x37
+ 984 031b 0D       		.uleb128 0xd
+ 985 031c 4A000000 		.4byte	.LASF45
+ 986 0320 01       		.byte	0x1
+ 987 0321 CF       		.byte	0xcf
+ 988 0322 00000000 		.4byte	.LFB73
+ 989 0326 B0000000 		.4byte	.LFE73-.LFB73
+ 990 032a 01       		.uleb128 0x1
+ 991 032b 9C       		.byte	0x9c
+ 992 032c AF030000 		.4byte	0x3af
+ 993 0330 0E       		.uleb128 0xe
+ 994 0331 93020000 		.4byte	.LASF41
+ 995 0335 01       		.byte	0x1
+ 996 0336 D1       		.byte	0xd1
+ 997 0337 57000000 		.4byte	0x57
+ 998 033b 02       		.uleb128 0x2
+ 999 033c 91       		.byte	0x91
+ 1000 033d 64       		.sleb128 -28
+ 1001 033e 0E       		.uleb128 0xe
+ 1002 033f D2020000 		.4byte	.LASF42
+ 1003 0343 01       		.byte	0x1
+ 1004 0344 D2       		.byte	0xd2
+ 1005 0345 16030000 		.4byte	0x316
+ 1006 0349 02       		.uleb128 0x2
+ 1007 034a 91       		.byte	0x91
+ 1008 034b 63       		.sleb128 -29
+ 1009 034c 0E       		.uleb128 0xe
+ 1010 034d 9A010000 		.4byte	.LASF38
+ 1011 0351 01       		.byte	0x1
+ 1012 0352 D3       		.byte	0xd3
+ 1013 0353 25000000 		.4byte	0x25
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 28
+
+
+ 1014 0357 02       		.uleb128 0x2
+ 1015 0358 91       		.byte	0x91
+ 1016 0359 62       		.sleb128 -30
+ 1017 035a 0E       		.uleb128 0xe
+ 1018 035b F3020000 		.4byte	.LASF44
+ 1019 035f 01       		.byte	0x1
+ 1020 0360 D4       		.byte	0xd4
+ 1021 0361 69000000 		.4byte	0x69
+ 1022 0365 02       		.uleb128 0x2
+ 1023 0366 91       		.byte	0x91
+ 1024 0367 74       		.sleb128 -12
+ 1025 0368 11       		.uleb128 0x11
+ 1026 0369 03010000 		.4byte	0x103
+ 1027 036d 36000000 		.4byte	.LBB14
+ 1028 0371 1A000000 		.4byte	.LBE14-.LBB14
+ 1029 0375 01       		.byte	0x1
+ 1030 0376 DD       		.byte	0xdd
+ 1031 0377 96030000 		.4byte	0x396
+ 1032 037b 12       		.uleb128 0x12
+ 1033 037c 36000000 		.4byte	.LBB15
+ 1034 0380 1A000000 		.4byte	.LBE15-.LBB15
+ 1035 0384 13       		.uleb128 0x13
+ 1036 0385 13010000 		.4byte	0x113
+ 1037 0389 02       		.uleb128 0x2
+ 1038 038a 91       		.byte	0x91
+ 1039 038b 70       		.sleb128 -16
+ 1040 038c 13       		.uleb128 0x13
+ 1041 038d 1E010000 		.4byte	0x11e
+ 1042 0391 02       		.uleb128 0x2
+ 1043 0392 91       		.byte	0x91
+ 1044 0393 6C       		.sleb128 -20
+ 1045 0394 00       		.byte	0
+ 1046 0395 00       		.byte	0
+ 1047 0396 14       		.uleb128 0x14
+ 1048 0397 2A010000 		.4byte	0x12a
+ 1049 039b 86000000 		.4byte	.LBB16
+ 1050 039f 06000000 		.4byte	.LBE16-.LBB16
+ 1051 03a3 01       		.byte	0x1
+ 1052 03a4 F0       		.byte	0xf0
+ 1053 03a5 15       		.uleb128 0x15
+ 1054 03a6 37010000 		.4byte	0x137
+ 1055 03aa 02       		.uleb128 0x2
+ 1056 03ab 91       		.byte	0x91
+ 1057 03ac 68       		.sleb128 -24
+ 1058 03ad 00       		.byte	0
+ 1059 03ae 00       		.byte	0
+ 1060 03af 0E       		.uleb128 0xe
+ 1061 03b0 37010000 		.4byte	.LASF46
+ 1062 03b4 01       		.byte	0x1
+ 1063 03b5 54       		.byte	0x54
+ 1064 03b6 ED000000 		.4byte	0xed
+ 1065 03ba 05       		.uleb128 0x5
+ 1066 03bb 03       		.byte	0x3
+ 1067 03bc 00000000 		.4byte	xSerialTxQueue
+ 1068 03c0 0E       		.uleb128 0xe
+ 1069 03c1 0A010000 		.4byte	.LASF47
+ 1070 03c5 01       		.byte	0x1
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 29
+
+
+ 1071 03c6 55       		.byte	0x55
+ 1072 03c7 ED000000 		.4byte	0xed
+ 1073 03cb 05       		.uleb128 0x5
+ 1074 03cc 03       		.byte	0x3
+ 1075 03cd 04000000 		.4byte	xSerialRxQueue
+ 1076 03d1 17       		.uleb128 0x17
+ 1077 03d2 D8010000 		.4byte	.LASF54
+ 1078 03d6 08       		.byte	0x8
+ 1079 03d7 9606     		.2byte	0x696
+ 1080 03d9 DD030000 		.4byte	0x3dd
+ 1081 03dd 16       		.uleb128 0x16
+ 1082 03de 97000000 		.4byte	0x97
+ 1083 03e2 00       		.byte	0
+ 1084              		.section	.debug_abbrev,"",%progbits
+ 1085              	.Ldebug_abbrev0:
+ 1086 0000 01       		.uleb128 0x1
+ 1087 0001 11       		.uleb128 0x11
+ 1088 0002 01       		.byte	0x1
+ 1089 0003 25       		.uleb128 0x25
+ 1090 0004 0E       		.uleb128 0xe
+ 1091 0005 13       		.uleb128 0x13
+ 1092 0006 0B       		.uleb128 0xb
+ 1093 0007 03       		.uleb128 0x3
+ 1094 0008 0E       		.uleb128 0xe
+ 1095 0009 1B       		.uleb128 0x1b
+ 1096 000a 0E       		.uleb128 0xe
+ 1097 000b 55       		.uleb128 0x55
+ 1098 000c 17       		.uleb128 0x17
+ 1099 000d 11       		.uleb128 0x11
+ 1100 000e 01       		.uleb128 0x1
+ 1101 000f 10       		.uleb128 0x10
+ 1102 0010 17       		.uleb128 0x17
+ 1103 0011 00       		.byte	0
+ 1104 0012 00       		.byte	0
+ 1105 0013 02       		.uleb128 0x2
+ 1106 0014 24       		.uleb128 0x24
+ 1107 0015 00       		.byte	0
+ 1108 0016 0B       		.uleb128 0xb
+ 1109 0017 0B       		.uleb128 0xb
+ 1110 0018 3E       		.uleb128 0x3e
+ 1111 0019 0B       		.uleb128 0xb
+ 1112 001a 03       		.uleb128 0x3
+ 1113 001b 0E       		.uleb128 0xe
+ 1114 001c 00       		.byte	0
+ 1115 001d 00       		.byte	0
+ 1116 001e 03       		.uleb128 0x3
+ 1117 001f 16       		.uleb128 0x16
+ 1118 0020 00       		.byte	0
+ 1119 0021 03       		.uleb128 0x3
+ 1120 0022 0E       		.uleb128 0xe
+ 1121 0023 3A       		.uleb128 0x3a
+ 1122 0024 0B       		.uleb128 0xb
+ 1123 0025 3B       		.uleb128 0x3b
+ 1124 0026 0B       		.uleb128 0xb
+ 1125 0027 49       		.uleb128 0x49
+ 1126 0028 13       		.uleb128 0x13
+ 1127 0029 00       		.byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 30
+
+
+ 1128 002a 00       		.byte	0
+ 1129 002b 04       		.uleb128 0x4
+ 1130 002c 24       		.uleb128 0x24
+ 1131 002d 00       		.byte	0
+ 1132 002e 0B       		.uleb128 0xb
+ 1133 002f 0B       		.uleb128 0xb
+ 1134 0030 3E       		.uleb128 0x3e
+ 1135 0031 0B       		.uleb128 0xb
+ 1136 0032 03       		.uleb128 0x3
+ 1137 0033 08       		.uleb128 0x8
+ 1138 0034 00       		.byte	0
+ 1139 0035 00       		.byte	0
+ 1140 0036 05       		.uleb128 0x5
+ 1141 0037 16       		.uleb128 0x16
+ 1142 0038 00       		.byte	0
+ 1143 0039 03       		.uleb128 0x3
+ 1144 003a 0E       		.uleb128 0xe
+ 1145 003b 3A       		.uleb128 0x3a
+ 1146 003c 0B       		.uleb128 0xb
+ 1147 003d 3B       		.uleb128 0x3b
+ 1148 003e 05       		.uleb128 0x5
+ 1149 003f 49       		.uleb128 0x49
+ 1150 0040 13       		.uleb128 0x13
+ 1151 0041 00       		.byte	0
+ 1152 0042 00       		.byte	0
+ 1153 0043 06       		.uleb128 0x6
+ 1154 0044 0F       		.uleb128 0xf
+ 1155 0045 00       		.byte	0
+ 1156 0046 0B       		.uleb128 0xb
+ 1157 0047 0B       		.uleb128 0xb
+ 1158 0048 00       		.byte	0
+ 1159 0049 00       		.byte	0
+ 1160 004a 07       		.uleb128 0x7
+ 1161 004b 2E       		.uleb128 0x2e
+ 1162 004c 01       		.byte	0x1
+ 1163 004d 03       		.uleb128 0x3
+ 1164 004e 0E       		.uleb128 0xe
+ 1165 004f 3A       		.uleb128 0x3a
+ 1166 0050 0B       		.uleb128 0xb
+ 1167 0051 3B       		.uleb128 0x3b
+ 1168 0052 0B       		.uleb128 0xb
+ 1169 0053 27       		.uleb128 0x27
+ 1170 0054 19       		.uleb128 0x19
+ 1171 0055 49       		.uleb128 0x49
+ 1172 0056 13       		.uleb128 0x13
+ 1173 0057 20       		.uleb128 0x20
+ 1174 0058 0B       		.uleb128 0xb
+ 1175 0059 01       		.uleb128 0x1
+ 1176 005a 13       		.uleb128 0x13
+ 1177 005b 00       		.byte	0
+ 1178 005c 00       		.byte	0
+ 1179 005d 08       		.uleb128 0x8
+ 1180 005e 34       		.uleb128 0x34
+ 1181 005f 00       		.byte	0
+ 1182 0060 03       		.uleb128 0x3
+ 1183 0061 0E       		.uleb128 0xe
+ 1184 0062 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 31
+
+
+ 1185 0063 0B       		.uleb128 0xb
+ 1186 0064 3B       		.uleb128 0x3b
+ 1187 0065 0B       		.uleb128 0xb
+ 1188 0066 49       		.uleb128 0x49
+ 1189 0067 13       		.uleb128 0x13
+ 1190 0068 00       		.byte	0
+ 1191 0069 00       		.byte	0
+ 1192 006a 09       		.uleb128 0x9
+ 1193 006b 2E       		.uleb128 0x2e
+ 1194 006c 01       		.byte	0x1
+ 1195 006d 03       		.uleb128 0x3
+ 1196 006e 0E       		.uleb128 0xe
+ 1197 006f 3A       		.uleb128 0x3a
+ 1198 0070 0B       		.uleb128 0xb
+ 1199 0071 3B       		.uleb128 0x3b
+ 1200 0072 05       		.uleb128 0x5
+ 1201 0073 27       		.uleb128 0x27
+ 1202 0074 19       		.uleb128 0x19
+ 1203 0075 20       		.uleb128 0x20
+ 1204 0076 0B       		.uleb128 0xb
+ 1205 0077 01       		.uleb128 0x1
+ 1206 0078 13       		.uleb128 0x13
+ 1207 0079 00       		.byte	0
+ 1208 007a 00       		.byte	0
+ 1209 007b 0A       		.uleb128 0xa
+ 1210 007c 05       		.uleb128 0x5
+ 1211 007d 00       		.byte	0
+ 1212 007e 03       		.uleb128 0x3
+ 1213 007f 0E       		.uleb128 0xe
+ 1214 0080 3A       		.uleb128 0x3a
+ 1215 0081 0B       		.uleb128 0xb
+ 1216 0082 3B       		.uleb128 0x3b
+ 1217 0083 05       		.uleb128 0x5
+ 1218 0084 49       		.uleb128 0x49
+ 1219 0085 13       		.uleb128 0x13
+ 1220 0086 00       		.byte	0
+ 1221 0087 00       		.byte	0
+ 1222 0088 0B       		.uleb128 0xb
+ 1223 0089 2E       		.uleb128 0x2e
+ 1224 008a 01       		.byte	0x1
+ 1225 008b 3F       		.uleb128 0x3f
+ 1226 008c 19       		.uleb128 0x19
+ 1227 008d 03       		.uleb128 0x3
+ 1228 008e 0E       		.uleb128 0xe
+ 1229 008f 3A       		.uleb128 0x3a
+ 1230 0090 0B       		.uleb128 0xb
+ 1231 0091 3B       		.uleb128 0x3b
+ 1232 0092 0B       		.uleb128 0xb
+ 1233 0093 27       		.uleb128 0x27
+ 1234 0094 19       		.uleb128 0x19
+ 1235 0095 49       		.uleb128 0x49
+ 1236 0096 13       		.uleb128 0x13
+ 1237 0097 11       		.uleb128 0x11
+ 1238 0098 01       		.uleb128 0x1
+ 1239 0099 12       		.uleb128 0x12
+ 1240 009a 06       		.uleb128 0x6
+ 1241 009b 40       		.uleb128 0x40
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 32
+
+
+ 1242 009c 18       		.uleb128 0x18
+ 1243 009d 9642     		.uleb128 0x2116
+ 1244 009f 19       		.uleb128 0x19
+ 1245 00a0 01       		.uleb128 0x1
+ 1246 00a1 13       		.uleb128 0x13
+ 1247 00a2 00       		.byte	0
+ 1248 00a3 00       		.byte	0
+ 1249 00a4 0C       		.uleb128 0xc
+ 1250 00a5 05       		.uleb128 0x5
+ 1251 00a6 00       		.byte	0
+ 1252 00a7 03       		.uleb128 0x3
+ 1253 00a8 0E       		.uleb128 0xe
+ 1254 00a9 3A       		.uleb128 0x3a
+ 1255 00aa 0B       		.uleb128 0xb
+ 1256 00ab 3B       		.uleb128 0x3b
+ 1257 00ac 0B       		.uleb128 0xb
+ 1258 00ad 49       		.uleb128 0x49
+ 1259 00ae 13       		.uleb128 0x13
+ 1260 00af 02       		.uleb128 0x2
+ 1261 00b0 18       		.uleb128 0x18
+ 1262 00b1 00       		.byte	0
+ 1263 00b2 00       		.byte	0
+ 1264 00b3 0D       		.uleb128 0xd
+ 1265 00b4 2E       		.uleb128 0x2e
+ 1266 00b5 01       		.byte	0x1
+ 1267 00b6 3F       		.uleb128 0x3f
+ 1268 00b7 19       		.uleb128 0x19
+ 1269 00b8 03       		.uleb128 0x3
+ 1270 00b9 0E       		.uleb128 0xe
+ 1271 00ba 3A       		.uleb128 0x3a
+ 1272 00bb 0B       		.uleb128 0xb
+ 1273 00bc 3B       		.uleb128 0x3b
+ 1274 00bd 0B       		.uleb128 0xb
+ 1275 00be 27       		.uleb128 0x27
+ 1276 00bf 19       		.uleb128 0x19
+ 1277 00c0 11       		.uleb128 0x11
+ 1278 00c1 01       		.uleb128 0x1
+ 1279 00c2 12       		.uleb128 0x12
+ 1280 00c3 06       		.uleb128 0x6
+ 1281 00c4 40       		.uleb128 0x40
+ 1282 00c5 18       		.uleb128 0x18
+ 1283 00c6 9642     		.uleb128 0x2116
+ 1284 00c8 19       		.uleb128 0x19
+ 1285 00c9 01       		.uleb128 0x1
+ 1286 00ca 13       		.uleb128 0x13
+ 1287 00cb 00       		.byte	0
+ 1288 00cc 00       		.byte	0
+ 1289 00cd 0E       		.uleb128 0xe
+ 1290 00ce 34       		.uleb128 0x34
+ 1291 00cf 00       		.byte	0
+ 1292 00d0 03       		.uleb128 0x3
+ 1293 00d1 0E       		.uleb128 0xe
+ 1294 00d2 3A       		.uleb128 0x3a
+ 1295 00d3 0B       		.uleb128 0xb
+ 1296 00d4 3B       		.uleb128 0x3b
+ 1297 00d5 0B       		.uleb128 0xb
+ 1298 00d6 49       		.uleb128 0x49
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 33
+
+
+ 1299 00d7 13       		.uleb128 0x13
+ 1300 00d8 02       		.uleb128 0x2
+ 1301 00d9 18       		.uleb128 0x18
+ 1302 00da 00       		.byte	0
+ 1303 00db 00       		.byte	0
+ 1304 00dc 0F       		.uleb128 0xf
+ 1305 00dd 26       		.uleb128 0x26
+ 1306 00de 00       		.byte	0
+ 1307 00df 49       		.uleb128 0x49
+ 1308 00e0 13       		.uleb128 0x13
+ 1309 00e1 00       		.byte	0
+ 1310 00e2 00       		.byte	0
+ 1311 00e3 10       		.uleb128 0x10
+ 1312 00e4 0F       		.uleb128 0xf
+ 1313 00e5 00       		.byte	0
+ 1314 00e6 0B       		.uleb128 0xb
+ 1315 00e7 0B       		.uleb128 0xb
+ 1316 00e8 49       		.uleb128 0x49
+ 1317 00e9 13       		.uleb128 0x13
+ 1318 00ea 00       		.byte	0
+ 1319 00eb 00       		.byte	0
+ 1320 00ec 11       		.uleb128 0x11
+ 1321 00ed 1D       		.uleb128 0x1d
+ 1322 00ee 01       		.byte	0x1
+ 1323 00ef 31       		.uleb128 0x31
+ 1324 00f0 13       		.uleb128 0x13
+ 1325 00f1 11       		.uleb128 0x11
+ 1326 00f2 01       		.uleb128 0x1
+ 1327 00f3 12       		.uleb128 0x12
+ 1328 00f4 06       		.uleb128 0x6
+ 1329 00f5 58       		.uleb128 0x58
+ 1330 00f6 0B       		.uleb128 0xb
+ 1331 00f7 59       		.uleb128 0x59
+ 1332 00f8 0B       		.uleb128 0xb
+ 1333 00f9 01       		.uleb128 0x1
+ 1334 00fa 13       		.uleb128 0x13
+ 1335 00fb 00       		.byte	0
+ 1336 00fc 00       		.byte	0
+ 1337 00fd 12       		.uleb128 0x12
+ 1338 00fe 0B       		.uleb128 0xb
+ 1339 00ff 01       		.byte	0x1
+ 1340 0100 11       		.uleb128 0x11
+ 1341 0101 01       		.uleb128 0x1
+ 1342 0102 12       		.uleb128 0x12
+ 1343 0103 06       		.uleb128 0x6
+ 1344 0104 00       		.byte	0
+ 1345 0105 00       		.byte	0
+ 1346 0106 13       		.uleb128 0x13
+ 1347 0107 34       		.uleb128 0x34
+ 1348 0108 00       		.byte	0
+ 1349 0109 31       		.uleb128 0x31
+ 1350 010a 13       		.uleb128 0x13
+ 1351 010b 02       		.uleb128 0x2
+ 1352 010c 18       		.uleb128 0x18
+ 1353 010d 00       		.byte	0
+ 1354 010e 00       		.byte	0
+ 1355 010f 14       		.uleb128 0x14
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 34
+
+
+ 1356 0110 1D       		.uleb128 0x1d
+ 1357 0111 01       		.byte	0x1
+ 1358 0112 31       		.uleb128 0x31
+ 1359 0113 13       		.uleb128 0x13
+ 1360 0114 11       		.uleb128 0x11
+ 1361 0115 01       		.uleb128 0x1
+ 1362 0116 12       		.uleb128 0x12
+ 1363 0117 06       		.uleb128 0x6
+ 1364 0118 58       		.uleb128 0x58
+ 1365 0119 0B       		.uleb128 0xb
+ 1366 011a 59       		.uleb128 0x59
+ 1367 011b 0B       		.uleb128 0xb
+ 1368 011c 00       		.byte	0
+ 1369 011d 00       		.byte	0
+ 1370 011e 15       		.uleb128 0x15
+ 1371 011f 05       		.uleb128 0x5
+ 1372 0120 00       		.byte	0
+ 1373 0121 31       		.uleb128 0x31
+ 1374 0122 13       		.uleb128 0x13
+ 1375 0123 02       		.uleb128 0x2
+ 1376 0124 18       		.uleb128 0x18
+ 1377 0125 00       		.byte	0
+ 1378 0126 00       		.byte	0
+ 1379 0127 16       		.uleb128 0x16
+ 1380 0128 35       		.uleb128 0x35
+ 1381 0129 00       		.byte	0
+ 1382 012a 49       		.uleb128 0x49
+ 1383 012b 13       		.uleb128 0x13
+ 1384 012c 00       		.byte	0
+ 1385 012d 00       		.byte	0
+ 1386 012e 17       		.uleb128 0x17
+ 1387 012f 34       		.uleb128 0x34
+ 1388 0130 00       		.byte	0
+ 1389 0131 03       		.uleb128 0x3
+ 1390 0132 0E       		.uleb128 0xe
+ 1391 0133 3A       		.uleb128 0x3a
+ 1392 0134 0B       		.uleb128 0xb
+ 1393 0135 3B       		.uleb128 0x3b
+ 1394 0136 05       		.uleb128 0x5
+ 1395 0137 49       		.uleb128 0x49
+ 1396 0138 13       		.uleb128 0x13
+ 1397 0139 3F       		.uleb128 0x3f
+ 1398 013a 19       		.uleb128 0x19
+ 1399 013b 3C       		.uleb128 0x3c
+ 1400 013c 19       		.uleb128 0x19
+ 1401 013d 00       		.byte	0
+ 1402 013e 00       		.byte	0
+ 1403 013f 00       		.byte	0
+ 1404              		.section	.debug_aranges,"",%progbits
+ 1405 0000 44000000 		.4byte	0x44
+ 1406 0004 0200     		.2byte	0x2
+ 1407 0006 00000000 		.4byte	.Ldebug_info0
+ 1408 000a 04       		.byte	0x4
+ 1409 000b 00       		.byte	0
+ 1410 000c 0000     		.2byte	0
+ 1411 000e 0000     		.2byte	0
+ 1412 0010 00000000 		.4byte	.LFB68
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 35
+
+
+ 1413 0014 74000000 		.4byte	.LFE68-.LFB68
+ 1414 0018 00000000 		.4byte	.LFB69
+ 1415 001c 50000000 		.4byte	.LFE69-.LFB69
+ 1416 0020 00000000 		.4byte	.LFB70
+ 1417 0024 38000000 		.4byte	.LFE70-.LFB70
+ 1418 0028 00000000 		.4byte	.LFB71
+ 1419 002c 54000000 		.4byte	.LFE71-.LFB71
+ 1420 0030 00000000 		.4byte	.LFB72
+ 1421 0034 94000000 		.4byte	.LFE72-.LFB72
+ 1422 0038 00000000 		.4byte	.LFB73
+ 1423 003c B0000000 		.4byte	.LFE73-.LFB73
+ 1424 0040 00000000 		.4byte	0
+ 1425 0044 00000000 		.4byte	0
+ 1426              		.section	.debug_ranges,"",%progbits
+ 1427              	.Ldebug_ranges0:
+ 1428 0000 00000000 		.4byte	.LFB68
+ 1429 0004 74000000 		.4byte	.LFE68
+ 1430 0008 00000000 		.4byte	.LFB69
+ 1431 000c 50000000 		.4byte	.LFE69
+ 1432 0010 00000000 		.4byte	.LFB70
+ 1433 0014 38000000 		.4byte	.LFE70
+ 1434 0018 00000000 		.4byte	.LFB71
+ 1435 001c 54000000 		.4byte	.LFE71
+ 1436 0020 00000000 		.4byte	.LFB72
+ 1437 0024 94000000 		.4byte	.LFE72
+ 1438 0028 00000000 		.4byte	.LFB73
+ 1439 002c B0000000 		.4byte	.LFE73
+ 1440 0030 00000000 		.4byte	0
+ 1441 0034 00000000 		.4byte	0
+ 1442              		.section	.debug_line,"",%progbits
+ 1443              	.Ldebug_line0:
+ 1444 0000 B1020000 		.section	.debug_str,"MS",%progbits,1
+ 1444      0200B201 
+ 1444      00000201 
+ 1444      FB0E0D00 
+ 1444      01010101 
+ 1445              	.LASF33:
+ 1446 0000 70635278 		.ascii	"pcRxedChar\000"
+ 1446      65644368 
+ 1446      617200
+ 1447              	.LASF31:
+ 1448 000b 78536572 		.ascii	"xSerialPortInitMinimal\000"
+ 1448      69616C50 
+ 1448      6F727449 
+ 1448      6E69744D 
+ 1448      696E696D 
+ 1449              	.LASF51:
+ 1450 0022 756C506F 		.ascii	"ulPortRaiseBASEPRI\000"
+ 1450      72745261 
+ 1450      69736542 
+ 1450      41534550 
+ 1450      524900
+ 1451              	.LASF21:
+ 1452 0035 5469636B 		.ascii	"TickType_t\000"
+ 1452      54797065 
+ 1452      5F7400
+ 1453              	.LASF4:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 36
+
+
+ 1454 0040 5F5F7569 		.ascii	"__uint8_t\000"
+ 1454      6E74385F 
+ 1454      7400
+ 1455              	.LASF45:
+ 1456 004a 76556172 		.ascii	"vUartTxISR\000"
+ 1456      74547849 
+ 1456      535200
+ 1457              	.LASF23:
+ 1458 0055 78436F6D 		.ascii	"xComPortHandle\000"
+ 1458      506F7274 
+ 1458      48616E64 
+ 1458      6C6500
+ 1459              	.LASF5:
+ 1460 0064 5F5F696E 		.ascii	"__int32_t\000"
+ 1460      7433325F 
+ 1460      7400
+ 1461              	.LASF48:
+ 1462 006e 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1462      4320342E 
+ 1462      392E3320 
+ 1462      32303135 
+ 1462      30333033 
+ 1463 00a1 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1463      20726576 
+ 1463      6973696F 
+ 1463      6E203232 
+ 1463      31323230 
+ 1464 00d4 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1464      66756E63 
+ 1464      74696F6E 
+ 1464      2D736563 
+ 1464      74696F6E 
+ 1465              	.LASF22:
+ 1466 00fc 51756575 		.ascii	"QueueHandle_t\000"
+ 1466      6548616E 
+ 1466      646C655F 
+ 1466      7400
+ 1467              	.LASF47:
+ 1468 010a 78536572 		.ascii	"xSerialRxQueue\000"
+ 1468      69616C52 
+ 1468      78517565 
+ 1468      756500
+ 1469              	.LASF26:
+ 1470 0119 756C5761 		.ascii	"ulWantedBaud\000"
+ 1470      6E746564 
+ 1470      42617564 
+ 1470      00
+ 1471              	.LASF39:
+ 1472 0126 76536572 		.ascii	"vSerialPutString\000"
+ 1472      69616C50 
+ 1472      75745374 
+ 1472      72696E67 
+ 1472      00
+ 1473              	.LASF46:
+ 1474 0137 78536572 		.ascii	"xSerialTxQueue\000"
+ 1474      69616C54 
+ 1474      78517565 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 37
+
+
+ 1474      756500
+ 1475              	.LASF16:
+ 1476 0146 666C6F61 		.ascii	"float\000"
+ 1476      7400
+ 1477              	.LASF1:
+ 1478 014c 756E7369 		.ascii	"unsigned char\000"
+ 1478      676E6564 
+ 1478      20636861 
+ 1478      7200
+ 1479              	.LASF28:
+ 1480 015a 7078506F 		.ascii	"pxPort\000"
+ 1480      727400
+ 1481              	.LASF7:
+ 1482 0161 5F5F7569 		.ascii	"__uint32_t\000"
+ 1482      6E743332 
+ 1482      5F7400
+ 1483              	.LASF8:
+ 1484 016c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1484      20756E73 
+ 1484      69676E65 
+ 1484      6420696E 
+ 1484      7400
+ 1485              	.LASF3:
+ 1486 017e 73686F72 		.ascii	"short unsigned int\000"
+ 1486      7420756E 
+ 1486      7369676E 
+ 1486      65642069 
+ 1486      6E7400
+ 1487              	.LASF6:
+ 1488 0191 6C6F6E67 		.ascii	"long int\000"
+ 1488      20696E74 
+ 1488      00
+ 1489              	.LASF38:
+ 1490 019a 634F7574 		.ascii	"cOutChar\000"
+ 1490      43686172 
+ 1490      00
+ 1491              	.LASF37:
+ 1492 01a3 78536572 		.ascii	"xSerialPutChar\000"
+ 1492      69616C50 
+ 1492      75744368 
+ 1492      617200
+ 1493              	.LASF29:
+ 1494 01b2 70635374 		.ascii	"pcString\000"
+ 1494      72696E67 
+ 1494      00
+ 1495              	.LASF17:
+ 1496 01bb 646F7562 		.ascii	"double\000"
+ 1496      6C6500
+ 1497              	.LASF25:
+ 1498 01c2 756C4E65 		.ascii	"ulNewBASEPRI\000"
+ 1498      77424153 
+ 1498      45505249 
+ 1498      00
+ 1499              	.LASF49:
+ 1500 01cf 53657269 		.ascii	"Serial.c\000"
+ 1500      616C2E63 
+ 1500      00
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 38
+
+
+ 1501              	.LASF54:
+ 1502 01d8 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1502      52784275 
+ 1502      66666572 
+ 1502      00
+ 1503              	.LASF52:
+ 1504 01e5 76506F72 		.ascii	"vPortSetBASEPRI\000"
+ 1504      74536574 
+ 1504      42415345 
+ 1504      50524900 
+ 1505              	.LASF11:
+ 1506 01f5 756E7369 		.ascii	"unsigned int\000"
+ 1506      676E6564 
+ 1506      20696E74 
+ 1506      00
+ 1507              	.LASF10:
+ 1508 0202 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1508      206C6F6E 
+ 1508      6720756E 
+ 1508      7369676E 
+ 1508      65642069 
+ 1509              	.LASF12:
+ 1510 0219 75696E74 		.ascii	"uint8_t\000"
+ 1510      385F7400 
+ 1511              	.LASF40:
+ 1512 0221 76556172 		.ascii	"vUartRxISR\000"
+ 1512      74527849 
+ 1512      535200
+ 1513              	.LASF30:
+ 1514 022c 75735374 		.ascii	"usStringLength\000"
+ 1514      72696E67 
+ 1514      4C656E67 
+ 1514      746800
+ 1515              	.LASF32:
+ 1516 023b 78536572 		.ascii	"xSerialGetChar\000"
+ 1516      69616C47 
+ 1516      65744368 
+ 1516      617200
+ 1517              	.LASF34:
+ 1518 024a 78426C6F 		.ascii	"xBlockTime\000"
+ 1518      636B5469 
+ 1518      6D6500
+ 1519              	.LASF19:
+ 1520 0255 73697A65 		.ascii	"sizetype\000"
+ 1520      74797065 
+ 1520      00
+ 1521              	.LASF9:
+ 1522 025e 6C6F6E67 		.ascii	"long long int\000"
+ 1522      206C6F6E 
+ 1522      6720696E 
+ 1522      7400
+ 1523              	.LASF18:
+ 1524 026c 63686172 		.ascii	"char\000"
+ 1524      00
+ 1525              	.LASF43:
+ 1526 0271 63496E43 		.ascii	"cInChar\000"
+ 1526      68617200 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 39
+
+
+ 1527              	.LASF24:
+ 1528 0279 756C4F72 		.ascii	"ulOriginalBASEPRI\000"
+ 1528      6967696E 
+ 1528      616C4241 
+ 1528      53455052 
+ 1528      4900
+ 1529              	.LASF13:
+ 1530 028b 696E7433 		.ascii	"int32_t\000"
+ 1530      325F7400 
+ 1531              	.LASF41:
+ 1532 0293 78486967 		.ascii	"xHigherPriorityTaskWoken\000"
+ 1532      68657250 
+ 1532      72696F72 
+ 1532      69747954 
+ 1532      61736B57 
+ 1533              	.LASF2:
+ 1534 02ac 73686F72 		.ascii	"short int\000"
+ 1534      7420696E 
+ 1534      7400
+ 1535              	.LASF15:
+ 1536 02b6 75696E74 		.ascii	"uint8\000"
+ 1536      3800
+ 1537              	.LASF27:
+ 1538 02bc 75785175 		.ascii	"uxQueueLength\000"
+ 1538      6575654C 
+ 1538      656E6774 
+ 1538      6800
+ 1539              	.LASF35:
+ 1540 02ca 7573496E 		.ascii	"usIndex\000"
+ 1540      64657800 
+ 1541              	.LASF42:
+ 1542 02d2 75635374 		.ascii	"ucStatus\000"
+ 1542      61747573 
+ 1542      00
+ 1543              	.LASF14:
+ 1544 02db 75696E74 		.ascii	"uint32_t\000"
+ 1544      33325F74 
+ 1544      00
+ 1545              	.LASF53:
+ 1546 02e4 756C4E65 		.ascii	"ulNewMaskValue\000"
+ 1546      774D6173 
+ 1546      6B56616C 
+ 1546      756500
+ 1547              	.LASF44:
+ 1548 02f3 756C4D61 		.ascii	"ulMask\000"
+ 1548      736B00
+ 1549              	.LASF36:
+ 1550 02fa 78526574 		.ascii	"xReturn\000"
+ 1550      75726E00 
+ 1551              	.LASF0:
+ 1552 0302 7369676E 		.ascii	"signed char\000"
+ 1552      65642063 
+ 1552      68617200 
+ 1553              	.LASF20:
+ 1554 030e 42617365 		.ascii	"BaseType_t\000"
+ 1554      54797065 
+ 1554      5F7400
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccyp4MuE.s 			page 40
+
+
+ 1555              	.LASF50:
+ 1556 0319 433A5C55 		.ascii	"C:\\Users\\bmt\\Documents\\GitHub\\FreeRTOS_CY8CKIT"
+ 1556      73657273 
+ 1556      5C626D74 
+ 1556      5C446F63 
+ 1556      756D656E 
+ 1557 0347 5F303539 		.ascii	"_059\\FreeRTOS_Demo.cydsn\000"
+ 1557      5C467265 
+ 1557      6552544F 
+ 1557      535F4465 
+ 1557      6D6F2E63 
+ 1558              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

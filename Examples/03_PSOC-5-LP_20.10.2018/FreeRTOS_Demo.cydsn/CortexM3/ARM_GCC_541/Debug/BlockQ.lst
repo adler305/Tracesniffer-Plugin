@@ -1,0 +1,2510 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"BlockQ.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	sniffIDFilter,13,4
+  20              		.comm	buffer,4098,4
+  21              		.comm	objectList,1704,4
+  22              		.bss
+  23              		.align	2
+  24              	sBlockingConsumerCount:
+  25 0000 00000000 		.space	6
+  25      0000
+  26 0006 0000     		.align	2
+  27              	sBlockingProducerCount:
+  28 0008 00000000 		.space	6
+  28      0000
+  29              		.section	.rodata
+  30              		.align	2
+  31              	.LC0:
+  32 0000 51436F6E 		.ascii	"QConsB1\000"
+  32      73423100 
+  33              		.align	2
+  34              	.LC1:
+  35 0008 5150726F 		.ascii	"QProdB2\000"
+  35      64423200 
+  36              		.align	2
+  37              	.LC2:
+  38 0010 51436F6E 		.ascii	"QConsB3\000"
+  38      73423300 
+  39              		.align	2
+  40              	.LC3:
+  41 0018 5150726F 		.ascii	"QProdB4\000"
+  41      64423400 
+  42              		.align	2
+  43              	.LC4:
+  44 0020 5150726F 		.ascii	"QProdB5\000"
+  44      64423500 
+  45              		.align	2
+  46              	.LC5:
+  47 0028 51436F6E 		.ascii	"QConsB6\000"
+  47      73423600 
+  48              		.section	.text.vStartBlockingQueueTasks,"ax",%progbits
+  49              		.align	2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 2
+
+
+  50              		.global	vStartBlockingQueueTasks
+  51              		.thumb
+  52              		.thumb_func
+  53              		.type	vStartBlockingQueueTasks, %function
+  54              	vStartBlockingQueueTasks:
+  55              	.LFB68:
+  56              		.file 1 "..\\Common\\Minimal\\BlockQ.c"
+   1:..\Common\Minimal/BlockQ.c **** /*
+   2:..\Common\Minimal/BlockQ.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Common\Minimal/BlockQ.c ****     All rights reserved
+   4:..\Common\Minimal/BlockQ.c **** 
+   5:..\Common\Minimal/BlockQ.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Common\Minimal/BlockQ.c **** 
+   7:..\Common\Minimal/BlockQ.c ****     This file is part of the FreeRTOS distribution.
+   8:..\Common\Minimal/BlockQ.c **** 
+   9:..\Common\Minimal/BlockQ.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:..\Common\Minimal/BlockQ.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Common\Minimal/BlockQ.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Common\Minimal/BlockQ.c **** 
+  13:..\Common\Minimal/BlockQ.c ****     ***************************************************************************
+  14:..\Common\Minimal/BlockQ.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Common\Minimal/BlockQ.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Common\Minimal/BlockQ.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Common\Minimal/BlockQ.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Common\Minimal/BlockQ.c ****     ***************************************************************************
+  19:..\Common\Minimal/BlockQ.c **** 
+  20:..\Common\Minimal/BlockQ.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Common\Minimal/BlockQ.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Common\Minimal/BlockQ.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:..\Common\Minimal/BlockQ.c ****     link: http://www.freertos.org/a00114.html
+  24:..\Common\Minimal/BlockQ.c **** 
+  25:..\Common\Minimal/BlockQ.c ****     ***************************************************************************
+  26:..\Common\Minimal/BlockQ.c ****      *                                                                       *
+  27:..\Common\Minimal/BlockQ.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Common\Minimal/BlockQ.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Common\Minimal/BlockQ.c ****      *    platform software that is more than just the market leader, it     *
+  30:..\Common\Minimal/BlockQ.c ****      *    is the industry's de facto standard.                               *
+  31:..\Common\Minimal/BlockQ.c ****      *                                                                       *
+  32:..\Common\Minimal/BlockQ.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Common\Minimal/BlockQ.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Common\Minimal/BlockQ.c ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Common\Minimal/BlockQ.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Common\Minimal/BlockQ.c ****      *                                                                       *
+  37:..\Common\Minimal/BlockQ.c ****     ***************************************************************************
+  38:..\Common\Minimal/BlockQ.c **** 
+  39:..\Common\Minimal/BlockQ.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Common\Minimal/BlockQ.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Common\Minimal/BlockQ.c ****     defined configASSERT()?
+  42:..\Common\Minimal/BlockQ.c **** 
+  43:..\Common\Minimal/BlockQ.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Common\Minimal/BlockQ.c ****     embedded software for free we request you assist our global community by
+  45:..\Common\Minimal/BlockQ.c ****     participating in the support forum.
+  46:..\Common\Minimal/BlockQ.c **** 
+  47:..\Common\Minimal/BlockQ.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:..\Common\Minimal/BlockQ.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Common\Minimal/BlockQ.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Common\Minimal/BlockQ.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 3
+
+
+  51:..\Common\Minimal/BlockQ.c **** 
+  52:..\Common\Minimal/BlockQ.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Common\Minimal/BlockQ.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:..\Common\Minimal/BlockQ.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Common\Minimal/BlockQ.c **** 
+  56:..\Common\Minimal/BlockQ.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Common\Minimal/BlockQ.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Common\Minimal/BlockQ.c **** 
+  59:..\Common\Minimal/BlockQ.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Common\Minimal/BlockQ.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Common\Minimal/BlockQ.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Common\Minimal/BlockQ.c **** 
+  63:..\Common\Minimal/BlockQ.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Common\Minimal/BlockQ.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Common\Minimal/BlockQ.c ****     mission critical applications that require provable dependability.
+  66:..\Common\Minimal/BlockQ.c **** 
+  67:..\Common\Minimal/BlockQ.c ****     1 tab == 4 spaces!
+  68:..\Common\Minimal/BlockQ.c **** */
+  69:..\Common\Minimal/BlockQ.c **** 
+  70:..\Common\Minimal/BlockQ.c **** /*
+  71:..\Common\Minimal/BlockQ.c ****  * Creates six tasks that operate on three queues as follows:
+  72:..\Common\Minimal/BlockQ.c ****  *
+  73:..\Common\Minimal/BlockQ.c ****  * The first two tasks send and receive an incrementing number to/from a queue.
+  74:..\Common\Minimal/BlockQ.c ****  * One task acts as a producer and the other as the consumer.  The consumer is a
+  75:..\Common\Minimal/BlockQ.c ****  * higher priority than the producer and is set to block on queue reads.  The queue
+  76:..\Common\Minimal/BlockQ.c ****  * only has space for one item - as soon as the producer posts a message on the
+  77:..\Common\Minimal/BlockQ.c ****  * queue the consumer will unblock, pre-empt the producer, and remove the item.
+  78:..\Common\Minimal/BlockQ.c ****  *
+  79:..\Common\Minimal/BlockQ.c ****  * The second two tasks work the other way around.  Again the queue used only has
+  80:..\Common\Minimal/BlockQ.c ****  * enough space for one item.  This time the consumer has a lower priority than the
+  81:..\Common\Minimal/BlockQ.c ****  * producer.  The producer will try to post on the queue blocking when the queue is
+  82:..\Common\Minimal/BlockQ.c ****  * full.  When the consumer wakes it will remove the item from the queue, causing
+  83:..\Common\Minimal/BlockQ.c ****  * the producer to unblock, pre-empt the consumer, and immediately re-fill the
+  84:..\Common\Minimal/BlockQ.c ****  * queue.
+  85:..\Common\Minimal/BlockQ.c ****  *
+  86:..\Common\Minimal/BlockQ.c ****  * The last two tasks use the same queue producer and consumer functions.  This time the queue has
+  87:..\Common\Minimal/BlockQ.c ****  * enough space for lots of items and the tasks operate at the same priority.  The
+  88:..\Common\Minimal/BlockQ.c ****  * producer will execute, placing items into the queue.  The consumer will start
+  89:..\Common\Minimal/BlockQ.c ****  * executing when either the queue becomes full (causing the producer to block) or
+  90:..\Common\Minimal/BlockQ.c ****  * a context switch occurs (tasks of the same priority will time slice).
+  91:..\Common\Minimal/BlockQ.c ****  *
+  92:..\Common\Minimal/BlockQ.c ****  */
+  93:..\Common\Minimal/BlockQ.c **** 
+  94:..\Common\Minimal/BlockQ.c **** #include <stdlib.h>
+  95:..\Common\Minimal/BlockQ.c **** 
+  96:..\Common\Minimal/BlockQ.c **** /* Scheduler include files. */
+  97:..\Common\Minimal/BlockQ.c **** #include "FreeRTOS.h"
+  98:..\Common\Minimal/BlockQ.c **** #include "task.h"
+  99:..\Common\Minimal/BlockQ.c **** #include "queue.h"
+ 100:..\Common\Minimal/BlockQ.c **** 
+ 101:..\Common\Minimal/BlockQ.c **** /* Demo program include files. */
+ 102:..\Common\Minimal/BlockQ.c **** #include "BlockQ.h"
+ 103:..\Common\Minimal/BlockQ.c **** 
+ 104:..\Common\Minimal/BlockQ.c **** #define blckqSTACK_SIZE		configMINIMAL_STACK_SIZE
+ 105:..\Common\Minimal/BlockQ.c **** #define blckqNUM_TASK_SETS	( 3 )
+ 106:..\Common\Minimal/BlockQ.c **** 
+ 107:..\Common\Minimal/BlockQ.c **** #if( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 4
+
+
+ 108:..\Common\Minimal/BlockQ.c **** 	#error This example cannot be used if dynamic allocation is not allowed.
+ 109:..\Common\Minimal/BlockQ.c **** #endif
+ 110:..\Common\Minimal/BlockQ.c **** 
+ 111:..\Common\Minimal/BlockQ.c **** /* Structure used to pass parameters to the blocking queue tasks. */
+ 112:..\Common\Minimal/BlockQ.c **** typedef struct BLOCKING_QUEUE_PARAMETERS
+ 113:..\Common\Minimal/BlockQ.c **** {
+ 114:..\Common\Minimal/BlockQ.c **** 	QueueHandle_t xQueue;					/*< The queue to be used by the task. */
+ 115:..\Common\Minimal/BlockQ.c **** 	TickType_t xBlockTime;				/*< The block time to use on queue reads/writes. */
+ 116:..\Common\Minimal/BlockQ.c **** 	volatile short *psCheckVariable;	/*< Incremented on each successful cycle to check the task is sti
+ 117:..\Common\Minimal/BlockQ.c **** } xBlockingQueueParameters;
+ 118:..\Common\Minimal/BlockQ.c **** 
+ 119:..\Common\Minimal/BlockQ.c **** /* Task function that creates an incrementing number and posts it on a queue. */
+ 120:..\Common\Minimal/BlockQ.c **** static portTASK_FUNCTION_PROTO( vBlockingQueueProducer, pvParameters );
+ 121:..\Common\Minimal/BlockQ.c **** 
+ 122:..\Common\Minimal/BlockQ.c **** /* Task function that removes the incrementing number from a queue and checks that
+ 123:..\Common\Minimal/BlockQ.c **** it is the expected number. */
+ 124:..\Common\Minimal/BlockQ.c **** static portTASK_FUNCTION_PROTO( vBlockingQueueConsumer, pvParameters );
+ 125:..\Common\Minimal/BlockQ.c **** 
+ 126:..\Common\Minimal/BlockQ.c **** /* Variables which are incremented each time an item is removed from a queue, and
+ 127:..\Common\Minimal/BlockQ.c **** found to be the expected value.
+ 128:..\Common\Minimal/BlockQ.c **** These are used to check that the tasks are still running. */
+ 129:..\Common\Minimal/BlockQ.c **** static volatile short sBlockingConsumerCount[ blckqNUM_TASK_SETS ] = { ( uint16_t ) 0, ( uint16_t )
+ 130:..\Common\Minimal/BlockQ.c **** 
+ 131:..\Common\Minimal/BlockQ.c **** /* Variable which are incremented each time an item is posted on a queue.   These
+ 132:..\Common\Minimal/BlockQ.c **** are used to check that the tasks are still running. */
+ 133:..\Common\Minimal/BlockQ.c **** static volatile short sBlockingProducerCount[ blckqNUM_TASK_SETS ] = { ( uint16_t ) 0, ( uint16_t )
+ 134:..\Common\Minimal/BlockQ.c **** 
+ 135:..\Common\Minimal/BlockQ.c **** /*-----------------------------------------------------------*/
+ 136:..\Common\Minimal/BlockQ.c **** 
+ 137:..\Common\Minimal/BlockQ.c **** void vStartBlockingQueueTasks( UBaseType_t uxPriority )
+ 138:..\Common\Minimal/BlockQ.c **** {
+  57              		.loc 1 138 0
+  58              		.cfi_startproc
+  59              		@ args = 0, pretend = 0, frame = 48
+  60              		@ frame_needed = 1, uses_anonymous_args = 0
+  61 0000 80B5     		push	{r7, lr}
+  62              		.cfi_def_cfa_offset 8
+  63              		.cfi_offset 7, -8
+  64              		.cfi_offset 14, -4
+  65 0002 8EB0     		sub	sp, sp, #56
+  66              		.cfi_def_cfa_offset 64
+  67 0004 02AF     		add	r7, sp, #8
+  68              		.cfi_def_cfa 7, 56
+  69 0006 7860     		str	r0, [r7, #4]
+ 139:..\Common\Minimal/BlockQ.c **** xBlockingQueueParameters *pxQueueParameters1, *pxQueueParameters2;
+ 140:..\Common\Minimal/BlockQ.c **** xBlockingQueueParameters *pxQueueParameters3, *pxQueueParameters4;
+ 141:..\Common\Minimal/BlockQ.c **** xBlockingQueueParameters *pxQueueParameters5, *pxQueueParameters6;
+ 142:..\Common\Minimal/BlockQ.c **** const UBaseType_t uxQueueSize1 = 1, uxQueueSize5 = 5;
+  70              		.loc 1 142 0
+  71 0008 0123     		movs	r3, #1
+  72 000a FB62     		str	r3, [r7, #44]
+  73 000c 0523     		movs	r3, #5
+  74 000e BB62     		str	r3, [r7, #40]
+ 143:..\Common\Minimal/BlockQ.c **** const TickType_t xBlockTime = pdMS_TO_TICKS( ( TickType_t ) 1000 );
+  75              		.loc 1 143 0
+  76 0010 4FF47A73 		mov	r3, #1000
+  77 0014 7B62     		str	r3, [r7, #36]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 5
+
+
+ 144:..\Common\Minimal/BlockQ.c **** const TickType_t xDontBlock = ( TickType_t ) 0;
+  78              		.loc 1 144 0
+  79 0016 0023     		movs	r3, #0
+  80 0018 3B62     		str	r3, [r7, #32]
+ 145:..\Common\Minimal/BlockQ.c **** 
+ 146:..\Common\Minimal/BlockQ.c **** 	/* Create the first two tasks as described at the top of the file. */
+ 147:..\Common\Minimal/BlockQ.c **** 
+ 148:..\Common\Minimal/BlockQ.c **** 	/* First create the structure used to pass parameters to the consumer tasks. */
+ 149:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters1 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters
+  81              		.loc 1 149 0
+  82 001a 0C20     		movs	r0, #12
+  83 001c FFF7FEFF 		bl	pvPortMalloc
+  84 0020 F861     		str	r0, [r7, #28]
+ 150:..\Common\Minimal/BlockQ.c **** 
+ 151:..\Common\Minimal/BlockQ.c **** 	/* Create the queue used by the first two tasks to pass the incrementing number.
+ 152:..\Common\Minimal/BlockQ.c **** 	Pass a pointer to the queue in the parameter structure. */
+ 153:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters1->xQueue = xQueueCreate( uxQueueSize1, ( UBaseType_t ) sizeof( uint16_t ) );
+  85              		.loc 1 153 0
+  86 0022 0022     		movs	r2, #0
+  87 0024 0221     		movs	r1, #2
+  88 0026 F86A     		ldr	r0, [r7, #44]
+  89 0028 FFF7FEFF 		bl	xQueueGenericCreate
+  90 002c 0246     		mov	r2, r0
+  91 002e FB69     		ldr	r3, [r7, #28]
+  92 0030 1A60     		str	r2, [r3]
+ 154:..\Common\Minimal/BlockQ.c **** 
+ 155:..\Common\Minimal/BlockQ.c **** 	/* The consumer is created first so gets a block time as described above. */
+ 156:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters1->xBlockTime = xBlockTime;
+  93              		.loc 1 156 0
+  94 0032 FB69     		ldr	r3, [r7, #28]
+  95 0034 7A6A     		ldr	r2, [r7, #36]
+  96 0036 5A60     		str	r2, [r3, #4]
+ 157:..\Common\Minimal/BlockQ.c **** 
+ 158:..\Common\Minimal/BlockQ.c **** 	/* Pass in the variable that this task is going to increment so we can check it
+ 159:..\Common\Minimal/BlockQ.c **** 	is still running. */
+ 160:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters1->psCheckVariable = &( sBlockingConsumerCount[ 0 ] );
+  97              		.loc 1 160 0
+  98 0038 FB69     		ldr	r3, [r7, #28]
+  99 003a 484A     		ldr	r2, .L2
+ 100 003c 9A60     		str	r2, [r3, #8]
+ 161:..\Common\Minimal/BlockQ.c **** 
+ 162:..\Common\Minimal/BlockQ.c **** 	/* Create the structure used to pass parameters to the producer task. */
+ 163:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters2 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters
+ 101              		.loc 1 163 0
+ 102 003e 0C20     		movs	r0, #12
+ 103 0040 FFF7FEFF 		bl	pvPortMalloc
+ 104 0044 B861     		str	r0, [r7, #24]
+ 164:..\Common\Minimal/BlockQ.c **** 
+ 165:..\Common\Minimal/BlockQ.c **** 	/* Pass the queue to this task also, using the parameter structure. */
+ 166:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters2->xQueue = pxQueueParameters1->xQueue;
+ 105              		.loc 1 166 0
+ 106 0046 FB69     		ldr	r3, [r7, #28]
+ 107 0048 1A68     		ldr	r2, [r3]
+ 108 004a BB69     		ldr	r3, [r7, #24]
+ 109 004c 1A60     		str	r2, [r3]
+ 167:..\Common\Minimal/BlockQ.c **** 
+ 168:..\Common\Minimal/BlockQ.c **** 	/* The producer is not going to block - as soon as it posts the consumer will
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 6
+
+
+ 169:..\Common\Minimal/BlockQ.c **** 	wake and remove the item so the producer should always have room to post. */
+ 170:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters2->xBlockTime = xDontBlock;
+ 110              		.loc 1 170 0
+ 111 004e BB69     		ldr	r3, [r7, #24]
+ 112 0050 3A6A     		ldr	r2, [r7, #32]
+ 113 0052 5A60     		str	r2, [r3, #4]
+ 171:..\Common\Minimal/BlockQ.c **** 
+ 172:..\Common\Minimal/BlockQ.c **** 	/* Pass in the variable that this task is going to increment so we can check
+ 173:..\Common\Minimal/BlockQ.c **** 	it is still running. */
+ 174:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters2->psCheckVariable = &( sBlockingProducerCount[ 0 ] );
+ 114              		.loc 1 174 0
+ 115 0054 BB69     		ldr	r3, [r7, #24]
+ 116 0056 424A     		ldr	r2, .L2+4
+ 117 0058 9A60     		str	r2, [r3, #8]
+ 175:..\Common\Minimal/BlockQ.c **** 
+ 176:..\Common\Minimal/BlockQ.c **** 
+ 177:..\Common\Minimal/BlockQ.c **** 	/* Note the producer has a lower priority than the consumer when the tasks are
+ 178:..\Common\Minimal/BlockQ.c **** 	spawned. */
+ 179:..\Common\Minimal/BlockQ.c **** 	xTaskCreate( vBlockingQueueConsumer, "QConsB1", blckqSTACK_SIZE, ( void * ) pxQueueParameters1, ux
+ 118              		.loc 1 179 0
+ 119 005a 0023     		movs	r3, #0
+ 120 005c 0193     		str	r3, [sp, #4]
+ 121 005e 7B68     		ldr	r3, [r7, #4]
+ 122 0060 0093     		str	r3, [sp]
+ 123 0062 FB69     		ldr	r3, [r7, #28]
+ 124 0064 6422     		movs	r2, #100
+ 125 0066 3F49     		ldr	r1, .L2+8
+ 126 0068 3F48     		ldr	r0, .L2+12
+ 127 006a FFF7FEFF 		bl	xTaskCreate
+ 180:..\Common\Minimal/BlockQ.c **** 	xTaskCreate( vBlockingQueueProducer, "QProdB2", blckqSTACK_SIZE, ( void * ) pxQueueParameters2, ts
+ 128              		.loc 1 180 0
+ 129 006e 0023     		movs	r3, #0
+ 130 0070 0193     		str	r3, [sp, #4]
+ 131 0072 0023     		movs	r3, #0
+ 132 0074 0093     		str	r3, [sp]
+ 133 0076 BB69     		ldr	r3, [r7, #24]
+ 134 0078 6422     		movs	r2, #100
+ 135 007a 3C49     		ldr	r1, .L2+16
+ 136 007c 3C48     		ldr	r0, .L2+20
+ 137 007e FFF7FEFF 		bl	xTaskCreate
+ 181:..\Common\Minimal/BlockQ.c **** 
+ 182:..\Common\Minimal/BlockQ.c **** 
+ 183:..\Common\Minimal/BlockQ.c **** 
+ 184:..\Common\Minimal/BlockQ.c **** 	/* Create the second two tasks as described at the top of the file.   This uses
+ 185:..\Common\Minimal/BlockQ.c **** 	the same mechanism but reverses the task priorities. */
+ 186:..\Common\Minimal/BlockQ.c **** 
+ 187:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters3 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters
+ 138              		.loc 1 187 0
+ 139 0082 0C20     		movs	r0, #12
+ 140 0084 FFF7FEFF 		bl	pvPortMalloc
+ 141 0088 7861     		str	r0, [r7, #20]
+ 188:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters3->xQueue = xQueueCreate( uxQueueSize1, ( UBaseType_t ) sizeof( uint16_t ) );
+ 142              		.loc 1 188 0
+ 143 008a 0022     		movs	r2, #0
+ 144 008c 0221     		movs	r1, #2
+ 145 008e F86A     		ldr	r0, [r7, #44]
+ 146 0090 FFF7FEFF 		bl	xQueueGenericCreate
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 7
+
+
+ 147 0094 0246     		mov	r2, r0
+ 148 0096 7B69     		ldr	r3, [r7, #20]
+ 149 0098 1A60     		str	r2, [r3]
+ 189:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters3->xBlockTime = xDontBlock;
+ 150              		.loc 1 189 0
+ 151 009a 7B69     		ldr	r3, [r7, #20]
+ 152 009c 3A6A     		ldr	r2, [r7, #32]
+ 153 009e 5A60     		str	r2, [r3, #4]
+ 190:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters3->psCheckVariable = &( sBlockingProducerCount[ 1 ] );
+ 154              		.loc 1 190 0
+ 155 00a0 7B69     		ldr	r3, [r7, #20]
+ 156 00a2 344A     		ldr	r2, .L2+24
+ 157 00a4 9A60     		str	r2, [r3, #8]
+ 191:..\Common\Minimal/BlockQ.c **** 
+ 192:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters4 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters
+ 158              		.loc 1 192 0
+ 159 00a6 0C20     		movs	r0, #12
+ 160 00a8 FFF7FEFF 		bl	pvPortMalloc
+ 161 00ac 3861     		str	r0, [r7, #16]
+ 193:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters4->xQueue = pxQueueParameters3->xQueue;
+ 162              		.loc 1 193 0
+ 163 00ae 7B69     		ldr	r3, [r7, #20]
+ 164 00b0 1A68     		ldr	r2, [r3]
+ 165 00b2 3B69     		ldr	r3, [r7, #16]
+ 166 00b4 1A60     		str	r2, [r3]
+ 194:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters4->xBlockTime = xBlockTime;
+ 167              		.loc 1 194 0
+ 168 00b6 3B69     		ldr	r3, [r7, #16]
+ 169 00b8 7A6A     		ldr	r2, [r7, #36]
+ 170 00ba 5A60     		str	r2, [r3, #4]
+ 195:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters4->psCheckVariable = &( sBlockingConsumerCount[ 1 ] );
+ 171              		.loc 1 195 0
+ 172 00bc 3B69     		ldr	r3, [r7, #16]
+ 173 00be 2E4A     		ldr	r2, .L2+28
+ 174 00c0 9A60     		str	r2, [r3, #8]
+ 196:..\Common\Minimal/BlockQ.c **** 
+ 197:..\Common\Minimal/BlockQ.c **** 	xTaskCreate( vBlockingQueueConsumer, "QConsB3", blckqSTACK_SIZE, ( void * ) pxQueueParameters3, ts
+ 175              		.loc 1 197 0
+ 176 00c2 0023     		movs	r3, #0
+ 177 00c4 0193     		str	r3, [sp, #4]
+ 178 00c6 0023     		movs	r3, #0
+ 179 00c8 0093     		str	r3, [sp]
+ 180 00ca 7B69     		ldr	r3, [r7, #20]
+ 181 00cc 6422     		movs	r2, #100
+ 182 00ce 2B49     		ldr	r1, .L2+32
+ 183 00d0 2548     		ldr	r0, .L2+12
+ 184 00d2 FFF7FEFF 		bl	xTaskCreate
+ 198:..\Common\Minimal/BlockQ.c **** 	xTaskCreate( vBlockingQueueProducer, "QProdB4", blckqSTACK_SIZE, ( void * ) pxQueueParameters4, ux
+ 185              		.loc 1 198 0
+ 186 00d6 0023     		movs	r3, #0
+ 187 00d8 0193     		str	r3, [sp, #4]
+ 188 00da 7B68     		ldr	r3, [r7, #4]
+ 189 00dc 0093     		str	r3, [sp]
+ 190 00de 3B69     		ldr	r3, [r7, #16]
+ 191 00e0 6422     		movs	r2, #100
+ 192 00e2 2749     		ldr	r1, .L2+36
+ 193 00e4 2248     		ldr	r0, .L2+20
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 8
+
+
+ 194 00e6 FFF7FEFF 		bl	xTaskCreate
+ 199:..\Common\Minimal/BlockQ.c **** 
+ 200:..\Common\Minimal/BlockQ.c **** 
+ 201:..\Common\Minimal/BlockQ.c **** 
+ 202:..\Common\Minimal/BlockQ.c **** 	/* Create the last two tasks as described above.  The mechanism is again just
+ 203:..\Common\Minimal/BlockQ.c **** 	the same.  This time both parameter structures are given a block time. */
+ 204:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters5 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters
+ 195              		.loc 1 204 0
+ 196 00ea 0C20     		movs	r0, #12
+ 197 00ec FFF7FEFF 		bl	pvPortMalloc
+ 198 00f0 F860     		str	r0, [r7, #12]
+ 205:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters5->xQueue = xQueueCreate( uxQueueSize5, ( UBaseType_t ) sizeof( uint16_t ) );
+ 199              		.loc 1 205 0
+ 200 00f2 0022     		movs	r2, #0
+ 201 00f4 0221     		movs	r1, #2
+ 202 00f6 B86A     		ldr	r0, [r7, #40]
+ 203 00f8 FFF7FEFF 		bl	xQueueGenericCreate
+ 204 00fc 0246     		mov	r2, r0
+ 205 00fe FB68     		ldr	r3, [r7, #12]
+ 206 0100 1A60     		str	r2, [r3]
+ 206:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters5->xBlockTime = xBlockTime;
+ 207              		.loc 1 206 0
+ 208 0102 FB68     		ldr	r3, [r7, #12]
+ 209 0104 7A6A     		ldr	r2, [r7, #36]
+ 210 0106 5A60     		str	r2, [r3, #4]
+ 207:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters5->psCheckVariable = &( sBlockingProducerCount[ 2 ] );
+ 211              		.loc 1 207 0
+ 212 0108 FB68     		ldr	r3, [r7, #12]
+ 213 010a 1E4A     		ldr	r2, .L2+40
+ 214 010c 9A60     		str	r2, [r3, #8]
+ 208:..\Common\Minimal/BlockQ.c **** 
+ 209:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters6 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters
+ 215              		.loc 1 209 0
+ 216 010e 0C20     		movs	r0, #12
+ 217 0110 FFF7FEFF 		bl	pvPortMalloc
+ 218 0114 B860     		str	r0, [r7, #8]
+ 210:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters6->xQueue = pxQueueParameters5->xQueue;
+ 219              		.loc 1 210 0
+ 220 0116 FB68     		ldr	r3, [r7, #12]
+ 221 0118 1A68     		ldr	r2, [r3]
+ 222 011a BB68     		ldr	r3, [r7, #8]
+ 223 011c 1A60     		str	r2, [r3]
+ 211:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters6->xBlockTime = xBlockTime;
+ 224              		.loc 1 211 0
+ 225 011e BB68     		ldr	r3, [r7, #8]
+ 226 0120 7A6A     		ldr	r2, [r7, #36]
+ 227 0122 5A60     		str	r2, [r3, #4]
+ 212:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters6->psCheckVariable = &( sBlockingConsumerCount[ 2 ] );
+ 228              		.loc 1 212 0
+ 229 0124 BB68     		ldr	r3, [r7, #8]
+ 230 0126 184A     		ldr	r2, .L2+44
+ 231 0128 9A60     		str	r2, [r3, #8]
+ 213:..\Common\Minimal/BlockQ.c **** 
+ 214:..\Common\Minimal/BlockQ.c **** 	xTaskCreate( vBlockingQueueProducer, "QProdB5", blckqSTACK_SIZE, ( void * ) pxQueueParameters5, ts
+ 232              		.loc 1 214 0
+ 233 012a 0023     		movs	r3, #0
+ 234 012c 0193     		str	r3, [sp, #4]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 9
+
+
+ 235 012e 0023     		movs	r3, #0
+ 236 0130 0093     		str	r3, [sp]
+ 237 0132 FB68     		ldr	r3, [r7, #12]
+ 238 0134 6422     		movs	r2, #100
+ 239 0136 1549     		ldr	r1, .L2+48
+ 240 0138 0D48     		ldr	r0, .L2+20
+ 241 013a FFF7FEFF 		bl	xTaskCreate
+ 215:..\Common\Minimal/BlockQ.c **** 	xTaskCreate( vBlockingQueueConsumer, "QConsB6", blckqSTACK_SIZE, ( void * ) pxQueueParameters6, ts
+ 242              		.loc 1 215 0
+ 243 013e 0023     		movs	r3, #0
+ 244 0140 0193     		str	r3, [sp, #4]
+ 245 0142 0023     		movs	r3, #0
+ 246 0144 0093     		str	r3, [sp]
+ 247 0146 BB68     		ldr	r3, [r7, #8]
+ 248 0148 6422     		movs	r2, #100
+ 249 014a 1149     		ldr	r1, .L2+52
+ 250 014c 0648     		ldr	r0, .L2+12
+ 251 014e FFF7FEFF 		bl	xTaskCreate
+ 216:..\Common\Minimal/BlockQ.c **** }
+ 252              		.loc 1 216 0
+ 253 0152 00BF     		nop
+ 254 0154 3037     		adds	r7, r7, #48
+ 255              		.cfi_def_cfa_offset 8
+ 256 0156 BD46     		mov	sp, r7
+ 257              		.cfi_def_cfa_register 13
+ 258              		@ sp needed
+ 259 0158 80BD     		pop	{r7, pc}
+ 260              	.L3:
+ 261 015a 00BF     		.align	2
+ 262              	.L2:
+ 263 015c 00000000 		.word	sBlockingConsumerCount
+ 264 0160 08000000 		.word	sBlockingProducerCount
+ 265 0164 00000000 		.word	.LC0
+ 266 0168 00000000 		.word	vBlockingQueueConsumer
+ 267 016c 08000000 		.word	.LC1
+ 268 0170 00000000 		.word	vBlockingQueueProducer
+ 269 0174 0A000000 		.word	sBlockingProducerCount+2
+ 270 0178 02000000 		.word	sBlockingConsumerCount+2
+ 271 017c 10000000 		.word	.LC2
+ 272 0180 18000000 		.word	.LC3
+ 273 0184 0C000000 		.word	sBlockingProducerCount+4
+ 274 0188 04000000 		.word	sBlockingConsumerCount+4
+ 275 018c 20000000 		.word	.LC4
+ 276 0190 28000000 		.word	.LC5
+ 277              		.cfi_endproc
+ 278              	.LFE68:
+ 279              		.size	vStartBlockingQueueTasks, .-vStartBlockingQueueTasks
+ 280              		.section	.text.vBlockingQueueProducer,"ax",%progbits
+ 281              		.align	2
+ 282              		.thumb
+ 283              		.thumb_func
+ 284              		.type	vBlockingQueueProducer, %function
+ 285              	vBlockingQueueProducer:
+ 286              	.LFB69:
+ 217:..\Common\Minimal/BlockQ.c **** /*-----------------------------------------------------------*/
+ 218:..\Common\Minimal/BlockQ.c **** 
+ 219:..\Common\Minimal/BlockQ.c **** static portTASK_FUNCTION( vBlockingQueueProducer, pvParameters )
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 10
+
+
+ 220:..\Common\Minimal/BlockQ.c **** {
+ 287              		.loc 1 220 0
+ 288              		.cfi_startproc
+ 289              		@ args = 0, pretend = 0, frame = 24
+ 290              		@ frame_needed = 1, uses_anonymous_args = 0
+ 291 0000 80B5     		push	{r7, lr}
+ 292              		.cfi_def_cfa_offset 8
+ 293              		.cfi_offset 7, -8
+ 294              		.cfi_offset 14, -4
+ 295 0002 86B0     		sub	sp, sp, #24
+ 296              		.cfi_def_cfa_offset 32
+ 297 0004 00AF     		add	r7, sp, #0
+ 298              		.cfi_def_cfa_register 7
+ 299 0006 7860     		str	r0, [r7, #4]
+ 221:..\Common\Minimal/BlockQ.c **** uint16_t usValue = 0;
+ 300              		.loc 1 221 0
+ 301 0008 0023     		movs	r3, #0
+ 302 000a FB81     		strh	r3, [r7, #14]	@ movhi
+ 222:..\Common\Minimal/BlockQ.c **** xBlockingQueueParameters *pxQueueParameters;
+ 223:..\Common\Minimal/BlockQ.c **** short sErrorEverOccurred = pdFALSE;
+ 303              		.loc 1 223 0
+ 304 000c 0023     		movs	r3, #0
+ 305 000e FB82     		strh	r3, [r7, #22]	@ movhi
+ 224:..\Common\Minimal/BlockQ.c **** 
+ 225:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters = ( xBlockingQueueParameters * ) pvParameters;
+ 306              		.loc 1 225 0
+ 307 0010 7B68     		ldr	r3, [r7, #4]
+ 308 0012 3B61     		str	r3, [r7, #16]
+ 309              	.L8:
+ 226:..\Common\Minimal/BlockQ.c **** 
+ 227:..\Common\Minimal/BlockQ.c **** 	for( ;; )
+ 228:..\Common\Minimal/BlockQ.c **** 	{
+ 229:..\Common\Minimal/BlockQ.c **** 		if( xQueueSend( pxQueueParameters->xQueue, ( void * ) &usValue, pxQueueParameters->xBlockTime ) !
+ 310              		.loc 1 229 0
+ 311 0014 3B69     		ldr	r3, [r7, #16]
+ 312 0016 1868     		ldr	r0, [r3]
+ 313 0018 3B69     		ldr	r3, [r7, #16]
+ 314 001a 5A68     		ldr	r2, [r3, #4]
+ 315 001c 07F10E01 		add	r1, r7, #14
+ 316 0020 0023     		movs	r3, #0
+ 317 0022 FFF7FEFF 		bl	xQueueGenericSend
+ 318 0026 0346     		mov	r3, r0
+ 319 0028 012B     		cmp	r3, #1
+ 320 002a 02D0     		beq	.L5
+ 230:..\Common\Minimal/BlockQ.c **** 		{
+ 231:..\Common\Minimal/BlockQ.c **** 			sErrorEverOccurred = pdTRUE;
+ 321              		.loc 1 231 0
+ 322 002c 0123     		movs	r3, #1
+ 323 002e FB82     		strh	r3, [r7, #22]	@ movhi
+ 324 0030 F0E7     		b	.L8
+ 325              	.L5:
+ 232:..\Common\Minimal/BlockQ.c **** 		}
+ 233:..\Common\Minimal/BlockQ.c **** 		else
+ 234:..\Common\Minimal/BlockQ.c **** 		{
+ 235:..\Common\Minimal/BlockQ.c **** 			/* We have successfully posted a message, so increment the variable
+ 236:..\Common\Minimal/BlockQ.c **** 			used to check we are still running. */
+ 237:..\Common\Minimal/BlockQ.c **** 			if( sErrorEverOccurred == pdFALSE )
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 11
+
+
+ 326              		.loc 1 237 0
+ 327 0032 B7F91630 		ldrsh	r3, [r7, #22]
+ 328 0036 002B     		cmp	r3, #0
+ 329 0038 08D1     		bne	.L7
+ 238:..\Common\Minimal/BlockQ.c **** 			{
+ 239:..\Common\Minimal/BlockQ.c **** 				( *pxQueueParameters->psCheckVariable )++;
+ 330              		.loc 1 239 0
+ 331 003a 3B69     		ldr	r3, [r7, #16]
+ 332 003c 9B68     		ldr	r3, [r3, #8]
+ 333 003e 1A88     		ldrh	r2, [r3]	@ movhi
+ 334 0040 12B2     		sxth	r2, r2
+ 335 0042 92B2     		uxth	r2, r2
+ 336 0044 0132     		adds	r2, r2, #1
+ 337 0046 92B2     		uxth	r2, r2
+ 338 0048 12B2     		sxth	r2, r2
+ 339 004a 1A80     		strh	r2, [r3]	@ movhi
+ 340              	.L7:
+ 240:..\Common\Minimal/BlockQ.c **** 			}
+ 241:..\Common\Minimal/BlockQ.c **** 
+ 242:..\Common\Minimal/BlockQ.c **** 			/* Increment the variable we are going to post next time round.  The
+ 243:..\Common\Minimal/BlockQ.c **** 			consumer will expect the numbers to	follow in numerical order. */
+ 244:..\Common\Minimal/BlockQ.c **** 			++usValue;
+ 341              		.loc 1 244 0
+ 342 004c FB89     		ldrh	r3, [r7, #14]
+ 343 004e 0133     		adds	r3, r3, #1
+ 344 0050 9BB2     		uxth	r3, r3
+ 345 0052 FB81     		strh	r3, [r7, #14]	@ movhi
+ 245:..\Common\Minimal/BlockQ.c **** 
+ 246:..\Common\Minimal/BlockQ.c **** 			#if configUSE_PREEMPTION == 0
+ 247:..\Common\Minimal/BlockQ.c **** 				taskYIELD();
+ 248:..\Common\Minimal/BlockQ.c **** 			#endif
+ 249:..\Common\Minimal/BlockQ.c **** 		}
+ 250:..\Common\Minimal/BlockQ.c **** 	}
+ 346              		.loc 1 250 0
+ 347 0054 DEE7     		b	.L8
+ 348              		.cfi_endproc
+ 349              	.LFE69:
+ 350              		.size	vBlockingQueueProducer, .-vBlockingQueueProducer
+ 351 0056 00BF     		.section	.text.vBlockingQueueConsumer,"ax",%progbits
+ 352              		.align	2
+ 353              		.thumb
+ 354              		.thumb_func
+ 355              		.type	vBlockingQueueConsumer, %function
+ 356              	vBlockingQueueConsumer:
+ 357              	.LFB70:
+ 251:..\Common\Minimal/BlockQ.c **** }
+ 252:..\Common\Minimal/BlockQ.c **** /*-----------------------------------------------------------*/
+ 253:..\Common\Minimal/BlockQ.c **** 
+ 254:..\Common\Minimal/BlockQ.c **** static portTASK_FUNCTION( vBlockingQueueConsumer, pvParameters )
+ 255:..\Common\Minimal/BlockQ.c **** {
+ 358              		.loc 1 255 0
+ 359              		.cfi_startproc
+ 360              		@ args = 0, pretend = 0, frame = 24
+ 361              		@ frame_needed = 1, uses_anonymous_args = 0
+ 362 0000 80B5     		push	{r7, lr}
+ 363              		.cfi_def_cfa_offset 8
+ 364              		.cfi_offset 7, -8
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 12
+
+
+ 365              		.cfi_offset 14, -4
+ 366 0002 86B0     		sub	sp, sp, #24
+ 367              		.cfi_def_cfa_offset 32
+ 368 0004 00AF     		add	r7, sp, #0
+ 369              		.cfi_def_cfa_register 7
+ 370 0006 7860     		str	r0, [r7, #4]
+ 256:..\Common\Minimal/BlockQ.c **** uint16_t usData, usExpectedValue = 0;
+ 371              		.loc 1 256 0
+ 372 0008 0023     		movs	r3, #0
+ 373 000a FB82     		strh	r3, [r7, #22]	@ movhi
+ 257:..\Common\Minimal/BlockQ.c **** xBlockingQueueParameters *pxQueueParameters;
+ 258:..\Common\Minimal/BlockQ.c **** short sErrorEverOccurred = pdFALSE;
+ 374              		.loc 1 258 0
+ 375 000c 0023     		movs	r3, #0
+ 376 000e BB82     		strh	r3, [r7, #20]	@ movhi
+ 259:..\Common\Minimal/BlockQ.c **** 
+ 260:..\Common\Minimal/BlockQ.c **** 	pxQueueParameters = ( xBlockingQueueParameters * ) pvParameters;
+ 377              		.loc 1 260 0
+ 378 0010 7B68     		ldr	r3, [r7, #4]
+ 379 0012 3B61     		str	r3, [r7, #16]
+ 380              	.L13:
+ 261:..\Common\Minimal/BlockQ.c **** 
+ 262:..\Common\Minimal/BlockQ.c **** 	for( ;; )
+ 263:..\Common\Minimal/BlockQ.c **** 	{
+ 264:..\Common\Minimal/BlockQ.c **** 		if( xQueueReceive( pxQueueParameters->xQueue, &usData, pxQueueParameters->xBlockTime ) == pdPASS 
+ 381              		.loc 1 264 0
+ 382 0014 3B69     		ldr	r3, [r7, #16]
+ 383 0016 1868     		ldr	r0, [r3]
+ 384 0018 3B69     		ldr	r3, [r7, #16]
+ 385 001a 5A68     		ldr	r2, [r3, #4]
+ 386 001c 07F10E01 		add	r1, r7, #14
+ 387 0020 0023     		movs	r3, #0
+ 388 0022 FFF7FEFF 		bl	xQueueGenericReceive
+ 389 0026 0346     		mov	r3, r0
+ 390 0028 012B     		cmp	r3, #1
+ 391 002a F3D1     		bne	.L13
+ 265:..\Common\Minimal/BlockQ.c **** 		{
+ 266:..\Common\Minimal/BlockQ.c **** 			if( usData != usExpectedValue )
+ 392              		.loc 1 266 0
+ 393 002c FB89     		ldrh	r3, [r7, #14]
+ 394 002e FA8A     		ldrh	r2, [r7, #22]
+ 395 0030 9A42     		cmp	r2, r3
+ 396 0032 04D0     		beq	.L11
+ 267:..\Common\Minimal/BlockQ.c **** 			{
+ 268:..\Common\Minimal/BlockQ.c **** 				/* Catch-up. */
+ 269:..\Common\Minimal/BlockQ.c **** 				usExpectedValue = usData;
+ 397              		.loc 1 269 0
+ 398 0034 FB89     		ldrh	r3, [r7, #14]	@ movhi
+ 399 0036 FB82     		strh	r3, [r7, #22]	@ movhi
+ 270:..\Common\Minimal/BlockQ.c **** 
+ 271:..\Common\Minimal/BlockQ.c **** 				sErrorEverOccurred = pdTRUE;
+ 400              		.loc 1 271 0
+ 401 0038 0123     		movs	r3, #1
+ 402 003a BB82     		strh	r3, [r7, #20]	@ movhi
+ 403 003c EAE7     		b	.L13
+ 404              	.L11:
+ 272:..\Common\Minimal/BlockQ.c **** 			}
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 13
+
+
+ 273:..\Common\Minimal/BlockQ.c **** 			else
+ 274:..\Common\Minimal/BlockQ.c **** 			{
+ 275:..\Common\Minimal/BlockQ.c **** 				/* We have successfully received a message, so increment the
+ 276:..\Common\Minimal/BlockQ.c **** 				variable used to check we are still running. */
+ 277:..\Common\Minimal/BlockQ.c **** 				if( sErrorEverOccurred == pdFALSE )
+ 405              		.loc 1 277 0
+ 406 003e B7F91430 		ldrsh	r3, [r7, #20]
+ 407 0042 002B     		cmp	r3, #0
+ 408 0044 08D1     		bne	.L12
+ 278:..\Common\Minimal/BlockQ.c **** 				{
+ 279:..\Common\Minimal/BlockQ.c **** 					( *pxQueueParameters->psCheckVariable )++;
+ 409              		.loc 1 279 0
+ 410 0046 3B69     		ldr	r3, [r7, #16]
+ 411 0048 9B68     		ldr	r3, [r3, #8]
+ 412 004a 1A88     		ldrh	r2, [r3]	@ movhi
+ 413 004c 12B2     		sxth	r2, r2
+ 414 004e 92B2     		uxth	r2, r2
+ 415 0050 0132     		adds	r2, r2, #1
+ 416 0052 92B2     		uxth	r2, r2
+ 417 0054 12B2     		sxth	r2, r2
+ 418 0056 1A80     		strh	r2, [r3]	@ movhi
+ 419              	.L12:
+ 280:..\Common\Minimal/BlockQ.c **** 				}
+ 281:..\Common\Minimal/BlockQ.c **** 
+ 282:..\Common\Minimal/BlockQ.c **** 				/* Increment the value we expect to remove from the queue next time
+ 283:..\Common\Minimal/BlockQ.c **** 				round. */
+ 284:..\Common\Minimal/BlockQ.c **** 				++usExpectedValue;
+ 420              		.loc 1 284 0
+ 421 0058 FB8A     		ldrh	r3, [r7, #22]	@ movhi
+ 422 005a 0133     		adds	r3, r3, #1
+ 423 005c FB82     		strh	r3, [r7, #22]	@ movhi
+ 285:..\Common\Minimal/BlockQ.c **** 			}
+ 286:..\Common\Minimal/BlockQ.c **** 
+ 287:..\Common\Minimal/BlockQ.c **** 			#if configUSE_PREEMPTION == 0
+ 288:..\Common\Minimal/BlockQ.c **** 			{
+ 289:..\Common\Minimal/BlockQ.c **** 				if( pxQueueParameters->xBlockTime == 0 )
+ 290:..\Common\Minimal/BlockQ.c **** 				{
+ 291:..\Common\Minimal/BlockQ.c **** 					taskYIELD();
+ 292:..\Common\Minimal/BlockQ.c **** 				}
+ 293:..\Common\Minimal/BlockQ.c **** 			}
+ 294:..\Common\Minimal/BlockQ.c **** 			#endif
+ 295:..\Common\Minimal/BlockQ.c **** 		}
+ 296:..\Common\Minimal/BlockQ.c **** 	}
+ 424              		.loc 1 296 0
+ 425 005e D9E7     		b	.L13
+ 426              		.cfi_endproc
+ 427              	.LFE70:
+ 428              		.size	vBlockingQueueConsumer, .-vBlockingQueueConsumer
+ 429              		.section	.text.xAreBlockingQueuesStillRunning,"ax",%progbits
+ 430              		.align	2
+ 431              		.global	xAreBlockingQueuesStillRunning
+ 432              		.thumb
+ 433              		.thumb_func
+ 434              		.type	xAreBlockingQueuesStillRunning, %function
+ 435              	xAreBlockingQueuesStillRunning:
+ 436              	.LFB71:
+ 297:..\Common\Minimal/BlockQ.c **** }
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 14
+
+
+ 298:..\Common\Minimal/BlockQ.c **** /*-----------------------------------------------------------*/
+ 299:..\Common\Minimal/BlockQ.c **** 
+ 300:..\Common\Minimal/BlockQ.c **** /* This is called to check that all the created tasks are still running. */
+ 301:..\Common\Minimal/BlockQ.c **** BaseType_t xAreBlockingQueuesStillRunning( void )
+ 302:..\Common\Minimal/BlockQ.c **** {
+ 437              		.loc 1 302 0
+ 438              		.cfi_startproc
+ 439              		@ args = 0, pretend = 0, frame = 8
+ 440              		@ frame_needed = 1, uses_anonymous_args = 0
+ 441              		@ link register save eliminated.
+ 442 0000 80B4     		push	{r7}
+ 443              		.cfi_def_cfa_offset 4
+ 444              		.cfi_offset 7, -4
+ 445 0002 83B0     		sub	sp, sp, #12
+ 446              		.cfi_def_cfa_offset 16
+ 447 0004 00AF     		add	r7, sp, #0
+ 448              		.cfi_def_cfa_register 7
+ 303:..\Common\Minimal/BlockQ.c **** static short sLastBlockingConsumerCount[ blckqNUM_TASK_SETS ] = { ( uint16_t ) 0, ( uint16_t ) 0, (
+ 304:..\Common\Minimal/BlockQ.c **** static short sLastBlockingProducerCount[ blckqNUM_TASK_SETS ] = { ( uint16_t ) 0, ( uint16_t ) 0, (
+ 305:..\Common\Minimal/BlockQ.c **** BaseType_t xReturn = pdPASS, xTasks;
+ 449              		.loc 1 305 0
+ 450 0006 0123     		movs	r3, #1
+ 451 0008 7B60     		str	r3, [r7, #4]
+ 306:..\Common\Minimal/BlockQ.c **** 
+ 307:..\Common\Minimal/BlockQ.c **** 	/* Not too worried about mutual exclusion on these variables as they are 16
+ 308:..\Common\Minimal/BlockQ.c **** 	bits and we are only reading them. We also only care to see if they have
+ 309:..\Common\Minimal/BlockQ.c **** 	changed or not.
+ 310:..\Common\Minimal/BlockQ.c **** 
+ 311:..\Common\Minimal/BlockQ.c **** 	Loop through each check variable to and return pdFALSE if any are found not
+ 312:..\Common\Minimal/BlockQ.c **** 	to have changed since the last call. */
+ 313:..\Common\Minimal/BlockQ.c **** 
+ 314:..\Common\Minimal/BlockQ.c **** 	for( xTasks = 0; xTasks < blckqNUM_TASK_SETS; xTasks++ )
+ 452              		.loc 1 314 0
+ 453 000a 0023     		movs	r3, #0
+ 454 000c 3B60     		str	r3, [r7]
+ 455 000e 2EE0     		b	.L15
+ 456              	.L18:
+ 315:..\Common\Minimal/BlockQ.c **** 	{
+ 316:..\Common\Minimal/BlockQ.c **** 		if( sBlockingConsumerCount[ xTasks ] == sLastBlockingConsumerCount[ xTasks ]  )
+ 457              		.loc 1 316 0
+ 458 0010 1B4A     		ldr	r2, .L20
+ 459 0012 3B68     		ldr	r3, [r7]
+ 460 0014 32F81330 		ldrh	r3, [r2, r3, lsl #1]	@ movhi
+ 461 0018 1AB2     		sxth	r2, r3
+ 462 001a 1A49     		ldr	r1, .L20+4
+ 463 001c 3B68     		ldr	r3, [r7]
+ 464 001e 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
+ 465 0022 9A42     		cmp	r2, r3
+ 466 0024 01D1     		bne	.L16
+ 317:..\Common\Minimal/BlockQ.c **** 		{
+ 318:..\Common\Minimal/BlockQ.c **** 			xReturn = pdFALSE;
+ 467              		.loc 1 318 0
+ 468 0026 0023     		movs	r3, #0
+ 469 0028 7B60     		str	r3, [r7, #4]
+ 470              	.L16:
+ 319:..\Common\Minimal/BlockQ.c **** 		}
+ 320:..\Common\Minimal/BlockQ.c **** 		sLastBlockingConsumerCount[ xTasks ] = sBlockingConsumerCount[ xTasks ];
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 15
+
+
+ 471              		.loc 1 320 0
+ 472 002a 154A     		ldr	r2, .L20
+ 473 002c 3B68     		ldr	r3, [r7]
+ 474 002e 32F81330 		ldrh	r3, [r2, r3, lsl #1]	@ movhi
+ 475 0032 19B2     		sxth	r1, r3
+ 476 0034 134A     		ldr	r2, .L20+4
+ 477 0036 3B68     		ldr	r3, [r7]
+ 478 0038 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ 321:..\Common\Minimal/BlockQ.c **** 
+ 322:..\Common\Minimal/BlockQ.c **** 
+ 323:..\Common\Minimal/BlockQ.c **** 		if( sBlockingProducerCount[ xTasks ] == sLastBlockingProducerCount[ xTasks ]  )
+ 479              		.loc 1 323 0
+ 480 003c 124A     		ldr	r2, .L20+8
+ 481 003e 3B68     		ldr	r3, [r7]
+ 482 0040 32F81330 		ldrh	r3, [r2, r3, lsl #1]	@ movhi
+ 483 0044 1AB2     		sxth	r2, r3
+ 484 0046 1149     		ldr	r1, .L20+12
+ 485 0048 3B68     		ldr	r3, [r7]
+ 486 004a 31F91330 		ldrsh	r3, [r1, r3, lsl #1]
+ 487 004e 9A42     		cmp	r2, r3
+ 488 0050 01D1     		bne	.L17
+ 324:..\Common\Minimal/BlockQ.c **** 		{
+ 325:..\Common\Minimal/BlockQ.c **** 			xReturn = pdFALSE;
+ 489              		.loc 1 325 0
+ 490 0052 0023     		movs	r3, #0
+ 491 0054 7B60     		str	r3, [r7, #4]
+ 492              	.L17:
+ 326:..\Common\Minimal/BlockQ.c **** 		}
+ 327:..\Common\Minimal/BlockQ.c **** 		sLastBlockingProducerCount[ xTasks ] = sBlockingProducerCount[ xTasks ];
+ 493              		.loc 1 327 0 discriminator 2
+ 494 0056 0C4A     		ldr	r2, .L20+8
+ 495 0058 3B68     		ldr	r3, [r7]
+ 496 005a 32F81330 		ldrh	r3, [r2, r3, lsl #1]	@ movhi
+ 497 005e 19B2     		sxth	r1, r3
+ 498 0060 0A4A     		ldr	r2, .L20+12
+ 499 0062 3B68     		ldr	r3, [r7]
+ 500 0064 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ 314:..\Common\Minimal/BlockQ.c **** 	{
+ 501              		.loc 1 314 0 discriminator 2
+ 502 0068 3B68     		ldr	r3, [r7]
+ 503 006a 0133     		adds	r3, r3, #1
+ 504 006c 3B60     		str	r3, [r7]
+ 505              	.L15:
+ 314:..\Common\Minimal/BlockQ.c **** 	{
+ 506              		.loc 1 314 0 is_stmt 0 discriminator 1
+ 507 006e 3B68     		ldr	r3, [r7]
+ 508 0070 022B     		cmp	r3, #2
+ 509 0072 CDDD     		ble	.L18
+ 328:..\Common\Minimal/BlockQ.c **** 	}
+ 329:..\Common\Minimal/BlockQ.c **** 
+ 330:..\Common\Minimal/BlockQ.c **** 	return xReturn;
+ 510              		.loc 1 330 0 is_stmt 1
+ 511 0074 7B68     		ldr	r3, [r7, #4]
+ 331:..\Common\Minimal/BlockQ.c **** }
+ 512              		.loc 1 331 0
+ 513 0076 1846     		mov	r0, r3
+ 514 0078 0C37     		adds	r7, r7, #12
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 16
+
+
+ 515              		.cfi_def_cfa_offset 4
+ 516 007a BD46     		mov	sp, r7
+ 517              		.cfi_def_cfa_register 13
+ 518              		@ sp needed
+ 519 007c 80BC     		pop	{r7}
+ 520              		.cfi_restore 7
+ 521              		.cfi_def_cfa_offset 0
+ 522 007e 7047     		bx	lr
+ 523              	.L21:
+ 524              		.align	2
+ 525              	.L20:
+ 526 0080 00000000 		.word	sBlockingConsumerCount
+ 527 0084 10000000 		.word	sLastBlockingConsumerCount.7573
+ 528 0088 08000000 		.word	sBlockingProducerCount
+ 529 008c 18000000 		.word	sLastBlockingProducerCount.7574
+ 530              		.cfi_endproc
+ 531              	.LFE71:
+ 532              		.size	xAreBlockingQueuesStillRunning, .-xAreBlockingQueuesStillRunning
+ 533              		.bss
+ 534 000e 0000     		.align	2
+ 535              	sLastBlockingConsumerCount.7573:
+ 536 0010 00000000 		.space	6
+ 536      0000
+ 537 0016 0000     		.align	2
+ 538              	sLastBlockingProducerCount.7574:
+ 539 0018 00000000 		.space	6
+ 539      0000
+ 540              		.text
+ 541              	.Letext0:
+ 542              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 543              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 544              		.file 4 ".\\Tracer/sniffPayload.h"
+ 545              		.file 5 ".\\Tracer/selfFIFO.h"
+ 546              		.file 6 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 547              		.file 7 "..\\Source\\include/queue.h"
+ 548              		.file 8 "Generated_Source\\PSoC5/core_cm3.h"
+ 549              		.file 9 ".\\Tracer/sniffTask.h"
+ 550              		.section	.debug_info,"",%progbits
+ 551              	.Ldebug_info0:
+ 552 0000 23050000 		.4byte	0x523
+ 553 0004 0400     		.2byte	0x4
+ 554 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 555 000a 04       		.byte	0x4
+ 556 000b 01       		.uleb128 0x1
+ 557 000c 98040000 		.4byte	.LASF83
+ 558 0010 0C       		.byte	0xc
+ 559 0011 EB000000 		.4byte	.LASF84
+ 560 0015 26050000 		.4byte	.LASF85
+ 561 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 562 001d 00000000 		.4byte	0
+ 563 0021 00000000 		.4byte	.Ldebug_line0
+ 564 0025 02       		.uleb128 0x2
+ 565 0026 04       		.byte	0x4
+ 566 0027 07       		.byte	0x7
+ 567 0028 63020000 		.4byte	.LASF0
+ 568 002c 03       		.uleb128 0x3
+ 569 002d 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 17
+
+
+ 570 002e 05       		.byte	0x5
+ 571 002f 696E7400 		.ascii	"int\000"
+ 572 0033 02       		.uleb128 0x2
+ 573 0034 08       		.byte	0x8
+ 574 0035 05       		.byte	0x5
+ 575 0036 54010000 		.4byte	.LASF1
+ 576 003a 02       		.uleb128 0x2
+ 577 003b 08       		.byte	0x8
+ 578 003c 04       		.byte	0x4
+ 579 003d D0010000 		.4byte	.LASF2
+ 580 0041 02       		.uleb128 0x2
+ 581 0042 01       		.byte	0x1
+ 582 0043 06       		.byte	0x6
+ 583 0044 0C020000 		.4byte	.LASF3
+ 584 0048 04       		.uleb128 0x4
+ 585 0049 94010000 		.4byte	.LASF6
+ 586 004d 02       		.byte	0x2
+ 587 004e 1D       		.byte	0x1d
+ 588 004f 53000000 		.4byte	0x53
+ 589 0053 02       		.uleb128 0x2
+ 590 0054 01       		.byte	0x1
+ 591 0055 08       		.byte	0x8
+ 592 0056 DC010000 		.4byte	.LASF4
+ 593 005a 02       		.uleb128 0x2
+ 594 005b 02       		.byte	0x2
+ 595 005c 05       		.byte	0x5
+ 596 005d 43000000 		.4byte	.LASF5
+ 597 0061 04       		.uleb128 0x4
+ 598 0062 B5000000 		.4byte	.LASF7
+ 599 0066 02       		.byte	0x2
+ 600 0067 2B       		.byte	0x2b
+ 601 0068 6C000000 		.4byte	0x6c
+ 602 006c 02       		.uleb128 0x2
+ 603 006d 02       		.byte	0x2
+ 604 006e 07       		.byte	0x7
+ 605 006f 0E030000 		.4byte	.LASF8
+ 606 0073 04       		.uleb128 0x4
+ 607 0074 24040000 		.4byte	.LASF9
+ 608 0078 02       		.byte	0x2
+ 609 0079 3F       		.byte	0x3f
+ 610 007a 7E000000 		.4byte	0x7e
+ 611 007e 02       		.uleb128 0x2
+ 612 007f 04       		.byte	0x4
+ 613 0080 05       		.byte	0x5
+ 614 0081 6D010000 		.4byte	.LASF10
+ 615 0085 04       		.uleb128 0x4
+ 616 0086 9D000000 		.4byte	.LASF11
+ 617 008a 02       		.byte	0x2
+ 618 008b 41       		.byte	0x41
+ 619 008c 90000000 		.4byte	0x90
+ 620 0090 02       		.uleb128 0x2
+ 621 0091 04       		.byte	0x4
+ 622 0092 07       		.byte	0x7
+ 623 0093 B0030000 		.4byte	.LASF12
+ 624 0097 02       		.uleb128 0x2
+ 625 0098 08       		.byte	0x8
+ 626 0099 07       		.byte	0x7
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 18
+
+
+ 627 009a 18020000 		.4byte	.LASF13
+ 628 009e 02       		.uleb128 0x2
+ 629 009f 04       		.byte	0x4
+ 630 00a0 07       		.byte	0x7
+ 631 00a1 54000000 		.4byte	.LASF14
+ 632 00a5 05       		.uleb128 0x5
+ 633 00a6 04       		.byte	0x4
+ 634 00a7 02       		.uleb128 0x2
+ 635 00a8 01       		.byte	0x1
+ 636 00a9 08       		.byte	0x8
+ 637 00aa D8020000 		.4byte	.LASF15
+ 638 00ae 04       		.uleb128 0x4
+ 639 00af E3000000 		.4byte	.LASF16
+ 640 00b3 03       		.byte	0x3
+ 641 00b4 18       		.byte	0x18
+ 642 00b5 48000000 		.4byte	0x48
+ 643 00b9 04       		.uleb128 0x4
+ 644 00ba DD020000 		.4byte	.LASF17
+ 645 00be 03       		.byte	0x3
+ 646 00bf 24       		.byte	0x24
+ 647 00c0 61000000 		.4byte	0x61
+ 648 00c4 04       		.uleb128 0x4
+ 649 00c5 EF020000 		.4byte	.LASF18
+ 650 00c9 03       		.byte	0x3
+ 651 00ca 2C       		.byte	0x2c
+ 652 00cb 73000000 		.4byte	0x73
+ 653 00cf 04       		.uleb128 0x4
+ 654 00d0 20010000 		.4byte	.LASF19
+ 655 00d4 03       		.byte	0x3
+ 656 00d5 30       		.byte	0x30
+ 657 00d6 85000000 		.4byte	0x85
+ 658 00da 02       		.uleb128 0x2
+ 659 00db 04       		.byte	0x4
+ 660 00dc 04       		.byte	0x4
+ 661 00dd 3B010000 		.4byte	.LASF20
+ 662 00e1 02       		.uleb128 0x2
+ 663 00e2 08       		.byte	0x8
+ 664 00e3 04       		.byte	0x4
+ 665 00e4 C2030000 		.4byte	.LASF21
+ 666 00e8 06       		.uleb128 0x6
+ 667 00e9 01       		.byte	0x1
+ 668 00ea 53000000 		.4byte	0x53
+ 669 00ee 04       		.byte	0x4
+ 670 00ef 10       		.byte	0x10
+ 671 00f0 1F010000 		.4byte	0x11f
+ 672 00f4 07       		.uleb128 0x7
+ 673 00f5 AC010000 		.4byte	.LASF22
+ 674 00f9 00       		.byte	0
+ 675 00fa 07       		.uleb128 0x7
+ 676 00fb 5D000000 		.4byte	.LASF23
+ 677 00ff 01       		.byte	0x1
+ 678 0100 07       		.uleb128 0x7
+ 679 0101 B2010000 		.4byte	.LASF24
+ 680 0105 02       		.byte	0x2
+ 681 0106 07       		.uleb128 0x7
+ 682 0107 C9030000 		.4byte	.LASF25
+ 683 010b 03       		.byte	0x3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 19
+
+
+ 684 010c 07       		.uleb128 0x7
+ 685 010d 84010000 		.4byte	.LASF26
+ 686 0111 04       		.byte	0x4
+ 687 0112 07       		.uleb128 0x7
+ 688 0113 0C040000 		.4byte	.LASF27
+ 689 0117 05       		.byte	0x5
+ 690 0118 07       		.uleb128 0x7
+ 691 0119 9A030000 		.4byte	.LASF28
+ 692 011d 06       		.byte	0x6
+ 693 011e 00       		.byte	0
+ 694 011f 04       		.uleb128 0x4
+ 695 0120 29010000 		.4byte	.LASF29
+ 696 0124 04       		.byte	0x4
+ 697 0125 10       		.byte	0x10
+ 698 0126 E8000000 		.4byte	0xe8
+ 699 012a 08       		.uleb128 0x8
+ 700 012b 04       		.byte	0x4
+ 701 012c 04       		.byte	0x4
+ 702 012d 86       		.byte	0x86
+ 703 012e 63010000 		.4byte	0x163
+ 704 0132 09       		.uleb128 0x9
+ 705 0133 E6020000 		.4byte	.LASF30
+ 706 0137 04       		.byte	0x4
+ 707 0138 87       		.byte	0x87
+ 708 0139 AE000000 		.4byte	0xae
+ 709 013d 00       		.byte	0
+ 710 013e 09       		.uleb128 0x9
+ 711 013f 00000000 		.4byte	.LASF31
+ 712 0143 04       		.byte	0x4
+ 713 0144 88       		.byte	0x88
+ 714 0145 AE000000 		.4byte	0xae
+ 715 0149 01       		.byte	0x1
+ 716 014a 09       		.uleb128 0x9
+ 717 014b 82000000 		.4byte	.LASF32
+ 718 014f 04       		.byte	0x4
+ 719 0150 89       		.byte	0x89
+ 720 0151 1F010000 		.4byte	0x11f
+ 721 0155 02       		.byte	0x2
+ 722 0156 09       		.uleb128 0x9
+ 723 0157 34010000 		.4byte	.LASF33
+ 724 015b 04       		.byte	0x4
+ 725 015c 8A       		.byte	0x8a
+ 726 015d AE000000 		.4byte	0xae
+ 727 0161 03       		.byte	0x3
+ 728 0162 00       		.byte	0
+ 729 0163 04       		.uleb128 0x4
+ 730 0164 70020000 		.4byte	.LASF34
+ 731 0168 04       		.byte	0x4
+ 732 0169 8B       		.byte	0x8b
+ 733 016a 2A010000 		.4byte	0x12a
+ 734 016e 08       		.uleb128 0x8
+ 735 016f 0E       		.byte	0xe
+ 736 0170 04       		.byte	0x4
+ 737 0171 95       		.byte	0x95
+ 738 0172 9B010000 		.4byte	0x19b
+ 739 0176 09       		.uleb128 0x9
+ 740 0177 2B000000 		.4byte	.LASF35
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 20
+
+
+ 741 017b 04       		.byte	0x4
+ 742 017c 96       		.byte	0x96
+ 743 017d AE000000 		.4byte	0xae
+ 744 0181 00       		.byte	0
+ 745 0182 09       		.uleb128 0x9
+ 746 0183 12010000 		.4byte	.LASF36
+ 747 0187 04       		.byte	0x4
+ 748 0188 97       		.byte	0x97
+ 749 0189 AE000000 		.4byte	0xae
+ 750 018d 01       		.byte	0x1
+ 751 018e 09       		.uleb128 0x9
+ 752 018f C5010000 		.4byte	.LASF37
+ 753 0193 04       		.byte	0x4
+ 754 0194 98       		.byte	0x98
+ 755 0195 9B010000 		.4byte	0x19b
+ 756 0199 02       		.byte	0x2
+ 757 019a 00       		.byte	0
+ 758 019b 0A       		.uleb128 0xa
+ 759 019c A7000000 		.4byte	0xa7
+ 760 01a0 AB010000 		.4byte	0x1ab
+ 761 01a4 0B       		.uleb128 0xb
+ 762 01a5 9E000000 		.4byte	0x9e
+ 763 01a9 0B       		.byte	0xb
+ 764 01aa 00       		.byte	0
+ 765 01ab 04       		.uleb128 0x4
+ 766 01ac 48010000 		.4byte	.LASF38
+ 767 01b0 04       		.byte	0x4
+ 768 01b1 99       		.byte	0x99
+ 769 01b2 6E010000 		.4byte	0x16e
+ 770 01b6 0C       		.uleb128 0xc
+ 771 01b7 1C01     		.2byte	0x11c
+ 772 01b9 04       		.byte	0x4
+ 773 01ba A3       		.byte	0xa3
+ 774 01bb D8010000 		.4byte	0x1d8
+ 775 01bf 09       		.uleb128 0x9
+ 776 01c0 A8000000 		.4byte	.LASF39
+ 777 01c4 04       		.byte	0x4
+ 778 01c5 A4       		.byte	0xa4
+ 779 01c6 63010000 		.4byte	0x163
+ 780 01ca 00       		.byte	0
+ 781 01cb 09       		.uleb128 0x9
+ 782 01cc 06010000 		.4byte	.LASF40
+ 783 01d0 04       		.byte	0x4
+ 784 01d1 A5       		.byte	0xa5
+ 785 01d2 D8010000 		.4byte	0x1d8
+ 786 01d6 04       		.byte	0x4
+ 787 01d7 00       		.byte	0
+ 788 01d8 0A       		.uleb128 0xa
+ 789 01d9 AB010000 		.4byte	0x1ab
+ 790 01dd E8010000 		.4byte	0x1e8
+ 791 01e1 0B       		.uleb128 0xb
+ 792 01e2 9E000000 		.4byte	0x9e
+ 793 01e6 13       		.byte	0x13
+ 794 01e7 00       		.byte	0
+ 795 01e8 04       		.uleb128 0x4
+ 796 01e9 50040000 		.4byte	.LASF41
+ 797 01ed 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 21
+
+
+ 798 01ee A6       		.byte	0xa6
+ 799 01ef B6010000 		.4byte	0x1b6
+ 800 01f3 0D       		.uleb128 0xd
+ 801 01f4 91040000 		.4byte	.LASF49
+ 802 01f8 0210     		.2byte	0x1002
+ 803 01fa 05       		.byte	0x5
+ 804 01fb 0C       		.byte	0xc
+ 805 01fc 27020000 		.4byte	0x227
+ 806 0200 09       		.uleb128 0x9
+ 807 0201 26000000 		.4byte	.LASF42
+ 808 0205 05       		.byte	0x5
+ 809 0206 0D       		.byte	0xd
+ 810 0207 27020000 		.4byte	0x227
+ 811 020b 00       		.byte	0
+ 812 020c 0E       		.uleb128 0xe
+ 813 020d 4F010000 		.4byte	.LASF43
+ 814 0211 05       		.byte	0x5
+ 815 0212 0E       		.byte	0xe
+ 816 0213 AE000000 		.4byte	0xae
+ 817 0217 0010     		.2byte	0x1000
+ 818 0219 0E       		.uleb128 0xe
+ 819 021a 20000000 		.4byte	.LASF44
+ 820 021e 05       		.byte	0x5
+ 821 021f 0F       		.byte	0xf
+ 822 0220 AE000000 		.4byte	0xae
+ 823 0224 0110     		.2byte	0x1001
+ 824 0226 00       		.byte	0
+ 825 0227 0A       		.uleb128 0xa
+ 826 0228 AE000000 		.4byte	0xae
+ 827 022c 38020000 		.4byte	0x238
+ 828 0230 0F       		.uleb128 0xf
+ 829 0231 9E000000 		.4byte	0x9e
+ 830 0235 FF0F     		.2byte	0xfff
+ 831 0237 00       		.byte	0
+ 832 0238 04       		.uleb128 0x4
+ 833 0239 81020000 		.4byte	.LASF45
+ 834 023d 06       		.byte	0x6
+ 835 023e 62       		.byte	0x62
+ 836 023f 7E000000 		.4byte	0x7e
+ 837 0243 04       		.uleb128 0x4
+ 838 0244 28030000 		.4byte	.LASF46
+ 839 0248 06       		.byte	0x6
+ 840 0249 63       		.byte	0x63
+ 841 024a 90000000 		.4byte	0x90
+ 842 024e 04       		.uleb128 0x4
+ 843 024f 62010000 		.4byte	.LASF47
+ 844 0253 06       		.byte	0x6
+ 845 0254 69       		.byte	0x69
+ 846 0255 CF000000 		.4byte	0xcf
+ 847 0259 04       		.uleb128 0x4
+ 848 025a 9E010000 		.4byte	.LASF48
+ 849 025e 07       		.byte	0x7
+ 850 025f 58       		.byte	0x58
+ 851 0260 A5000000 		.4byte	0xa5
+ 852 0264 10       		.uleb128 0x10
+ 853 0265 36040000 		.4byte	.LASF50
+ 854 0269 0C       		.byte	0xc
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 22
+
+
+ 855 026a 01       		.byte	0x1
+ 856 026b 70       		.byte	0x70
+ 857 026c 95020000 		.4byte	0x295
+ 858 0270 09       		.uleb128 0x9
+ 859 0271 21030000 		.4byte	.LASF51
+ 860 0275 01       		.byte	0x1
+ 861 0276 72       		.byte	0x72
+ 862 0277 59020000 		.4byte	0x259
+ 863 027b 00       		.byte	0
+ 864 027c 09       		.uleb128 0x9
+ 865 027d 99020000 		.4byte	.LASF52
+ 866 0281 01       		.byte	0x1
+ 867 0282 73       		.byte	0x73
+ 868 0283 4E020000 		.4byte	0x24e
+ 869 0287 04       		.byte	0x4
+ 870 0288 09       		.uleb128 0x9
+ 871 0289 8D000000 		.4byte	.LASF53
+ 872 028d 01       		.byte	0x1
+ 873 028e 74       		.byte	0x74
+ 874 028f 95020000 		.4byte	0x295
+ 875 0293 08       		.byte	0x8
+ 876 0294 00       		.byte	0
+ 877 0295 11       		.uleb128 0x11
+ 878 0296 04       		.byte	0x4
+ 879 0297 9B020000 		.4byte	0x29b
+ 880 029b 12       		.uleb128 0x12
+ 881 029c 5A000000 		.4byte	0x5a
+ 882 02a0 04       		.uleb128 0x4
+ 883 02a1 2F020000 		.4byte	.LASF54
+ 884 02a5 01       		.byte	0x1
+ 885 02a6 75       		.byte	0x75
+ 886 02a7 64020000 		.4byte	0x264
+ 887 02ab 13       		.uleb128 0x13
+ 888 02ac A4020000 		.4byte	.LASF86
+ 889 02b0 01       		.byte	0x1
+ 890 02b1 89       		.byte	0x89
+ 891 02b2 00000000 		.4byte	.LFB68
+ 892 02b6 94010000 		.4byte	.LFE68-.LFB68
+ 893 02ba 01       		.uleb128 0x1
+ 894 02bb 9C       		.byte	0x9c
+ 895 02bc 5B030000 		.4byte	0x35b
+ 896 02c0 14       		.uleb128 0x14
+ 897 02c1 38000000 		.4byte	.LASF64
+ 898 02c5 01       		.byte	0x1
+ 899 02c6 89       		.byte	0x89
+ 900 02c7 43020000 		.4byte	0x243
+ 901 02cb 02       		.uleb128 0x2
+ 902 02cc 91       		.byte	0x91
+ 903 02cd 4C       		.sleb128 -52
+ 904 02ce 15       		.uleb128 0x15
+ 905 02cf 34030000 		.4byte	.LASF55
+ 906 02d3 01       		.byte	0x1
+ 907 02d4 8B       		.byte	0x8b
+ 908 02d5 5B030000 		.4byte	0x35b
+ 909 02d9 02       		.uleb128 0x2
+ 910 02da 91       		.byte	0x91
+ 911 02db 64       		.sleb128 -28
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 23
+
+
+ 912 02dc 15       		.uleb128 0x15
+ 913 02dd 47030000 		.4byte	.LASF56
+ 914 02e1 01       		.byte	0x1
+ 915 02e2 8B       		.byte	0x8b
+ 916 02e3 5B030000 		.4byte	0x35b
+ 917 02e7 02       		.uleb128 0x2
+ 918 02e8 91       		.byte	0x91
+ 919 02e9 60       		.sleb128 -32
+ 920 02ea 15       		.uleb128 0x15
+ 921 02eb 5A030000 		.4byte	.LASF57
+ 922 02ef 01       		.byte	0x1
+ 923 02f0 8C       		.byte	0x8c
+ 924 02f1 5B030000 		.4byte	0x35b
+ 925 02f5 02       		.uleb128 0x2
+ 926 02f6 91       		.byte	0x91
+ 927 02f7 5C       		.sleb128 -36
+ 928 02f8 15       		.uleb128 0x15
+ 929 02f9 6D030000 		.4byte	.LASF58
+ 930 02fd 01       		.byte	0x1
+ 931 02fe 8C       		.byte	0x8c
+ 932 02ff 5B030000 		.4byte	0x35b
+ 933 0303 02       		.uleb128 0x2
+ 934 0304 91       		.byte	0x91
+ 935 0305 58       		.sleb128 -40
+ 936 0306 15       		.uleb128 0x15
+ 937 0307 11040000 		.4byte	.LASF59
+ 938 030b 01       		.byte	0x1
+ 939 030c 8D       		.byte	0x8d
+ 940 030d 5B030000 		.4byte	0x35b
+ 941 0311 02       		.uleb128 0x2
+ 942 0312 91       		.byte	0x91
+ 943 0313 54       		.sleb128 -44
+ 944 0314 15       		.uleb128 0x15
+ 945 0315 87030000 		.4byte	.LASF60
+ 946 0319 01       		.byte	0x1
+ 947 031a 8D       		.byte	0x8d
+ 948 031b 5B030000 		.4byte	0x35b
+ 949 031f 02       		.uleb128 0x2
+ 950 0320 91       		.byte	0x91
+ 951 0321 50       		.sleb128 -48
+ 952 0322 15       		.uleb128 0x15
+ 953 0323 E5030000 		.4byte	.LASF61
+ 954 0327 01       		.byte	0x1
+ 955 0328 8E       		.byte	0x8e
+ 956 0329 61030000 		.4byte	0x361
+ 957 032d 02       		.uleb128 0x2
+ 958 032e 91       		.byte	0x91
+ 959 032f 74       		.sleb128 -12
+ 960 0330 15       		.uleb128 0x15
+ 961 0331 FF030000 		.4byte	.LASF62
+ 962 0335 01       		.byte	0x1
+ 963 0336 8E       		.byte	0x8e
+ 964 0337 61030000 		.4byte	0x361
+ 965 033b 02       		.uleb128 0x2
+ 966 033c 91       		.byte	0x91
+ 967 033d 70       		.sleb128 -16
+ 968 033e 15       		.uleb128 0x15
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 24
+
+
+ 969 033f 99020000 		.4byte	.LASF52
+ 970 0343 01       		.byte	0x1
+ 971 0344 8F       		.byte	0x8f
+ 972 0345 66030000 		.4byte	0x366
+ 973 0349 02       		.uleb128 0x2
+ 974 034a 91       		.byte	0x91
+ 975 034b 6C       		.sleb128 -20
+ 976 034c 15       		.uleb128 0x15
+ 977 034d 01020000 		.4byte	.LASF63
+ 978 0351 01       		.byte	0x1
+ 979 0352 90       		.byte	0x90
+ 980 0353 66030000 		.4byte	0x366
+ 981 0357 02       		.uleb128 0x2
+ 982 0358 91       		.byte	0x91
+ 983 0359 68       		.sleb128 -24
+ 984 035a 00       		.byte	0
+ 985 035b 11       		.uleb128 0x11
+ 986 035c 04       		.byte	0x4
+ 987 035d A0020000 		.4byte	0x2a0
+ 988 0361 16       		.uleb128 0x16
+ 989 0362 43020000 		.4byte	0x243
+ 990 0366 16       		.uleb128 0x16
+ 991 0367 4E020000 		.4byte	0x24e
+ 992 036b 17       		.uleb128 0x17
+ 993 036c F7020000 		.4byte	.LASF69
+ 994 0370 01       		.byte	0x1
+ 995 0371 DB       		.byte	0xdb
+ 996 0372 00000000 		.4byte	.LFB69
+ 997 0376 56000000 		.4byte	.LFE69-.LFB69
+ 998 037a 01       		.uleb128 0x1
+ 999 037b 9C       		.byte	0x9c
+ 1000 037c B9030000 		.4byte	0x3b9
+ 1001 0380 14       		.uleb128 0x14
+ 1002 0381 8C020000 		.4byte	.LASF65
+ 1003 0385 01       		.byte	0x1
+ 1004 0386 DB       		.byte	0xdb
+ 1005 0387 A5000000 		.4byte	0xa5
+ 1006 038b 02       		.uleb128 0x2
+ 1007 038c 91       		.byte	0x91
+ 1008 038d 64       		.sleb128 -28
+ 1009 038e 15       		.uleb128 0x15
+ 1010 038f 7A000000 		.4byte	.LASF66
+ 1011 0393 01       		.byte	0x1
+ 1012 0394 DD       		.byte	0xdd
+ 1013 0395 B9000000 		.4byte	0xb9
+ 1014 0399 02       		.uleb128 0x2
+ 1015 039a 91       		.byte	0x91
+ 1016 039b 6E       		.sleb128 -18
+ 1017 039c 15       		.uleb128 0x15
+ 1018 039d 0E000000 		.4byte	.LASF67
+ 1019 03a1 01       		.byte	0x1
+ 1020 03a2 DE       		.byte	0xde
+ 1021 03a3 5B030000 		.4byte	0x35b
+ 1022 03a7 02       		.uleb128 0x2
+ 1023 03a8 91       		.byte	0x91
+ 1024 03a9 70       		.sleb128 -16
+ 1025 03aa 15       		.uleb128 0x15
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 25
+
+
+ 1026 03ab C0000000 		.4byte	.LASF68
+ 1027 03af 01       		.byte	0x1
+ 1028 03b0 DF       		.byte	0xdf
+ 1029 03b1 5A000000 		.4byte	0x5a
+ 1030 03b5 02       		.uleb128 0x2
+ 1031 03b6 91       		.byte	0x91
+ 1032 03b7 76       		.sleb128 -10
+ 1033 03b8 00       		.byte	0
+ 1034 03b9 17       		.uleb128 0x17
+ 1035 03ba EA010000 		.4byte	.LASF70
+ 1036 03be 01       		.byte	0x1
+ 1037 03bf FE       		.byte	0xfe
+ 1038 03c0 00000000 		.4byte	.LFB70
+ 1039 03c4 60000000 		.4byte	.LFE70-.LFB70
+ 1040 03c8 01       		.uleb128 0x1
+ 1041 03c9 9C       		.byte	0x9c
+ 1042 03ca 19040000 		.4byte	0x419
+ 1043 03ce 14       		.uleb128 0x14
+ 1044 03cf 8C020000 		.4byte	.LASF65
+ 1045 03d3 01       		.byte	0x1
+ 1046 03d4 FE       		.byte	0xfe
+ 1047 03d5 A5000000 		.4byte	0xa5
+ 1048 03d9 02       		.uleb128 0x2
+ 1049 03da 91       		.byte	0x91
+ 1050 03db 64       		.sleb128 -28
+ 1051 03dc 18       		.uleb128 0x18
+ 1052 03dd 4D000000 		.4byte	.LASF71
+ 1053 03e1 01       		.byte	0x1
+ 1054 03e2 0001     		.2byte	0x100
+ 1055 03e4 B9000000 		.4byte	0xb9
+ 1056 03e8 02       		.uleb128 0x2
+ 1057 03e9 91       		.byte	0x91
+ 1058 03ea 6E       		.sleb128 -18
+ 1059 03eb 18       		.uleb128 0x18
+ 1060 03ec D3000000 		.4byte	.LASF72
+ 1061 03f0 01       		.byte	0x1
+ 1062 03f1 0001     		.2byte	0x100
+ 1063 03f3 B9000000 		.4byte	0xb9
+ 1064 03f7 02       		.uleb128 0x2
+ 1065 03f8 91       		.byte	0x91
+ 1066 03f9 76       		.sleb128 -10
+ 1067 03fa 18       		.uleb128 0x18
+ 1068 03fb 0E000000 		.4byte	.LASF67
+ 1069 03ff 01       		.byte	0x1
+ 1070 0400 0101     		.2byte	0x101
+ 1071 0402 5B030000 		.4byte	0x35b
+ 1072 0406 02       		.uleb128 0x2
+ 1073 0407 91       		.byte	0x91
+ 1074 0408 70       		.sleb128 -16
+ 1075 0409 18       		.uleb128 0x18
+ 1076 040a C0000000 		.4byte	.LASF68
+ 1077 040e 01       		.byte	0x1
+ 1078 040f 0201     		.2byte	0x102
+ 1079 0411 5A000000 		.4byte	0x5a
+ 1080 0415 02       		.uleb128 0x2
+ 1081 0416 91       		.byte	0x91
+ 1082 0417 74       		.sleb128 -12
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 26
+
+
+ 1083 0418 00       		.byte	0
+ 1084 0419 19       		.uleb128 0x19
+ 1085 041a 5B040000 		.4byte	.LASF87
+ 1086 041e 01       		.byte	0x1
+ 1087 041f 2D01     		.2byte	0x12d
+ 1088 0421 38020000 		.4byte	0x238
+ 1089 0425 00000000 		.4byte	.LFB71
+ 1090 0429 90000000 		.4byte	.LFE71-.LFB71
+ 1091 042d 01       		.uleb128 0x1
+ 1092 042e 9C       		.byte	0x9c
+ 1093 042f 76040000 		.4byte	0x476
+ 1094 0433 18       		.uleb128 0x18
+ 1095 0434 BD020000 		.4byte	.LASF73
+ 1096 0438 01       		.byte	0x1
+ 1097 0439 2F01     		.2byte	0x12f
+ 1098 043b 76040000 		.4byte	0x476
+ 1099 043f 05       		.uleb128 0x5
+ 1100 0440 03       		.byte	0x3
+ 1101 0441 10000000 		.4byte	sLastBlockingConsumerCount.7573
+ 1102 0445 18       		.uleb128 0x18
+ 1103 0446 48020000 		.4byte	.LASF74
+ 1104 044a 01       		.byte	0x1
+ 1105 044b 3001     		.2byte	0x130
+ 1106 044d 76040000 		.4byte	0x476
+ 1107 0451 05       		.uleb128 0x5
+ 1108 0452 03       		.byte	0x3
+ 1109 0453 18000000 		.4byte	sLastBlockingProducerCount.7574
+ 1110 0457 18       		.uleb128 0x18
+ 1111 0458 2E040000 		.4byte	.LASF75
+ 1112 045c 01       		.byte	0x1
+ 1113 045d 3101     		.2byte	0x131
+ 1114 045f 38020000 		.4byte	0x238
+ 1115 0463 02       		.uleb128 0x2
+ 1116 0464 91       		.byte	0x91
+ 1117 0465 74       		.sleb128 -12
+ 1118 0466 18       		.uleb128 0x18
+ 1119 0467 41010000 		.4byte	.LASF76
+ 1120 046b 01       		.byte	0x1
+ 1121 046c 3101     		.2byte	0x131
+ 1122 046e 38020000 		.4byte	0x238
+ 1123 0472 02       		.uleb128 0x2
+ 1124 0473 91       		.byte	0x91
+ 1125 0474 70       		.sleb128 -16
+ 1126 0475 00       		.byte	0
+ 1127 0476 0A       		.uleb128 0xa
+ 1128 0477 5A000000 		.4byte	0x5a
+ 1129 047b 86040000 		.4byte	0x486
+ 1130 047f 0B       		.uleb128 0xb
+ 1131 0480 9E000000 		.4byte	0x9e
+ 1132 0484 02       		.byte	0x2
+ 1133 0485 00       		.byte	0
+ 1134 0486 0A       		.uleb128 0xa
+ 1135 0487 9B020000 		.4byte	0x29b
+ 1136 048b 96040000 		.4byte	0x496
+ 1137 048f 0B       		.uleb128 0xb
+ 1138 0490 9E000000 		.4byte	0x9e
+ 1139 0494 02       		.byte	0x2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 27
+
+
+ 1140 0495 00       		.byte	0
+ 1141 0496 15       		.uleb128 0x15
+ 1142 0497 63000000 		.4byte	.LASF77
+ 1143 049b 01       		.byte	0x1
+ 1144 049c 81       		.byte	0x81
+ 1145 049d A7040000 		.4byte	0x4a7
+ 1146 04a1 05       		.uleb128 0x5
+ 1147 04a2 03       		.byte	0x3
+ 1148 04a3 00000000 		.4byte	sBlockingConsumerCount
+ 1149 04a7 12       		.uleb128 0x12
+ 1150 04a8 86040000 		.4byte	0x486
+ 1151 04ac 15       		.uleb128 0x15
+ 1152 04ad 7A040000 		.4byte	.LASF78
+ 1153 04b1 01       		.byte	0x1
+ 1154 04b2 85       		.byte	0x85
+ 1155 04b3 BD040000 		.4byte	0x4bd
+ 1156 04b7 05       		.uleb128 0x5
+ 1157 04b8 03       		.byte	0x3
+ 1158 04b9 08000000 		.4byte	sBlockingProducerCount
+ 1159 04bd 12       		.uleb128 0x12
+ 1160 04be 86040000 		.4byte	0x486
+ 1161 04c2 1A       		.uleb128 0x1a
+ 1162 04c3 F2030000 		.4byte	.LASF79
+ 1163 04c7 08       		.byte	0x8
+ 1164 04c8 9606     		.2byte	0x696
+ 1165 04ca CE040000 		.4byte	0x4ce
+ 1166 04ce 12       		.uleb128 0x12
+ 1167 04cf C4000000 		.4byte	0xc4
+ 1168 04d3 0A       		.uleb128 0xa
+ 1169 04d4 AE000000 		.4byte	0xae
+ 1170 04d8 E3040000 		.4byte	0x4e3
+ 1171 04dc 0B       		.uleb128 0xb
+ 1172 04dd 9E000000 		.4byte	0x9e
+ 1173 04e1 0C       		.byte	0xc
+ 1174 04e2 00       		.byte	0
+ 1175 04e3 1B       		.uleb128 0x1b
+ 1176 04e4 76010000 		.4byte	.LASF80
+ 1177 04e8 04       		.byte	0x4
+ 1178 04e9 12       		.byte	0x12
+ 1179 04ea D3040000 		.4byte	0x4d3
+ 1180 04ee 05       		.uleb128 0x5
+ 1181 04ef 03       		.byte	0x3
+ 1182 04f0 00000000 		.4byte	sniffIDFilter
+ 1183 04f4 1B       		.uleb128 0x1b
+ 1184 04f5 80030000 		.4byte	.LASF81
+ 1185 04f9 05       		.byte	0x5
+ 1186 04fa 10       		.byte	0x10
+ 1187 04fb F3010000 		.4byte	0x1f3
+ 1188 04ff 05       		.uleb128 0x5
+ 1189 0500 03       		.byte	0x3
+ 1190 0501 00000000 		.4byte	buffer
+ 1191 0505 0A       		.uleb128 0xa
+ 1192 0506 E8010000 		.4byte	0x1e8
+ 1193 050a 15050000 		.4byte	0x515
+ 1194 050e 0B       		.uleb128 0xb
+ 1195 050f 9E000000 		.4byte	0x9e
+ 1196 0513 05       		.byte	0x5
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 28
+
+
+ 1197 0514 00       		.byte	0
+ 1198 0515 1B       		.uleb128 0x1b
+ 1199 0516 DA030000 		.4byte	.LASF82
+ 1200 051a 09       		.byte	0x9
+ 1201 051b 0D       		.byte	0xd
+ 1202 051c 05050000 		.4byte	0x505
+ 1203 0520 05       		.uleb128 0x5
+ 1204 0521 03       		.byte	0x3
+ 1205 0522 00000000 		.4byte	objectList
+ 1206 0526 00       		.byte	0
+ 1207              		.section	.debug_abbrev,"",%progbits
+ 1208              	.Ldebug_abbrev0:
+ 1209 0000 01       		.uleb128 0x1
+ 1210 0001 11       		.uleb128 0x11
+ 1211 0002 01       		.byte	0x1
+ 1212 0003 25       		.uleb128 0x25
+ 1213 0004 0E       		.uleb128 0xe
+ 1214 0005 13       		.uleb128 0x13
+ 1215 0006 0B       		.uleb128 0xb
+ 1216 0007 03       		.uleb128 0x3
+ 1217 0008 0E       		.uleb128 0xe
+ 1218 0009 1B       		.uleb128 0x1b
+ 1219 000a 0E       		.uleb128 0xe
+ 1220 000b 55       		.uleb128 0x55
+ 1221 000c 17       		.uleb128 0x17
+ 1222 000d 11       		.uleb128 0x11
+ 1223 000e 01       		.uleb128 0x1
+ 1224 000f 10       		.uleb128 0x10
+ 1225 0010 17       		.uleb128 0x17
+ 1226 0011 00       		.byte	0
+ 1227 0012 00       		.byte	0
+ 1228 0013 02       		.uleb128 0x2
+ 1229 0014 24       		.uleb128 0x24
+ 1230 0015 00       		.byte	0
+ 1231 0016 0B       		.uleb128 0xb
+ 1232 0017 0B       		.uleb128 0xb
+ 1233 0018 3E       		.uleb128 0x3e
+ 1234 0019 0B       		.uleb128 0xb
+ 1235 001a 03       		.uleb128 0x3
+ 1236 001b 0E       		.uleb128 0xe
+ 1237 001c 00       		.byte	0
+ 1238 001d 00       		.byte	0
+ 1239 001e 03       		.uleb128 0x3
+ 1240 001f 24       		.uleb128 0x24
+ 1241 0020 00       		.byte	0
+ 1242 0021 0B       		.uleb128 0xb
+ 1243 0022 0B       		.uleb128 0xb
+ 1244 0023 3E       		.uleb128 0x3e
+ 1245 0024 0B       		.uleb128 0xb
+ 1246 0025 03       		.uleb128 0x3
+ 1247 0026 08       		.uleb128 0x8
+ 1248 0027 00       		.byte	0
+ 1249 0028 00       		.byte	0
+ 1250 0029 04       		.uleb128 0x4
+ 1251 002a 16       		.uleb128 0x16
+ 1252 002b 00       		.byte	0
+ 1253 002c 03       		.uleb128 0x3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 29
+
+
+ 1254 002d 0E       		.uleb128 0xe
+ 1255 002e 3A       		.uleb128 0x3a
+ 1256 002f 0B       		.uleb128 0xb
+ 1257 0030 3B       		.uleb128 0x3b
+ 1258 0031 0B       		.uleb128 0xb
+ 1259 0032 49       		.uleb128 0x49
+ 1260 0033 13       		.uleb128 0x13
+ 1261 0034 00       		.byte	0
+ 1262 0035 00       		.byte	0
+ 1263 0036 05       		.uleb128 0x5
+ 1264 0037 0F       		.uleb128 0xf
+ 1265 0038 00       		.byte	0
+ 1266 0039 0B       		.uleb128 0xb
+ 1267 003a 0B       		.uleb128 0xb
+ 1268 003b 00       		.byte	0
+ 1269 003c 00       		.byte	0
+ 1270 003d 06       		.uleb128 0x6
+ 1271 003e 04       		.uleb128 0x4
+ 1272 003f 01       		.byte	0x1
+ 1273 0040 0B       		.uleb128 0xb
+ 1274 0041 0B       		.uleb128 0xb
+ 1275 0042 49       		.uleb128 0x49
+ 1276 0043 13       		.uleb128 0x13
+ 1277 0044 3A       		.uleb128 0x3a
+ 1278 0045 0B       		.uleb128 0xb
+ 1279 0046 3B       		.uleb128 0x3b
+ 1280 0047 0B       		.uleb128 0xb
+ 1281 0048 01       		.uleb128 0x1
+ 1282 0049 13       		.uleb128 0x13
+ 1283 004a 00       		.byte	0
+ 1284 004b 00       		.byte	0
+ 1285 004c 07       		.uleb128 0x7
+ 1286 004d 28       		.uleb128 0x28
+ 1287 004e 00       		.byte	0
+ 1288 004f 03       		.uleb128 0x3
+ 1289 0050 0E       		.uleb128 0xe
+ 1290 0051 1C       		.uleb128 0x1c
+ 1291 0052 0B       		.uleb128 0xb
+ 1292 0053 00       		.byte	0
+ 1293 0054 00       		.byte	0
+ 1294 0055 08       		.uleb128 0x8
+ 1295 0056 13       		.uleb128 0x13
+ 1296 0057 01       		.byte	0x1
+ 1297 0058 0B       		.uleb128 0xb
+ 1298 0059 0B       		.uleb128 0xb
+ 1299 005a 3A       		.uleb128 0x3a
+ 1300 005b 0B       		.uleb128 0xb
+ 1301 005c 3B       		.uleb128 0x3b
+ 1302 005d 0B       		.uleb128 0xb
+ 1303 005e 01       		.uleb128 0x1
+ 1304 005f 13       		.uleb128 0x13
+ 1305 0060 00       		.byte	0
+ 1306 0061 00       		.byte	0
+ 1307 0062 09       		.uleb128 0x9
+ 1308 0063 0D       		.uleb128 0xd
+ 1309 0064 00       		.byte	0
+ 1310 0065 03       		.uleb128 0x3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 30
+
+
+ 1311 0066 0E       		.uleb128 0xe
+ 1312 0067 3A       		.uleb128 0x3a
+ 1313 0068 0B       		.uleb128 0xb
+ 1314 0069 3B       		.uleb128 0x3b
+ 1315 006a 0B       		.uleb128 0xb
+ 1316 006b 49       		.uleb128 0x49
+ 1317 006c 13       		.uleb128 0x13
+ 1318 006d 38       		.uleb128 0x38
+ 1319 006e 0B       		.uleb128 0xb
+ 1320 006f 00       		.byte	0
+ 1321 0070 00       		.byte	0
+ 1322 0071 0A       		.uleb128 0xa
+ 1323 0072 01       		.uleb128 0x1
+ 1324 0073 01       		.byte	0x1
+ 1325 0074 49       		.uleb128 0x49
+ 1326 0075 13       		.uleb128 0x13
+ 1327 0076 01       		.uleb128 0x1
+ 1328 0077 13       		.uleb128 0x13
+ 1329 0078 00       		.byte	0
+ 1330 0079 00       		.byte	0
+ 1331 007a 0B       		.uleb128 0xb
+ 1332 007b 21       		.uleb128 0x21
+ 1333 007c 00       		.byte	0
+ 1334 007d 49       		.uleb128 0x49
+ 1335 007e 13       		.uleb128 0x13
+ 1336 007f 2F       		.uleb128 0x2f
+ 1337 0080 0B       		.uleb128 0xb
+ 1338 0081 00       		.byte	0
+ 1339 0082 00       		.byte	0
+ 1340 0083 0C       		.uleb128 0xc
+ 1341 0084 13       		.uleb128 0x13
+ 1342 0085 01       		.byte	0x1
+ 1343 0086 0B       		.uleb128 0xb
+ 1344 0087 05       		.uleb128 0x5
+ 1345 0088 3A       		.uleb128 0x3a
+ 1346 0089 0B       		.uleb128 0xb
+ 1347 008a 3B       		.uleb128 0x3b
+ 1348 008b 0B       		.uleb128 0xb
+ 1349 008c 01       		.uleb128 0x1
+ 1350 008d 13       		.uleb128 0x13
+ 1351 008e 00       		.byte	0
+ 1352 008f 00       		.byte	0
+ 1353 0090 0D       		.uleb128 0xd
+ 1354 0091 13       		.uleb128 0x13
+ 1355 0092 01       		.byte	0x1
+ 1356 0093 03       		.uleb128 0x3
+ 1357 0094 0E       		.uleb128 0xe
+ 1358 0095 0B       		.uleb128 0xb
+ 1359 0096 05       		.uleb128 0x5
+ 1360 0097 3A       		.uleb128 0x3a
+ 1361 0098 0B       		.uleb128 0xb
+ 1362 0099 3B       		.uleb128 0x3b
+ 1363 009a 0B       		.uleb128 0xb
+ 1364 009b 01       		.uleb128 0x1
+ 1365 009c 13       		.uleb128 0x13
+ 1366 009d 00       		.byte	0
+ 1367 009e 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 31
+
+
+ 1368 009f 0E       		.uleb128 0xe
+ 1369 00a0 0D       		.uleb128 0xd
+ 1370 00a1 00       		.byte	0
+ 1371 00a2 03       		.uleb128 0x3
+ 1372 00a3 0E       		.uleb128 0xe
+ 1373 00a4 3A       		.uleb128 0x3a
+ 1374 00a5 0B       		.uleb128 0xb
+ 1375 00a6 3B       		.uleb128 0x3b
+ 1376 00a7 0B       		.uleb128 0xb
+ 1377 00a8 49       		.uleb128 0x49
+ 1378 00a9 13       		.uleb128 0x13
+ 1379 00aa 38       		.uleb128 0x38
+ 1380 00ab 05       		.uleb128 0x5
+ 1381 00ac 00       		.byte	0
+ 1382 00ad 00       		.byte	0
+ 1383 00ae 0F       		.uleb128 0xf
+ 1384 00af 21       		.uleb128 0x21
+ 1385 00b0 00       		.byte	0
+ 1386 00b1 49       		.uleb128 0x49
+ 1387 00b2 13       		.uleb128 0x13
+ 1388 00b3 2F       		.uleb128 0x2f
+ 1389 00b4 05       		.uleb128 0x5
+ 1390 00b5 00       		.byte	0
+ 1391 00b6 00       		.byte	0
+ 1392 00b7 10       		.uleb128 0x10
+ 1393 00b8 13       		.uleb128 0x13
+ 1394 00b9 01       		.byte	0x1
+ 1395 00ba 03       		.uleb128 0x3
+ 1396 00bb 0E       		.uleb128 0xe
+ 1397 00bc 0B       		.uleb128 0xb
+ 1398 00bd 0B       		.uleb128 0xb
+ 1399 00be 3A       		.uleb128 0x3a
+ 1400 00bf 0B       		.uleb128 0xb
+ 1401 00c0 3B       		.uleb128 0x3b
+ 1402 00c1 0B       		.uleb128 0xb
+ 1403 00c2 01       		.uleb128 0x1
+ 1404 00c3 13       		.uleb128 0x13
+ 1405 00c4 00       		.byte	0
+ 1406 00c5 00       		.byte	0
+ 1407 00c6 11       		.uleb128 0x11
+ 1408 00c7 0F       		.uleb128 0xf
+ 1409 00c8 00       		.byte	0
+ 1410 00c9 0B       		.uleb128 0xb
+ 1411 00ca 0B       		.uleb128 0xb
+ 1412 00cb 49       		.uleb128 0x49
+ 1413 00cc 13       		.uleb128 0x13
+ 1414 00cd 00       		.byte	0
+ 1415 00ce 00       		.byte	0
+ 1416 00cf 12       		.uleb128 0x12
+ 1417 00d0 35       		.uleb128 0x35
+ 1418 00d1 00       		.byte	0
+ 1419 00d2 49       		.uleb128 0x49
+ 1420 00d3 13       		.uleb128 0x13
+ 1421 00d4 00       		.byte	0
+ 1422 00d5 00       		.byte	0
+ 1423 00d6 13       		.uleb128 0x13
+ 1424 00d7 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 32
+
+
+ 1425 00d8 01       		.byte	0x1
+ 1426 00d9 3F       		.uleb128 0x3f
+ 1427 00da 19       		.uleb128 0x19
+ 1428 00db 03       		.uleb128 0x3
+ 1429 00dc 0E       		.uleb128 0xe
+ 1430 00dd 3A       		.uleb128 0x3a
+ 1431 00de 0B       		.uleb128 0xb
+ 1432 00df 3B       		.uleb128 0x3b
+ 1433 00e0 0B       		.uleb128 0xb
+ 1434 00e1 27       		.uleb128 0x27
+ 1435 00e2 19       		.uleb128 0x19
+ 1436 00e3 11       		.uleb128 0x11
+ 1437 00e4 01       		.uleb128 0x1
+ 1438 00e5 12       		.uleb128 0x12
+ 1439 00e6 06       		.uleb128 0x6
+ 1440 00e7 40       		.uleb128 0x40
+ 1441 00e8 18       		.uleb128 0x18
+ 1442 00e9 9642     		.uleb128 0x2116
+ 1443 00eb 19       		.uleb128 0x19
+ 1444 00ec 01       		.uleb128 0x1
+ 1445 00ed 13       		.uleb128 0x13
+ 1446 00ee 00       		.byte	0
+ 1447 00ef 00       		.byte	0
+ 1448 00f0 14       		.uleb128 0x14
+ 1449 00f1 05       		.uleb128 0x5
+ 1450 00f2 00       		.byte	0
+ 1451 00f3 03       		.uleb128 0x3
+ 1452 00f4 0E       		.uleb128 0xe
+ 1453 00f5 3A       		.uleb128 0x3a
+ 1454 00f6 0B       		.uleb128 0xb
+ 1455 00f7 3B       		.uleb128 0x3b
+ 1456 00f8 0B       		.uleb128 0xb
+ 1457 00f9 49       		.uleb128 0x49
+ 1458 00fa 13       		.uleb128 0x13
+ 1459 00fb 02       		.uleb128 0x2
+ 1460 00fc 18       		.uleb128 0x18
+ 1461 00fd 00       		.byte	0
+ 1462 00fe 00       		.byte	0
+ 1463 00ff 15       		.uleb128 0x15
+ 1464 0100 34       		.uleb128 0x34
+ 1465 0101 00       		.byte	0
+ 1466 0102 03       		.uleb128 0x3
+ 1467 0103 0E       		.uleb128 0xe
+ 1468 0104 3A       		.uleb128 0x3a
+ 1469 0105 0B       		.uleb128 0xb
+ 1470 0106 3B       		.uleb128 0x3b
+ 1471 0107 0B       		.uleb128 0xb
+ 1472 0108 49       		.uleb128 0x49
+ 1473 0109 13       		.uleb128 0x13
+ 1474 010a 02       		.uleb128 0x2
+ 1475 010b 18       		.uleb128 0x18
+ 1476 010c 00       		.byte	0
+ 1477 010d 00       		.byte	0
+ 1478 010e 16       		.uleb128 0x16
+ 1479 010f 26       		.uleb128 0x26
+ 1480 0110 00       		.byte	0
+ 1481 0111 49       		.uleb128 0x49
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 33
+
+
+ 1482 0112 13       		.uleb128 0x13
+ 1483 0113 00       		.byte	0
+ 1484 0114 00       		.byte	0
+ 1485 0115 17       		.uleb128 0x17
+ 1486 0116 2E       		.uleb128 0x2e
+ 1487 0117 01       		.byte	0x1
+ 1488 0118 03       		.uleb128 0x3
+ 1489 0119 0E       		.uleb128 0xe
+ 1490 011a 3A       		.uleb128 0x3a
+ 1491 011b 0B       		.uleb128 0xb
+ 1492 011c 3B       		.uleb128 0x3b
+ 1493 011d 0B       		.uleb128 0xb
+ 1494 011e 27       		.uleb128 0x27
+ 1495 011f 19       		.uleb128 0x19
+ 1496 0120 11       		.uleb128 0x11
+ 1497 0121 01       		.uleb128 0x1
+ 1498 0122 12       		.uleb128 0x12
+ 1499 0123 06       		.uleb128 0x6
+ 1500 0124 40       		.uleb128 0x40
+ 1501 0125 18       		.uleb128 0x18
+ 1502 0126 9642     		.uleb128 0x2116
+ 1503 0128 19       		.uleb128 0x19
+ 1504 0129 01       		.uleb128 0x1
+ 1505 012a 13       		.uleb128 0x13
+ 1506 012b 00       		.byte	0
+ 1507 012c 00       		.byte	0
+ 1508 012d 18       		.uleb128 0x18
+ 1509 012e 34       		.uleb128 0x34
+ 1510 012f 00       		.byte	0
+ 1511 0130 03       		.uleb128 0x3
+ 1512 0131 0E       		.uleb128 0xe
+ 1513 0132 3A       		.uleb128 0x3a
+ 1514 0133 0B       		.uleb128 0xb
+ 1515 0134 3B       		.uleb128 0x3b
+ 1516 0135 05       		.uleb128 0x5
+ 1517 0136 49       		.uleb128 0x49
+ 1518 0137 13       		.uleb128 0x13
+ 1519 0138 02       		.uleb128 0x2
+ 1520 0139 18       		.uleb128 0x18
+ 1521 013a 00       		.byte	0
+ 1522 013b 00       		.byte	0
+ 1523 013c 19       		.uleb128 0x19
+ 1524 013d 2E       		.uleb128 0x2e
+ 1525 013e 01       		.byte	0x1
+ 1526 013f 3F       		.uleb128 0x3f
+ 1527 0140 19       		.uleb128 0x19
+ 1528 0141 03       		.uleb128 0x3
+ 1529 0142 0E       		.uleb128 0xe
+ 1530 0143 3A       		.uleb128 0x3a
+ 1531 0144 0B       		.uleb128 0xb
+ 1532 0145 3B       		.uleb128 0x3b
+ 1533 0146 05       		.uleb128 0x5
+ 1534 0147 27       		.uleb128 0x27
+ 1535 0148 19       		.uleb128 0x19
+ 1536 0149 49       		.uleb128 0x49
+ 1537 014a 13       		.uleb128 0x13
+ 1538 014b 11       		.uleb128 0x11
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 34
+
+
+ 1539 014c 01       		.uleb128 0x1
+ 1540 014d 12       		.uleb128 0x12
+ 1541 014e 06       		.uleb128 0x6
+ 1542 014f 40       		.uleb128 0x40
+ 1543 0150 18       		.uleb128 0x18
+ 1544 0151 9742     		.uleb128 0x2117
+ 1545 0153 19       		.uleb128 0x19
+ 1546 0154 01       		.uleb128 0x1
+ 1547 0155 13       		.uleb128 0x13
+ 1548 0156 00       		.byte	0
+ 1549 0157 00       		.byte	0
+ 1550 0158 1A       		.uleb128 0x1a
+ 1551 0159 34       		.uleb128 0x34
+ 1552 015a 00       		.byte	0
+ 1553 015b 03       		.uleb128 0x3
+ 1554 015c 0E       		.uleb128 0xe
+ 1555 015d 3A       		.uleb128 0x3a
+ 1556 015e 0B       		.uleb128 0xb
+ 1557 015f 3B       		.uleb128 0x3b
+ 1558 0160 05       		.uleb128 0x5
+ 1559 0161 49       		.uleb128 0x49
+ 1560 0162 13       		.uleb128 0x13
+ 1561 0163 3F       		.uleb128 0x3f
+ 1562 0164 19       		.uleb128 0x19
+ 1563 0165 3C       		.uleb128 0x3c
+ 1564 0166 19       		.uleb128 0x19
+ 1565 0167 00       		.byte	0
+ 1566 0168 00       		.byte	0
+ 1567 0169 1B       		.uleb128 0x1b
+ 1568 016a 34       		.uleb128 0x34
+ 1569 016b 00       		.byte	0
+ 1570 016c 03       		.uleb128 0x3
+ 1571 016d 0E       		.uleb128 0xe
+ 1572 016e 3A       		.uleb128 0x3a
+ 1573 016f 0B       		.uleb128 0xb
+ 1574 0170 3B       		.uleb128 0x3b
+ 1575 0171 0B       		.uleb128 0xb
+ 1576 0172 49       		.uleb128 0x49
+ 1577 0173 13       		.uleb128 0x13
+ 1578 0174 3F       		.uleb128 0x3f
+ 1579 0175 19       		.uleb128 0x19
+ 1580 0176 02       		.uleb128 0x2
+ 1581 0177 18       		.uleb128 0x18
+ 1582 0178 00       		.byte	0
+ 1583 0179 00       		.byte	0
+ 1584 017a 00       		.byte	0
+ 1585              		.section	.debug_aranges,"",%progbits
+ 1586 0000 34000000 		.4byte	0x34
+ 1587 0004 0200     		.2byte	0x2
+ 1588 0006 00000000 		.4byte	.Ldebug_info0
+ 1589 000a 04       		.byte	0x4
+ 1590 000b 00       		.byte	0
+ 1591 000c 0000     		.2byte	0
+ 1592 000e 0000     		.2byte	0
+ 1593 0010 00000000 		.4byte	.LFB68
+ 1594 0014 94010000 		.4byte	.LFE68-.LFB68
+ 1595 0018 00000000 		.4byte	.LFB69
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 35
+
+
+ 1596 001c 56000000 		.4byte	.LFE69-.LFB69
+ 1597 0020 00000000 		.4byte	.LFB70
+ 1598 0024 60000000 		.4byte	.LFE70-.LFB70
+ 1599 0028 00000000 		.4byte	.LFB71
+ 1600 002c 90000000 		.4byte	.LFE71-.LFB71
+ 1601 0030 00000000 		.4byte	0
+ 1602 0034 00000000 		.4byte	0
+ 1603              		.section	.debug_ranges,"",%progbits
+ 1604              	.Ldebug_ranges0:
+ 1605 0000 00000000 		.4byte	.LFB68
+ 1606 0004 94010000 		.4byte	.LFE68
+ 1607 0008 00000000 		.4byte	.LFB69
+ 1608 000c 56000000 		.4byte	.LFE69
+ 1609 0010 00000000 		.4byte	.LFB70
+ 1610 0014 60000000 		.4byte	.LFE70
+ 1611 0018 00000000 		.4byte	.LFB71
+ 1612 001c 90000000 		.4byte	.LFE71
+ 1613 0020 00000000 		.4byte	0
+ 1614 0024 00000000 		.4byte	0
+ 1615              		.section	.debug_line,"",%progbits
+ 1616              	.Ldebug_line0:
+ 1617 0000 74020000 		.section	.debug_str,"MS",%progbits,1
+ 1617      0200D601 
+ 1617      00000201 
+ 1617      FB0E0D00 
+ 1617      01010101 
+ 1618              	.LASF31:
+ 1619 0000 696E666F 		.ascii	"informationID\000"
+ 1619      726D6174 
+ 1619      696F6E49 
+ 1619      4400
+ 1620              	.LASF67:
+ 1621 000e 70785175 		.ascii	"pxQueueParameters\000"
+ 1621      65756550 
+ 1621      6172616D 
+ 1621      65746572 
+ 1621      7300
+ 1622              	.LASF44:
+ 1623 0020 77726974 		.ascii	"write\000"
+ 1623      6500
+ 1624              	.LASF42:
+ 1625 0026 64617461 		.ascii	"data\000"
+ 1625      00
+ 1626              	.LASF35:
+ 1627 002b 6F626A65 		.ascii	"objectNumber\000"
+ 1627      63744E75 
+ 1627      6D626572 
+ 1627      00
+ 1628              	.LASF64:
+ 1629 0038 75785072 		.ascii	"uxPriority\000"
+ 1629      696F7269 
+ 1629      747900
+ 1630              	.LASF5:
+ 1631 0043 73686F72 		.ascii	"short int\000"
+ 1631      7420696E 
+ 1631      7400
+ 1632              	.LASF71:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 36
+
+
+ 1633 004d 75734461 		.ascii	"usData\000"
+ 1633      746100
+ 1634              	.LASF14:
+ 1635 0054 73697A65 		.ascii	"sizetype\000"
+ 1635      74797065 
+ 1635      00
+ 1636              	.LASF23:
+ 1637 005d 4D555445 		.ascii	"MUTEX\000"
+ 1637      5800
+ 1638              	.LASF77:
+ 1639 0063 73426C6F 		.ascii	"sBlockingConsumerCount\000"
+ 1639      636B696E 
+ 1639      67436F6E 
+ 1639      73756D65 
+ 1639      72436F75 
+ 1640              	.LASF66:
+ 1641 007a 75735661 		.ascii	"usValue\000"
+ 1641      6C756500 
+ 1642              	.LASF32:
+ 1643 0082 6F626A65 		.ascii	"objectType\000"
+ 1643      63745479 
+ 1643      706500
+ 1644              	.LASF53:
+ 1645 008d 70734368 		.ascii	"psCheckVariable\000"
+ 1645      65636B56 
+ 1645      61726961 
+ 1645      626C6500 
+ 1646              	.LASF11:
+ 1647 009d 5F5F7569 		.ascii	"__uint32_t\000"
+ 1647      6E743332 
+ 1647      5F7400
+ 1648              	.LASF39:
+ 1649 00a8 6F626A65 		.ascii	"objectHeader\000"
+ 1649      63744865 
+ 1649      61646572 
+ 1649      00
+ 1650              	.LASF7:
+ 1651 00b5 5F5F7569 		.ascii	"__uint16_t\000"
+ 1651      6E743136 
+ 1651      5F7400
+ 1652              	.LASF68:
+ 1653 00c0 73457272 		.ascii	"sErrorEverOccurred\000"
+ 1653      6F724576 
+ 1653      65724F63 
+ 1653      63757272 
+ 1653      656400
+ 1654              	.LASF72:
+ 1655 00d3 75734578 		.ascii	"usExpectedValue\000"
+ 1655      70656374 
+ 1655      65645661 
+ 1655      6C756500 
+ 1656              	.LASF16:
+ 1657 00e3 75696E74 		.ascii	"uint8_t\000"
+ 1657      385F7400 
+ 1658              	.LASF84:
+ 1659 00eb 2E2E5C43 		.ascii	"..\\Common\\Minimal\\BlockQ.c\000"
+ 1659      6F6D6D6F 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 37
+
+
+ 1659      6E5C4D69 
+ 1659      6E696D61 
+ 1659      6C5C426C 
+ 1660              	.LASF40:
+ 1661 0106 6F626A65 		.ascii	"objectArray\000"
+ 1661      63744172 
+ 1661      72617900 
+ 1662              	.LASF36:
+ 1663 0112 6C656E4F 		.ascii	"lenObjectName\000"
+ 1663      626A6563 
+ 1663      744E616D 
+ 1663      6500
+ 1664              	.LASF19:
+ 1665 0120 75696E74 		.ascii	"uint32_t\000"
+ 1665      33325F74 
+ 1665      00
+ 1666              	.LASF29:
+ 1667 0129 4F626A65 		.ascii	"ObjectType\000"
+ 1667      63745479 
+ 1667      706500
+ 1668              	.LASF33:
+ 1669 0134 6C656E67 		.ascii	"length\000"
+ 1669      746800
+ 1670              	.LASF20:
+ 1671 013b 666C6F61 		.ascii	"float\000"
+ 1671      7400
+ 1672              	.LASF76:
+ 1673 0141 78546173 		.ascii	"xTasks\000"
+ 1673      6B7300
+ 1674              	.LASF38:
+ 1675 0148 4F626A65 		.ascii	"Object\000"
+ 1675      637400
+ 1676              	.LASF43:
+ 1677 014f 72656164 		.ascii	"read\000"
+ 1677      00
+ 1678              	.LASF1:
+ 1679 0154 6C6F6E67 		.ascii	"long long int\000"
+ 1679      206C6F6E 
+ 1679      6720696E 
+ 1679      7400
+ 1680              	.LASF47:
+ 1681 0162 5469636B 		.ascii	"TickType_t\000"
+ 1681      54797065 
+ 1681      5F7400
+ 1682              	.LASF10:
+ 1683 016d 6C6F6E67 		.ascii	"long int\000"
+ 1683      20696E74 
+ 1683      00
+ 1684              	.LASF80:
+ 1685 0176 736E6966 		.ascii	"sniffIDFilter\000"
+ 1685      66494446 
+ 1685      696C7465 
+ 1685      7200
+ 1686              	.LASF26:
+ 1687 0184 52454355 		.ascii	"RECURSIVE_MUTEX\000"
+ 1687      52534956 
+ 1687      455F4D55 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 38
+
+
+ 1687      54455800 
+ 1688              	.LASF6:
+ 1689 0194 5F5F7569 		.ascii	"__uint8_t\000"
+ 1689      6E74385F 
+ 1689      7400
+ 1690              	.LASF48:
+ 1691 019e 51756575 		.ascii	"QueueHandle_t\000"
+ 1691      6548616E 
+ 1691      646C655F 
+ 1691      7400
+ 1692              	.LASF22:
+ 1693 01ac 51554555 		.ascii	"QUEUE\000"
+ 1693      4500
+ 1694              	.LASF24:
+ 1695 01b2 434F554E 		.ascii	"COUNTING_SEMAPHORE\000"
+ 1695      54494E47 
+ 1695      5F53454D 
+ 1695      4150484F 
+ 1695      524500
+ 1696              	.LASF37:
+ 1697 01c5 6F626A65 		.ascii	"objectName\000"
+ 1697      63744E61 
+ 1697      6D6500
+ 1698              	.LASF2:
+ 1699 01d0 6C6F6E67 		.ascii	"long double\000"
+ 1699      20646F75 
+ 1699      626C6500 
+ 1700              	.LASF4:
+ 1701 01dc 756E7369 		.ascii	"unsigned char\000"
+ 1701      676E6564 
+ 1701      20636861 
+ 1701      7200
+ 1702              	.LASF70:
+ 1703 01ea 76426C6F 		.ascii	"vBlockingQueueConsumer\000"
+ 1703      636B696E 
+ 1703      67517565 
+ 1703      7565436F 
+ 1703      6E73756D 
+ 1704              	.LASF63:
+ 1705 0201 78446F6E 		.ascii	"xDontBlock\000"
+ 1705      74426C6F 
+ 1705      636B00
+ 1706              	.LASF3:
+ 1707 020c 7369676E 		.ascii	"signed char\000"
+ 1707      65642063 
+ 1707      68617200 
+ 1708              	.LASF13:
+ 1709 0218 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1709      206C6F6E 
+ 1709      6720756E 
+ 1709      7369676E 
+ 1709      65642069 
+ 1710              	.LASF54:
+ 1711 022f 78426C6F 		.ascii	"xBlockingQueueParameters\000"
+ 1711      636B696E 
+ 1711      67517565 
+ 1711      75655061 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 39
+
+
+ 1711      72616D65 
+ 1712              	.LASF74:
+ 1713 0248 734C6173 		.ascii	"sLastBlockingProducerCount\000"
+ 1713      74426C6F 
+ 1713      636B696E 
+ 1713      6750726F 
+ 1713      64756365 
+ 1714              	.LASF0:
+ 1715 0263 756E7369 		.ascii	"unsigned int\000"
+ 1715      676E6564 
+ 1715      20696E74 
+ 1715      00
+ 1716              	.LASF34:
+ 1717 0270 4F626A65 		.ascii	"ObjectListHeader\000"
+ 1717      63744C69 
+ 1717      73744865 
+ 1717      61646572 
+ 1717      00
+ 1718              	.LASF45:
+ 1719 0281 42617365 		.ascii	"BaseType_t\000"
+ 1719      54797065 
+ 1719      5F7400
+ 1720              	.LASF65:
+ 1721 028c 70765061 		.ascii	"pvParameters\000"
+ 1721      72616D65 
+ 1721      74657273 
+ 1721      00
+ 1722              	.LASF52:
+ 1723 0299 78426C6F 		.ascii	"xBlockTime\000"
+ 1723      636B5469 
+ 1723      6D6500
+ 1724              	.LASF86:
+ 1725 02a4 76537461 		.ascii	"vStartBlockingQueueTasks\000"
+ 1725      7274426C 
+ 1725      6F636B69 
+ 1725      6E675175 
+ 1725      65756554 
+ 1726              	.LASF73:
+ 1727 02bd 734C6173 		.ascii	"sLastBlockingConsumerCount\000"
+ 1727      74426C6F 
+ 1727      636B696E 
+ 1727      67436F6E 
+ 1727      73756D65 
+ 1728              	.LASF15:
+ 1729 02d8 63686172 		.ascii	"char\000"
+ 1729      00
+ 1730              	.LASF17:
+ 1731 02dd 75696E74 		.ascii	"uint16_t\000"
+ 1731      31365F74 
+ 1731      00
+ 1732              	.LASF30:
+ 1733 02e6 7061636B 		.ascii	"packetID\000"
+ 1733      65744944 
+ 1733      00
+ 1734              	.LASF18:
+ 1735 02ef 696E7433 		.ascii	"int32_t\000"
+ 1735      325F7400 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 40
+
+
+ 1736              	.LASF69:
+ 1737 02f7 76426C6F 		.ascii	"vBlockingQueueProducer\000"
+ 1737      636B696E 
+ 1737      67517565 
+ 1737      75655072 
+ 1737      6F647563 
+ 1738              	.LASF8:
+ 1739 030e 73686F72 		.ascii	"short unsigned int\000"
+ 1739      7420756E 
+ 1739      7369676E 
+ 1739      65642069 
+ 1739      6E7400
+ 1740              	.LASF51:
+ 1741 0321 78517565 		.ascii	"xQueue\000"
+ 1741      756500
+ 1742              	.LASF46:
+ 1743 0328 55426173 		.ascii	"UBaseType_t\000"
+ 1743      65547970 
+ 1743      655F7400 
+ 1744              	.LASF55:
+ 1745 0334 70785175 		.ascii	"pxQueueParameters1\000"
+ 1745      65756550 
+ 1745      6172616D 
+ 1745      65746572 
+ 1745      733100
+ 1746              	.LASF56:
+ 1747 0347 70785175 		.ascii	"pxQueueParameters2\000"
+ 1747      65756550 
+ 1747      6172616D 
+ 1747      65746572 
+ 1747      733200
+ 1748              	.LASF57:
+ 1749 035a 70785175 		.ascii	"pxQueueParameters3\000"
+ 1749      65756550 
+ 1749      6172616D 
+ 1749      65746572 
+ 1749      733300
+ 1750              	.LASF58:
+ 1751 036d 70785175 		.ascii	"pxQueueParameters4\000"
+ 1751      65756550 
+ 1751      6172616D 
+ 1751      65746572 
+ 1751      733400
+ 1752              	.LASF81:
+ 1753 0380 62756666 		.ascii	"buffer\000"
+ 1753      657200
+ 1754              	.LASF60:
+ 1755 0387 70785175 		.ascii	"pxQueueParameters6\000"
+ 1755      65756550 
+ 1755      6172616D 
+ 1755      65746572 
+ 1755      733600
+ 1756              	.LASF28:
+ 1757 039a 4E554D42 		.ascii	"NUMBER_OF_OBJECTTYPES\000"
+ 1757      45525F4F 
+ 1757      465F4F42 
+ 1757      4A454354 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 41
+
+
+ 1757      54595045 
+ 1758              	.LASF12:
+ 1759 03b0 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1759      20756E73 
+ 1759      69676E65 
+ 1759      6420696E 
+ 1759      7400
+ 1760              	.LASF21:
+ 1761 03c2 646F7562 		.ascii	"double\000"
+ 1761      6C6500
+ 1762              	.LASF25:
+ 1763 03c9 42494E41 		.ascii	"BINARY_SEMAPHORE\000"
+ 1763      52595F53 
+ 1763      454D4150 
+ 1763      484F5245 
+ 1763      00
+ 1764              	.LASF82:
+ 1765 03da 6F626A65 		.ascii	"objectList\000"
+ 1765      63744C69 
+ 1765      737400
+ 1766              	.LASF61:
+ 1767 03e5 75785175 		.ascii	"uxQueueSize1\000"
+ 1767      65756553 
+ 1767      697A6531 
+ 1767      00
+ 1768              	.LASF79:
+ 1769 03f2 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1769      52784275 
+ 1769      66666572 
+ 1769      00
+ 1770              	.LASF62:
+ 1771 03ff 75785175 		.ascii	"uxQueueSize5\000"
+ 1771      65756553 
+ 1771      697A6535 
+ 1771      00
+ 1772              	.LASF27:
+ 1773 040c 5441534B 		.ascii	"TASK\000"
+ 1773      00
+ 1774              	.LASF59:
+ 1775 0411 70785175 		.ascii	"pxQueueParameters5\000"
+ 1775      65756550 
+ 1775      6172616D 
+ 1775      65746572 
+ 1775      733500
+ 1776              	.LASF9:
+ 1777 0424 5F5F696E 		.ascii	"__int32_t\000"
+ 1777      7433325F 
+ 1777      7400
+ 1778              	.LASF75:
+ 1779 042e 78526574 		.ascii	"xReturn\000"
+ 1779      75726E00 
+ 1780              	.LASF50:
+ 1781 0436 424C4F43 		.ascii	"BLOCKING_QUEUE_PARAMETERS\000"
+ 1781      4B494E47 
+ 1781      5F515545 
+ 1781      55455F50 
+ 1781      4152414D 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccxPbDhg.s 			page 42
+
+
+ 1782              	.LASF41:
+ 1783 0450 4F626A65 		.ascii	"ObjectList\000"
+ 1783      63744C69 
+ 1783      737400
+ 1784              	.LASF87:
+ 1785 045b 78417265 		.ascii	"xAreBlockingQueuesStillRunning\000"
+ 1785      426C6F63 
+ 1785      6B696E67 
+ 1785      51756575 
+ 1785      65735374 
+ 1786              	.LASF78:
+ 1787 047a 73426C6F 		.ascii	"sBlockingProducerCount\000"
+ 1787      636B696E 
+ 1787      6750726F 
+ 1787      64756365 
+ 1787      72436F75 
+ 1788              	.LASF49:
+ 1789 0491 42756666 		.ascii	"Buffer\000"
+ 1789      657200
+ 1790              	.LASF83:
+ 1791 0498 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1791      43313120 
+ 1791      352E342E 
+ 1791      31203230 
+ 1791      31363036 
+ 1792 04cb 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1792      20726576 
+ 1792      6973696F 
+ 1792      6E203233 
+ 1792      37373135 
+ 1793 04fe 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1793      66756E63 
+ 1793      74696F6E 
+ 1793      2D736563 
+ 1793      74696F6E 
+ 1794              	.LASF85:
+ 1795 0526 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ 1795      726F6772 
+ 1795      616D6D65 
+ 1795      5F536372 
+ 1795      69707473 
+ 1796 0555 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 1796      5F435938 
+ 1796      434B4954 
+ 1796      5F303539 
+ 1796      2D6D6173 
+ 1797              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

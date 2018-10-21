@@ -1,0 +1,1103 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"sniffImport.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	sniffIDFilter,13,4
+  20              		.comm	buffer,4098,4
+  21              		.comm	objectList,1704,4
+  22              		.bss
+  23              		.align	2
+  24              	sniffTaskHandle:
+  25 0000 00000000 		.space	4
+  26              		.section	.rodata
+  27              		.align	2
+  28              	.LC0:
+  29 0000 736E6966 		.ascii	"sniffTask\000"
+  29      66546173 
+  29      6B00
+  30              		.section	.text.initialiseTraceSniffer,"ax",%progbits
+  31              		.align	2
+  32              		.global	initialiseTraceSniffer
+  33              		.thumb
+  34              		.thumb_func
+  35              		.type	initialiseTraceSniffer, %function
+  36              	initialiseTraceSniffer:
+  37              	.LFB0:
+  38              		.file 1 "Tracer\\sniffImport.c"
+   1:Tracer/sniffImport.c **** /** \file sniffImport.c
+   2:Tracer/sniffImport.c ****  * \brief sniffImport source file.
+   3:Tracer/sniffImport.c ****  * \details Implements the functions used for initialising the Tracer.
+   4:Tracer/sniffImport.c ****  * \author Jonas Mair
+   5:Tracer/sniffImport.c ****  * \date 2018
+   6:Tracer/sniffImport.c ****  */
+   7:Tracer/sniffImport.c **** 
+   8:Tracer/sniffImport.c **** #include <string.h>
+   9:Tracer/sniffImport.c **** #include <sniffImport.h>
+  10:Tracer/sniffImport.c **** 
+  11:Tracer/sniffImport.c **** typedef void* TaskHandle_t;
+  12:Tracer/sniffImport.c **** static TaskHandle_t sniffTaskHandle = NULL;
+  13:Tracer/sniffImport.c **** extern long xTaskCreate();
+  14:Tracer/sniffImport.c **** extern void vTaskSuspend(TaskHandle_t xTaskToSuspend);
+  15:Tracer/sniffImport.c **** 
+  16:Tracer/sniffImport.c **** uint8_t initialiseTraceSniffer() {
+  39              		.loc 1 16 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 2
+
+
+  40              		.cfi_startproc
+  41              		@ args = 0, pretend = 0, frame = 0
+  42              		@ frame_needed = 1, uses_anonymous_args = 0
+  43 0000 80B5     		push	{r7, lr}
+  44              		.cfi_def_cfa_offset 8
+  45              		.cfi_offset 7, -8
+  46              		.cfi_offset 14, -4
+  47 0002 82B0     		sub	sp, sp, #8
+  48              		.cfi_def_cfa_offset 16
+  49 0004 02AF     		add	r7, sp, #8
+  50              		.cfi_def_cfa 7, 8
+  17:Tracer/sniffImport.c **** 	initialiseFIFO();
+  51              		.loc 1 17 0
+  52 0006 FFF7FEFF 		bl	initialiseFIFO
+  18:Tracer/sniffImport.c **** 	initialiseObjectList();
+  53              		.loc 1 18 0
+  54 000a FFF7FEFF 		bl	initialiseObjectList
+  19:Tracer/sniffImport.c **** 	enableReceiveInterrupt();
+  55              		.loc 1 19 0
+  56 000e FFF7FEFF 		bl	UART_1_Start
+  57 0012 0020     		movs	r0, #0
+  58 0014 FFF7FEFF 		bl	UART_1_SetTxInterruptMode
+  59 0018 2020     		movs	r0, #32
+  60 001a FFF7FEFF 		bl	UART_1_SetRxInterruptMode
+  61 001e FFF7FEFF 		bl	isr_UART1_RX_BYTE_RECEIVED_Start
+  62 0022 FFF7FEFF 		bl	isr_UART1_TX_BYTE_COMPLETE_Start
+  20:Tracer/sniffImport.c **** 	memset(sniffIDFilter, 0xff, sizeof(uint8_t) * SIZE_OF_FILTER);
+  63              		.loc 1 20 0
+  64 0026 0D22     		movs	r2, #13
+  65 0028 FF21     		movs	r1, #255
+  66 002a 0848     		ldr	r0, .L3
+  67 002c FFF7FEFF 		bl	memset
+  21:Tracer/sniffImport.c **** 	//memset(sniffIDFilter, 0xffffffff, sizeof(uint32_t) * 4);
+  22:Tracer/sniffImport.c **** 	//memset(&sniffIDFilter[5],0xff,1);
+  23:Tracer/sniffImport.c **** 	//memset(&sniffIDFilter[5],~(1<<4),1);
+  24:Tracer/sniffImport.c **** 
+  25:Tracer/sniffImport.c **** #if WAIT_FOR_SNIFFER_START
+  26:Tracer/sniffImport.c **** 	uint8_t* data;
+  27:Tracer/sniffImport.c **** 	payloadType* type;
+  28:Tracer/sniffImport.c **** 	while(readReceiveFIFO(data,type)!=0);
+  29:Tracer/sniffImport.c **** #endif
+  30:Tracer/sniffImport.c **** 	xTaskCreate(sniffTask, "sniffTask", STACK_SIZE_OF_SNIFF_TASK, NULL,
+  68              		.loc 1 30 0
+  69 0030 074B     		ldr	r3, .L3+4
+  70 0032 0193     		str	r3, [sp, #4]
+  71 0034 0123     		movs	r3, #1
+  72 0036 0093     		str	r3, [sp]
+  73 0038 0023     		movs	r3, #0
+  74 003a 6422     		movs	r2, #100
+  75 003c 0549     		ldr	r1, .L3+8
+  76 003e 0648     		ldr	r0, .L3+12
+  77 0040 FFF7FEFF 		bl	xTaskCreate
+  31:Tracer/sniffImport.c **** 	PRIORITY_OF_SNIFF_TASK, &sniffTaskHandle);
+  32:Tracer/sniffImport.c **** 	//Create Task
+  33:Tracer/sniffImport.c **** 	return 0;
+  78              		.loc 1 33 0
+  79 0044 0023     		movs	r3, #0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 3
+
+
+  34:Tracer/sniffImport.c **** }
+  80              		.loc 1 34 0
+  81 0046 1846     		mov	r0, r3
+  82 0048 BD46     		mov	sp, r7
+  83              		.cfi_def_cfa_register 13
+  84              		@ sp needed
+  85 004a 80BD     		pop	{r7, pc}
+  86              	.L4:
+  87              		.align	2
+  88              	.L3:
+  89 004c 00000000 		.word	sniffIDFilter
+  90 0050 00000000 		.word	sniffTaskHandle
+  91 0054 00000000 		.word	.LC0
+  92 0058 00000000 		.word	sniffTask
+  93              		.cfi_endproc
+  94              	.LFE0:
+  95              		.size	initialiseTraceSniffer, .-initialiseTraceSniffer
+  96              		.section	.text.stopTraceSniffer,"ax",%progbits
+  97              		.align	2
+  98              		.global	stopTraceSniffer
+  99              		.thumb
+ 100              		.thumb_func
+ 101              		.type	stopTraceSniffer, %function
+ 102              	stopTraceSniffer:
+ 103              	.LFB1:
+  35:Tracer/sniffImport.c **** void stopTraceSniffer() {
+ 104              		.loc 1 35 0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 1, uses_anonymous_args = 0
+ 108 0000 80B5     		push	{r7, lr}
+ 109              		.cfi_def_cfa_offset 8
+ 110              		.cfi_offset 7, -8
+ 111              		.cfi_offset 14, -4
+ 112 0002 00AF     		add	r7, sp, #0
+ 113              		.cfi_def_cfa_register 7
+  36:Tracer/sniffImport.c **** 	vTaskSuspend(sniffTaskHandle);
+ 114              		.loc 1 36 0
+ 115 0004 034B     		ldr	r3, .L6
+ 116 0006 1B68     		ldr	r3, [r3]
+ 117 0008 1846     		mov	r0, r3
+ 118 000a FFF7FEFF 		bl	vTaskSuspend
+  37:Tracer/sniffImport.c **** 	//memset(sniffIDFilter, 0x00, sizeof(uint8_t) * SIZE_OF_FILTER);
+  38:Tracer/sniffImport.c **** }
+ 119              		.loc 1 38 0
+ 120 000e 00BF     		nop
+ 121 0010 80BD     		pop	{r7, pc}
+ 122              	.L7:
+ 123 0012 00BF     		.align	2
+ 124              	.L6:
+ 125 0014 00000000 		.word	sniffTaskHandle
+ 126              		.cfi_endproc
+ 127              	.LFE1:
+ 128              		.size	stopTraceSniffer, .-stopTraceSniffer
+ 129              		.text
+ 130              	.Letext0:
+ 131              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 4
+
+
+ 132              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 133              		.file 4 ".\\Tracer/sniffPayload.h"
+ 134              		.file 5 ".\\Tracer/selfFIFO.h"
+ 135              		.file 6 "Generated_Source\\PSoC5/cytypes.h"
+ 136              		.file 7 ".\\Tracer/sniffTask.h"
+ 137              		.section	.debug_info,"",%progbits
+ 138              	.Ldebug_info0:
+ 139 0000 94020000 		.4byte	0x294
+ 140 0004 0400     		.2byte	0x4
+ 141 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 142 000a 04       		.byte	0x4
+ 143 000b 01       		.uleb128 0x1
+ 144 000c 26000000 		.4byte	.LASF44
+ 145 0010 0C       		.byte	0xc
+ 146 0011 AD020000 		.4byte	.LASF45
+ 147 0015 0C020000 		.4byte	.LASF46
+ 148 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 149 001d 00000000 		.4byte	0
+ 150 0021 00000000 		.4byte	.Ldebug_line0
+ 151 0025 02       		.uleb128 0x2
+ 152 0026 04       		.byte	0x4
+ 153 0027 05       		.byte	0x5
+ 154 0028 696E7400 		.ascii	"int\000"
+ 155 002c 03       		.uleb128 0x3
+ 156 002d 04       		.byte	0x4
+ 157 002e 07       		.byte	0x7
+ 158 002f 86010000 		.4byte	.LASF0
+ 159 0033 03       		.uleb128 0x3
+ 160 0034 08       		.byte	0x8
+ 161 0035 05       		.byte	0x5
+ 162 0036 FE010000 		.4byte	.LASF1
+ 163 003a 03       		.uleb128 0x3
+ 164 003b 08       		.byte	0x8
+ 165 003c 04       		.byte	0x4
+ 166 003d E1020000 		.4byte	.LASF2
+ 167 0041 03       		.uleb128 0x3
+ 168 0042 01       		.byte	0x1
+ 169 0043 06       		.byte	0x6
+ 170 0044 ED020000 		.4byte	.LASF3
+ 171 0048 04       		.uleb128 0x4
+ 172 0049 1C000000 		.4byte	.LASF12
+ 173 004d 02       		.byte	0x2
+ 174 004e 1D       		.byte	0x1d
+ 175 004f 53000000 		.4byte	0x53
+ 176 0053 03       		.uleb128 0x3
+ 177 0054 01       		.byte	0x1
+ 178 0055 08       		.byte	0x8
+ 179 0056 0F010000 		.4byte	.LASF4
+ 180 005a 03       		.uleb128 0x3
+ 181 005b 02       		.byte	0x2
+ 182 005c 05       		.byte	0x5
+ 183 005d 78020000 		.4byte	.LASF5
+ 184 0061 03       		.uleb128 0x3
+ 185 0062 02       		.byte	0x2
+ 186 0063 07       		.byte	0x7
+ 187 0064 3F010000 		.4byte	.LASF6
+ 188 0068 03       		.uleb128 0x3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 5
+
+
+ 189 0069 04       		.byte	0x4
+ 190 006a 05       		.byte	0x5
+ 191 006b D3020000 		.4byte	.LASF7
+ 192 006f 03       		.uleb128 0x3
+ 193 0070 04       		.byte	0x4
+ 194 0071 07       		.byte	0x7
+ 195 0072 2D010000 		.4byte	.LASF8
+ 196 0076 03       		.uleb128 0x3
+ 197 0077 08       		.byte	0x8
+ 198 0078 07       		.byte	0x7
+ 199 0079 93010000 		.4byte	.LASF9
+ 200 007d 03       		.uleb128 0x3
+ 201 007e 04       		.byte	0x4
+ 202 007f 07       		.byte	0x7
+ 203 0080 F5010000 		.4byte	.LASF10
+ 204 0084 05       		.uleb128 0x5
+ 205 0085 04       		.byte	0x4
+ 206 0086 03       		.uleb128 0x3
+ 207 0087 01       		.byte	0x1
+ 208 0088 08       		.byte	0x8
+ 209 0089 DC020000 		.4byte	.LASF11
+ 210 008d 04       		.uleb128 0x4
+ 211 008e AA010000 		.4byte	.LASF13
+ 212 0092 03       		.byte	0x3
+ 213 0093 18       		.byte	0x18
+ 214 0094 48000000 		.4byte	0x48
+ 215 0098 06       		.uleb128 0x6
+ 216 0099 01       		.byte	0x1
+ 217 009a 53000000 		.4byte	0x53
+ 218 009e 04       		.byte	0x4
+ 219 009f 10       		.byte	0x10
+ 220 00a0 CF000000 		.4byte	0xcf
+ 221 00a4 07       		.uleb128 0x7
+ 222 00a5 00000000 		.4byte	.LASF14
+ 223 00a9 00       		.byte	0
+ 224 00aa 07       		.uleb128 0x7
+ 225 00ab F9020000 		.4byte	.LASF15
+ 226 00af 01       		.byte	0x1
+ 227 00b0 07       		.uleb128 0x7
+ 228 00b1 B2010000 		.4byte	.LASF16
+ 229 00b5 02       		.byte	0x2
+ 230 00b6 07       		.uleb128 0x7
+ 231 00b7 C2020000 		.4byte	.LASF17
+ 232 00bb 03       		.byte	0x3
+ 233 00bc 07       		.uleb128 0x7
+ 234 00bd 1D010000 		.4byte	.LASF18
+ 235 00c1 04       		.byte	0x4
+ 236 00c2 07       		.uleb128 0x7
+ 237 00c3 F8000000 		.4byte	.LASF19
+ 238 00c7 05       		.byte	0x5
+ 239 00c8 07       		.uleb128 0x7
+ 240 00c9 B4000000 		.4byte	.LASF20
+ 241 00cd 06       		.byte	0x6
+ 242 00ce 00       		.byte	0
+ 243 00cf 04       		.uleb128 0x4
+ 244 00d0 58010000 		.4byte	.LASF21
+ 245 00d4 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 6
+
+
+ 246 00d5 10       		.byte	0x10
+ 247 00d6 98000000 		.4byte	0x98
+ 248 00da 08       		.uleb128 0x8
+ 249 00db 04       		.byte	0x4
+ 250 00dc 04       		.byte	0x4
+ 251 00dd 86       		.byte	0x86
+ 252 00de 13010000 		.4byte	0x113
+ 253 00e2 09       		.uleb128 0x9
+ 254 00e3 13000000 		.4byte	.LASF22
+ 255 00e7 04       		.byte	0x4
+ 256 00e8 87       		.byte	0x87
+ 257 00e9 8D000000 		.4byte	0x8d
+ 258 00ed 00       		.byte	0
+ 259 00ee 09       		.uleb128 0x9
+ 260 00ef 8F020000 		.4byte	.LASF23
+ 261 00f3 04       		.byte	0x4
+ 262 00f4 88       		.byte	0x88
+ 263 00f5 8D000000 		.4byte	0x8d
+ 264 00f9 01       		.byte	0x1
+ 265 00fa 09       		.uleb128 0x9
+ 266 00fb CA000000 		.4byte	.LASF24
+ 267 00ff 04       		.byte	0x4
+ 268 0100 89       		.byte	0x89
+ 269 0101 CF000000 		.4byte	0xcf
+ 270 0105 02       		.byte	0x2
+ 271 0106 09       		.uleb128 0x9
+ 272 0107 10030000 		.4byte	.LASF25
+ 273 010b 04       		.byte	0x4
+ 274 010c 8A       		.byte	0x8a
+ 275 010d 8D000000 		.4byte	0x8d
+ 276 0111 03       		.byte	0x3
+ 277 0112 00       		.byte	0
+ 278 0113 04       		.uleb128 0x4
+ 279 0114 FF020000 		.4byte	.LASF26
+ 280 0118 04       		.byte	0x4
+ 281 0119 8B       		.byte	0x8b
+ 282 011a DA000000 		.4byte	0xda
+ 283 011e 08       		.uleb128 0x8
+ 284 011f 0E       		.byte	0xe
+ 285 0120 04       		.byte	0x4
+ 286 0121 95       		.byte	0x95
+ 287 0122 4B010000 		.4byte	0x14b
+ 288 0126 09       		.uleb128 0x9
+ 289 0127 E8010000 		.4byte	.LASF27
+ 290 012b 04       		.byte	0x4
+ 291 012c 96       		.byte	0x96
+ 292 012d 8D000000 		.4byte	0x8d
+ 293 0131 00       		.byte	0
+ 294 0132 09       		.uleb128 0x9
+ 295 0133 C5010000 		.4byte	.LASF28
+ 296 0137 04       		.byte	0x4
+ 297 0138 97       		.byte	0x97
+ 298 0139 8D000000 		.4byte	0x8d
+ 299 013d 01       		.byte	0x1
+ 300 013e 09       		.uleb128 0x9
+ 301 013f E2000000 		.4byte	.LASF29
+ 302 0143 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 7
+
+
+ 303 0144 98       		.byte	0x98
+ 304 0145 4B010000 		.4byte	0x14b
+ 305 0149 02       		.byte	0x2
+ 306 014a 00       		.byte	0
+ 307 014b 0A       		.uleb128 0xa
+ 308 014c 86000000 		.4byte	0x86
+ 309 0150 5B010000 		.4byte	0x15b
+ 310 0154 0B       		.uleb128 0xb
+ 311 0155 7D000000 		.4byte	0x7d
+ 312 0159 0B       		.byte	0xb
+ 313 015a 00       		.byte	0
+ 314 015b 04       		.uleb128 0x4
+ 315 015c E1010000 		.4byte	.LASF30
+ 316 0160 04       		.byte	0x4
+ 317 0161 99       		.byte	0x99
+ 318 0162 1E010000 		.4byte	0x11e
+ 319 0166 0C       		.uleb128 0xc
+ 320 0167 1C01     		.2byte	0x11c
+ 321 0169 04       		.byte	0x4
+ 322 016a A3       		.byte	0xa3
+ 323 016b 88010000 		.4byte	0x188
+ 324 016f 09       		.uleb128 0x9
+ 325 0170 06000000 		.4byte	.LASF31
+ 326 0174 04       		.byte	0x4
+ 327 0175 A4       		.byte	0xa4
+ 328 0176 13010000 		.4byte	0x113
+ 329 017a 00       		.byte	0
+ 330 017b 09       		.uleb128 0x9
+ 331 017c 6A010000 		.4byte	.LASF32
+ 332 0180 04       		.byte	0x4
+ 333 0181 A5       		.byte	0xa5
+ 334 0182 88010000 		.4byte	0x188
+ 335 0186 04       		.byte	0x4
+ 336 0187 00       		.byte	0
+ 337 0188 0A       		.uleb128 0xa
+ 338 0189 5B010000 		.4byte	0x15b
+ 339 018d 98010000 		.4byte	0x198
+ 340 0191 0B       		.uleb128 0xb
+ 341 0192 7D000000 		.4byte	0x7d
+ 342 0196 13       		.byte	0x13
+ 343 0197 00       		.byte	0
+ 344 0198 04       		.uleb128 0x4
+ 345 0199 ED000000 		.4byte	.LASF33
+ 346 019d 04       		.byte	0x4
+ 347 019e A6       		.byte	0xa6
+ 348 019f 66010000 		.4byte	0x166
+ 349 01a3 0D       		.uleb128 0xd
+ 350 01a4 08010000 		.4byte	.LASF47
+ 351 01a8 0210     		.2byte	0x1002
+ 352 01aa 05       		.byte	0x5
+ 353 01ab 0C       		.byte	0xc
+ 354 01ac D7010000 		.4byte	0x1d7
+ 355 01b0 09       		.uleb128 0x9
+ 356 01b1 03010000 		.4byte	.LASF34
+ 357 01b5 05       		.byte	0x5
+ 358 01b6 0D       		.byte	0xd
+ 359 01b7 D7010000 		.4byte	0x1d7
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 8
+
+
+ 360 01bb 00       		.byte	0
+ 361 01bc 0E       		.uleb128 0xe
+ 362 01bd 76010000 		.4byte	.LASF35
+ 363 01c1 05       		.byte	0x5
+ 364 01c2 0E       		.byte	0xe
+ 365 01c3 8D000000 		.4byte	0x8d
+ 366 01c7 0010     		.2byte	0x1000
+ 367 01c9 0E       		.uleb128 0xe
+ 368 01ca 52010000 		.4byte	.LASF36
+ 369 01ce 05       		.byte	0x5
+ 370 01cf 0F       		.byte	0xf
+ 371 01d0 8D000000 		.4byte	0x8d
+ 372 01d4 0110     		.2byte	0x1001
+ 373 01d6 00       		.byte	0
+ 374 01d7 0A       		.uleb128 0xa
+ 375 01d8 8D000000 		.4byte	0x8d
+ 376 01dc E8010000 		.4byte	0x1e8
+ 377 01e0 0F       		.uleb128 0xf
+ 378 01e1 7D000000 		.4byte	0x7d
+ 379 01e5 FF0F     		.2byte	0xfff
+ 380 01e7 00       		.byte	0
+ 381 01e8 10       		.uleb128 0x10
+ 382 01e9 89020000 		.4byte	.LASF37
+ 383 01ed 06       		.byte	0x6
+ 384 01ee 9201     		.2byte	0x192
+ 385 01f0 53000000 		.4byte	0x53
+ 386 01f4 03       		.uleb128 0x3
+ 387 01f5 04       		.byte	0x4
+ 388 01f6 04       		.byte	0x4
+ 389 01f7 FD000000 		.4byte	.LASF38
+ 390 01fb 03       		.uleb128 0x3
+ 391 01fc 08       		.byte	0x8
+ 392 01fd 04       		.byte	0x4
+ 393 01fe 63010000 		.4byte	.LASF39
+ 394 0202 04       		.uleb128 0x4
+ 395 0203 D5000000 		.4byte	.LASF40
+ 396 0207 01       		.byte	0x1
+ 397 0208 0B       		.byte	0xb
+ 398 0209 84000000 		.4byte	0x84
+ 399 020d 11       		.uleb128 0x11
+ 400 020e 17030000 		.4byte	.LASF48
+ 401 0212 01       		.byte	0x1
+ 402 0213 10       		.byte	0x10
+ 403 0214 8D000000 		.4byte	0x8d
+ 404 0218 00000000 		.4byte	.LFB0
+ 405 021c 5C000000 		.4byte	.LFE0-.LFB0
+ 406 0220 01       		.uleb128 0x1
+ 407 0221 9C       		.byte	0x9c
+ 408 0222 12       		.uleb128 0x12
+ 409 0223 67020000 		.4byte	.LASF49
+ 410 0227 01       		.byte	0x1
+ 411 0228 23       		.byte	0x23
+ 412 0229 00000000 		.4byte	.LFB1
+ 413 022d 18000000 		.4byte	.LFE1-.LFB1
+ 414 0231 01       		.uleb128 0x1
+ 415 0232 9C       		.byte	0x9c
+ 416 0233 13       		.uleb128 0x13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 9
+
+
+ 417 0234 9D020000 		.4byte	.LASF50
+ 418 0238 01       		.byte	0x1
+ 419 0239 0C       		.byte	0xc
+ 420 023a 02020000 		.4byte	0x202
+ 421 023e 05       		.uleb128 0x5
+ 422 023f 03       		.byte	0x3
+ 423 0240 00000000 		.4byte	sniffTaskHandle
+ 424 0244 0A       		.uleb128 0xa
+ 425 0245 8D000000 		.4byte	0x8d
+ 426 0249 54020000 		.4byte	0x254
+ 427 024d 0B       		.uleb128 0xb
+ 428 024e 7D000000 		.4byte	0x7d
+ 429 0252 0C       		.byte	0xc
+ 430 0253 00       		.byte	0
+ 431 0254 14       		.uleb128 0x14
+ 432 0255 D3010000 		.4byte	.LASF41
+ 433 0259 04       		.byte	0x4
+ 434 025a 12       		.byte	0x12
+ 435 025b 44020000 		.4byte	0x244
+ 436 025f 05       		.uleb128 0x5
+ 437 0260 03       		.byte	0x3
+ 438 0261 00000000 		.4byte	sniffIDFilter
+ 439 0265 14       		.uleb128 0x14
+ 440 0266 82020000 		.4byte	.LASF42
+ 441 026a 05       		.byte	0x5
+ 442 026b 10       		.byte	0x10
+ 443 026c A3010000 		.4byte	0x1a3
+ 444 0270 05       		.uleb128 0x5
+ 445 0271 03       		.byte	0x3
+ 446 0272 00000000 		.4byte	buffer
+ 447 0276 0A       		.uleb128 0xa
+ 448 0277 98010000 		.4byte	0x198
+ 449 027b 86020000 		.4byte	0x286
+ 450 027f 0B       		.uleb128 0xb
+ 451 0280 7D000000 		.4byte	0x7d
+ 452 0284 05       		.byte	0x5
+ 453 0285 00       		.byte	0
+ 454 0286 14       		.uleb128 0x14
+ 455 0287 7B010000 		.4byte	.LASF43
+ 456 028b 07       		.byte	0x7
+ 457 028c 0D       		.byte	0xd
+ 458 028d 76020000 		.4byte	0x276
+ 459 0291 05       		.uleb128 0x5
+ 460 0292 03       		.byte	0x3
+ 461 0293 00000000 		.4byte	objectList
+ 462 0297 00       		.byte	0
+ 463              		.section	.debug_abbrev,"",%progbits
+ 464              	.Ldebug_abbrev0:
+ 465 0000 01       		.uleb128 0x1
+ 466 0001 11       		.uleb128 0x11
+ 467 0002 01       		.byte	0x1
+ 468 0003 25       		.uleb128 0x25
+ 469 0004 0E       		.uleb128 0xe
+ 470 0005 13       		.uleb128 0x13
+ 471 0006 0B       		.uleb128 0xb
+ 472 0007 03       		.uleb128 0x3
+ 473 0008 0E       		.uleb128 0xe
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 10
+
+
+ 474 0009 1B       		.uleb128 0x1b
+ 475 000a 0E       		.uleb128 0xe
+ 476 000b 55       		.uleb128 0x55
+ 477 000c 17       		.uleb128 0x17
+ 478 000d 11       		.uleb128 0x11
+ 479 000e 01       		.uleb128 0x1
+ 480 000f 10       		.uleb128 0x10
+ 481 0010 17       		.uleb128 0x17
+ 482 0011 00       		.byte	0
+ 483 0012 00       		.byte	0
+ 484 0013 02       		.uleb128 0x2
+ 485 0014 24       		.uleb128 0x24
+ 486 0015 00       		.byte	0
+ 487 0016 0B       		.uleb128 0xb
+ 488 0017 0B       		.uleb128 0xb
+ 489 0018 3E       		.uleb128 0x3e
+ 490 0019 0B       		.uleb128 0xb
+ 491 001a 03       		.uleb128 0x3
+ 492 001b 08       		.uleb128 0x8
+ 493 001c 00       		.byte	0
+ 494 001d 00       		.byte	0
+ 495 001e 03       		.uleb128 0x3
+ 496 001f 24       		.uleb128 0x24
+ 497 0020 00       		.byte	0
+ 498 0021 0B       		.uleb128 0xb
+ 499 0022 0B       		.uleb128 0xb
+ 500 0023 3E       		.uleb128 0x3e
+ 501 0024 0B       		.uleb128 0xb
+ 502 0025 03       		.uleb128 0x3
+ 503 0026 0E       		.uleb128 0xe
+ 504 0027 00       		.byte	0
+ 505 0028 00       		.byte	0
+ 506 0029 04       		.uleb128 0x4
+ 507 002a 16       		.uleb128 0x16
+ 508 002b 00       		.byte	0
+ 509 002c 03       		.uleb128 0x3
+ 510 002d 0E       		.uleb128 0xe
+ 511 002e 3A       		.uleb128 0x3a
+ 512 002f 0B       		.uleb128 0xb
+ 513 0030 3B       		.uleb128 0x3b
+ 514 0031 0B       		.uleb128 0xb
+ 515 0032 49       		.uleb128 0x49
+ 516 0033 13       		.uleb128 0x13
+ 517 0034 00       		.byte	0
+ 518 0035 00       		.byte	0
+ 519 0036 05       		.uleb128 0x5
+ 520 0037 0F       		.uleb128 0xf
+ 521 0038 00       		.byte	0
+ 522 0039 0B       		.uleb128 0xb
+ 523 003a 0B       		.uleb128 0xb
+ 524 003b 00       		.byte	0
+ 525 003c 00       		.byte	0
+ 526 003d 06       		.uleb128 0x6
+ 527 003e 04       		.uleb128 0x4
+ 528 003f 01       		.byte	0x1
+ 529 0040 0B       		.uleb128 0xb
+ 530 0041 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 11
+
+
+ 531 0042 49       		.uleb128 0x49
+ 532 0043 13       		.uleb128 0x13
+ 533 0044 3A       		.uleb128 0x3a
+ 534 0045 0B       		.uleb128 0xb
+ 535 0046 3B       		.uleb128 0x3b
+ 536 0047 0B       		.uleb128 0xb
+ 537 0048 01       		.uleb128 0x1
+ 538 0049 13       		.uleb128 0x13
+ 539 004a 00       		.byte	0
+ 540 004b 00       		.byte	0
+ 541 004c 07       		.uleb128 0x7
+ 542 004d 28       		.uleb128 0x28
+ 543 004e 00       		.byte	0
+ 544 004f 03       		.uleb128 0x3
+ 545 0050 0E       		.uleb128 0xe
+ 546 0051 1C       		.uleb128 0x1c
+ 547 0052 0B       		.uleb128 0xb
+ 548 0053 00       		.byte	0
+ 549 0054 00       		.byte	0
+ 550 0055 08       		.uleb128 0x8
+ 551 0056 13       		.uleb128 0x13
+ 552 0057 01       		.byte	0x1
+ 553 0058 0B       		.uleb128 0xb
+ 554 0059 0B       		.uleb128 0xb
+ 555 005a 3A       		.uleb128 0x3a
+ 556 005b 0B       		.uleb128 0xb
+ 557 005c 3B       		.uleb128 0x3b
+ 558 005d 0B       		.uleb128 0xb
+ 559 005e 01       		.uleb128 0x1
+ 560 005f 13       		.uleb128 0x13
+ 561 0060 00       		.byte	0
+ 562 0061 00       		.byte	0
+ 563 0062 09       		.uleb128 0x9
+ 564 0063 0D       		.uleb128 0xd
+ 565 0064 00       		.byte	0
+ 566 0065 03       		.uleb128 0x3
+ 567 0066 0E       		.uleb128 0xe
+ 568 0067 3A       		.uleb128 0x3a
+ 569 0068 0B       		.uleb128 0xb
+ 570 0069 3B       		.uleb128 0x3b
+ 571 006a 0B       		.uleb128 0xb
+ 572 006b 49       		.uleb128 0x49
+ 573 006c 13       		.uleb128 0x13
+ 574 006d 38       		.uleb128 0x38
+ 575 006e 0B       		.uleb128 0xb
+ 576 006f 00       		.byte	0
+ 577 0070 00       		.byte	0
+ 578 0071 0A       		.uleb128 0xa
+ 579 0072 01       		.uleb128 0x1
+ 580 0073 01       		.byte	0x1
+ 581 0074 49       		.uleb128 0x49
+ 582 0075 13       		.uleb128 0x13
+ 583 0076 01       		.uleb128 0x1
+ 584 0077 13       		.uleb128 0x13
+ 585 0078 00       		.byte	0
+ 586 0079 00       		.byte	0
+ 587 007a 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 12
+
+
+ 588 007b 21       		.uleb128 0x21
+ 589 007c 00       		.byte	0
+ 590 007d 49       		.uleb128 0x49
+ 591 007e 13       		.uleb128 0x13
+ 592 007f 2F       		.uleb128 0x2f
+ 593 0080 0B       		.uleb128 0xb
+ 594 0081 00       		.byte	0
+ 595 0082 00       		.byte	0
+ 596 0083 0C       		.uleb128 0xc
+ 597 0084 13       		.uleb128 0x13
+ 598 0085 01       		.byte	0x1
+ 599 0086 0B       		.uleb128 0xb
+ 600 0087 05       		.uleb128 0x5
+ 601 0088 3A       		.uleb128 0x3a
+ 602 0089 0B       		.uleb128 0xb
+ 603 008a 3B       		.uleb128 0x3b
+ 604 008b 0B       		.uleb128 0xb
+ 605 008c 01       		.uleb128 0x1
+ 606 008d 13       		.uleb128 0x13
+ 607 008e 00       		.byte	0
+ 608 008f 00       		.byte	0
+ 609 0090 0D       		.uleb128 0xd
+ 610 0091 13       		.uleb128 0x13
+ 611 0092 01       		.byte	0x1
+ 612 0093 03       		.uleb128 0x3
+ 613 0094 0E       		.uleb128 0xe
+ 614 0095 0B       		.uleb128 0xb
+ 615 0096 05       		.uleb128 0x5
+ 616 0097 3A       		.uleb128 0x3a
+ 617 0098 0B       		.uleb128 0xb
+ 618 0099 3B       		.uleb128 0x3b
+ 619 009a 0B       		.uleb128 0xb
+ 620 009b 01       		.uleb128 0x1
+ 621 009c 13       		.uleb128 0x13
+ 622 009d 00       		.byte	0
+ 623 009e 00       		.byte	0
+ 624 009f 0E       		.uleb128 0xe
+ 625 00a0 0D       		.uleb128 0xd
+ 626 00a1 00       		.byte	0
+ 627 00a2 03       		.uleb128 0x3
+ 628 00a3 0E       		.uleb128 0xe
+ 629 00a4 3A       		.uleb128 0x3a
+ 630 00a5 0B       		.uleb128 0xb
+ 631 00a6 3B       		.uleb128 0x3b
+ 632 00a7 0B       		.uleb128 0xb
+ 633 00a8 49       		.uleb128 0x49
+ 634 00a9 13       		.uleb128 0x13
+ 635 00aa 38       		.uleb128 0x38
+ 636 00ab 05       		.uleb128 0x5
+ 637 00ac 00       		.byte	0
+ 638 00ad 00       		.byte	0
+ 639 00ae 0F       		.uleb128 0xf
+ 640 00af 21       		.uleb128 0x21
+ 641 00b0 00       		.byte	0
+ 642 00b1 49       		.uleb128 0x49
+ 643 00b2 13       		.uleb128 0x13
+ 644 00b3 2F       		.uleb128 0x2f
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 13
+
+
+ 645 00b4 05       		.uleb128 0x5
+ 646 00b5 00       		.byte	0
+ 647 00b6 00       		.byte	0
+ 648 00b7 10       		.uleb128 0x10
+ 649 00b8 16       		.uleb128 0x16
+ 650 00b9 00       		.byte	0
+ 651 00ba 03       		.uleb128 0x3
+ 652 00bb 0E       		.uleb128 0xe
+ 653 00bc 3A       		.uleb128 0x3a
+ 654 00bd 0B       		.uleb128 0xb
+ 655 00be 3B       		.uleb128 0x3b
+ 656 00bf 05       		.uleb128 0x5
+ 657 00c0 49       		.uleb128 0x49
+ 658 00c1 13       		.uleb128 0x13
+ 659 00c2 00       		.byte	0
+ 660 00c3 00       		.byte	0
+ 661 00c4 11       		.uleb128 0x11
+ 662 00c5 2E       		.uleb128 0x2e
+ 663 00c6 00       		.byte	0
+ 664 00c7 3F       		.uleb128 0x3f
+ 665 00c8 19       		.uleb128 0x19
+ 666 00c9 03       		.uleb128 0x3
+ 667 00ca 0E       		.uleb128 0xe
+ 668 00cb 3A       		.uleb128 0x3a
+ 669 00cc 0B       		.uleb128 0xb
+ 670 00cd 3B       		.uleb128 0x3b
+ 671 00ce 0B       		.uleb128 0xb
+ 672 00cf 49       		.uleb128 0x49
+ 673 00d0 13       		.uleb128 0x13
+ 674 00d1 11       		.uleb128 0x11
+ 675 00d2 01       		.uleb128 0x1
+ 676 00d3 12       		.uleb128 0x12
+ 677 00d4 06       		.uleb128 0x6
+ 678 00d5 40       		.uleb128 0x40
+ 679 00d6 18       		.uleb128 0x18
+ 680 00d7 9642     		.uleb128 0x2116
+ 681 00d9 19       		.uleb128 0x19
+ 682 00da 00       		.byte	0
+ 683 00db 00       		.byte	0
+ 684 00dc 12       		.uleb128 0x12
+ 685 00dd 2E       		.uleb128 0x2e
+ 686 00de 00       		.byte	0
+ 687 00df 3F       		.uleb128 0x3f
+ 688 00e0 19       		.uleb128 0x19
+ 689 00e1 03       		.uleb128 0x3
+ 690 00e2 0E       		.uleb128 0xe
+ 691 00e3 3A       		.uleb128 0x3a
+ 692 00e4 0B       		.uleb128 0xb
+ 693 00e5 3B       		.uleb128 0x3b
+ 694 00e6 0B       		.uleb128 0xb
+ 695 00e7 11       		.uleb128 0x11
+ 696 00e8 01       		.uleb128 0x1
+ 697 00e9 12       		.uleb128 0x12
+ 698 00ea 06       		.uleb128 0x6
+ 699 00eb 40       		.uleb128 0x40
+ 700 00ec 18       		.uleb128 0x18
+ 701 00ed 9642     		.uleb128 0x2116
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 14
+
+
+ 702 00ef 19       		.uleb128 0x19
+ 703 00f0 00       		.byte	0
+ 704 00f1 00       		.byte	0
+ 705 00f2 13       		.uleb128 0x13
+ 706 00f3 34       		.uleb128 0x34
+ 707 00f4 00       		.byte	0
+ 708 00f5 03       		.uleb128 0x3
+ 709 00f6 0E       		.uleb128 0xe
+ 710 00f7 3A       		.uleb128 0x3a
+ 711 00f8 0B       		.uleb128 0xb
+ 712 00f9 3B       		.uleb128 0x3b
+ 713 00fa 0B       		.uleb128 0xb
+ 714 00fb 49       		.uleb128 0x49
+ 715 00fc 13       		.uleb128 0x13
+ 716 00fd 02       		.uleb128 0x2
+ 717 00fe 18       		.uleb128 0x18
+ 718 00ff 00       		.byte	0
+ 719 0100 00       		.byte	0
+ 720 0101 14       		.uleb128 0x14
+ 721 0102 34       		.uleb128 0x34
+ 722 0103 00       		.byte	0
+ 723 0104 03       		.uleb128 0x3
+ 724 0105 0E       		.uleb128 0xe
+ 725 0106 3A       		.uleb128 0x3a
+ 726 0107 0B       		.uleb128 0xb
+ 727 0108 3B       		.uleb128 0x3b
+ 728 0109 0B       		.uleb128 0xb
+ 729 010a 49       		.uleb128 0x49
+ 730 010b 13       		.uleb128 0x13
+ 731 010c 3F       		.uleb128 0x3f
+ 732 010d 19       		.uleb128 0x19
+ 733 010e 02       		.uleb128 0x2
+ 734 010f 18       		.uleb128 0x18
+ 735 0110 00       		.byte	0
+ 736 0111 00       		.byte	0
+ 737 0112 00       		.byte	0
+ 738              		.section	.debug_aranges,"",%progbits
+ 739 0000 24000000 		.4byte	0x24
+ 740 0004 0200     		.2byte	0x2
+ 741 0006 00000000 		.4byte	.Ldebug_info0
+ 742 000a 04       		.byte	0x4
+ 743 000b 00       		.byte	0
+ 744 000c 0000     		.2byte	0
+ 745 000e 0000     		.2byte	0
+ 746 0010 00000000 		.4byte	.LFB0
+ 747 0014 5C000000 		.4byte	.LFE0-.LFB0
+ 748 0018 00000000 		.4byte	.LFB1
+ 749 001c 18000000 		.4byte	.LFE1-.LFB1
+ 750 0020 00000000 		.4byte	0
+ 751 0024 00000000 		.4byte	0
+ 752              		.section	.debug_ranges,"",%progbits
+ 753              	.Ldebug_ranges0:
+ 754 0000 00000000 		.4byte	.LFB0
+ 755 0004 5C000000 		.4byte	.LFE0
+ 756 0008 00000000 		.4byte	.LFB1
+ 757 000c 18000000 		.4byte	.LFE1
+ 758 0010 00000000 		.4byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 15
+
+
+ 759 0014 00000000 		.4byte	0
+ 760              		.section	.debug_line,"",%progbits
+ 761              	.Ldebug_line0:
+ 762 0000 B3010000 		.section	.debug_str,"MS",%progbits,1
+ 762      02008401 
+ 762      00000201 
+ 762      FB0E0D00 
+ 762      01010101 
+ 763              	.LASF14:
+ 764 0000 51554555 		.ascii	"QUEUE\000"
+ 764      4500
+ 765              	.LASF31:
+ 766 0006 6F626A65 		.ascii	"objectHeader\000"
+ 766      63744865 
+ 766      61646572 
+ 766      00
+ 767              	.LASF22:
+ 768 0013 7061636B 		.ascii	"packetID\000"
+ 768      65744944 
+ 768      00
+ 769              	.LASF12:
+ 770 001c 5F5F7569 		.ascii	"__uint8_t\000"
+ 770      6E74385F 
+ 770      7400
+ 771              	.LASF44:
+ 772 0026 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 772      43313120 
+ 772      352E342E 
+ 772      31203230 
+ 772      31363036 
+ 773 0059 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 773      20726576 
+ 773      6973696F 
+ 773      6E203233 
+ 773      37373135 
+ 774 008c 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 774      66756E63 
+ 774      74696F6E 
+ 774      2D736563 
+ 774      74696F6E 
+ 775              	.LASF20:
+ 776 00b4 4E554D42 		.ascii	"NUMBER_OF_OBJECTTYPES\000"
+ 776      45525F4F 
+ 776      465F4F42 
+ 776      4A454354 
+ 776      54595045 
+ 777              	.LASF24:
+ 778 00ca 6F626A65 		.ascii	"objectType\000"
+ 778      63745479 
+ 778      706500
+ 779              	.LASF40:
+ 780 00d5 5461736B 		.ascii	"TaskHandle_t\000"
+ 780      48616E64 
+ 780      6C655F74 
+ 780      00
+ 781              	.LASF29:
+ 782 00e2 6F626A65 		.ascii	"objectName\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 16
+
+
+ 782      63744E61 
+ 782      6D6500
+ 783              	.LASF33:
+ 784 00ed 4F626A65 		.ascii	"ObjectList\000"
+ 784      63744C69 
+ 784      737400
+ 785              	.LASF19:
+ 786 00f8 5441534B 		.ascii	"TASK\000"
+ 786      00
+ 787              	.LASF38:
+ 788 00fd 666C6F61 		.ascii	"float\000"
+ 788      7400
+ 789              	.LASF34:
+ 790 0103 64617461 		.ascii	"data\000"
+ 790      00
+ 791              	.LASF47:
+ 792 0108 42756666 		.ascii	"Buffer\000"
+ 792      657200
+ 793              	.LASF4:
+ 794 010f 756E7369 		.ascii	"unsigned char\000"
+ 794      676E6564 
+ 794      20636861 
+ 794      7200
+ 795              	.LASF18:
+ 796 011d 52454355 		.ascii	"RECURSIVE_MUTEX\000"
+ 796      52534956 
+ 796      455F4D55 
+ 796      54455800 
+ 797              	.LASF8:
+ 798 012d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 798      20756E73 
+ 798      69676E65 
+ 798      6420696E 
+ 798      7400
+ 799              	.LASF6:
+ 800 013f 73686F72 		.ascii	"short unsigned int\000"
+ 800      7420756E 
+ 800      7369676E 
+ 800      65642069 
+ 800      6E7400
+ 801              	.LASF36:
+ 802 0152 77726974 		.ascii	"write\000"
+ 802      6500
+ 803              	.LASF21:
+ 804 0158 4F626A65 		.ascii	"ObjectType\000"
+ 804      63745479 
+ 804      706500
+ 805              	.LASF39:
+ 806 0163 646F7562 		.ascii	"double\000"
+ 806      6C6500
+ 807              	.LASF32:
+ 808 016a 6F626A65 		.ascii	"objectArray\000"
+ 808      63744172 
+ 808      72617900 
+ 809              	.LASF35:
+ 810 0176 72656164 		.ascii	"read\000"
+ 810      00
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 17
+
+
+ 811              	.LASF43:
+ 812 017b 6F626A65 		.ascii	"objectList\000"
+ 812      63744C69 
+ 812      737400
+ 813              	.LASF0:
+ 814 0186 756E7369 		.ascii	"unsigned int\000"
+ 814      676E6564 
+ 814      20696E74 
+ 814      00
+ 815              	.LASF9:
+ 816 0193 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 816      206C6F6E 
+ 816      6720756E 
+ 816      7369676E 
+ 816      65642069 
+ 817              	.LASF13:
+ 818 01aa 75696E74 		.ascii	"uint8_t\000"
+ 818      385F7400 
+ 819              	.LASF16:
+ 820 01b2 434F554E 		.ascii	"COUNTING_SEMAPHORE\000"
+ 820      54494E47 
+ 820      5F53454D 
+ 820      4150484F 
+ 820      524500
+ 821              	.LASF28:
+ 822 01c5 6C656E4F 		.ascii	"lenObjectName\000"
+ 822      626A6563 
+ 822      744E616D 
+ 822      6500
+ 823              	.LASF41:
+ 824 01d3 736E6966 		.ascii	"sniffIDFilter\000"
+ 824      66494446 
+ 824      696C7465 
+ 824      7200
+ 825              	.LASF30:
+ 826 01e1 4F626A65 		.ascii	"Object\000"
+ 826      637400
+ 827              	.LASF27:
+ 828 01e8 6F626A65 		.ascii	"objectNumber\000"
+ 828      63744E75 
+ 828      6D626572 
+ 828      00
+ 829              	.LASF10:
+ 830 01f5 73697A65 		.ascii	"sizetype\000"
+ 830      74797065 
+ 830      00
+ 831              	.LASF1:
+ 832 01fe 6C6F6E67 		.ascii	"long long int\000"
+ 832      206C6F6E 
+ 832      6720696E 
+ 832      7400
+ 833              	.LASF46:
+ 834 020c 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ 834      726F6772 
+ 834      616D6D65 
+ 834      5F536372 
+ 834      69707473 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 18
+
+
+ 835 023b 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 835      5F435938 
+ 835      434B4954 
+ 835      5F303539 
+ 835      2D6D6173 
+ 836              	.LASF49:
+ 837 0267 73746F70 		.ascii	"stopTraceSniffer\000"
+ 837      54726163 
+ 837      65536E69 
+ 837      66666572 
+ 837      00
+ 838              	.LASF5:
+ 839 0278 73686F72 		.ascii	"short int\000"
+ 839      7420696E 
+ 839      7400
+ 840              	.LASF42:
+ 841 0282 62756666 		.ascii	"buffer\000"
+ 841      657200
+ 842              	.LASF37:
+ 843 0289 75696E74 		.ascii	"uint8\000"
+ 843      3800
+ 844              	.LASF23:
+ 845 028f 696E666F 		.ascii	"informationID\000"
+ 845      726D6174 
+ 845      696F6E49 
+ 845      4400
+ 846              	.LASF50:
+ 847 029d 736E6966 		.ascii	"sniffTaskHandle\000"
+ 847      66546173 
+ 847      6B48616E 
+ 847      646C6500 
+ 848              	.LASF45:
+ 849 02ad 54726163 		.ascii	"Tracer\\sniffImport.c\000"
+ 849      65725C73 
+ 849      6E696666 
+ 849      496D706F 
+ 849      72742E63 
+ 850              	.LASF17:
+ 851 02c2 42494E41 		.ascii	"BINARY_SEMAPHORE\000"
+ 851      52595F53 
+ 851      454D4150 
+ 851      484F5245 
+ 851      00
+ 852              	.LASF7:
+ 853 02d3 6C6F6E67 		.ascii	"long int\000"
+ 853      20696E74 
+ 853      00
+ 854              	.LASF11:
+ 855 02dc 63686172 		.ascii	"char\000"
+ 855      00
+ 856              	.LASF2:
+ 857 02e1 6C6F6E67 		.ascii	"long double\000"
+ 857      20646F75 
+ 857      626C6500 
+ 858              	.LASF3:
+ 859 02ed 7369676E 		.ascii	"signed char\000"
+ 859      65642063 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccDMvLMt.s 			page 19
+
+
+ 859      68617200 
+ 860              	.LASF15:
+ 861 02f9 4D555445 		.ascii	"MUTEX\000"
+ 861      5800
+ 862              	.LASF26:
+ 863 02ff 4F626A65 		.ascii	"ObjectListHeader\000"
+ 863      63744C69 
+ 863      73744865 
+ 863      61646572 
+ 863      00
+ 864              	.LASF25:
+ 865 0310 6C656E67 		.ascii	"length\000"
+ 865      746800
+ 866              	.LASF48:
+ 867 0317 696E6974 		.ascii	"initialiseTraceSniffer\000"
+ 867      69616C69 
+ 867      73655472 
+ 867      61636553 
+ 867      6E696666 
+ 868              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,2307 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"semtest.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	sniffIDFilter,13,4
+  20              		.comm	buffer,4098,4
+  21              		.comm	objectList,1704,4
+  22              		.bss
+  23              		.align	2
+  24              	sCheckVariables:
+  25 0000 00000000 		.space	8
+  25      00000000 
+  26              		.align	1
+  27              	sNextCheckVariable:
+  28 0008 0000     		.space	2
+  29              		.section	.rodata
+  30              		.align	2
+  31              	.LC0:
+  32 0000 506F6C53 		.ascii	"PolSEM1\000"
+  32      454D3100 
+  33              		.align	2
+  34              	.LC1:
+  35 0008 506F6C53 		.ascii	"PolSEM2\000"
+  35      454D3200 
+  36              		.align	2
+  37              	.LC2:
+  38 0010 436F756E 		.ascii	"Counting_Sem_1\000"
+  38      74696E67 
+  38      5F53656D 
+  38      5F3100
+  39 001f 00       		.align	2
+  40              	.LC3:
+  41 0020 426C6B53 		.ascii	"BlkSEM1\000"
+  41      454D3100 
+  42              		.align	2
+  43              	.LC4:
+  44 0028 426C6B53 		.ascii	"BlkSEM2\000"
+  44      454D3200 
+  45              		.align	2
+  46              	.LC5:
+  47 0030 436F756E 		.ascii	"Counting_Sem_2\000"
+  47      74696E67 
+  47      5F53656D 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 2
+
+
+  47      5F3200
+  48              		.section	.text.vStartSemaphoreTasks,"ax",%progbits
+  49              		.align	2
+  50              		.global	vStartSemaphoreTasks
+  51              		.thumb
+  52              		.thumb_func
+  53              		.type	vStartSemaphoreTasks, %function
+  54              	vStartSemaphoreTasks:
+  55              	.LFB68:
+  56              		.file 1 "..\\Common\\Minimal\\semtest.c"
+   1:..\Common\Minimal/semtest.c **** /*
+   2:..\Common\Minimal/semtest.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Common\Minimal/semtest.c ****     All rights reserved
+   4:..\Common\Minimal/semtest.c **** 
+   5:..\Common\Minimal/semtest.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Common\Minimal/semtest.c **** 
+   7:..\Common\Minimal/semtest.c ****     This file is part of the FreeRTOS distribution.
+   8:..\Common\Minimal/semtest.c **** 
+   9:..\Common\Minimal/semtest.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:..\Common\Minimal/semtest.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Common\Minimal/semtest.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Common\Minimal/semtest.c **** 
+  13:..\Common\Minimal/semtest.c ****     ***************************************************************************
+  14:..\Common\Minimal/semtest.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Common\Minimal/semtest.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Common\Minimal/semtest.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Common\Minimal/semtest.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Common\Minimal/semtest.c ****     ***************************************************************************
+  19:..\Common\Minimal/semtest.c **** 
+  20:..\Common\Minimal/semtest.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Common\Minimal/semtest.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Common\Minimal/semtest.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:..\Common\Minimal/semtest.c ****     link: http://www.freertos.org/a00114.html
+  24:..\Common\Minimal/semtest.c **** 
+  25:..\Common\Minimal/semtest.c ****     ***************************************************************************
+  26:..\Common\Minimal/semtest.c ****      *                                                                       *
+  27:..\Common\Minimal/semtest.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Common\Minimal/semtest.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Common\Minimal/semtest.c ****      *    platform software that is more than just the market leader, it     *
+  30:..\Common\Minimal/semtest.c ****      *    is the industry's de facto standard.                               *
+  31:..\Common\Minimal/semtest.c ****      *                                                                       *
+  32:..\Common\Minimal/semtest.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Common\Minimal/semtest.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Common\Minimal/semtest.c ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Common\Minimal/semtest.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Common\Minimal/semtest.c ****      *                                                                       *
+  37:..\Common\Minimal/semtest.c ****     ***************************************************************************
+  38:..\Common\Minimal/semtest.c **** 
+  39:..\Common\Minimal/semtest.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Common\Minimal/semtest.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Common\Minimal/semtest.c ****     defined configASSERT()?
+  42:..\Common\Minimal/semtest.c **** 
+  43:..\Common\Minimal/semtest.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Common\Minimal/semtest.c ****     embedded software for free we request you assist our global community by
+  45:..\Common\Minimal/semtest.c ****     participating in the support forum.
+  46:..\Common\Minimal/semtest.c **** 
+  47:..\Common\Minimal/semtest.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 3
+
+
+  48:..\Common\Minimal/semtest.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Common\Minimal/semtest.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Common\Minimal/semtest.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:..\Common\Minimal/semtest.c **** 
+  52:..\Common\Minimal/semtest.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Common\Minimal/semtest.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:..\Common\Minimal/semtest.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Common\Minimal/semtest.c **** 
+  56:..\Common\Minimal/semtest.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Common\Minimal/semtest.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Common\Minimal/semtest.c **** 
+  59:..\Common\Minimal/semtest.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Common\Minimal/semtest.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Common\Minimal/semtest.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Common\Minimal/semtest.c **** 
+  63:..\Common\Minimal/semtest.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Common\Minimal/semtest.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Common\Minimal/semtest.c ****     mission critical applications that require provable dependability.
+  66:..\Common\Minimal/semtest.c **** 
+  67:..\Common\Minimal/semtest.c ****     1 tab == 4 spaces!
+  68:..\Common\Minimal/semtest.c **** */
+  69:..\Common\Minimal/semtest.c **** 
+  70:..\Common\Minimal/semtest.c **** /*
+  71:..\Common\Minimal/semtest.c ****  * Creates two sets of two tasks.  The tasks within a set share a variable, access
+  72:..\Common\Minimal/semtest.c ****  * to which is guarded by a semaphore.
+  73:..\Common\Minimal/semtest.c ****  *
+  74:..\Common\Minimal/semtest.c ****  * Each task starts by attempting to obtain the semaphore.  On obtaining a
+  75:..\Common\Minimal/semtest.c ****  * semaphore a task checks to ensure that the guarded variable has an expected
+  76:..\Common\Minimal/semtest.c ****  * value.  It then clears the variable to zero before counting it back up to the
+  77:..\Common\Minimal/semtest.c ****  * expected value in increments of 1.  After each increment the variable is checked
+  78:..\Common\Minimal/semtest.c ****  * to ensure it contains the value to which it was just set. When the starting
+  79:..\Common\Minimal/semtest.c ****  * value is again reached the task releases the semaphore giving the other task in
+  80:..\Common\Minimal/semtest.c ****  * the set a chance to do exactly the same thing.  The starting value is high
+  81:..\Common\Minimal/semtest.c ****  * enough to ensure that a tick is likely to occur during the incrementing loop.
+  82:..\Common\Minimal/semtest.c ****  *
+  83:..\Common\Minimal/semtest.c ****  * An error is flagged if at any time during the process a shared variable is
+  84:..\Common\Minimal/semtest.c ****  * found to have a value other than that expected.  Such an occurrence would
+  85:..\Common\Minimal/semtest.c ****  * suggest an error in the mutual exclusion mechanism by which access to the
+  86:..\Common\Minimal/semtest.c ****  * variable is restricted.
+  87:..\Common\Minimal/semtest.c ****  *
+  88:..\Common\Minimal/semtest.c ****  * The first set of two tasks poll their semaphore.  The second set use blocking
+  89:..\Common\Minimal/semtest.c ****  * calls.
+  90:..\Common\Minimal/semtest.c ****  *
+  91:..\Common\Minimal/semtest.c ****  */
+  92:..\Common\Minimal/semtest.c **** 
+  93:..\Common\Minimal/semtest.c **** 
+  94:..\Common\Minimal/semtest.c **** #include <stdlib.h>
+  95:..\Common\Minimal/semtest.c **** 
+  96:..\Common\Minimal/semtest.c **** /* Scheduler include files. */
+  97:..\Common\Minimal/semtest.c **** #include "FreeRTOS.h"
+  98:..\Common\Minimal/semtest.c **** #include "task.h"
+  99:..\Common\Minimal/semtest.c **** #include "semphr.h"
+ 100:..\Common\Minimal/semtest.c **** 
+ 101:..\Common\Minimal/semtest.c **** /* Demo app include files. */
+ 102:..\Common\Minimal/semtest.c **** #include "semtest.h"
+ 103:..\Common\Minimal/semtest.c **** 
+ 104:..\Common\Minimal/semtest.c **** /* The value to which the shared variables are counted. */
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 4
+
+
+ 105:..\Common\Minimal/semtest.c **** #define semtstBLOCKING_EXPECTED_VALUE		( ( uint32_t ) 0xfff )
+ 106:..\Common\Minimal/semtest.c **** #define semtstNON_BLOCKING_EXPECTED_VALUE	( ( uint32_t ) 0xff  )
+ 107:..\Common\Minimal/semtest.c **** 
+ 108:..\Common\Minimal/semtest.c **** #define semtstSTACK_SIZE			configMINIMAL_STACK_SIZE
+ 109:..\Common\Minimal/semtest.c **** 
+ 110:..\Common\Minimal/semtest.c **** #define semtstNUM_TASKS				( 4 )
+ 111:..\Common\Minimal/semtest.c **** 
+ 112:..\Common\Minimal/semtest.c **** #define semtstDELAY_FACTOR			( ( TickType_t ) 10 )
+ 113:..\Common\Minimal/semtest.c **** 
+ 114:..\Common\Minimal/semtest.c **** /* The task function as described at the top of the file. */
+ 115:..\Common\Minimal/semtest.c **** static portTASK_FUNCTION_PROTO( prvSemaphoreTest, pvParameters );
+ 116:..\Common\Minimal/semtest.c **** 
+ 117:..\Common\Minimal/semtest.c **** /* Structure used to pass parameters to each task. */
+ 118:..\Common\Minimal/semtest.c **** typedef struct SEMAPHORE_PARAMETERS
+ 119:..\Common\Minimal/semtest.c **** {
+ 120:..\Common\Minimal/semtest.c **** 	SemaphoreHandle_t xSemaphore;
+ 121:..\Common\Minimal/semtest.c **** 	volatile uint32_t *pulSharedVariable;
+ 122:..\Common\Minimal/semtest.c **** 	TickType_t xBlockTime;
+ 123:..\Common\Minimal/semtest.c **** } xSemaphoreParameters;
+ 124:..\Common\Minimal/semtest.c **** 
+ 125:..\Common\Minimal/semtest.c **** /* Variables used to check that all the tasks are still running without errors. */
+ 126:..\Common\Minimal/semtest.c **** static volatile short sCheckVariables[ semtstNUM_TASKS ] = { 0 };
+ 127:..\Common\Minimal/semtest.c **** static volatile short sNextCheckVariable = 0;
+ 128:..\Common\Minimal/semtest.c **** 
+ 129:..\Common\Minimal/semtest.c **** /*-----------------------------------------------------------*/
+ 130:..\Common\Minimal/semtest.c **** 
+ 131:..\Common\Minimal/semtest.c **** void vStartSemaphoreTasks( UBaseType_t uxPriority )
+ 132:..\Common\Minimal/semtest.c **** {
+  57              		.loc 1 132 0
+  58              		.cfi_startproc
+  59              		@ args = 0, pretend = 0, frame = 24
+  60              		@ frame_needed = 1, uses_anonymous_args = 0
+  61 0000 80B5     		push	{r7, lr}
+  62              		.cfi_def_cfa_offset 8
+  63              		.cfi_offset 7, -8
+  64              		.cfi_offset 14, -4
+  65 0002 88B0     		sub	sp, sp, #32
+  66              		.cfi_def_cfa_offset 40
+  67 0004 02AF     		add	r7, sp, #8
+  68              		.cfi_def_cfa 7, 32
+  69 0006 7860     		str	r0, [r7, #4]
+ 133:..\Common\Minimal/semtest.c **** xSemaphoreParameters *pxFirstSemaphoreParameters, *pxSecondSemaphoreParameters;
+ 134:..\Common\Minimal/semtest.c **** const TickType_t xBlockTime = ( TickType_t ) 100;
+  70              		.loc 1 134 0
+  71 0008 6423     		movs	r3, #100
+  72 000a 7B61     		str	r3, [r7, #20]
+ 135:..\Common\Minimal/semtest.c **** 
+ 136:..\Common\Minimal/semtest.c **** 	/* Create the structure used to pass parameters to the first two tasks. */
+ 137:..\Common\Minimal/semtest.c **** 	pxFirstSemaphoreParameters = ( xSemaphoreParameters * ) pvPortMalloc( sizeof( xSemaphoreParameters
+  73              		.loc 1 137 0
+  74 000c 0C20     		movs	r0, #12
+  75 000e FFF7FEFF 		bl	pvPortMalloc
+  76 0012 3861     		str	r0, [r7, #16]
+ 138:..\Common\Minimal/semtest.c **** 
+ 139:..\Common\Minimal/semtest.c **** 	if( pxFirstSemaphoreParameters != NULL )
+  77              		.loc 1 139 0
+  78 0014 3B69     		ldr	r3, [r7, #16]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 5
+
+
+  79 0016 002B     		cmp	r3, #0
+  80 0018 39D0     		beq	.L2
+ 140:..\Common\Minimal/semtest.c **** 	{
+ 141:..\Common\Minimal/semtest.c **** 		/* Create the semaphore used by the first two tasks. */
+ 142:..\Common\Minimal/semtest.c **** 		pxFirstSemaphoreParameters->xSemaphore = xSemaphoreCreateBinary();		
+  81              		.loc 1 142 0
+  82 001a 0322     		movs	r2, #3
+  83 001c 0021     		movs	r1, #0
+  84 001e 0120     		movs	r0, #1
+  85 0020 FFF7FEFF 		bl	xQueueGenericCreate
+  86 0024 0246     		mov	r2, r0
+  87 0026 3B69     		ldr	r3, [r7, #16]
+  88 0028 1A60     		str	r2, [r3]
+ 143:..\Common\Minimal/semtest.c **** 
+ 144:..\Common\Minimal/semtest.c **** 		if( pxFirstSemaphoreParameters->xSemaphore != NULL )
+  89              		.loc 1 144 0
+  90 002a 3B69     		ldr	r3, [r7, #16]
+  91 002c 1B68     		ldr	r3, [r3]
+  92 002e 002B     		cmp	r3, #0
+  93 0030 2DD0     		beq	.L2
+ 145:..\Common\Minimal/semtest.c **** 		{
+ 146:..\Common\Minimal/semtest.c **** 			xSemaphoreGive( pxFirstSemaphoreParameters->xSemaphore );
+  94              		.loc 1 146 0
+  95 0032 3B69     		ldr	r3, [r7, #16]
+  96 0034 1868     		ldr	r0, [r3]
+  97 0036 0023     		movs	r3, #0
+  98 0038 0022     		movs	r2, #0
+  99 003a 0021     		movs	r1, #0
+ 100 003c FFF7FEFF 		bl	xQueueGenericSend
+ 147:..\Common\Minimal/semtest.c **** 			
+ 148:..\Common\Minimal/semtest.c **** 			/* Create the variable which is to be shared by the first two tasks. */
+ 149:..\Common\Minimal/semtest.c **** 			pxFirstSemaphoreParameters->pulSharedVariable = ( uint32_t * ) pvPortMalloc( sizeof( uint32_t ) 
+ 101              		.loc 1 149 0
+ 102 0040 0420     		movs	r0, #4
+ 103 0042 FFF7FEFF 		bl	pvPortMalloc
+ 104 0046 0246     		mov	r2, r0
+ 105 0048 3B69     		ldr	r3, [r7, #16]
+ 106 004a 5A60     		str	r2, [r3, #4]
+ 150:..\Common\Minimal/semtest.c **** 
+ 151:..\Common\Minimal/semtest.c **** 			/* Initialise the share variable to the value the tasks expect. */
+ 152:..\Common\Minimal/semtest.c **** 			*( pxFirstSemaphoreParameters->pulSharedVariable ) = semtstNON_BLOCKING_EXPECTED_VALUE;
+ 107              		.loc 1 152 0
+ 108 004c 3B69     		ldr	r3, [r7, #16]
+ 109 004e 5B68     		ldr	r3, [r3, #4]
+ 110 0050 FF22     		movs	r2, #255
+ 111 0052 1A60     		str	r2, [r3]
+ 153:..\Common\Minimal/semtest.c **** 
+ 154:..\Common\Minimal/semtest.c **** 			/* The first two tasks do not block on semaphore calls. */
+ 155:..\Common\Minimal/semtest.c **** 			pxFirstSemaphoreParameters->xBlockTime = ( TickType_t ) 0;
+ 112              		.loc 1 155 0
+ 113 0054 3B69     		ldr	r3, [r7, #16]
+ 114 0056 0022     		movs	r2, #0
+ 115 0058 9A60     		str	r2, [r3, #8]
+ 156:..\Common\Minimal/semtest.c **** 
+ 157:..\Common\Minimal/semtest.c **** 			/* Spawn the first two tasks.  As they poll they operate at the idle priority. */
+ 158:..\Common\Minimal/semtest.c **** 			xTaskCreate( prvSemaphoreTest, "PolSEM1", semtstSTACK_SIZE, ( void * ) pxFirstSemaphoreParameter
+ 116              		.loc 1 158 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 6
+
+
+ 117 005a 0023     		movs	r3, #0
+ 118 005c 0193     		str	r3, [sp, #4]
+ 119 005e 0023     		movs	r3, #0
+ 120 0060 0093     		str	r3, [sp]
+ 121 0062 3B69     		ldr	r3, [r7, #16]
+ 122 0064 6422     		movs	r2, #100
+ 123 0066 2D49     		ldr	r1, .L5
+ 124 0068 2D48     		ldr	r0, .L5+4
+ 125 006a FFF7FEFF 		bl	xTaskCreate
+ 159:..\Common\Minimal/semtest.c **** 			xTaskCreate( prvSemaphoreTest, "PolSEM2", semtstSTACK_SIZE, ( void * ) pxFirstSemaphoreParameter
+ 126              		.loc 1 159 0
+ 127 006e 0023     		movs	r3, #0
+ 128 0070 0193     		str	r3, [sp, #4]
+ 129 0072 0023     		movs	r3, #0
+ 130 0074 0093     		str	r3, [sp]
+ 131 0076 3B69     		ldr	r3, [r7, #16]
+ 132 0078 6422     		movs	r2, #100
+ 133 007a 2A49     		ldr	r1, .L5+8
+ 134 007c 2848     		ldr	r0, .L5+4
+ 135 007e FFF7FEFF 		bl	xTaskCreate
+ 160:..\Common\Minimal/semtest.c **** 
+ 161:..\Common\Minimal/semtest.c **** 			/* vQueueAddToRegistry() adds the semaphore to the registry, if one
+ 162:..\Common\Minimal/semtest.c **** 			is in use.  The registry is provided as a means for kernel aware
+ 163:..\Common\Minimal/semtest.c **** 			debuggers to locate semaphores and has no purpose if a kernel aware
+ 164:..\Common\Minimal/semtest.c **** 			debugger is not being used.  The call to vQueueAddToRegistry() will
+ 165:..\Common\Minimal/semtest.c **** 			be removed by the pre-processor if configQUEUE_REGISTRY_SIZE is not
+ 166:..\Common\Minimal/semtest.c **** 			defined or is defined to be less than 1. */
+ 167:..\Common\Minimal/semtest.c **** 			vQueueAddToRegistry( ( QueueHandle_t ) pxFirstSemaphoreParameters->xSemaphore, "Counting_Sem_1" 
+ 136              		.loc 1 167 0
+ 137 0082 3B69     		ldr	r3, [r7, #16]
+ 138 0084 1B68     		ldr	r3, [r3]
+ 139 0086 2849     		ldr	r1, .L5+12
+ 140 0088 1846     		mov	r0, r3
+ 141 008a FFF7FEFF 		bl	vQueueAddToRegistry
+ 142              	.L2:
+ 168:..\Common\Minimal/semtest.c **** 		}
+ 169:..\Common\Minimal/semtest.c **** 	}
+ 170:..\Common\Minimal/semtest.c **** 
+ 171:..\Common\Minimal/semtest.c **** 	/* Do exactly the same to create the second set of tasks, only this time
+ 172:..\Common\Minimal/semtest.c **** 	provide a block time for the semaphore calls. */
+ 173:..\Common\Minimal/semtest.c **** 	pxSecondSemaphoreParameters = ( xSemaphoreParameters * ) pvPortMalloc( sizeof( xSemaphoreParameter
+ 143              		.loc 1 173 0
+ 144 008e 0C20     		movs	r0, #12
+ 145 0090 FFF7FEFF 		bl	pvPortMalloc
+ 146 0094 F860     		str	r0, [r7, #12]
+ 174:..\Common\Minimal/semtest.c **** 	if( pxSecondSemaphoreParameters != NULL )
+ 147              		.loc 1 174 0
+ 148 0096 FB68     		ldr	r3, [r7, #12]
+ 149 0098 002B     		cmp	r3, #0
+ 150 009a 3AD0     		beq	.L4
+ 175:..\Common\Minimal/semtest.c **** 	{
+ 176:..\Common\Minimal/semtest.c **** 		pxSecondSemaphoreParameters->xSemaphore = xSemaphoreCreateBinary();		
+ 151              		.loc 1 176 0
+ 152 009c 0322     		movs	r2, #3
+ 153 009e 0021     		movs	r1, #0
+ 154 00a0 0120     		movs	r0, #1
+ 155 00a2 FFF7FEFF 		bl	xQueueGenericCreate
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 7
+
+
+ 156 00a6 0246     		mov	r2, r0
+ 157 00a8 FB68     		ldr	r3, [r7, #12]
+ 158 00aa 1A60     		str	r2, [r3]
+ 177:..\Common\Minimal/semtest.c **** 
+ 178:..\Common\Minimal/semtest.c **** 		if( pxSecondSemaphoreParameters->xSemaphore != NULL )
+ 159              		.loc 1 178 0
+ 160 00ac FB68     		ldr	r3, [r7, #12]
+ 161 00ae 1B68     		ldr	r3, [r3]
+ 162 00b0 002B     		cmp	r3, #0
+ 163 00b2 2ED0     		beq	.L4
+ 179:..\Common\Minimal/semtest.c **** 		{
+ 180:..\Common\Minimal/semtest.c **** 			xSemaphoreGive( pxSecondSemaphoreParameters->xSemaphore );
+ 164              		.loc 1 180 0
+ 165 00b4 FB68     		ldr	r3, [r7, #12]
+ 166 00b6 1868     		ldr	r0, [r3]
+ 167 00b8 0023     		movs	r3, #0
+ 168 00ba 0022     		movs	r2, #0
+ 169 00bc 0021     		movs	r1, #0
+ 170 00be FFF7FEFF 		bl	xQueueGenericSend
+ 181:..\Common\Minimal/semtest.c **** 			
+ 182:..\Common\Minimal/semtest.c **** 			pxSecondSemaphoreParameters->pulSharedVariable = ( uint32_t * ) pvPortMalloc( sizeof( uint32_t )
+ 171              		.loc 1 182 0
+ 172 00c2 0420     		movs	r0, #4
+ 173 00c4 FFF7FEFF 		bl	pvPortMalloc
+ 174 00c8 0246     		mov	r2, r0
+ 175 00ca FB68     		ldr	r3, [r7, #12]
+ 176 00cc 5A60     		str	r2, [r3, #4]
+ 183:..\Common\Minimal/semtest.c **** 			*( pxSecondSemaphoreParameters->pulSharedVariable ) = semtstBLOCKING_EXPECTED_VALUE;
+ 177              		.loc 1 183 0
+ 178 00ce FB68     		ldr	r3, [r7, #12]
+ 179 00d0 5B68     		ldr	r3, [r3, #4]
+ 180 00d2 40F6FF72 		movw	r2, #4095
+ 181 00d6 1A60     		str	r2, [r3]
+ 184:..\Common\Minimal/semtest.c **** 			pxSecondSemaphoreParameters->xBlockTime = xBlockTime / portTICK_PERIOD_MS;
+ 182              		.loc 1 184 0
+ 183 00d8 FB68     		ldr	r3, [r7, #12]
+ 184 00da 7A69     		ldr	r2, [r7, #20]
+ 185 00dc 9A60     		str	r2, [r3, #8]
+ 185:..\Common\Minimal/semtest.c **** 
+ 186:..\Common\Minimal/semtest.c **** 			xTaskCreate( prvSemaphoreTest, "BlkSEM1", semtstSTACK_SIZE, ( void * ) pxSecondSemaphoreParamete
+ 186              		.loc 1 186 0
+ 187 00de 0023     		movs	r3, #0
+ 188 00e0 0193     		str	r3, [sp, #4]
+ 189 00e2 7B68     		ldr	r3, [r7, #4]
+ 190 00e4 0093     		str	r3, [sp]
+ 191 00e6 FB68     		ldr	r3, [r7, #12]
+ 192 00e8 6422     		movs	r2, #100
+ 193 00ea 1049     		ldr	r1, .L5+16
+ 194 00ec 0C48     		ldr	r0, .L5+4
+ 195 00ee FFF7FEFF 		bl	xTaskCreate
+ 187:..\Common\Minimal/semtest.c **** 			xTaskCreate( prvSemaphoreTest, "BlkSEM2", semtstSTACK_SIZE, ( void * ) pxSecondSemaphoreParamete
+ 196              		.loc 1 187 0
+ 197 00f2 0023     		movs	r3, #0
+ 198 00f4 0193     		str	r3, [sp, #4]
+ 199 00f6 7B68     		ldr	r3, [r7, #4]
+ 200 00f8 0093     		str	r3, [sp]
+ 201 00fa FB68     		ldr	r3, [r7, #12]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 8
+
+
+ 202 00fc 6422     		movs	r2, #100
+ 203 00fe 0C49     		ldr	r1, .L5+20
+ 204 0100 0748     		ldr	r0, .L5+4
+ 205 0102 FFF7FEFF 		bl	xTaskCreate
+ 188:..\Common\Minimal/semtest.c **** 
+ 189:..\Common\Minimal/semtest.c **** 			/* vQueueAddToRegistry() adds the semaphore to the registry, if one
+ 190:..\Common\Minimal/semtest.c **** 			is in use.  The registry is provided as a means for kernel aware
+ 191:..\Common\Minimal/semtest.c **** 			debuggers to locate semaphores and has no purpose if a kernel aware
+ 192:..\Common\Minimal/semtest.c **** 			debugger is not being used.  The call to vQueueAddToRegistry() will
+ 193:..\Common\Minimal/semtest.c **** 			be removed by the pre-processor if configQUEUE_REGISTRY_SIZE is not
+ 194:..\Common\Minimal/semtest.c **** 			defined or is defined to be less than 1. */
+ 195:..\Common\Minimal/semtest.c **** 			vQueueAddToRegistry( ( QueueHandle_t ) pxSecondSemaphoreParameters->xSemaphore, "Counting_Sem_2"
+ 206              		.loc 1 195 0
+ 207 0106 FB68     		ldr	r3, [r7, #12]
+ 208 0108 1B68     		ldr	r3, [r3]
+ 209 010a 0A49     		ldr	r1, .L5+24
+ 210 010c 1846     		mov	r0, r3
+ 211 010e FFF7FEFF 		bl	vQueueAddToRegistry
+ 212              	.L4:
+ 196:..\Common\Minimal/semtest.c **** 		}
+ 197:..\Common\Minimal/semtest.c **** 	}
+ 198:..\Common\Minimal/semtest.c **** }
+ 213              		.loc 1 198 0
+ 214 0112 00BF     		nop
+ 215 0114 1837     		adds	r7, r7, #24
+ 216              		.cfi_def_cfa_offset 8
+ 217 0116 BD46     		mov	sp, r7
+ 218              		.cfi_def_cfa_register 13
+ 219              		@ sp needed
+ 220 0118 80BD     		pop	{r7, pc}
+ 221              	.L6:
+ 222 011a 00BF     		.align	2
+ 223              	.L5:
+ 224 011c 00000000 		.word	.LC0
+ 225 0120 00000000 		.word	prvSemaphoreTest
+ 226 0124 08000000 		.word	.LC1
+ 227 0128 10000000 		.word	.LC2
+ 228 012c 20000000 		.word	.LC3
+ 229 0130 28000000 		.word	.LC4
+ 230 0134 30000000 		.word	.LC5
+ 231              		.cfi_endproc
+ 232              	.LFE68:
+ 233              		.size	vStartSemaphoreTasks, .-vStartSemaphoreTasks
+ 234              		.section	.text.prvSemaphoreTest,"ax",%progbits
+ 235              		.align	2
+ 236              		.thumb
+ 237              		.thumb_func
+ 238              		.type	prvSemaphoreTest, %function
+ 239              	prvSemaphoreTest:
+ 240              	.LFB69:
+ 199:..\Common\Minimal/semtest.c **** /*-----------------------------------------------------------*/
+ 200:..\Common\Minimal/semtest.c **** 
+ 201:..\Common\Minimal/semtest.c **** static portTASK_FUNCTION( prvSemaphoreTest, pvParameters )
+ 202:..\Common\Minimal/semtest.c **** {
+ 241              		.loc 1 202 0
+ 242              		.cfi_startproc
+ 243              		@ args = 0, pretend = 0, frame = 32
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 9
+
+
+ 244              		@ frame_needed = 1, uses_anonymous_args = 0
+ 245 0000 80B5     		push	{r7, lr}
+ 246              		.cfi_def_cfa_offset 8
+ 247              		.cfi_offset 7, -8
+ 248              		.cfi_offset 14, -4
+ 249 0002 88B0     		sub	sp, sp, #32
+ 250              		.cfi_def_cfa_offset 40
+ 251 0004 00AF     		add	r7, sp, #0
+ 252              		.cfi_def_cfa_register 7
+ 253 0006 7860     		str	r0, [r7, #4]
+ 203:..\Common\Minimal/semtest.c **** xSemaphoreParameters *pxParameters;
+ 204:..\Common\Minimal/semtest.c **** volatile uint32_t *pulSharedVariable, ulExpectedValue;
+ 205:..\Common\Minimal/semtest.c **** uint32_t ulCounter;
+ 206:..\Common\Minimal/semtest.c **** short sError = pdFALSE, sCheckVariableToUse;
+ 254              		.loc 1 206 0
+ 255 0008 0023     		movs	r3, #0
+ 256 000a 7B83     		strh	r3, [r7, #26]	@ movhi
+ 207:..\Common\Minimal/semtest.c **** 
+ 208:..\Common\Minimal/semtest.c **** 	/* See which check variable to use.  sNextCheckVariable is not semaphore
+ 209:..\Common\Minimal/semtest.c **** 	protected! */
+ 210:..\Common\Minimal/semtest.c **** 	portENTER_CRITICAL();
+ 257              		.loc 1 210 0
+ 258 000c FFF7FEFF 		bl	vPortEnterCritical
+ 211:..\Common\Minimal/semtest.c **** 		sCheckVariableToUse = sNextCheckVariable;
+ 259              		.loc 1 211 0
+ 260 0010 3D4B     		ldr	r3, .L18
+ 261 0012 1B88     		ldrh	r3, [r3]	@ movhi
+ 262 0014 3B83     		strh	r3, [r7, #24]	@ movhi
+ 212:..\Common\Minimal/semtest.c **** 		sNextCheckVariable++;
+ 263              		.loc 1 212 0
+ 264 0016 3C4B     		ldr	r3, .L18
+ 265 0018 1B88     		ldrh	r3, [r3]	@ movhi
+ 266 001a 1BB2     		sxth	r3, r3
+ 267 001c 9BB2     		uxth	r3, r3
+ 268 001e 0133     		adds	r3, r3, #1
+ 269 0020 9BB2     		uxth	r3, r3
+ 270 0022 1AB2     		sxth	r2, r3
+ 271 0024 384B     		ldr	r3, .L18
+ 272 0026 1A80     		strh	r2, [r3]	@ movhi
+ 213:..\Common\Minimal/semtest.c **** 	portEXIT_CRITICAL();
+ 273              		.loc 1 213 0
+ 274 0028 FFF7FEFF 		bl	vPortExitCritical
+ 214:..\Common\Minimal/semtest.c **** 
+ 215:..\Common\Minimal/semtest.c **** 	/* A structure is passed in as the parameter.  This contains the shared
+ 216:..\Common\Minimal/semtest.c **** 	variable being guarded. */
+ 217:..\Common\Minimal/semtest.c **** 	pxParameters = ( xSemaphoreParameters * ) pvParameters;
+ 275              		.loc 1 217 0
+ 276 002c 7B68     		ldr	r3, [r7, #4]
+ 277 002e 7B61     		str	r3, [r7, #20]
+ 218:..\Common\Minimal/semtest.c **** 	pulSharedVariable = pxParameters->pulSharedVariable;
+ 278              		.loc 1 218 0
+ 279 0030 7B69     		ldr	r3, [r7, #20]
+ 280 0032 5B68     		ldr	r3, [r3, #4]
+ 281 0034 3B61     		str	r3, [r7, #16]
+ 219:..\Common\Minimal/semtest.c **** 
+ 220:..\Common\Minimal/semtest.c **** 	/* If we are blocking we use a much higher count to ensure loads of context
+ 221:..\Common\Minimal/semtest.c **** 	switches occur during the count. */
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 10
+
+
+ 222:..\Common\Minimal/semtest.c **** 	if( pxParameters->xBlockTime > ( TickType_t ) 0 )
+ 282              		.loc 1 222 0
+ 283 0036 7B69     		ldr	r3, [r7, #20]
+ 284 0038 9B68     		ldr	r3, [r3, #8]
+ 285 003a 002B     		cmp	r3, #0
+ 286 003c 03D0     		beq	.L8
+ 223:..\Common\Minimal/semtest.c **** 	{
+ 224:..\Common\Minimal/semtest.c **** 		ulExpectedValue = semtstBLOCKING_EXPECTED_VALUE;
+ 287              		.loc 1 224 0
+ 288 003e 40F6FF73 		movw	r3, #4095
+ 289 0042 FB60     		str	r3, [r7, #12]
+ 290 0044 01E0     		b	.L9
+ 291              	.L8:
+ 225:..\Common\Minimal/semtest.c **** 	}
+ 226:..\Common\Minimal/semtest.c **** 	else
+ 227:..\Common\Minimal/semtest.c **** 	{
+ 228:..\Common\Minimal/semtest.c **** 		ulExpectedValue = semtstNON_BLOCKING_EXPECTED_VALUE;
+ 292              		.loc 1 228 0
+ 293 0046 FF23     		movs	r3, #255
+ 294 0048 FB60     		str	r3, [r7, #12]
+ 295              	.L9:
+ 229:..\Common\Minimal/semtest.c **** 	}
+ 230:..\Common\Minimal/semtest.c **** 
+ 231:..\Common\Minimal/semtest.c **** 	for( ;; )
+ 232:..\Common\Minimal/semtest.c **** 	{
+ 233:..\Common\Minimal/semtest.c **** 		/* Try to obtain the semaphore. */
+ 234:..\Common\Minimal/semtest.c **** 		if( xSemaphoreTake( pxParameters->xSemaphore, pxParameters->xBlockTime ) == pdPASS )
+ 296              		.loc 1 234 0
+ 297 004a 7B69     		ldr	r3, [r7, #20]
+ 298 004c 1868     		ldr	r0, [r3]
+ 299 004e 7B69     		ldr	r3, [r7, #20]
+ 300 0050 9A68     		ldr	r2, [r3, #8]
+ 301 0052 0023     		movs	r3, #0
+ 302 0054 0021     		movs	r1, #0
+ 303 0056 FFF7FEFF 		bl	xQueueGenericReceive
+ 304 005a 0346     		mov	r3, r0
+ 305 005c 012B     		cmp	r3, #1
+ 306 005e 45D1     		bne	.L10
+ 235:..\Common\Minimal/semtest.c **** 		{
+ 236:..\Common\Minimal/semtest.c **** 			/* We have the semaphore and so expect any other tasks using the
+ 237:..\Common\Minimal/semtest.c **** 			shared variable to have left it in the state we expect to find
+ 238:..\Common\Minimal/semtest.c **** 			it. */
+ 239:..\Common\Minimal/semtest.c **** 			if( *pulSharedVariable != ulExpectedValue )
+ 307              		.loc 1 239 0
+ 308 0060 3B69     		ldr	r3, [r7, #16]
+ 309 0062 1A68     		ldr	r2, [r3]
+ 310 0064 FB68     		ldr	r3, [r7, #12]
+ 311 0066 9A42     		cmp	r2, r3
+ 312 0068 01D0     		beq	.L11
+ 240:..\Common\Minimal/semtest.c **** 			{
+ 241:..\Common\Minimal/semtest.c **** 				sError = pdTRUE;
+ 313              		.loc 1 241 0
+ 314 006a 0123     		movs	r3, #1
+ 315 006c 7B83     		strh	r3, [r7, #26]	@ movhi
+ 316              	.L11:
+ 242:..\Common\Minimal/semtest.c **** 			}
+ 243:..\Common\Minimal/semtest.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 11
+
+
+ 244:..\Common\Minimal/semtest.c **** 			/* Clear the variable, then count it back up to the expected value
+ 245:..\Common\Minimal/semtest.c **** 			before releasing the semaphore.  Would expect a context switch or
+ 246:..\Common\Minimal/semtest.c **** 			two during this time. */
+ 247:..\Common\Minimal/semtest.c **** 			for( ulCounter = ( uint32_t ) 0; ulCounter <= ulExpectedValue; ulCounter++ )
+ 317              		.loc 1 247 0
+ 318 006e 0023     		movs	r3, #0
+ 319 0070 FB61     		str	r3, [r7, #28]
+ 320 0072 0CE0     		b	.L12
+ 321              	.L14:
+ 248:..\Common\Minimal/semtest.c **** 			{
+ 249:..\Common\Minimal/semtest.c **** 				*pulSharedVariable = ulCounter;
+ 322              		.loc 1 249 0
+ 323 0074 3B69     		ldr	r3, [r7, #16]
+ 324 0076 FA69     		ldr	r2, [r7, #28]
+ 325 0078 1A60     		str	r2, [r3]
+ 250:..\Common\Minimal/semtest.c **** 				if( *pulSharedVariable != ulCounter )
+ 326              		.loc 1 250 0
+ 327 007a 3B69     		ldr	r3, [r7, #16]
+ 328 007c 1A68     		ldr	r2, [r3]
+ 329 007e FB69     		ldr	r3, [r7, #28]
+ 330 0080 9A42     		cmp	r2, r3
+ 331 0082 01D0     		beq	.L13
+ 251:..\Common\Minimal/semtest.c **** 				{
+ 252:..\Common\Minimal/semtest.c **** 					sError = pdTRUE;
+ 332              		.loc 1 252 0
+ 333 0084 0123     		movs	r3, #1
+ 334 0086 7B83     		strh	r3, [r7, #26]	@ movhi
+ 335              	.L13:
+ 247:..\Common\Minimal/semtest.c **** 			{
+ 336              		.loc 1 247 0 discriminator 2
+ 337 0088 FB69     		ldr	r3, [r7, #28]
+ 338 008a 0133     		adds	r3, r3, #1
+ 339 008c FB61     		str	r3, [r7, #28]
+ 340              	.L12:
+ 247:..\Common\Minimal/semtest.c **** 			{
+ 341              		.loc 1 247 0 is_stmt 0 discriminator 1
+ 342 008e FB68     		ldr	r3, [r7, #12]
+ 343 0090 FA69     		ldr	r2, [r7, #28]
+ 344 0092 9A42     		cmp	r2, r3
+ 345 0094 EED9     		bls	.L14
+ 253:..\Common\Minimal/semtest.c **** 				}
+ 254:..\Common\Minimal/semtest.c **** 			}
+ 255:..\Common\Minimal/semtest.c **** 
+ 256:..\Common\Minimal/semtest.c **** 			/* Release the semaphore, and if no errors have occurred increment the check
+ 257:..\Common\Minimal/semtest.c **** 			variable. */
+ 258:..\Common\Minimal/semtest.c **** 			if(	xSemaphoreGive( pxParameters->xSemaphore ) == pdFALSE )
+ 346              		.loc 1 258 0 is_stmt 1
+ 347 0096 7B69     		ldr	r3, [r7, #20]
+ 348 0098 1868     		ldr	r0, [r3]
+ 349 009a 0023     		movs	r3, #0
+ 350 009c 0022     		movs	r2, #0
+ 351 009e 0021     		movs	r1, #0
+ 352 00a0 FFF7FEFF 		bl	xQueueGenericSend
+ 353 00a4 0346     		mov	r3, r0
+ 354 00a6 002B     		cmp	r3, #0
+ 355 00a8 01D1     		bne	.L15
+ 259:..\Common\Minimal/semtest.c **** 			{
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 12
+
+
+ 260:..\Common\Minimal/semtest.c **** 				sError = pdTRUE;
+ 356              		.loc 1 260 0
+ 357 00aa 0123     		movs	r3, #1
+ 358 00ac 7B83     		strh	r3, [r7, #26]	@ movhi
+ 359              	.L15:
+ 261:..\Common\Minimal/semtest.c **** 			}
+ 262:..\Common\Minimal/semtest.c **** 
+ 263:..\Common\Minimal/semtest.c **** 			if( sError == pdFALSE )
+ 360              		.loc 1 263 0
+ 361 00ae B7F91A30 		ldrsh	r3, [r7, #26]
+ 362 00b2 002B     		cmp	r3, #0
+ 363 00b4 10D1     		bne	.L16
+ 264:..\Common\Minimal/semtest.c **** 			{
+ 265:..\Common\Minimal/semtest.c **** 				if( sCheckVariableToUse < semtstNUM_TASKS )
+ 364              		.loc 1 265 0
+ 365 00b6 B7F91830 		ldrsh	r3, [r7, #24]
+ 366 00ba 032B     		cmp	r3, #3
+ 367 00bc 0CDC     		bgt	.L16
+ 266:..\Common\Minimal/semtest.c **** 				{
+ 267:..\Common\Minimal/semtest.c **** 					( sCheckVariables[ sCheckVariableToUse ] )++;
+ 368              		.loc 1 267 0
+ 369 00be B7F91830 		ldrsh	r3, [r7, #24]
+ 370 00c2 124A     		ldr	r2, .L18+4
+ 371 00c4 32F81320 		ldrh	r2, [r2, r3, lsl #1]	@ movhi
+ 372 00c8 12B2     		sxth	r2, r2
+ 373 00ca 92B2     		uxth	r2, r2
+ 374 00cc 0132     		adds	r2, r2, #1
+ 375 00ce 92B2     		uxth	r2, r2
+ 376 00d0 11B2     		sxth	r1, r2
+ 377 00d2 0E4A     		ldr	r2, .L18+4
+ 378 00d4 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ 379              	.L16:
+ 268:..\Common\Minimal/semtest.c **** 				}
+ 269:..\Common\Minimal/semtest.c **** 			}
+ 270:..\Common\Minimal/semtest.c **** 
+ 271:..\Common\Minimal/semtest.c **** 			/* If we have a block time then we are running at a priority higher
+ 272:..\Common\Minimal/semtest.c **** 			than the idle priority.  This task takes a long time to complete
+ 273:..\Common\Minimal/semtest.c **** 			a cycle	(deliberately so to test the guarding) so will be starving
+ 274:..\Common\Minimal/semtest.c **** 			out lower priority tasks.  Block for some time to allow give lower
+ 275:..\Common\Minimal/semtest.c **** 			priority tasks some processor time. */
+ 276:..\Common\Minimal/semtest.c **** 			vTaskDelay( pxParameters->xBlockTime * semtstDELAY_FACTOR );
+ 380              		.loc 1 276 0
+ 381 00d8 7B69     		ldr	r3, [r7, #20]
+ 382 00da 9A68     		ldr	r2, [r3, #8]
+ 383 00dc 1346     		mov	r3, r2
+ 384 00de 9B00     		lsls	r3, r3, #2
+ 385 00e0 1344     		add	r3, r3, r2
+ 386 00e2 5B00     		lsls	r3, r3, #1
+ 387 00e4 1846     		mov	r0, r3
+ 388 00e6 FFF7FEFF 		bl	vTaskDelay
+ 389 00ea AEE7     		b	.L9
+ 390              	.L10:
+ 277:..\Common\Minimal/semtest.c **** 		}
+ 278:..\Common\Minimal/semtest.c **** 		else
+ 279:..\Common\Minimal/semtest.c **** 		{
+ 280:..\Common\Minimal/semtest.c **** 			if( pxParameters->xBlockTime == ( TickType_t ) 0 )
+ 391              		.loc 1 280 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 13
+
+
+ 392 00ec 7B69     		ldr	r3, [r7, #20]
+ 393 00ee 9B68     		ldr	r3, [r3, #8]
+ 394 00f0 002B     		cmp	r3, #0
+ 395 00f2 AAD1     		bne	.L9
+ 281:..\Common\Minimal/semtest.c **** 			{
+ 282:..\Common\Minimal/semtest.c **** 				/* We have not got the semaphore yet, so no point using the
+ 283:..\Common\Minimal/semtest.c **** 				processor.  We are not blocking when attempting to obtain the
+ 284:..\Common\Minimal/semtest.c **** 				semaphore. */
+ 285:..\Common\Minimal/semtest.c **** 				taskYIELD();
+ 396              		.loc 1 285 0
+ 397 00f4 064B     		ldr	r3, .L18+8
+ 398 00f6 4FF08052 		mov	r2, #268435456
+ 399 00fa 1A60     		str	r2, [r3]
+ 400              		.syntax unified
+ 401              	@ 285 "..\Common\Minimal\semtest.c" 1
+ 402 00fc BFF34F8F 		dsb
+ 403              	@ 0 "" 2
+ 404              	@ 285 "..\Common\Minimal\semtest.c" 1
+ 405 0100 BFF36F8F 		isb
+ 406              	@ 0 "" 2
+ 286:..\Common\Minimal/semtest.c **** 			}
+ 287:..\Common\Minimal/semtest.c **** 		}
+ 288:..\Common\Minimal/semtest.c **** 	}
+ 407              		.loc 1 288 0
+ 408              		.thumb
+ 409              		.syntax unified
+ 410 0104 A1E7     		b	.L9
+ 411              	.L19:
+ 412 0106 00BF     		.align	2
+ 413              	.L18:
+ 414 0108 08000000 		.word	sNextCheckVariable
+ 415 010c 00000000 		.word	sCheckVariables
+ 416 0110 04ED00E0 		.word	-536810236
+ 417              		.cfi_endproc
+ 418              	.LFE69:
+ 419              		.size	prvSemaphoreTest, .-prvSemaphoreTest
+ 420              		.section	.text.xAreSemaphoreTasksStillRunning,"ax",%progbits
+ 421              		.align	2
+ 422              		.global	xAreSemaphoreTasksStillRunning
+ 423              		.thumb
+ 424              		.thumb_func
+ 425              		.type	xAreSemaphoreTasksStillRunning, %function
+ 426              	xAreSemaphoreTasksStillRunning:
+ 427              	.LFB70:
+ 289:..\Common\Minimal/semtest.c **** }
+ 290:..\Common\Minimal/semtest.c **** /*-----------------------------------------------------------*/
+ 291:..\Common\Minimal/semtest.c **** 
+ 292:..\Common\Minimal/semtest.c **** /* This is called to check that all the created tasks are still running. */
+ 293:..\Common\Minimal/semtest.c **** BaseType_t xAreSemaphoreTasksStillRunning( void )
+ 294:..\Common\Minimal/semtest.c **** {
+ 428              		.loc 1 294 0
+ 429              		.cfi_startproc
+ 430              		@ args = 0, pretend = 0, frame = 8
+ 431              		@ frame_needed = 1, uses_anonymous_args = 0
+ 432              		@ link register save eliminated.
+ 433 0000 80B4     		push	{r7}
+ 434              		.cfi_def_cfa_offset 4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 14
+
+
+ 435              		.cfi_offset 7, -4
+ 436 0002 83B0     		sub	sp, sp, #12
+ 437              		.cfi_def_cfa_offset 16
+ 438 0004 00AF     		add	r7, sp, #0
+ 439              		.cfi_def_cfa_register 7
+ 295:..\Common\Minimal/semtest.c **** static short sLastCheckVariables[ semtstNUM_TASKS ] = { 0 };
+ 296:..\Common\Minimal/semtest.c **** BaseType_t xTask, xReturn = pdTRUE;
+ 440              		.loc 1 296 0
+ 441 0006 0123     		movs	r3, #1
+ 442 0008 3B60     		str	r3, [r7]
+ 297:..\Common\Minimal/semtest.c **** 
+ 298:..\Common\Minimal/semtest.c **** 	for( xTask = 0; xTask < semtstNUM_TASKS; xTask++ )
+ 443              		.loc 1 298 0
+ 444 000a 0023     		movs	r3, #0
+ 445 000c 7B60     		str	r3, [r7, #4]
+ 446 000e 18E0     		b	.L21
+ 447              	.L23:
+ 299:..\Common\Minimal/semtest.c **** 	{
+ 300:..\Common\Minimal/semtest.c **** 		if( sLastCheckVariables[ xTask ] == sCheckVariables[ xTask ] )
+ 448              		.loc 1 300 0
+ 449 0010 104A     		ldr	r2, .L25
+ 450 0012 7B68     		ldr	r3, [r7, #4]
+ 451 0014 32F91320 		ldrsh	r2, [r2, r3, lsl #1]
+ 452 0018 0F49     		ldr	r1, .L25+4
+ 453 001a 7B68     		ldr	r3, [r7, #4]
+ 454 001c 31F81330 		ldrh	r3, [r1, r3, lsl #1]	@ movhi
+ 455 0020 1BB2     		sxth	r3, r3
+ 456 0022 9A42     		cmp	r2, r3
+ 457 0024 01D1     		bne	.L22
+ 301:..\Common\Minimal/semtest.c **** 		{
+ 302:..\Common\Minimal/semtest.c **** 			xReturn = pdFALSE;
+ 458              		.loc 1 302 0
+ 459 0026 0023     		movs	r3, #0
+ 460 0028 3B60     		str	r3, [r7]
+ 461              	.L22:
+ 303:..\Common\Minimal/semtest.c **** 		}
+ 304:..\Common\Minimal/semtest.c **** 
+ 305:..\Common\Minimal/semtest.c **** 		sLastCheckVariables[ xTask ] = sCheckVariables[ xTask ];
+ 462              		.loc 1 305 0 discriminator 2
+ 463 002a 0B4A     		ldr	r2, .L25+4
+ 464 002c 7B68     		ldr	r3, [r7, #4]
+ 465 002e 32F81330 		ldrh	r3, [r2, r3, lsl #1]	@ movhi
+ 466 0032 19B2     		sxth	r1, r3
+ 467 0034 074A     		ldr	r2, .L25
+ 468 0036 7B68     		ldr	r3, [r7, #4]
+ 469 0038 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ 298:..\Common\Minimal/semtest.c **** 	{
+ 470              		.loc 1 298 0 discriminator 2
+ 471 003c 7B68     		ldr	r3, [r7, #4]
+ 472 003e 0133     		adds	r3, r3, #1
+ 473 0040 7B60     		str	r3, [r7, #4]
+ 474              	.L21:
+ 298:..\Common\Minimal/semtest.c **** 	{
+ 475              		.loc 1 298 0 is_stmt 0 discriminator 1
+ 476 0042 7B68     		ldr	r3, [r7, #4]
+ 477 0044 032B     		cmp	r3, #3
+ 478 0046 E3DD     		ble	.L23
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 15
+
+
+ 306:..\Common\Minimal/semtest.c **** 	}
+ 307:..\Common\Minimal/semtest.c **** 
+ 308:..\Common\Minimal/semtest.c **** 	return xReturn;
+ 479              		.loc 1 308 0 is_stmt 1
+ 480 0048 3B68     		ldr	r3, [r7]
+ 309:..\Common\Minimal/semtest.c **** }
+ 481              		.loc 1 309 0
+ 482 004a 1846     		mov	r0, r3
+ 483 004c 0C37     		adds	r7, r7, #12
+ 484              		.cfi_def_cfa_offset 4
+ 485 004e BD46     		mov	sp, r7
+ 486              		.cfi_def_cfa_register 13
+ 487              		@ sp needed
+ 488 0050 80BC     		pop	{r7}
+ 489              		.cfi_restore 7
+ 490              		.cfi_def_cfa_offset 0
+ 491 0052 7047     		bx	lr
+ 492              	.L26:
+ 493              		.align	2
+ 494              	.L25:
+ 495 0054 0C000000 		.word	sLastCheckVariables.7563
+ 496 0058 00000000 		.word	sCheckVariables
+ 497              		.cfi_endproc
+ 498              	.LFE70:
+ 499              		.size	xAreSemaphoreTasksStillRunning, .-xAreSemaphoreTasksStillRunning
+ 500              		.bss
+ 501 000a 0000     		.align	2
+ 502              	sLastCheckVariables.7563:
+ 503 000c 00000000 		.space	8
+ 503      00000000 
+ 504              		.text
+ 505              	.Letext0:
+ 506              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 507              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 508              		.file 4 ".\\Tracer/sniffPayload.h"
+ 509              		.file 5 ".\\Tracer/selfFIFO.h"
+ 510              		.file 6 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 511              		.file 7 "..\\Source\\include/task.h"
+ 512              		.file 8 "..\\Source\\include/queue.h"
+ 513              		.file 9 "..\\Source\\include/semphr.h"
+ 514              		.file 10 "Generated_Source\\PSoC5/core_cm3.h"
+ 515              		.file 11 ".\\Tracer/sniffTask.h"
+ 516              		.section	.debug_info,"",%progbits
+ 517              	.Ldebug_info0:
+ 518 0000 74040000 		.4byte	0x474
+ 519 0004 0400     		.2byte	0x4
+ 520 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 521 000a 04       		.byte	0x4
+ 522 000b 01       		.uleb128 0x1
+ 523 000c 98000000 		.4byte	.LASF73
+ 524 0010 0C       		.byte	0xc
+ 525 0011 8D010000 		.4byte	.LASF74
+ 526 0015 7E040000 		.4byte	.LASF75
+ 527 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 528 001d 00000000 		.4byte	0
+ 529 0021 00000000 		.4byte	.Ldebug_line0
+ 530 0025 02       		.uleb128 0x2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 16
+
+
+ 531 0026 04       		.byte	0x4
+ 532 0027 07       		.byte	0x7
+ 533 0028 1C030000 		.4byte	.LASF0
+ 534 002c 03       		.uleb128 0x3
+ 535 002d 04       		.byte	0x4
+ 536 002e 05       		.byte	0x5
+ 537 002f 696E7400 		.ascii	"int\000"
+ 538 0033 02       		.uleb128 0x2
+ 539 0034 08       		.byte	0x8
+ 540 0035 05       		.byte	0x5
+ 541 0036 D9010000 		.4byte	.LASF1
+ 542 003a 02       		.uleb128 0x2
+ 543 003b 08       		.byte	0x8
+ 544 003c 04       		.byte	0x4
+ 545 003d 8D020000 		.4byte	.LASF2
+ 546 0041 02       		.uleb128 0x2
+ 547 0042 01       		.byte	0x1
+ 548 0043 06       		.byte	0x6
+ 549 0044 F0020000 		.4byte	.LASF3
+ 550 0048 04       		.uleb128 0x4
+ 551 0049 19020000 		.4byte	.LASF7
+ 552 004d 02       		.byte	0x2
+ 553 004e 1D       		.byte	0x1d
+ 554 004f 53000000 		.4byte	0x53
+ 555 0053 02       		.uleb128 0x2
+ 556 0054 01       		.byte	0x1
+ 557 0055 08       		.byte	0x8
+ 558 0056 BC020000 		.4byte	.LASF4
+ 559 005a 02       		.uleb128 0x2
+ 560 005b 02       		.byte	0x2
+ 561 005c 05       		.byte	0x5
+ 562 005d 6B000000 		.4byte	.LASF5
+ 563 0061 02       		.uleb128 0x2
+ 564 0062 02       		.byte	0x2
+ 565 0063 07       		.byte	0x7
+ 566 0064 73030000 		.4byte	.LASF6
+ 567 0068 04       		.uleb128 0x4
+ 568 0069 02040000 		.4byte	.LASF8
+ 569 006d 02       		.byte	0x2
+ 570 006e 3F       		.byte	0x3f
+ 571 006f 73000000 		.4byte	0x73
+ 572 0073 02       		.uleb128 0x2
+ 573 0074 04       		.byte	0x4
+ 574 0075 05       		.byte	0x5
+ 575 0076 F2010000 		.4byte	.LASF9
+ 576 007a 04       		.uleb128 0x4
+ 577 007b 26010000 		.4byte	.LASF10
+ 578 007f 02       		.byte	0x2
+ 579 0080 41       		.byte	0x41
+ 580 0081 85000000 		.4byte	0x85
+ 581 0085 02       		.uleb128 0x2
+ 582 0086 04       		.byte	0x4
+ 583 0087 07       		.byte	0x7
+ 584 0088 C8030000 		.4byte	.LASF11
+ 585 008c 02       		.uleb128 0x2
+ 586 008d 08       		.byte	0x8
+ 587 008e 07       		.byte	0x7
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 17
+
+
+ 588 008f FC020000 		.4byte	.LASF12
+ 589 0093 02       		.uleb128 0x2
+ 590 0094 04       		.byte	0x4
+ 591 0095 07       		.byte	0x7
+ 592 0096 75000000 		.4byte	.LASF13
+ 593 009a 05       		.uleb128 0x5
+ 594 009b 04       		.byte	0x4
+ 595 009c 02       		.uleb128 0x2
+ 596 009d 01       		.byte	0x1
+ 597 009e 08       		.byte	0x8
+ 598 009f 5D030000 		.4byte	.LASF14
+ 599 00a3 04       		.uleb128 0x4
+ 600 00a4 45010000 		.4byte	.LASF15
+ 601 00a8 03       		.byte	0x3
+ 602 00a9 18       		.byte	0x18
+ 603 00aa 48000000 		.4byte	0x48
+ 604 00ae 04       		.uleb128 0x4
+ 605 00af 6B030000 		.4byte	.LASF16
+ 606 00b3 03       		.byte	0x3
+ 607 00b4 2C       		.byte	0x2c
+ 608 00b5 68000000 		.4byte	0x68
+ 609 00b9 04       		.uleb128 0x4
+ 610 00ba 13030000 		.4byte	.LASF17
+ 611 00be 03       		.byte	0x3
+ 612 00bf 30       		.byte	0x30
+ 613 00c0 7A000000 		.4byte	0x7a
+ 614 00c4 02       		.uleb128 0x2
+ 615 00c5 04       		.byte	0x4
+ 616 00c6 04       		.byte	0x4
+ 617 00c7 1E000000 		.4byte	.LASF18
+ 618 00cb 02       		.uleb128 0x2
+ 619 00cc 08       		.byte	0x8
+ 620 00cd 04       		.byte	0x4
+ 621 00ce DA030000 		.4byte	.LASF19
+ 622 00d2 06       		.uleb128 0x6
+ 623 00d3 B9000000 		.4byte	0xb9
+ 624 00d7 07       		.uleb128 0x7
+ 625 00d8 01       		.byte	0x1
+ 626 00d9 53000000 		.4byte	0x53
+ 627 00dd 04       		.byte	0x4
+ 628 00de 10       		.byte	0x10
+ 629 00df 0E010000 		.4byte	0x10e
+ 630 00e3 08       		.uleb128 0x8
+ 631 00e4 69020000 		.4byte	.LASF20
+ 632 00e8 00       		.byte	0
+ 633 00e9 08       		.uleb128 0x8
+ 634 00ea 7E000000 		.4byte	.LASF21
+ 635 00ee 01       		.byte	0x1
+ 636 00ef 08       		.uleb128 0x8
+ 637 00f0 6F020000 		.4byte	.LASF22
+ 638 00f4 02       		.byte	0x2
+ 639 00f5 08       		.uleb128 0x8
+ 640 00f6 E1030000 		.4byte	.LASF23
+ 641 00fa 03       		.byte	0x3
+ 642 00fb 08       		.uleb128 0x8
+ 643 00fc 09020000 		.4byte	.LASF24
+ 644 0100 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 18
+
+
+ 645 0101 08       		.uleb128 0x8
+ 646 0102 FD030000 		.4byte	.LASF25
+ 647 0106 05       		.byte	0x5
+ 648 0107 08       		.uleb128 0x8
+ 649 0108 B2030000 		.4byte	.LASF26
+ 650 010c 06       		.byte	0x6
+ 651 010d 00       		.byte	0
+ 652 010e 04       		.uleb128 0x4
+ 653 010f 82010000 		.4byte	.LASF27
+ 654 0113 04       		.byte	0x4
+ 655 0114 10       		.byte	0x10
+ 656 0115 D7000000 		.4byte	0xd7
+ 657 0119 09       		.uleb128 0x9
+ 658 011a 04       		.byte	0x4
+ 659 011b 04       		.byte	0x4
+ 660 011c 86       		.byte	0x86
+ 661 011d 52010000 		.4byte	0x152
+ 662 0121 0A       		.uleb128 0xa
+ 663 0122 62030000 		.4byte	.LASF28
+ 664 0126 04       		.byte	0x4
+ 665 0127 87       		.byte	0x87
+ 666 0128 A3000000 		.4byte	0xa3
+ 667 012c 00       		.byte	0
+ 668 012d 0A       		.uleb128 0xa
+ 669 012e 10000000 		.4byte	.LASF29
+ 670 0132 04       		.byte	0x4
+ 671 0133 88       		.byte	0x88
+ 672 0134 A3000000 		.4byte	0xa3
+ 673 0138 01       		.byte	0x1
+ 674 0139 0A       		.uleb128 0xa
+ 675 013a 0C040000 		.4byte	.LASF30
+ 676 013e 04       		.byte	0x4
+ 677 013f 89       		.byte	0x89
+ 678 0140 0E010000 		.4byte	0x10e
+ 679 0144 02       		.byte	0x2
+ 680 0145 0A       		.uleb128 0xa
+ 681 0146 91000000 		.4byte	.LASF31
+ 682 014a 04       		.byte	0x4
+ 683 014b 8A       		.byte	0x8a
+ 684 014c A3000000 		.4byte	0xa3
+ 685 0150 03       		.byte	0x3
+ 686 0151 00       		.byte	0
+ 687 0152 04       		.uleb128 0x4
+ 688 0153 29030000 		.4byte	.LASF32
+ 689 0157 04       		.byte	0x4
+ 690 0158 8B       		.byte	0x8b
+ 691 0159 19010000 		.4byte	0x119
+ 692 015d 09       		.uleb128 0x9
+ 693 015e 0E       		.byte	0xe
+ 694 015f 04       		.byte	0x4
+ 695 0160 95       		.byte	0x95
+ 696 0161 8A010000 		.4byte	0x18a
+ 697 0165 0A       		.uleb128 0xa
+ 698 0166 5E000000 		.4byte	.LASF33
+ 699 016a 04       		.byte	0x4
+ 700 016b 96       		.byte	0x96
+ 701 016c A3000000 		.4byte	0xa3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 19
+
+
+ 702 0170 00       		.byte	0
+ 703 0171 0A       		.uleb128 0xa
+ 704 0172 74010000 		.4byte	.LASF34
+ 705 0176 04       		.byte	0x4
+ 706 0177 97       		.byte	0x97
+ 707 0178 A3000000 		.4byte	0xa3
+ 708 017c 01       		.byte	0x1
+ 709 017d 0A       		.uleb128 0xa
+ 710 017e 82020000 		.4byte	.LASF35
+ 711 0182 04       		.byte	0x4
+ 712 0183 98       		.byte	0x98
+ 713 0184 8A010000 		.4byte	0x18a
+ 714 0188 02       		.byte	0x2
+ 715 0189 00       		.byte	0
+ 716 018a 0B       		.uleb128 0xb
+ 717 018b 9C000000 		.4byte	0x9c
+ 718 018f 9A010000 		.4byte	0x19a
+ 719 0193 0C       		.uleb128 0xc
+ 720 0194 93000000 		.4byte	0x93
+ 721 0198 0B       		.byte	0xb
+ 722 0199 00       		.byte	0
+ 723 019a 04       		.uleb128 0x4
+ 724 019b CD010000 		.4byte	.LASF36
+ 725 019f 04       		.byte	0x4
+ 726 01a0 99       		.byte	0x99
+ 727 01a1 5D010000 		.4byte	0x15d
+ 728 01a5 0D       		.uleb128 0xd
+ 729 01a6 1C01     		.2byte	0x11c
+ 730 01a8 04       		.byte	0x4
+ 731 01a9 A3       		.byte	0xa3
+ 732 01aa C7010000 		.4byte	0x1c7
+ 733 01ae 0A       		.uleb128 0xa
+ 734 01af 38010000 		.4byte	.LASF37
+ 735 01b3 04       		.byte	0x4
+ 736 01b4 A4       		.byte	0xa4
+ 737 01b5 52010000 		.4byte	0x152
+ 738 01b9 00       		.byte	0
+ 739 01ba 0A       		.uleb128 0xa
+ 740 01bb 68010000 		.4byte	.LASF38
+ 741 01bf 04       		.byte	0x4
+ 742 01c0 A5       		.byte	0xa5
+ 743 01c1 C7010000 		.4byte	0x1c7
+ 744 01c5 04       		.byte	0x4
+ 745 01c6 00       		.byte	0
+ 746 01c7 0B       		.uleb128 0xb
+ 747 01c8 9A010000 		.4byte	0x19a
+ 748 01cc D7010000 		.4byte	0x1d7
+ 749 01d0 0C       		.uleb128 0xc
+ 750 01d1 93000000 		.4byte	0x93
+ 751 01d5 13       		.byte	0x13
+ 752 01d6 00       		.byte	0
+ 753 01d7 04       		.uleb128 0x4
+ 754 01d8 51040000 		.4byte	.LASF39
+ 755 01dc 04       		.byte	0x4
+ 756 01dd A6       		.byte	0xa6
+ 757 01de A5010000 		.4byte	0x1a5
+ 758 01e2 0E       		.uleb128 0xe
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 20
+
+
+ 759 01e3 4D020000 		.4byte	.LASF49
+ 760 01e7 0210     		.2byte	0x1002
+ 761 01e9 05       		.byte	0x5
+ 762 01ea 0C       		.byte	0xc
+ 763 01eb 16020000 		.4byte	0x216
+ 764 01ef 0A       		.uleb128 0xa
+ 765 01f0 A6030000 		.4byte	.LASF40
+ 766 01f4 05       		.byte	0x5
+ 767 01f5 0D       		.byte	0xd
+ 768 01f6 16020000 		.4byte	0x216
+ 769 01fa 00       		.byte	0
+ 770 01fb 0F       		.uleb128 0xf
+ 771 01fc D4010000 		.4byte	.LASF41
+ 772 0200 05       		.byte	0x5
+ 773 0201 0E       		.byte	0xe
+ 774 0202 A3000000 		.4byte	0xa3
+ 775 0206 0010     		.2byte	0x1000
+ 776 0208 0F       		.uleb128 0xf
+ 777 0209 4E000000 		.4byte	.LASF42
+ 778 020d 05       		.byte	0x5
+ 779 020e 0F       		.byte	0xf
+ 780 020f A3000000 		.4byte	0xa3
+ 781 0213 0110     		.2byte	0x1001
+ 782 0215 00       		.byte	0
+ 783 0216 0B       		.uleb128 0xb
+ 784 0217 A3000000 		.4byte	0xa3
+ 785 021b 27020000 		.4byte	0x227
+ 786 021f 10       		.uleb128 0x10
+ 787 0220 93000000 		.4byte	0x93
+ 788 0224 FF0F     		.2byte	0xfff
+ 789 0226 00       		.byte	0
+ 790 0227 04       		.uleb128 0x4
+ 791 0228 3A030000 		.4byte	.LASF43
+ 792 022c 06       		.byte	0x6
+ 793 022d 62       		.byte	0x62
+ 794 022e 73000000 		.4byte	0x73
+ 795 0232 04       		.uleb128 0x4
+ 796 0233 9A030000 		.4byte	.LASF44
+ 797 0237 06       		.byte	0x6
+ 798 0238 63       		.byte	0x63
+ 799 0239 85000000 		.4byte	0x85
+ 800 023d 04       		.uleb128 0x4
+ 801 023e E7010000 		.4byte	.LASF45
+ 802 0242 06       		.byte	0x6
+ 803 0243 69       		.byte	0x69
+ 804 0244 B9000000 		.4byte	0xb9
+ 805 0248 04       		.uleb128 0x4
+ 806 0249 84000000 		.4byte	.LASF46
+ 807 024d 07       		.byte	0x7
+ 808 024e 67       		.byte	0x67
+ 809 024f 9A000000 		.4byte	0x9a
+ 810 0253 04       		.uleb128 0x4
+ 811 0254 23020000 		.4byte	.LASF47
+ 812 0258 08       		.byte	0x8
+ 813 0259 58       		.byte	0x58
+ 814 025a 9A000000 		.4byte	0x9a
+ 815 025e 04       		.uleb128 0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 21
+
+
+ 816 025f 99020000 		.4byte	.LASF48
+ 817 0263 09       		.byte	0x9
+ 818 0264 4F       		.byte	0x4f
+ 819 0265 53020000 		.4byte	0x253
+ 820 0269 11       		.uleb128 0x11
+ 821 026a 3C040000 		.4byte	.LASF50
+ 822 026e 0C       		.byte	0xc
+ 823 026f 01       		.byte	0x1
+ 824 0270 76       		.byte	0x76
+ 825 0271 9A020000 		.4byte	0x29a
+ 826 0275 0A       		.uleb128 0xa
+ 827 0276 AF010000 		.4byte	.LASF51
+ 828 027a 01       		.byte	0x1
+ 829 027b 78       		.byte	0x78
+ 830 027c 5E020000 		.4byte	0x25e
+ 831 0280 00       		.byte	0
+ 832 0281 0A       		.uleb128 0xa
+ 833 0282 DE020000 		.4byte	.LASF52
+ 834 0286 01       		.byte	0x1
+ 835 0287 79       		.byte	0x79
+ 836 0288 9A020000 		.4byte	0x29a
+ 837 028c 04       		.byte	0x4
+ 838 028d 0A       		.uleb128 0xa
+ 839 028e 52030000 		.4byte	.LASF53
+ 840 0292 01       		.byte	0x1
+ 841 0293 7A       		.byte	0x7a
+ 842 0294 3D020000 		.4byte	0x23d
+ 843 0298 08       		.byte	0x8
+ 844 0299 00       		.byte	0
+ 845 029a 12       		.uleb128 0x12
+ 846 029b 04       		.byte	0x4
+ 847 029c D2000000 		.4byte	0xd2
+ 848 02a0 04       		.uleb128 0x4
+ 849 02a1 54020000 		.4byte	.LASF54
+ 850 02a5 01       		.byte	0x1
+ 851 02a6 7B       		.byte	0x7b
+ 852 02a7 69020000 		.4byte	0x269
+ 853 02ab 13       		.uleb128 0x13
+ 854 02ac 69040000 		.4byte	.LASF76
+ 855 02b0 01       		.byte	0x1
+ 856 02b1 83       		.byte	0x83
+ 857 02b2 00000000 		.4byte	.LFB68
+ 858 02b6 38010000 		.4byte	.LFE68-.LFB68
+ 859 02ba 01       		.uleb128 0x1
+ 860 02bb 9C       		.byte	0x9c
+ 861 02bc F9020000 		.4byte	0x2f9
+ 862 02c0 14       		.uleb128 0x14
+ 863 02c1 43000000 		.4byte	.LASF57
+ 864 02c5 01       		.byte	0x1
+ 865 02c6 83       		.byte	0x83
+ 866 02c7 32020000 		.4byte	0x232
+ 867 02cb 02       		.uleb128 0x2
+ 868 02cc 91       		.byte	0x91
+ 869 02cd 64       		.sleb128 -28
+ 870 02ce 15       		.uleb128 0x15
+ 871 02cf 4D010000 		.4byte	.LASF55
+ 872 02d3 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 22
+
+
+ 873 02d4 85       		.byte	0x85
+ 874 02d5 F9020000 		.4byte	0x2f9
+ 875 02d9 02       		.uleb128 0x2
+ 876 02da 91       		.byte	0x91
+ 877 02db 70       		.sleb128 -16
+ 878 02dc 15       		.uleb128 0x15
+ 879 02dd 31020000 		.4byte	.LASF56
+ 880 02e1 01       		.byte	0x1
+ 881 02e2 85       		.byte	0x85
+ 882 02e3 F9020000 		.4byte	0x2f9
+ 883 02e7 02       		.uleb128 0x2
+ 884 02e8 91       		.byte	0x91
+ 885 02e9 6C       		.sleb128 -20
+ 886 02ea 15       		.uleb128 0x15
+ 887 02eb 52030000 		.4byte	.LASF53
+ 888 02ef 01       		.byte	0x1
+ 889 02f0 86       		.byte	0x86
+ 890 02f1 FF020000 		.4byte	0x2ff
+ 891 02f5 02       		.uleb128 0x2
+ 892 02f6 91       		.byte	0x91
+ 893 02f7 74       		.sleb128 -12
+ 894 02f8 00       		.byte	0
+ 895 02f9 12       		.uleb128 0x12
+ 896 02fa 04       		.byte	0x4
+ 897 02fb A0020000 		.4byte	0x2a0
+ 898 02ff 16       		.uleb128 0x16
+ 899 0300 3D020000 		.4byte	0x23d
+ 900 0304 17       		.uleb128 0x17
+ 901 0305 AB020000 		.4byte	.LASF77
+ 902 0309 01       		.byte	0x1
+ 903 030a C9       		.byte	0xc9
+ 904 030b 00000000 		.4byte	.LFB69
+ 905 030f 14010000 		.4byte	.LFE69-.LFB69
+ 906 0313 01       		.uleb128 0x1
+ 907 0314 9C       		.byte	0x9c
+ 908 0315 7C030000 		.4byte	0x37c
+ 909 0319 14       		.uleb128 0x14
+ 910 031a 45030000 		.4byte	.LASF58
+ 911 031e 01       		.byte	0x1
+ 912 031f C9       		.byte	0xc9
+ 913 0320 9A000000 		.4byte	0x9a
+ 914 0324 02       		.uleb128 0x2
+ 915 0325 91       		.byte	0x91
+ 916 0326 5C       		.sleb128 -36
+ 917 0327 15       		.uleb128 0x15
+ 918 0328 2F040000 		.4byte	.LASF59
+ 919 032c 01       		.byte	0x1
+ 920 032d CB       		.byte	0xcb
+ 921 032e F9020000 		.4byte	0x2f9
+ 922 0332 02       		.uleb128 0x2
+ 923 0333 91       		.byte	0x91
+ 924 0334 6C       		.sleb128 -20
+ 925 0335 15       		.uleb128 0x15
+ 926 0336 DE020000 		.4byte	.LASF52
+ 927 033a 01       		.byte	0x1
+ 928 033b CC       		.byte	0xcc
+ 929 033c 9A020000 		.4byte	0x29a
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 23
+
+
+ 930 0340 02       		.uleb128 0x2
+ 931 0341 91       		.byte	0x91
+ 932 0342 68       		.sleb128 -24
+ 933 0343 15       		.uleb128 0x15
+ 934 0344 00000000 		.4byte	.LASF60
+ 935 0348 01       		.byte	0x1
+ 936 0349 CC       		.byte	0xcc
+ 937 034a D2000000 		.4byte	0xd2
+ 938 034e 02       		.uleb128 0x2
+ 939 034f 91       		.byte	0x91
+ 940 0350 64       		.sleb128 -28
+ 941 0351 15       		.uleb128 0x15
+ 942 0352 54000000 		.4byte	.LASF61
+ 943 0356 01       		.byte	0x1
+ 944 0357 CD       		.byte	0xcd
+ 945 0358 B9000000 		.4byte	0xb9
+ 946 035c 02       		.uleb128 0x2
+ 947 035d 91       		.byte	0x91
+ 948 035e 74       		.sleb128 -12
+ 949 035f 15       		.uleb128 0x15
+ 950 0360 31010000 		.4byte	.LASF62
+ 951 0364 01       		.byte	0x1
+ 952 0365 CE       		.byte	0xce
+ 953 0366 5A000000 		.4byte	0x5a
+ 954 036a 02       		.uleb128 0x2
+ 955 036b 91       		.byte	0x91
+ 956 036c 72       		.sleb128 -14
+ 957 036d 15       		.uleb128 0x15
+ 958 036e CA020000 		.4byte	.LASF63
+ 959 0372 01       		.byte	0x1
+ 960 0373 CE       		.byte	0xce
+ 961 0374 5A000000 		.4byte	0x5a
+ 962 0378 02       		.uleb128 0x2
+ 963 0379 91       		.byte	0x91
+ 964 037a 70       		.sleb128 -16
+ 965 037b 00       		.byte	0
+ 966 037c 18       		.uleb128 0x18
+ 967 037d 24000000 		.4byte	.LASF78
+ 968 0381 01       		.byte	0x1
+ 969 0382 2501     		.2byte	0x125
+ 970 0384 27020000 		.4byte	0x227
+ 971 0388 00000000 		.4byte	.LFB70
+ 972 038c 5C000000 		.4byte	.LFE70-.LFB70
+ 973 0390 01       		.uleb128 0x1
+ 974 0391 9C       		.byte	0x9c
+ 975 0392 C7030000 		.4byte	0x3c7
+ 976 0396 19       		.uleb128 0x19
+ 977 0397 86030000 		.4byte	.LASF64
+ 978 039b 01       		.byte	0x1
+ 979 039c 2701     		.2byte	0x127
+ 980 039e C7030000 		.4byte	0x3c7
+ 981 03a2 05       		.uleb128 0x5
+ 982 03a3 03       		.byte	0x3
+ 983 03a4 0C000000 		.4byte	sLastCheckVariables.7563
+ 984 03a8 19       		.uleb128 0x19
+ 985 03a9 A9010000 		.4byte	.LASF65
+ 986 03ad 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 24
+
+
+ 987 03ae 2801     		.2byte	0x128
+ 988 03b0 27020000 		.4byte	0x227
+ 989 03b4 02       		.uleb128 0x2
+ 990 03b5 91       		.byte	0x91
+ 991 03b6 74       		.sleb128 -12
+ 992 03b7 19       		.uleb128 0x19
+ 993 03b8 27040000 		.4byte	.LASF66
+ 994 03bc 01       		.byte	0x1
+ 995 03bd 2801     		.2byte	0x128
+ 996 03bf 27020000 		.4byte	0x227
+ 997 03c3 02       		.uleb128 0x2
+ 998 03c4 91       		.byte	0x91
+ 999 03c5 70       		.sleb128 -16
+ 1000 03c6 00       		.byte	0
+ 1001 03c7 0B       		.uleb128 0xb
+ 1002 03c8 5A000000 		.4byte	0x5a
+ 1003 03cc D7030000 		.4byte	0x3d7
+ 1004 03d0 0C       		.uleb128 0xc
+ 1005 03d1 93000000 		.4byte	0x93
+ 1006 03d5 03       		.byte	0x3
+ 1007 03d6 00       		.byte	0
+ 1008 03d7 0B       		.uleb128 0xb
+ 1009 03d8 E7030000 		.4byte	0x3e7
+ 1010 03dc E7030000 		.4byte	0x3e7
+ 1011 03e0 0C       		.uleb128 0xc
+ 1012 03e1 93000000 		.4byte	0x93
+ 1013 03e5 03       		.byte	0x3
+ 1014 03e6 00       		.byte	0
+ 1015 03e7 06       		.uleb128 0x6
+ 1016 03e8 5A000000 		.4byte	0x5a
+ 1017 03ec 15       		.uleb128 0x15
+ 1018 03ed 17040000 		.4byte	.LASF67
+ 1019 03f1 01       		.byte	0x1
+ 1020 03f2 7E       		.byte	0x7e
+ 1021 03f3 FD030000 		.4byte	0x3fd
+ 1022 03f7 05       		.uleb128 0x5
+ 1023 03f8 03       		.byte	0x3
+ 1024 03f9 00000000 		.4byte	sCheckVariables
+ 1025 03fd 06       		.uleb128 0x6
+ 1026 03fe D7030000 		.4byte	0x3d7
+ 1027 0402 15       		.uleb128 0x15
+ 1028 0403 BA010000 		.4byte	.LASF68
+ 1029 0407 01       		.byte	0x1
+ 1030 0408 7F       		.byte	0x7f
+ 1031 0409 E7030000 		.4byte	0x3e7
+ 1032 040d 05       		.uleb128 0x5
+ 1033 040e 03       		.byte	0x3
+ 1034 040f 08000000 		.4byte	sNextCheckVariable
+ 1035 0413 1A       		.uleb128 0x1a
+ 1036 0414 5C040000 		.4byte	.LASF69
+ 1037 0418 0A       		.byte	0xa
+ 1038 0419 9606     		.2byte	0x696
+ 1039 041b 1F040000 		.4byte	0x41f
+ 1040 041f 06       		.uleb128 0x6
+ 1041 0420 AE000000 		.4byte	0xae
+ 1042 0424 0B       		.uleb128 0xb
+ 1043 0425 A3000000 		.4byte	0xa3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 25
+
+
+ 1044 0429 34040000 		.4byte	0x434
+ 1045 042d 0C       		.uleb128 0xc
+ 1046 042e 93000000 		.4byte	0x93
+ 1047 0432 0C       		.byte	0xc
+ 1048 0433 00       		.byte	0
+ 1049 0434 1B       		.uleb128 0x1b
+ 1050 0435 FB010000 		.4byte	.LASF70
+ 1051 0439 04       		.byte	0x4
+ 1052 043a 12       		.byte	0x12
+ 1053 043b 24040000 		.4byte	0x424
+ 1054 043f 05       		.uleb128 0x5
+ 1055 0440 03       		.byte	0x3
+ 1056 0441 00000000 		.4byte	sniffIDFilter
+ 1057 0445 1B       		.uleb128 0x1b
+ 1058 0446 AB030000 		.4byte	.LASF71
+ 1059 044a 05       		.byte	0x5
+ 1060 044b 10       		.byte	0x10
+ 1061 044c E2010000 		.4byte	0x1e2
+ 1062 0450 05       		.uleb128 0x5
+ 1063 0451 03       		.byte	0x3
+ 1064 0452 00000000 		.4byte	buffer
+ 1065 0456 0B       		.uleb128 0xb
+ 1066 0457 D7010000 		.4byte	0x1d7
+ 1067 045b 66040000 		.4byte	0x466
+ 1068 045f 0C       		.uleb128 0xc
+ 1069 0460 93000000 		.4byte	0x93
+ 1070 0464 05       		.byte	0x5
+ 1071 0465 00       		.byte	0
+ 1072 0466 1B       		.uleb128 0x1b
+ 1073 0467 F2030000 		.4byte	.LASF72
+ 1074 046b 0B       		.byte	0xb
+ 1075 046c 0D       		.byte	0xd
+ 1076 046d 56040000 		.4byte	0x456
+ 1077 0471 05       		.uleb128 0x5
+ 1078 0472 03       		.byte	0x3
+ 1079 0473 00000000 		.4byte	objectList
+ 1080 0477 00       		.byte	0
+ 1081              		.section	.debug_abbrev,"",%progbits
+ 1082              	.Ldebug_abbrev0:
+ 1083 0000 01       		.uleb128 0x1
+ 1084 0001 11       		.uleb128 0x11
+ 1085 0002 01       		.byte	0x1
+ 1086 0003 25       		.uleb128 0x25
+ 1087 0004 0E       		.uleb128 0xe
+ 1088 0005 13       		.uleb128 0x13
+ 1089 0006 0B       		.uleb128 0xb
+ 1090 0007 03       		.uleb128 0x3
+ 1091 0008 0E       		.uleb128 0xe
+ 1092 0009 1B       		.uleb128 0x1b
+ 1093 000a 0E       		.uleb128 0xe
+ 1094 000b 55       		.uleb128 0x55
+ 1095 000c 17       		.uleb128 0x17
+ 1096 000d 11       		.uleb128 0x11
+ 1097 000e 01       		.uleb128 0x1
+ 1098 000f 10       		.uleb128 0x10
+ 1099 0010 17       		.uleb128 0x17
+ 1100 0011 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 26
+
+
+ 1101 0012 00       		.byte	0
+ 1102 0013 02       		.uleb128 0x2
+ 1103 0014 24       		.uleb128 0x24
+ 1104 0015 00       		.byte	0
+ 1105 0016 0B       		.uleb128 0xb
+ 1106 0017 0B       		.uleb128 0xb
+ 1107 0018 3E       		.uleb128 0x3e
+ 1108 0019 0B       		.uleb128 0xb
+ 1109 001a 03       		.uleb128 0x3
+ 1110 001b 0E       		.uleb128 0xe
+ 1111 001c 00       		.byte	0
+ 1112 001d 00       		.byte	0
+ 1113 001e 03       		.uleb128 0x3
+ 1114 001f 24       		.uleb128 0x24
+ 1115 0020 00       		.byte	0
+ 1116 0021 0B       		.uleb128 0xb
+ 1117 0022 0B       		.uleb128 0xb
+ 1118 0023 3E       		.uleb128 0x3e
+ 1119 0024 0B       		.uleb128 0xb
+ 1120 0025 03       		.uleb128 0x3
+ 1121 0026 08       		.uleb128 0x8
+ 1122 0027 00       		.byte	0
+ 1123 0028 00       		.byte	0
+ 1124 0029 04       		.uleb128 0x4
+ 1125 002a 16       		.uleb128 0x16
+ 1126 002b 00       		.byte	0
+ 1127 002c 03       		.uleb128 0x3
+ 1128 002d 0E       		.uleb128 0xe
+ 1129 002e 3A       		.uleb128 0x3a
+ 1130 002f 0B       		.uleb128 0xb
+ 1131 0030 3B       		.uleb128 0x3b
+ 1132 0031 0B       		.uleb128 0xb
+ 1133 0032 49       		.uleb128 0x49
+ 1134 0033 13       		.uleb128 0x13
+ 1135 0034 00       		.byte	0
+ 1136 0035 00       		.byte	0
+ 1137 0036 05       		.uleb128 0x5
+ 1138 0037 0F       		.uleb128 0xf
+ 1139 0038 00       		.byte	0
+ 1140 0039 0B       		.uleb128 0xb
+ 1141 003a 0B       		.uleb128 0xb
+ 1142 003b 00       		.byte	0
+ 1143 003c 00       		.byte	0
+ 1144 003d 06       		.uleb128 0x6
+ 1145 003e 35       		.uleb128 0x35
+ 1146 003f 00       		.byte	0
+ 1147 0040 49       		.uleb128 0x49
+ 1148 0041 13       		.uleb128 0x13
+ 1149 0042 00       		.byte	0
+ 1150 0043 00       		.byte	0
+ 1151 0044 07       		.uleb128 0x7
+ 1152 0045 04       		.uleb128 0x4
+ 1153 0046 01       		.byte	0x1
+ 1154 0047 0B       		.uleb128 0xb
+ 1155 0048 0B       		.uleb128 0xb
+ 1156 0049 49       		.uleb128 0x49
+ 1157 004a 13       		.uleb128 0x13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 27
+
+
+ 1158 004b 3A       		.uleb128 0x3a
+ 1159 004c 0B       		.uleb128 0xb
+ 1160 004d 3B       		.uleb128 0x3b
+ 1161 004e 0B       		.uleb128 0xb
+ 1162 004f 01       		.uleb128 0x1
+ 1163 0050 13       		.uleb128 0x13
+ 1164 0051 00       		.byte	0
+ 1165 0052 00       		.byte	0
+ 1166 0053 08       		.uleb128 0x8
+ 1167 0054 28       		.uleb128 0x28
+ 1168 0055 00       		.byte	0
+ 1169 0056 03       		.uleb128 0x3
+ 1170 0057 0E       		.uleb128 0xe
+ 1171 0058 1C       		.uleb128 0x1c
+ 1172 0059 0B       		.uleb128 0xb
+ 1173 005a 00       		.byte	0
+ 1174 005b 00       		.byte	0
+ 1175 005c 09       		.uleb128 0x9
+ 1176 005d 13       		.uleb128 0x13
+ 1177 005e 01       		.byte	0x1
+ 1178 005f 0B       		.uleb128 0xb
+ 1179 0060 0B       		.uleb128 0xb
+ 1180 0061 3A       		.uleb128 0x3a
+ 1181 0062 0B       		.uleb128 0xb
+ 1182 0063 3B       		.uleb128 0x3b
+ 1183 0064 0B       		.uleb128 0xb
+ 1184 0065 01       		.uleb128 0x1
+ 1185 0066 13       		.uleb128 0x13
+ 1186 0067 00       		.byte	0
+ 1187 0068 00       		.byte	0
+ 1188 0069 0A       		.uleb128 0xa
+ 1189 006a 0D       		.uleb128 0xd
+ 1190 006b 00       		.byte	0
+ 1191 006c 03       		.uleb128 0x3
+ 1192 006d 0E       		.uleb128 0xe
+ 1193 006e 3A       		.uleb128 0x3a
+ 1194 006f 0B       		.uleb128 0xb
+ 1195 0070 3B       		.uleb128 0x3b
+ 1196 0071 0B       		.uleb128 0xb
+ 1197 0072 49       		.uleb128 0x49
+ 1198 0073 13       		.uleb128 0x13
+ 1199 0074 38       		.uleb128 0x38
+ 1200 0075 0B       		.uleb128 0xb
+ 1201 0076 00       		.byte	0
+ 1202 0077 00       		.byte	0
+ 1203 0078 0B       		.uleb128 0xb
+ 1204 0079 01       		.uleb128 0x1
+ 1205 007a 01       		.byte	0x1
+ 1206 007b 49       		.uleb128 0x49
+ 1207 007c 13       		.uleb128 0x13
+ 1208 007d 01       		.uleb128 0x1
+ 1209 007e 13       		.uleb128 0x13
+ 1210 007f 00       		.byte	0
+ 1211 0080 00       		.byte	0
+ 1212 0081 0C       		.uleb128 0xc
+ 1213 0082 21       		.uleb128 0x21
+ 1214 0083 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 28
+
+
+ 1215 0084 49       		.uleb128 0x49
+ 1216 0085 13       		.uleb128 0x13
+ 1217 0086 2F       		.uleb128 0x2f
+ 1218 0087 0B       		.uleb128 0xb
+ 1219 0088 00       		.byte	0
+ 1220 0089 00       		.byte	0
+ 1221 008a 0D       		.uleb128 0xd
+ 1222 008b 13       		.uleb128 0x13
+ 1223 008c 01       		.byte	0x1
+ 1224 008d 0B       		.uleb128 0xb
+ 1225 008e 05       		.uleb128 0x5
+ 1226 008f 3A       		.uleb128 0x3a
+ 1227 0090 0B       		.uleb128 0xb
+ 1228 0091 3B       		.uleb128 0x3b
+ 1229 0092 0B       		.uleb128 0xb
+ 1230 0093 01       		.uleb128 0x1
+ 1231 0094 13       		.uleb128 0x13
+ 1232 0095 00       		.byte	0
+ 1233 0096 00       		.byte	0
+ 1234 0097 0E       		.uleb128 0xe
+ 1235 0098 13       		.uleb128 0x13
+ 1236 0099 01       		.byte	0x1
+ 1237 009a 03       		.uleb128 0x3
+ 1238 009b 0E       		.uleb128 0xe
+ 1239 009c 0B       		.uleb128 0xb
+ 1240 009d 05       		.uleb128 0x5
+ 1241 009e 3A       		.uleb128 0x3a
+ 1242 009f 0B       		.uleb128 0xb
+ 1243 00a0 3B       		.uleb128 0x3b
+ 1244 00a1 0B       		.uleb128 0xb
+ 1245 00a2 01       		.uleb128 0x1
+ 1246 00a3 13       		.uleb128 0x13
+ 1247 00a4 00       		.byte	0
+ 1248 00a5 00       		.byte	0
+ 1249 00a6 0F       		.uleb128 0xf
+ 1250 00a7 0D       		.uleb128 0xd
+ 1251 00a8 00       		.byte	0
+ 1252 00a9 03       		.uleb128 0x3
+ 1253 00aa 0E       		.uleb128 0xe
+ 1254 00ab 3A       		.uleb128 0x3a
+ 1255 00ac 0B       		.uleb128 0xb
+ 1256 00ad 3B       		.uleb128 0x3b
+ 1257 00ae 0B       		.uleb128 0xb
+ 1258 00af 49       		.uleb128 0x49
+ 1259 00b0 13       		.uleb128 0x13
+ 1260 00b1 38       		.uleb128 0x38
+ 1261 00b2 05       		.uleb128 0x5
+ 1262 00b3 00       		.byte	0
+ 1263 00b4 00       		.byte	0
+ 1264 00b5 10       		.uleb128 0x10
+ 1265 00b6 21       		.uleb128 0x21
+ 1266 00b7 00       		.byte	0
+ 1267 00b8 49       		.uleb128 0x49
+ 1268 00b9 13       		.uleb128 0x13
+ 1269 00ba 2F       		.uleb128 0x2f
+ 1270 00bb 05       		.uleb128 0x5
+ 1271 00bc 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 29
+
+
+ 1272 00bd 00       		.byte	0
+ 1273 00be 11       		.uleb128 0x11
+ 1274 00bf 13       		.uleb128 0x13
+ 1275 00c0 01       		.byte	0x1
+ 1276 00c1 03       		.uleb128 0x3
+ 1277 00c2 0E       		.uleb128 0xe
+ 1278 00c3 0B       		.uleb128 0xb
+ 1279 00c4 0B       		.uleb128 0xb
+ 1280 00c5 3A       		.uleb128 0x3a
+ 1281 00c6 0B       		.uleb128 0xb
+ 1282 00c7 3B       		.uleb128 0x3b
+ 1283 00c8 0B       		.uleb128 0xb
+ 1284 00c9 01       		.uleb128 0x1
+ 1285 00ca 13       		.uleb128 0x13
+ 1286 00cb 00       		.byte	0
+ 1287 00cc 00       		.byte	0
+ 1288 00cd 12       		.uleb128 0x12
+ 1289 00ce 0F       		.uleb128 0xf
+ 1290 00cf 00       		.byte	0
+ 1291 00d0 0B       		.uleb128 0xb
+ 1292 00d1 0B       		.uleb128 0xb
+ 1293 00d2 49       		.uleb128 0x49
+ 1294 00d3 13       		.uleb128 0x13
+ 1295 00d4 00       		.byte	0
+ 1296 00d5 00       		.byte	0
+ 1297 00d6 13       		.uleb128 0x13
+ 1298 00d7 2E       		.uleb128 0x2e
+ 1299 00d8 01       		.byte	0x1
+ 1300 00d9 3F       		.uleb128 0x3f
+ 1301 00da 19       		.uleb128 0x19
+ 1302 00db 03       		.uleb128 0x3
+ 1303 00dc 0E       		.uleb128 0xe
+ 1304 00dd 3A       		.uleb128 0x3a
+ 1305 00de 0B       		.uleb128 0xb
+ 1306 00df 3B       		.uleb128 0x3b
+ 1307 00e0 0B       		.uleb128 0xb
+ 1308 00e1 27       		.uleb128 0x27
+ 1309 00e2 19       		.uleb128 0x19
+ 1310 00e3 11       		.uleb128 0x11
+ 1311 00e4 01       		.uleb128 0x1
+ 1312 00e5 12       		.uleb128 0x12
+ 1313 00e6 06       		.uleb128 0x6
+ 1314 00e7 40       		.uleb128 0x40
+ 1315 00e8 18       		.uleb128 0x18
+ 1316 00e9 9642     		.uleb128 0x2116
+ 1317 00eb 19       		.uleb128 0x19
+ 1318 00ec 01       		.uleb128 0x1
+ 1319 00ed 13       		.uleb128 0x13
+ 1320 00ee 00       		.byte	0
+ 1321 00ef 00       		.byte	0
+ 1322 00f0 14       		.uleb128 0x14
+ 1323 00f1 05       		.uleb128 0x5
+ 1324 00f2 00       		.byte	0
+ 1325 00f3 03       		.uleb128 0x3
+ 1326 00f4 0E       		.uleb128 0xe
+ 1327 00f5 3A       		.uleb128 0x3a
+ 1328 00f6 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 30
+
+
+ 1329 00f7 3B       		.uleb128 0x3b
+ 1330 00f8 0B       		.uleb128 0xb
+ 1331 00f9 49       		.uleb128 0x49
+ 1332 00fa 13       		.uleb128 0x13
+ 1333 00fb 02       		.uleb128 0x2
+ 1334 00fc 18       		.uleb128 0x18
+ 1335 00fd 00       		.byte	0
+ 1336 00fe 00       		.byte	0
+ 1337 00ff 15       		.uleb128 0x15
+ 1338 0100 34       		.uleb128 0x34
+ 1339 0101 00       		.byte	0
+ 1340 0102 03       		.uleb128 0x3
+ 1341 0103 0E       		.uleb128 0xe
+ 1342 0104 3A       		.uleb128 0x3a
+ 1343 0105 0B       		.uleb128 0xb
+ 1344 0106 3B       		.uleb128 0x3b
+ 1345 0107 0B       		.uleb128 0xb
+ 1346 0108 49       		.uleb128 0x49
+ 1347 0109 13       		.uleb128 0x13
+ 1348 010a 02       		.uleb128 0x2
+ 1349 010b 18       		.uleb128 0x18
+ 1350 010c 00       		.byte	0
+ 1351 010d 00       		.byte	0
+ 1352 010e 16       		.uleb128 0x16
+ 1353 010f 26       		.uleb128 0x26
+ 1354 0110 00       		.byte	0
+ 1355 0111 49       		.uleb128 0x49
+ 1356 0112 13       		.uleb128 0x13
+ 1357 0113 00       		.byte	0
+ 1358 0114 00       		.byte	0
+ 1359 0115 17       		.uleb128 0x17
+ 1360 0116 2E       		.uleb128 0x2e
+ 1361 0117 01       		.byte	0x1
+ 1362 0118 03       		.uleb128 0x3
+ 1363 0119 0E       		.uleb128 0xe
+ 1364 011a 3A       		.uleb128 0x3a
+ 1365 011b 0B       		.uleb128 0xb
+ 1366 011c 3B       		.uleb128 0x3b
+ 1367 011d 0B       		.uleb128 0xb
+ 1368 011e 27       		.uleb128 0x27
+ 1369 011f 19       		.uleb128 0x19
+ 1370 0120 11       		.uleb128 0x11
+ 1371 0121 01       		.uleb128 0x1
+ 1372 0122 12       		.uleb128 0x12
+ 1373 0123 06       		.uleb128 0x6
+ 1374 0124 40       		.uleb128 0x40
+ 1375 0125 18       		.uleb128 0x18
+ 1376 0126 9642     		.uleb128 0x2116
+ 1377 0128 19       		.uleb128 0x19
+ 1378 0129 01       		.uleb128 0x1
+ 1379 012a 13       		.uleb128 0x13
+ 1380 012b 00       		.byte	0
+ 1381 012c 00       		.byte	0
+ 1382 012d 18       		.uleb128 0x18
+ 1383 012e 2E       		.uleb128 0x2e
+ 1384 012f 01       		.byte	0x1
+ 1385 0130 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 31
+
+
+ 1386 0131 19       		.uleb128 0x19
+ 1387 0132 03       		.uleb128 0x3
+ 1388 0133 0E       		.uleb128 0xe
+ 1389 0134 3A       		.uleb128 0x3a
+ 1390 0135 0B       		.uleb128 0xb
+ 1391 0136 3B       		.uleb128 0x3b
+ 1392 0137 05       		.uleb128 0x5
+ 1393 0138 27       		.uleb128 0x27
+ 1394 0139 19       		.uleb128 0x19
+ 1395 013a 49       		.uleb128 0x49
+ 1396 013b 13       		.uleb128 0x13
+ 1397 013c 11       		.uleb128 0x11
+ 1398 013d 01       		.uleb128 0x1
+ 1399 013e 12       		.uleb128 0x12
+ 1400 013f 06       		.uleb128 0x6
+ 1401 0140 40       		.uleb128 0x40
+ 1402 0141 18       		.uleb128 0x18
+ 1403 0142 9742     		.uleb128 0x2117
+ 1404 0144 19       		.uleb128 0x19
+ 1405 0145 01       		.uleb128 0x1
+ 1406 0146 13       		.uleb128 0x13
+ 1407 0147 00       		.byte	0
+ 1408 0148 00       		.byte	0
+ 1409 0149 19       		.uleb128 0x19
+ 1410 014a 34       		.uleb128 0x34
+ 1411 014b 00       		.byte	0
+ 1412 014c 03       		.uleb128 0x3
+ 1413 014d 0E       		.uleb128 0xe
+ 1414 014e 3A       		.uleb128 0x3a
+ 1415 014f 0B       		.uleb128 0xb
+ 1416 0150 3B       		.uleb128 0x3b
+ 1417 0151 05       		.uleb128 0x5
+ 1418 0152 49       		.uleb128 0x49
+ 1419 0153 13       		.uleb128 0x13
+ 1420 0154 02       		.uleb128 0x2
+ 1421 0155 18       		.uleb128 0x18
+ 1422 0156 00       		.byte	0
+ 1423 0157 00       		.byte	0
+ 1424 0158 1A       		.uleb128 0x1a
+ 1425 0159 34       		.uleb128 0x34
+ 1426 015a 00       		.byte	0
+ 1427 015b 03       		.uleb128 0x3
+ 1428 015c 0E       		.uleb128 0xe
+ 1429 015d 3A       		.uleb128 0x3a
+ 1430 015e 0B       		.uleb128 0xb
+ 1431 015f 3B       		.uleb128 0x3b
+ 1432 0160 05       		.uleb128 0x5
+ 1433 0161 49       		.uleb128 0x49
+ 1434 0162 13       		.uleb128 0x13
+ 1435 0163 3F       		.uleb128 0x3f
+ 1436 0164 19       		.uleb128 0x19
+ 1437 0165 3C       		.uleb128 0x3c
+ 1438 0166 19       		.uleb128 0x19
+ 1439 0167 00       		.byte	0
+ 1440 0168 00       		.byte	0
+ 1441 0169 1B       		.uleb128 0x1b
+ 1442 016a 34       		.uleb128 0x34
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 32
+
+
+ 1443 016b 00       		.byte	0
+ 1444 016c 03       		.uleb128 0x3
+ 1445 016d 0E       		.uleb128 0xe
+ 1446 016e 3A       		.uleb128 0x3a
+ 1447 016f 0B       		.uleb128 0xb
+ 1448 0170 3B       		.uleb128 0x3b
+ 1449 0171 0B       		.uleb128 0xb
+ 1450 0172 49       		.uleb128 0x49
+ 1451 0173 13       		.uleb128 0x13
+ 1452 0174 3F       		.uleb128 0x3f
+ 1453 0175 19       		.uleb128 0x19
+ 1454 0176 02       		.uleb128 0x2
+ 1455 0177 18       		.uleb128 0x18
+ 1456 0178 00       		.byte	0
+ 1457 0179 00       		.byte	0
+ 1458 017a 00       		.byte	0
+ 1459              		.section	.debug_aranges,"",%progbits
+ 1460 0000 2C000000 		.4byte	0x2c
+ 1461 0004 0200     		.2byte	0x2
+ 1462 0006 00000000 		.4byte	.Ldebug_info0
+ 1463 000a 04       		.byte	0x4
+ 1464 000b 00       		.byte	0
+ 1465 000c 0000     		.2byte	0
+ 1466 000e 0000     		.2byte	0
+ 1467 0010 00000000 		.4byte	.LFB68
+ 1468 0014 38010000 		.4byte	.LFE68-.LFB68
+ 1469 0018 00000000 		.4byte	.LFB69
+ 1470 001c 14010000 		.4byte	.LFE69-.LFB69
+ 1471 0020 00000000 		.4byte	.LFB70
+ 1472 0024 5C000000 		.4byte	.LFE70-.LFB70
+ 1473 0028 00000000 		.4byte	0
+ 1474 002c 00000000 		.4byte	0
+ 1475              		.section	.debug_ranges,"",%progbits
+ 1476              	.Ldebug_ranges0:
+ 1477 0000 00000000 		.4byte	.LFB68
+ 1478 0004 38010000 		.4byte	.LFE68
+ 1479 0008 00000000 		.4byte	.LFB69
+ 1480 000c 14010000 		.4byte	.LFE69
+ 1481 0010 00000000 		.4byte	.LFB70
+ 1482 0014 5C000000 		.4byte	.LFE70
+ 1483 0018 00000000 		.4byte	0
+ 1484 001c 00000000 		.4byte	0
+ 1485              		.section	.debug_line,"",%progbits
+ 1486              	.Ldebug_line0:
+ 1487 0000 80020000 		.section	.debug_str,"MS",%progbits,1
+ 1487      0200ED01 
+ 1487      00000201 
+ 1487      FB0E0D00 
+ 1487      01010101 
+ 1488              	.LASF60:
+ 1489 0000 756C4578 		.ascii	"ulExpectedValue\000"
+ 1489      70656374 
+ 1489      65645661 
+ 1489      6C756500 
+ 1490              	.LASF29:
+ 1491 0010 696E666F 		.ascii	"informationID\000"
+ 1491      726D6174 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 33
+
+
+ 1491      696F6E49 
+ 1491      4400
+ 1492              	.LASF18:
+ 1493 001e 666C6F61 		.ascii	"float\000"
+ 1493      7400
+ 1494              	.LASF78:
+ 1495 0024 78417265 		.ascii	"xAreSemaphoreTasksStillRunning\000"
+ 1495      53656D61 
+ 1495      70686F72 
+ 1495      65546173 
+ 1495      6B735374 
+ 1496              	.LASF57:
+ 1497 0043 75785072 		.ascii	"uxPriority\000"
+ 1497      696F7269 
+ 1497      747900
+ 1498              	.LASF42:
+ 1499 004e 77726974 		.ascii	"write\000"
+ 1499      6500
+ 1500              	.LASF61:
+ 1501 0054 756C436F 		.ascii	"ulCounter\000"
+ 1501      756E7465 
+ 1501      7200
+ 1502              	.LASF33:
+ 1503 005e 6F626A65 		.ascii	"objectNumber\000"
+ 1503      63744E75 
+ 1503      6D626572 
+ 1503      00
+ 1504              	.LASF5:
+ 1505 006b 73686F72 		.ascii	"short int\000"
+ 1505      7420696E 
+ 1505      7400
+ 1506              	.LASF13:
+ 1507 0075 73697A65 		.ascii	"sizetype\000"
+ 1507      74797065 
+ 1507      00
+ 1508              	.LASF21:
+ 1509 007e 4D555445 		.ascii	"MUTEX\000"
+ 1509      5800
+ 1510              	.LASF46:
+ 1511 0084 5461736B 		.ascii	"TaskHandle_t\000"
+ 1511      48616E64 
+ 1511      6C655F74 
+ 1511      00
+ 1512              	.LASF31:
+ 1513 0091 6C656E67 		.ascii	"length\000"
+ 1513      746800
+ 1514              	.LASF73:
+ 1515 0098 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1515      43313120 
+ 1515      352E342E 
+ 1515      31203230 
+ 1515      31363036 
+ 1516 00cb 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1516      20726576 
+ 1516      6973696F 
+ 1516      6E203233 
+ 1516      37373135 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 34
+
+
+ 1517 00fe 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1517      66756E63 
+ 1517      74696F6E 
+ 1517      2D736563 
+ 1517      74696F6E 
+ 1518              	.LASF10:
+ 1519 0126 5F5F7569 		.ascii	"__uint32_t\000"
+ 1519      6E743332 
+ 1519      5F7400
+ 1520              	.LASF62:
+ 1521 0131 73457272 		.ascii	"sError\000"
+ 1521      6F7200
+ 1522              	.LASF37:
+ 1523 0138 6F626A65 		.ascii	"objectHeader\000"
+ 1523      63744865 
+ 1523      61646572 
+ 1523      00
+ 1524              	.LASF15:
+ 1525 0145 75696E74 		.ascii	"uint8_t\000"
+ 1525      385F7400 
+ 1526              	.LASF55:
+ 1527 014d 70784669 		.ascii	"pxFirstSemaphoreParameters\000"
+ 1527      72737453 
+ 1527      656D6170 
+ 1527      686F7265 
+ 1527      50617261 
+ 1528              	.LASF38:
+ 1529 0168 6F626A65 		.ascii	"objectArray\000"
+ 1529      63744172 
+ 1529      72617900 
+ 1530              	.LASF34:
+ 1531 0174 6C656E4F 		.ascii	"lenObjectName\000"
+ 1531      626A6563 
+ 1531      744E616D 
+ 1531      6500
+ 1532              	.LASF27:
+ 1533 0182 4F626A65 		.ascii	"ObjectType\000"
+ 1533      63745479 
+ 1533      706500
+ 1534              	.LASF74:
+ 1535 018d 2E2E5C43 		.ascii	"..\\Common\\Minimal\\semtest.c\000"
+ 1535      6F6D6D6F 
+ 1535      6E5C4D69 
+ 1535      6E696D61 
+ 1535      6C5C7365 
+ 1536              	.LASF65:
+ 1537 01a9 78546173 		.ascii	"xTask\000"
+ 1537      6B00
+ 1538              	.LASF51:
+ 1539 01af 7853656D 		.ascii	"xSemaphore\000"
+ 1539      6170686F 
+ 1539      726500
+ 1540              	.LASF68:
+ 1541 01ba 734E6578 		.ascii	"sNextCheckVariable\000"
+ 1541      74436865 
+ 1541      636B5661 
+ 1541      72696162 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 35
+
+
+ 1541      6C6500
+ 1542              	.LASF36:
+ 1543 01cd 4F626A65 		.ascii	"Object\000"
+ 1543      637400
+ 1544              	.LASF41:
+ 1545 01d4 72656164 		.ascii	"read\000"
+ 1545      00
+ 1546              	.LASF1:
+ 1547 01d9 6C6F6E67 		.ascii	"long long int\000"
+ 1547      206C6F6E 
+ 1547      6720696E 
+ 1547      7400
+ 1548              	.LASF45:
+ 1549 01e7 5469636B 		.ascii	"TickType_t\000"
+ 1549      54797065 
+ 1549      5F7400
+ 1550              	.LASF9:
+ 1551 01f2 6C6F6E67 		.ascii	"long int\000"
+ 1551      20696E74 
+ 1551      00
+ 1552              	.LASF70:
+ 1553 01fb 736E6966 		.ascii	"sniffIDFilter\000"
+ 1553      66494446 
+ 1553      696C7465 
+ 1553      7200
+ 1554              	.LASF24:
+ 1555 0209 52454355 		.ascii	"RECURSIVE_MUTEX\000"
+ 1555      52534956 
+ 1555      455F4D55 
+ 1555      54455800 
+ 1556              	.LASF7:
+ 1557 0219 5F5F7569 		.ascii	"__uint8_t\000"
+ 1557      6E74385F 
+ 1557      7400
+ 1558              	.LASF47:
+ 1559 0223 51756575 		.ascii	"QueueHandle_t\000"
+ 1559      6548616E 
+ 1559      646C655F 
+ 1559      7400
+ 1560              	.LASF56:
+ 1561 0231 70785365 		.ascii	"pxSecondSemaphoreParameters\000"
+ 1561      636F6E64 
+ 1561      53656D61 
+ 1561      70686F72 
+ 1561      65506172 
+ 1562              	.LASF49:
+ 1563 024d 42756666 		.ascii	"Buffer\000"
+ 1563      657200
+ 1564              	.LASF54:
+ 1565 0254 7853656D 		.ascii	"xSemaphoreParameters\000"
+ 1565      6170686F 
+ 1565      72655061 
+ 1565      72616D65 
+ 1565      74657273 
+ 1566              	.LASF20:
+ 1567 0269 51554555 		.ascii	"QUEUE\000"
+ 1567      4500
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 36
+
+
+ 1568              	.LASF22:
+ 1569 026f 434F554E 		.ascii	"COUNTING_SEMAPHORE\000"
+ 1569      54494E47 
+ 1569      5F53454D 
+ 1569      4150484F 
+ 1569      524500
+ 1570              	.LASF35:
+ 1571 0282 6F626A65 		.ascii	"objectName\000"
+ 1571      63744E61 
+ 1571      6D6500
+ 1572              	.LASF2:
+ 1573 028d 6C6F6E67 		.ascii	"long double\000"
+ 1573      20646F75 
+ 1573      626C6500 
+ 1574              	.LASF48:
+ 1575 0299 53656D61 		.ascii	"SemaphoreHandle_t\000"
+ 1575      70686F72 
+ 1575      6548616E 
+ 1575      646C655F 
+ 1575      7400
+ 1576              	.LASF77:
+ 1577 02ab 70727653 		.ascii	"prvSemaphoreTest\000"
+ 1577      656D6170 
+ 1577      686F7265 
+ 1577      54657374 
+ 1577      00
+ 1578              	.LASF4:
+ 1579 02bc 756E7369 		.ascii	"unsigned char\000"
+ 1579      676E6564 
+ 1579      20636861 
+ 1579      7200
+ 1580              	.LASF63:
+ 1581 02ca 73436865 		.ascii	"sCheckVariableToUse\000"
+ 1581      636B5661 
+ 1581      72696162 
+ 1581      6C65546F 
+ 1581      55736500 
+ 1582              	.LASF52:
+ 1583 02de 70756C53 		.ascii	"pulSharedVariable\000"
+ 1583      68617265 
+ 1583      64566172 
+ 1583      6961626C 
+ 1583      6500
+ 1584              	.LASF3:
+ 1585 02f0 7369676E 		.ascii	"signed char\000"
+ 1585      65642063 
+ 1585      68617200 
+ 1586              	.LASF12:
+ 1587 02fc 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1587      206C6F6E 
+ 1587      6720756E 
+ 1587      7369676E 
+ 1587      65642069 
+ 1588              	.LASF17:
+ 1589 0313 75696E74 		.ascii	"uint32_t\000"
+ 1589      33325F74 
+ 1589      00
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 37
+
+
+ 1590              	.LASF0:
+ 1591 031c 756E7369 		.ascii	"unsigned int\000"
+ 1591      676E6564 
+ 1591      20696E74 
+ 1591      00
+ 1592              	.LASF32:
+ 1593 0329 4F626A65 		.ascii	"ObjectListHeader\000"
+ 1593      63744C69 
+ 1593      73744865 
+ 1593      61646572 
+ 1593      00
+ 1594              	.LASF43:
+ 1595 033a 42617365 		.ascii	"BaseType_t\000"
+ 1595      54797065 
+ 1595      5F7400
+ 1596              	.LASF58:
+ 1597 0345 70765061 		.ascii	"pvParameters\000"
+ 1597      72616D65 
+ 1597      74657273 
+ 1597      00
+ 1598              	.LASF53:
+ 1599 0352 78426C6F 		.ascii	"xBlockTime\000"
+ 1599      636B5469 
+ 1599      6D6500
+ 1600              	.LASF14:
+ 1601 035d 63686172 		.ascii	"char\000"
+ 1601      00
+ 1602              	.LASF28:
+ 1603 0362 7061636B 		.ascii	"packetID\000"
+ 1603      65744944 
+ 1603      00
+ 1604              	.LASF16:
+ 1605 036b 696E7433 		.ascii	"int32_t\000"
+ 1605      325F7400 
+ 1606              	.LASF6:
+ 1607 0373 73686F72 		.ascii	"short unsigned int\000"
+ 1607      7420756E 
+ 1607      7369676E 
+ 1607      65642069 
+ 1607      6E7400
+ 1608              	.LASF64:
+ 1609 0386 734C6173 		.ascii	"sLastCheckVariables\000"
+ 1609      74436865 
+ 1609      636B5661 
+ 1609      72696162 
+ 1609      6C657300 
+ 1610              	.LASF44:
+ 1611 039a 55426173 		.ascii	"UBaseType_t\000"
+ 1611      65547970 
+ 1611      655F7400 
+ 1612              	.LASF40:
+ 1613 03a6 64617461 		.ascii	"data\000"
+ 1613      00
+ 1614              	.LASF71:
+ 1615 03ab 62756666 		.ascii	"buffer\000"
+ 1615      657200
+ 1616              	.LASF26:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 38
+
+
+ 1617 03b2 4E554D42 		.ascii	"NUMBER_OF_OBJECTTYPES\000"
+ 1617      45525F4F 
+ 1617      465F4F42 
+ 1617      4A454354 
+ 1617      54595045 
+ 1618              	.LASF11:
+ 1619 03c8 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1619      20756E73 
+ 1619      69676E65 
+ 1619      6420696E 
+ 1619      7400
+ 1620              	.LASF19:
+ 1621 03da 646F7562 		.ascii	"double\000"
+ 1621      6C6500
+ 1622              	.LASF23:
+ 1623 03e1 42494E41 		.ascii	"BINARY_SEMAPHORE\000"
+ 1623      52595F53 
+ 1623      454D4150 
+ 1623      484F5245 
+ 1623      00
+ 1624              	.LASF72:
+ 1625 03f2 6F626A65 		.ascii	"objectList\000"
+ 1625      63744C69 
+ 1625      737400
+ 1626              	.LASF25:
+ 1627 03fd 5441534B 		.ascii	"TASK\000"
+ 1627      00
+ 1628              	.LASF8:
+ 1629 0402 5F5F696E 		.ascii	"__int32_t\000"
+ 1629      7433325F 
+ 1629      7400
+ 1630              	.LASF30:
+ 1631 040c 6F626A65 		.ascii	"objectType\000"
+ 1631      63745479 
+ 1631      706500
+ 1632              	.LASF67:
+ 1633 0417 73436865 		.ascii	"sCheckVariables\000"
+ 1633      636B5661 
+ 1633      72696162 
+ 1633      6C657300 
+ 1634              	.LASF66:
+ 1635 0427 78526574 		.ascii	"xReturn\000"
+ 1635      75726E00 
+ 1636              	.LASF59:
+ 1637 042f 70785061 		.ascii	"pxParameters\000"
+ 1637      72616D65 
+ 1637      74657273 
+ 1637      00
+ 1638              	.LASF50:
+ 1639 043c 53454D41 		.ascii	"SEMAPHORE_PARAMETERS\000"
+ 1639      50484F52 
+ 1639      455F5041 
+ 1639      52414D45 
+ 1639      54455253 
+ 1640              	.LASF39:
+ 1641 0451 4F626A65 		.ascii	"ObjectList\000"
+ 1641      63744C69 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccVjaDR5.s 			page 39
+
+
+ 1641      737400
+ 1642              	.LASF69:
+ 1643 045c 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1643      52784275 
+ 1643      66666572 
+ 1643      00
+ 1644              	.LASF76:
+ 1645 0469 76537461 		.ascii	"vStartSemaphoreTasks\000"
+ 1645      72745365 
+ 1645      6D617068 
+ 1645      6F726554 
+ 1645      61736B73 
+ 1646              	.LASF75:
+ 1647 047e 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ 1647      726F6772 
+ 1647      616D6D65 
+ 1647      5F536372 
+ 1647      69707473 
+ 1648 04ad 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 1648      5F435938 
+ 1648      434B4954 
+ 1648      5F303539 
+ 1648      2D6D6173 
+ 1649              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

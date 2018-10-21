@@ -1,0 +1,92 @@
+/** \file sniffFIFO.c
+ * \brief sniffFIFO source file.
+ * \details Implements the priority FIFO which can be configured in sniffConfig.h.
+ * \author Marco Seiller
+ * \date 2018
+ */
+
+
+
+#include <sys/types.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include <sniffPayload.h>
+#include <sniffFIFO.h>
+
+
+
+/*
+Push data to FIFO
+Params:
+	fifo: DUAL_PORT_FIFO instance
+	data: pointer to data object
+	len: length of data object (currently ignored)
+	prio: priority, 1=HP, 0=LP
+return codes:
+0 -> OK
+1 -> FULL
+*/
+inline uint8_t writeFIFO(sniffFIFO fifo[],void* inData,payloadType pType,Priority prio){
+	if (sniffFifoIsFull(fifo,prio)){
+		return 1;
+	}
+	void* data=malloc(pType);
+	if(0==data){
+		return 1;
+	}
+	memcpy(data,inData,pType);
+
+
+	//Store data and Length
+	fifo[prio].Buffer[fifo[prio].wptr] = data;
+    fifo[prio].DataType[fifo[prio].wptr] = pType;
+	fifo[prio].wptr = (fifo[prio].wptr+1)%fifo[prio].size;
+
+	return 0;
+}
+
+
+
+/*
+Behavior:
+Reads data from fifo, highest priority first
+It's up to the user to free the buffer after use
+
+Params:
+	fifo: DUAL_PORT_FIFO instance
+	pData: target buffer for data
+	pDType: buffer to put read lenght into
+	pPrio: buffer to put read priority
+return:
+1: read OK
+0: read FAIL
+*/
+
+
+inline uint8_t readFIFO(sniffFIFO fifo[],void* pData, payloadType* pType,Priority* pPrio){
+    for (int16_t prio=NUMBER_OF_PRIORITIES-1;prio >= 0;--prio){
+        if (sniffFifoHasData(fifo,prio)){
+            *pType= fifo[prio].DataType[fifo[prio].rptr];
+
+			memcpy(pData,fifo[prio].Buffer[fifo[prio].rptr],*pType);
+
+            free(fifo[prio].Buffer[fifo[prio].rptr]);
+            fifo[prio].rptr=(fifo[prio].rptr+1)%fifo[prio].size;
+            *pPrio = prio;
+            return 1;
+        }
+    }
+    //EMPTY
+	return 0;
+}
+void initialiseFIFO(sniffFIFO fifo[]){
+    for (uint8_t x=0;x<NUMBER_OF_PRIORITIES;x++){
+        fifo[x].wptr=0;
+        fifo[x].rptr=0;
+        fifo[x].size=SIZE_OF_FIFO;
+    }
+
+}

@@ -1,0 +1,3740 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"GenQTest.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	sniffIDFilter,13,4
+  20              		.comm	buffer,4098,4
+  21              		.comm	objectList,1704,4
+  22              		.bss
+  23              		.align	2
+  24              	xErrorDetected:
+  25 0000 00000000 		.space	4
+  26              		.align	2
+  27              	ulLoopCounter:
+  28 0004 00000000 		.space	4
+  29              		.align	2
+  30              	ulLoopCounter2:
+  31 0008 00000000 		.space	4
+  32              		.align	2
+  33              	ulGuardedVariable:
+  34 000c 00000000 		.space	4
+  35              		.align	2
+  36              	xHighPriorityMutexTask:
+  37 0010 00000000 		.space	4
+  38              		.align	2
+  39              	xMediumPriorityMutexTask:
+  40 0014 00000000 		.space	4
+  41              		.section	.rodata
+  42              		.align	2
+  43              	.LC0:
+  44 0000 47656E5F 		.ascii	"Gen_Queue_Test\000"
+  44      51756575 
+  44      655F5465 
+  44      737400
+  45 000f 00       		.align	2
+  46              	.LC1:
+  47 0010 47656E51 		.ascii	"GenQ\000"
+  47      00
+  48 0015 000000   		.align	2
+  49              	.LC2:
+  50 0018 47656E5F 		.ascii	"Gen_Queue_Mutex\000"
+  50      51756575 
+  50      655F4D75 
+  50      74657800 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 2
+
+
+  51              		.align	2
+  52              	.LC3:
+  53 0028 4D754C6F 		.ascii	"MuLow\000"
+  53      7700
+  54 002e 0000     		.align	2
+  55              	.LC4:
+  56 0030 4D754D65 		.ascii	"MuMed\000"
+  56      6400
+  57 0036 0000     		.align	2
+  58              	.LC5:
+  59 0038 4D754869 		.ascii	"MuHigh\000"
+  59      676800
+  60              		.section	.text.vStartGenericQueueTasks,"ax",%progbits
+  61              		.align	2
+  62              		.global	vStartGenericQueueTasks
+  63              		.thumb
+  64              		.thumb_func
+  65              		.type	vStartGenericQueueTasks, %function
+  66              	vStartGenericQueueTasks:
+  67              	.LFB68:
+  68              		.file 1 "..\\Common\\Minimal\\GenQTest.c"
+   1:..\Common\Minimal/GenQTest.c **** /*
+   2:..\Common\Minimal/GenQTest.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Common\Minimal/GenQTest.c ****     All rights reserved
+   4:..\Common\Minimal/GenQTest.c **** 
+   5:..\Common\Minimal/GenQTest.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Common\Minimal/GenQTest.c **** 
+   7:..\Common\Minimal/GenQTest.c ****     This file is part of the FreeRTOS distribution.
+   8:..\Common\Minimal/GenQTest.c **** 
+   9:..\Common\Minimal/GenQTest.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:..\Common\Minimal/GenQTest.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Common\Minimal/GenQTest.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Common\Minimal/GenQTest.c **** 
+  13:..\Common\Minimal/GenQTest.c ****     ***************************************************************************
+  14:..\Common\Minimal/GenQTest.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Common\Minimal/GenQTest.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Common\Minimal/GenQTest.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Common\Minimal/GenQTest.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Common\Minimal/GenQTest.c ****     ***************************************************************************
+  19:..\Common\Minimal/GenQTest.c **** 
+  20:..\Common\Minimal/GenQTest.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Common\Minimal/GenQTest.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Common\Minimal/GenQTest.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:..\Common\Minimal/GenQTest.c ****     link: http://www.freertos.org/a00114.html
+  24:..\Common\Minimal/GenQTest.c **** 
+  25:..\Common\Minimal/GenQTest.c ****     ***************************************************************************
+  26:..\Common\Minimal/GenQTest.c ****      *                                                                       *
+  27:..\Common\Minimal/GenQTest.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Common\Minimal/GenQTest.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Common\Minimal/GenQTest.c ****      *    platform software that is more than just the market leader, it     *
+  30:..\Common\Minimal/GenQTest.c ****      *    is the industry's de facto standard.                               *
+  31:..\Common\Minimal/GenQTest.c ****      *                                                                       *
+  32:..\Common\Minimal/GenQTest.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Common\Minimal/GenQTest.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Common\Minimal/GenQTest.c ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Common\Minimal/GenQTest.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Common\Minimal/GenQTest.c ****      *                                                                       *
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 3
+
+
+  37:..\Common\Minimal/GenQTest.c ****     ***************************************************************************
+  38:..\Common\Minimal/GenQTest.c **** 
+  39:..\Common\Minimal/GenQTest.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Common\Minimal/GenQTest.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Common\Minimal/GenQTest.c ****     defined configASSERT()?
+  42:..\Common\Minimal/GenQTest.c **** 
+  43:..\Common\Minimal/GenQTest.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Common\Minimal/GenQTest.c ****     embedded software for free we request you assist our global community by
+  45:..\Common\Minimal/GenQTest.c ****     participating in the support forum.
+  46:..\Common\Minimal/GenQTest.c **** 
+  47:..\Common\Minimal/GenQTest.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:..\Common\Minimal/GenQTest.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Common\Minimal/GenQTest.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Common\Minimal/GenQTest.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:..\Common\Minimal/GenQTest.c **** 
+  52:..\Common\Minimal/GenQTest.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Common\Minimal/GenQTest.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:..\Common\Minimal/GenQTest.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Common\Minimal/GenQTest.c **** 
+  56:..\Common\Minimal/GenQTest.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Common\Minimal/GenQTest.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Common\Minimal/GenQTest.c **** 
+  59:..\Common\Minimal/GenQTest.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Common\Minimal/GenQTest.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Common\Minimal/GenQTest.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Common\Minimal/GenQTest.c **** 
+  63:..\Common\Minimal/GenQTest.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Common\Minimal/GenQTest.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Common\Minimal/GenQTest.c ****     mission critical applications that require provable dependability.
+  66:..\Common\Minimal/GenQTest.c **** 
+  67:..\Common\Minimal/GenQTest.c ****     1 tab == 4 spaces!
+  68:..\Common\Minimal/GenQTest.c **** */
+  69:..\Common\Minimal/GenQTest.c **** 
+  70:..\Common\Minimal/GenQTest.c **** 
+  71:..\Common\Minimal/GenQTest.c **** /*
+  72:..\Common\Minimal/GenQTest.c ****  * Tests the extra queue functionality introduced in FreeRTOS.org V4.5.0 -
+  73:..\Common\Minimal/GenQTest.c ****  * including xQueueSendToFront(), xQueueSendToBack(), xQueuePeek() and
+  74:..\Common\Minimal/GenQTest.c ****  * mutex behaviour.
+  75:..\Common\Minimal/GenQTest.c ****  *
+  76:..\Common\Minimal/GenQTest.c ****  * See the comments above the prvSendFrontAndBackTest() and
+  77:..\Common\Minimal/GenQTest.c ****  * prvLowPriorityMutexTask() prototypes below for more information.
+  78:..\Common\Minimal/GenQTest.c ****  */
+  79:..\Common\Minimal/GenQTest.c **** 
+  80:..\Common\Minimal/GenQTest.c **** /* Standard includes. */
+  81:..\Common\Minimal/GenQTest.c **** #include <stdlib.h>
+  82:..\Common\Minimal/GenQTest.c **** 
+  83:..\Common\Minimal/GenQTest.c **** /* Scheduler include files. */
+  84:..\Common\Minimal/GenQTest.c **** #include "FreeRTOS.h"
+  85:..\Common\Minimal/GenQTest.c **** #include "task.h"
+  86:..\Common\Minimal/GenQTest.c **** #include "queue.h"
+  87:..\Common\Minimal/GenQTest.c **** #include "semphr.h"
+  88:..\Common\Minimal/GenQTest.c **** 
+  89:..\Common\Minimal/GenQTest.c **** /* Demo program include files. */
+  90:..\Common\Minimal/GenQTest.c **** #include "GenQTest.h"
+  91:..\Common\Minimal/GenQTest.c **** 
+  92:..\Common\Minimal/GenQTest.c **** #define genqQUEUE_LENGTH		( 5 )
+  93:..\Common\Minimal/GenQTest.c **** #define intsemNO_BLOCK			( 0 )
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 4
+
+
+  94:..\Common\Minimal/GenQTest.c **** 
+  95:..\Common\Minimal/GenQTest.c **** #define genqMUTEX_LOW_PRIORITY		( tskIDLE_PRIORITY )
+  96:..\Common\Minimal/GenQTest.c **** #define genqMUTEX_TEST_PRIORITY		( tskIDLE_PRIORITY + 1 )
+  97:..\Common\Minimal/GenQTest.c **** #define genqMUTEX_MEDIUM_PRIORITY	( tskIDLE_PRIORITY + 2 )
+  98:..\Common\Minimal/GenQTest.c **** #define genqMUTEX_HIGH_PRIORITY		( tskIDLE_PRIORITY + 3 )
+  99:..\Common\Minimal/GenQTest.c **** 
+ 100:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 101:..\Common\Minimal/GenQTest.c **** 
+ 102:..\Common\Minimal/GenQTest.c **** /*
+ 103:..\Common\Minimal/GenQTest.c ****  * Tests the behaviour of the xQueueSendToFront() and xQueueSendToBack()
+ 104:..\Common\Minimal/GenQTest.c ****  * macros by using both to fill a queue, then reading from the queue to
+ 105:..\Common\Minimal/GenQTest.c ****  * check the resultant queue order is as expected.  Queue data is also
+ 106:..\Common\Minimal/GenQTest.c ****  * peeked.
+ 107:..\Common\Minimal/GenQTest.c ****  */
+ 108:..\Common\Minimal/GenQTest.c **** static void prvSendFrontAndBackTest( void *pvParameters );
+ 109:..\Common\Minimal/GenQTest.c **** 
+ 110:..\Common\Minimal/GenQTest.c **** /*
+ 111:..\Common\Minimal/GenQTest.c ****  * The following three tasks are used to demonstrate the mutex behaviour.
+ 112:..\Common\Minimal/GenQTest.c ****  * Each task is given a different priority to demonstrate the priority
+ 113:..\Common\Minimal/GenQTest.c ****  * inheritance mechanism.
+ 114:..\Common\Minimal/GenQTest.c ****  *
+ 115:..\Common\Minimal/GenQTest.c ****  * The low priority task obtains a mutex.  After this a high priority task
+ 116:..\Common\Minimal/GenQTest.c ****  * attempts to obtain the same mutex, causing its priority to be inherited
+ 117:..\Common\Minimal/GenQTest.c ****  * by the low priority task.  The task with the inherited high priority then
+ 118:..\Common\Minimal/GenQTest.c ****  * resumes a medium priority task to ensure it is not blocked by the medium
+ 119:..\Common\Minimal/GenQTest.c ****  * priority task while it holds the inherited high priority.  Once the mutex
+ 120:..\Common\Minimal/GenQTest.c ****  * is returned the task with the inherited priority returns to its original
+ 121:..\Common\Minimal/GenQTest.c ****  * low priority, and is therefore immediately preempted by first the high
+ 122:..\Common\Minimal/GenQTest.c ****  * priority task and then the medium priority task before it can continue.
+ 123:..\Common\Minimal/GenQTest.c ****  */
+ 124:..\Common\Minimal/GenQTest.c **** static void prvLowPriorityMutexTask( void *pvParameters );
+ 125:..\Common\Minimal/GenQTest.c **** static void prvMediumPriorityMutexTask( void *pvParameters );
+ 126:..\Common\Minimal/GenQTest.c **** static void prvHighPriorityMutexTask( void *pvParameters );
+ 127:..\Common\Minimal/GenQTest.c **** 
+ 128:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 129:..\Common\Minimal/GenQTest.c **** 
+ 130:..\Common\Minimal/GenQTest.c **** /* Flag that will be latched to pdTRUE should any unexpected behaviour be
+ 131:..\Common\Minimal/GenQTest.c **** detected in any of the tasks. */
+ 132:..\Common\Minimal/GenQTest.c **** static volatile BaseType_t xErrorDetected = pdFALSE;
+ 133:..\Common\Minimal/GenQTest.c **** 
+ 134:..\Common\Minimal/GenQTest.c **** /* Counters that are incremented on each cycle of a test.  This is used to
+ 135:..\Common\Minimal/GenQTest.c **** detect a stalled task - a test that is no longer running. */
+ 136:..\Common\Minimal/GenQTest.c **** static volatile uint32_t ulLoopCounter = 0;
+ 137:..\Common\Minimal/GenQTest.c **** static volatile uint32_t ulLoopCounter2 = 0;
+ 138:..\Common\Minimal/GenQTest.c **** 
+ 139:..\Common\Minimal/GenQTest.c **** /* The variable that is guarded by the mutex in the mutex demo tasks. */
+ 140:..\Common\Minimal/GenQTest.c **** static volatile uint32_t ulGuardedVariable = 0;
+ 141:..\Common\Minimal/GenQTest.c **** 
+ 142:..\Common\Minimal/GenQTest.c **** /* Handles used in the mutex test to suspend and resume the high and medium
+ 143:..\Common\Minimal/GenQTest.c **** priority mutex test tasks. */
+ 144:..\Common\Minimal/GenQTest.c **** static TaskHandle_t xHighPriorityMutexTask, xMediumPriorityMutexTask;
+ 145:..\Common\Minimal/GenQTest.c **** 
+ 146:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 147:..\Common\Minimal/GenQTest.c **** 
+ 148:..\Common\Minimal/GenQTest.c **** void vStartGenericQueueTasks( UBaseType_t uxPriority )
+ 149:..\Common\Minimal/GenQTest.c **** {
+  69              		.loc 1 149 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 5
+
+
+  70              		.cfi_startproc
+  71              		@ args = 0, pretend = 0, frame = 16
+  72              		@ frame_needed = 1, uses_anonymous_args = 0
+  73 0000 80B5     		push	{r7, lr}
+  74              		.cfi_def_cfa_offset 8
+  75              		.cfi_offset 7, -8
+  76              		.cfi_offset 14, -4
+  77 0002 86B0     		sub	sp, sp, #24
+  78              		.cfi_def_cfa_offset 32
+  79 0004 02AF     		add	r7, sp, #8
+  80              		.cfi_def_cfa 7, 24
+  81 0006 7860     		str	r0, [r7, #4]
+ 150:..\Common\Minimal/GenQTest.c **** QueueHandle_t xQueue;
+ 151:..\Common\Minimal/GenQTest.c **** SemaphoreHandle_t xMutex;
+ 152:..\Common\Minimal/GenQTest.c **** 
+ 153:..\Common\Minimal/GenQTest.c **** 	/* Create the queue that we are going to use for the
+ 154:..\Common\Minimal/GenQTest.c **** 	prvSendFrontAndBackTest demo. */
+ 155:..\Common\Minimal/GenQTest.c **** 	xQueue = xQueueCreate( genqQUEUE_LENGTH, sizeof( uint32_t ) );
+  82              		.loc 1 155 0
+  83 0008 0022     		movs	r2, #0
+  84 000a 0421     		movs	r1, #4
+  85 000c 0520     		movs	r0, #5
+  86 000e FFF7FEFF 		bl	xQueueGenericCreate
+  87 0012 F860     		str	r0, [r7, #12]
+ 156:..\Common\Minimal/GenQTest.c **** 
+ 157:..\Common\Minimal/GenQTest.c **** 	if( xQueue != NULL )
+  88              		.loc 1 157 0
+  89 0014 FB68     		ldr	r3, [r7, #12]
+  90 0016 002B     		cmp	r3, #0
+  91 0018 0DD0     		beq	.L2
+ 158:..\Common\Minimal/GenQTest.c **** 	{
+ 159:..\Common\Minimal/GenQTest.c **** 		/* vQueueAddToRegistry() adds the queue to the queue registry, if one
+ 160:..\Common\Minimal/GenQTest.c **** 		is in use.  The queue registry is provided as a means for kernel aware
+ 161:..\Common\Minimal/GenQTest.c **** 		debuggers to locate queues and has no purpose if a kernel aware debugger
+ 162:..\Common\Minimal/GenQTest.c **** 		is not being used.  The call to vQueueAddToRegistry() will be removed
+ 163:..\Common\Minimal/GenQTest.c **** 		by the pre-processor if configQUEUE_REGISTRY_SIZE is not defined or is
+ 164:..\Common\Minimal/GenQTest.c **** 		defined to be less than 1. */
+ 165:..\Common\Minimal/GenQTest.c **** 		vQueueAddToRegistry( xQueue, "Gen_Queue_Test" );
+  92              		.loc 1 165 0
+  93 001a 1D49     		ldr	r1, .L5
+  94 001c F868     		ldr	r0, [r7, #12]
+  95 001e FFF7FEFF 		bl	vQueueAddToRegistry
+ 166:..\Common\Minimal/GenQTest.c **** 
+ 167:..\Common\Minimal/GenQTest.c **** 		/* Create the demo task and pass it the queue just created.  We are
+ 168:..\Common\Minimal/GenQTest.c **** 		passing the queue handle by value so it does not matter that it is
+ 169:..\Common\Minimal/GenQTest.c **** 		declared on the stack here. */
+ 170:..\Common\Minimal/GenQTest.c **** 		xTaskCreate( prvSendFrontAndBackTest, "GenQ", configMINIMAL_STACK_SIZE, ( void * ) xQueue, uxPrio
+  96              		.loc 1 170 0
+  97 0022 0023     		movs	r3, #0
+  98 0024 0193     		str	r3, [sp, #4]
+  99 0026 7B68     		ldr	r3, [r7, #4]
+ 100 0028 0093     		str	r3, [sp]
+ 101 002a FB68     		ldr	r3, [r7, #12]
+ 102 002c 6422     		movs	r2, #100
+ 103 002e 1949     		ldr	r1, .L5+4
+ 104 0030 1948     		ldr	r0, .L5+8
+ 105 0032 FFF7FEFF 		bl	xTaskCreate
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 6
+
+
+ 106              	.L2:
+ 171:..\Common\Minimal/GenQTest.c **** 	}
+ 172:..\Common\Minimal/GenQTest.c **** 
+ 173:..\Common\Minimal/GenQTest.c **** 	/* Create the mutex used by the prvMutexTest task. */
+ 174:..\Common\Minimal/GenQTest.c **** 	xMutex = xSemaphoreCreateMutex();
+ 107              		.loc 1 174 0
+ 108 0036 0120     		movs	r0, #1
+ 109 0038 FFF7FEFF 		bl	xQueueCreateMutex
+ 110 003c B860     		str	r0, [r7, #8]
+ 175:..\Common\Minimal/GenQTest.c **** 
+ 176:..\Common\Minimal/GenQTest.c **** 	if( xMutex != NULL )
+ 111              		.loc 1 176 0
+ 112 003e BB68     		ldr	r3, [r7, #8]
+ 113 0040 002B     		cmp	r3, #0
+ 114 0042 21D0     		beq	.L4
+ 177:..\Common\Minimal/GenQTest.c **** 	{
+ 178:..\Common\Minimal/GenQTest.c **** 		/* vQueueAddToRegistry() adds the mutex to the registry, if one is
+ 179:..\Common\Minimal/GenQTest.c **** 		in use.  The registry is provided as a means for kernel aware
+ 180:..\Common\Minimal/GenQTest.c **** 		debuggers to locate mutexes and has no purpose if a kernel aware
+ 181:..\Common\Minimal/GenQTest.c **** 		debugger is not being used.  The call to vQueueAddToRegistry() will be
+ 182:..\Common\Minimal/GenQTest.c **** 		removed by the pre-processor if configQUEUE_REGISTRY_SIZE is not
+ 183:..\Common\Minimal/GenQTest.c **** 		defined or is defined to be less than 1. */
+ 184:..\Common\Minimal/GenQTest.c **** 		vQueueAddToRegistry( ( QueueHandle_t ) xMutex, "Gen_Queue_Mutex" );
+ 115              		.loc 1 184 0
+ 116 0044 1549     		ldr	r1, .L5+12
+ 117 0046 B868     		ldr	r0, [r7, #8]
+ 118 0048 FFF7FEFF 		bl	vQueueAddToRegistry
+ 185:..\Common\Minimal/GenQTest.c **** 
+ 186:..\Common\Minimal/GenQTest.c **** 		/* Create the mutex demo tasks and pass it the mutex just created.  We
+ 187:..\Common\Minimal/GenQTest.c **** 		are passing the mutex handle by value so it does not matter that it is
+ 188:..\Common\Minimal/GenQTest.c **** 		declared on the stack here. */
+ 189:..\Common\Minimal/GenQTest.c **** 		xTaskCreate( prvLowPriorityMutexTask, "MuLow", configMINIMAL_STACK_SIZE, ( void * ) xMutex, genqM
+ 119              		.loc 1 189 0
+ 120 004c 0023     		movs	r3, #0
+ 121 004e 0193     		str	r3, [sp, #4]
+ 122 0050 0023     		movs	r3, #0
+ 123 0052 0093     		str	r3, [sp]
+ 124 0054 BB68     		ldr	r3, [r7, #8]
+ 125 0056 6422     		movs	r2, #100
+ 126 0058 1149     		ldr	r1, .L5+16
+ 127 005a 1248     		ldr	r0, .L5+20
+ 128 005c FFF7FEFF 		bl	xTaskCreate
+ 190:..\Common\Minimal/GenQTest.c **** 		xTaskCreate( prvMediumPriorityMutexTask, "MuMed", configMINIMAL_STACK_SIZE, NULL, genqMUTEX_MEDIU
+ 129              		.loc 1 190 0
+ 130 0060 114B     		ldr	r3, .L5+24
+ 131 0062 0193     		str	r3, [sp, #4]
+ 132 0064 0223     		movs	r3, #2
+ 133 0066 0093     		str	r3, [sp]
+ 134 0068 0023     		movs	r3, #0
+ 135 006a 6422     		movs	r2, #100
+ 136 006c 0F49     		ldr	r1, .L5+28
+ 137 006e 1048     		ldr	r0, .L5+32
+ 138 0070 FFF7FEFF 		bl	xTaskCreate
+ 191:..\Common\Minimal/GenQTest.c **** 		xTaskCreate( prvHighPriorityMutexTask, "MuHigh", configMINIMAL_STACK_SIZE, ( void * ) xMutex, gen
+ 139              		.loc 1 191 0
+ 140 0074 0F4B     		ldr	r3, .L5+36
+ 141 0076 0193     		str	r3, [sp, #4]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 7
+
+
+ 142 0078 0323     		movs	r3, #3
+ 143 007a 0093     		str	r3, [sp]
+ 144 007c BB68     		ldr	r3, [r7, #8]
+ 145 007e 6422     		movs	r2, #100
+ 146 0080 0D49     		ldr	r1, .L5+40
+ 147 0082 0E48     		ldr	r0, .L5+44
+ 148 0084 FFF7FEFF 		bl	xTaskCreate
+ 149              	.L4:
+ 192:..\Common\Minimal/GenQTest.c **** 	}
+ 193:..\Common\Minimal/GenQTest.c **** }
+ 150              		.loc 1 193 0
+ 151 0088 00BF     		nop
+ 152 008a 1037     		adds	r7, r7, #16
+ 153              		.cfi_def_cfa_offset 8
+ 154 008c BD46     		mov	sp, r7
+ 155              		.cfi_def_cfa_register 13
+ 156              		@ sp needed
+ 157 008e 80BD     		pop	{r7, pc}
+ 158              	.L6:
+ 159              		.align	2
+ 160              	.L5:
+ 161 0090 00000000 		.word	.LC0
+ 162 0094 10000000 		.word	.LC1
+ 163 0098 00000000 		.word	prvSendFrontAndBackTest
+ 164 009c 18000000 		.word	.LC2
+ 165 00a0 28000000 		.word	.LC3
+ 166 00a4 00000000 		.word	prvLowPriorityMutexTask
+ 167 00a8 14000000 		.word	xMediumPriorityMutexTask
+ 168 00ac 30000000 		.word	.LC4
+ 169 00b0 00000000 		.word	prvMediumPriorityMutexTask
+ 170 00b4 10000000 		.word	xHighPriorityMutexTask
+ 171 00b8 38000000 		.word	.LC5
+ 172 00bc 00000000 		.word	prvHighPriorityMutexTask
+ 173              		.cfi_endproc
+ 174              	.LFE68:
+ 175              		.size	vStartGenericQueueTasks, .-vStartGenericQueueTasks
+ 176              		.section	.text.prvSendFrontAndBackTest,"ax",%progbits
+ 177              		.align	2
+ 178              		.thumb
+ 179              		.thumb_func
+ 180              		.type	prvSendFrontAndBackTest, %function
+ 181              	prvSendFrontAndBackTest:
+ 182              	.LFB69:
+ 194:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 195:..\Common\Minimal/GenQTest.c **** 
+ 196:..\Common\Minimal/GenQTest.c **** static void prvSendFrontAndBackTest( void *pvParameters )
+ 197:..\Common\Minimal/GenQTest.c **** {
+ 183              		.loc 1 197 0
+ 184              		.cfi_startproc
+ 185              		@ args = 0, pretend = 0, frame = 24
+ 186              		@ frame_needed = 1, uses_anonymous_args = 0
+ 187 0000 80B5     		push	{r7, lr}
+ 188              		.cfi_def_cfa_offset 8
+ 189              		.cfi_offset 7, -8
+ 190              		.cfi_offset 14, -4
+ 191 0002 86B0     		sub	sp, sp, #24
+ 192              		.cfi_def_cfa_offset 32
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 8
+
+
+ 193 0004 00AF     		add	r7, sp, #0
+ 194              		.cfi_def_cfa_register 7
+ 195 0006 7860     		str	r0, [r7, #4]
+ 198:..\Common\Minimal/GenQTest.c **** uint32_t ulData, ulData2;
+ 199:..\Common\Minimal/GenQTest.c **** QueueHandle_t xQueue;
+ 200:..\Common\Minimal/GenQTest.c **** 
+ 201:..\Common\Minimal/GenQTest.c **** 	#ifdef USE_STDIO
+ 202:..\Common\Minimal/GenQTest.c **** 	void vPrintDisplayMessage( const char * const * ppcMessageToSend );
+ 203:..\Common\Minimal/GenQTest.c **** 
+ 204:..\Common\Minimal/GenQTest.c **** 		const char * const pcTaskStartMsg = "Queue SendToFront/SendToBack/Peek test started.\r\n";
+ 205:..\Common\Minimal/GenQTest.c **** 
+ 206:..\Common\Minimal/GenQTest.c **** 		/* Queue a message for printing to say the task has started. */
+ 207:..\Common\Minimal/GenQTest.c **** 		vPrintDisplayMessage( &pcTaskStartMsg );
+ 208:..\Common\Minimal/GenQTest.c **** 	#endif
+ 209:..\Common\Minimal/GenQTest.c **** 
+ 210:..\Common\Minimal/GenQTest.c **** 	xQueue = ( QueueHandle_t ) pvParameters;
+ 196              		.loc 1 210 0
+ 197 0008 7B68     		ldr	r3, [r7, #4]
+ 198 000a 7B61     		str	r3, [r7, #20]
+ 199              	.L43:
+ 211:..\Common\Minimal/GenQTest.c **** 
+ 212:..\Common\Minimal/GenQTest.c **** 	for( ;; )
+ 213:..\Common\Minimal/GenQTest.c **** 	{
+ 214:..\Common\Minimal/GenQTest.c **** 		/* The queue is empty, so sending an item to the back of the queue
+ 215:..\Common\Minimal/GenQTest.c **** 		should have the same efect as sending it to the front of the queue.
+ 216:..\Common\Minimal/GenQTest.c **** 
+ 217:..\Common\Minimal/GenQTest.c **** 		First send to the front and check everything is as expected. */
+ 218:..\Common\Minimal/GenQTest.c **** 		xQueueSendToFront( xQueue, ( void * ) &ulLoopCounter, intsemNO_BLOCK );
+ 200              		.loc 1 218 0
+ 201 000c 0123     		movs	r3, #1
+ 202 000e 0022     		movs	r2, #0
+ 203 0010 A249     		ldr	r1, .L44
+ 204 0012 7869     		ldr	r0, [r7, #20]
+ 205 0014 FFF7FEFF 		bl	xQueueGenericSend
+ 219:..\Common\Minimal/GenQTest.c **** 
+ 220:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 1 )
+ 206              		.loc 1 220 0
+ 207 0018 7869     		ldr	r0, [r7, #20]
+ 208 001a FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 209 001e 0346     		mov	r3, r0
+ 210 0020 012B     		cmp	r3, #1
+ 211 0022 02D0     		beq	.L8
+ 221:..\Common\Minimal/GenQTest.c **** 		{
+ 222:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 212              		.loc 1 222 0
+ 213 0024 9E4B     		ldr	r3, .L44+4
+ 214 0026 0122     		movs	r2, #1
+ 215 0028 1A60     		str	r2, [r3]
+ 216              	.L8:
+ 223:..\Common\Minimal/GenQTest.c **** 		}
+ 224:..\Common\Minimal/GenQTest.c **** 
+ 225:..\Common\Minimal/GenQTest.c **** 		if( xQueueReceive( xQueue, ( void * ) &ulData, intsemNO_BLOCK ) != pdPASS )
+ 217              		.loc 1 225 0
+ 218 002a 07F11001 		add	r1, r7, #16
+ 219 002e 0023     		movs	r3, #0
+ 220 0030 0022     		movs	r2, #0
+ 221 0032 7869     		ldr	r0, [r7, #20]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 9
+
+
+ 222 0034 FFF7FEFF 		bl	xQueueGenericReceive
+ 223 0038 0346     		mov	r3, r0
+ 224 003a 012B     		cmp	r3, #1
+ 225 003c 02D0     		beq	.L9
+ 226:..\Common\Minimal/GenQTest.c **** 		{
+ 227:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 226              		.loc 1 227 0
+ 227 003e 984B     		ldr	r3, .L44+4
+ 228 0040 0122     		movs	r2, #1
+ 229 0042 1A60     		str	r2, [r3]
+ 230              	.L9:
+ 228:..\Common\Minimal/GenQTest.c **** 		}
+ 229:..\Common\Minimal/GenQTest.c **** 
+ 230:..\Common\Minimal/GenQTest.c **** 		/* The data we sent to the queue should equal the data we just received
+ 231:..\Common\Minimal/GenQTest.c **** 		from the queue. */
+ 232:..\Common\Minimal/GenQTest.c **** 		if( ulLoopCounter != ulData )
+ 231              		.loc 1 232 0
+ 232 0044 954B     		ldr	r3, .L44
+ 233 0046 1A68     		ldr	r2, [r3]
+ 234 0048 3B69     		ldr	r3, [r7, #16]
+ 235 004a 9A42     		cmp	r2, r3
+ 236 004c 02D0     		beq	.L10
+ 233:..\Common\Minimal/GenQTest.c **** 		{
+ 234:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 237              		.loc 1 234 0
+ 238 004e 944B     		ldr	r3, .L44+4
+ 239 0050 0122     		movs	r2, #1
+ 240 0052 1A60     		str	r2, [r3]
+ 241              	.L10:
+ 235:..\Common\Minimal/GenQTest.c **** 		}
+ 236:..\Common\Minimal/GenQTest.c **** 
+ 237:..\Common\Minimal/GenQTest.c **** 		/* Then do the same, sending the data to the back, checking everything
+ 238:..\Common\Minimal/GenQTest.c **** 		is as expected. */
+ 239:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 0 )
+ 242              		.loc 1 239 0
+ 243 0054 7869     		ldr	r0, [r7, #20]
+ 244 0056 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 245 005a 0346     		mov	r3, r0
+ 246 005c 002B     		cmp	r3, #0
+ 247 005e 02D0     		beq	.L11
+ 240:..\Common\Minimal/GenQTest.c **** 		{
+ 241:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 248              		.loc 1 241 0
+ 249 0060 8F4B     		ldr	r3, .L44+4
+ 250 0062 0122     		movs	r2, #1
+ 251 0064 1A60     		str	r2, [r3]
+ 252              	.L11:
+ 242:..\Common\Minimal/GenQTest.c **** 		}
+ 243:..\Common\Minimal/GenQTest.c **** 
+ 244:..\Common\Minimal/GenQTest.c **** 		xQueueSendToBack( xQueue, ( void * ) &ulLoopCounter, intsemNO_BLOCK );
+ 253              		.loc 1 244 0
+ 254 0066 0023     		movs	r3, #0
+ 255 0068 0022     		movs	r2, #0
+ 256 006a 8C49     		ldr	r1, .L44
+ 257 006c 7869     		ldr	r0, [r7, #20]
+ 258 006e FFF7FEFF 		bl	xQueueGenericSend
+ 245:..\Common\Minimal/GenQTest.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 10
+
+
+ 246:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 1 )
+ 259              		.loc 1 246 0
+ 260 0072 7869     		ldr	r0, [r7, #20]
+ 261 0074 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 262 0078 0346     		mov	r3, r0
+ 263 007a 012B     		cmp	r3, #1
+ 264 007c 02D0     		beq	.L12
+ 247:..\Common\Minimal/GenQTest.c **** 		{
+ 248:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 265              		.loc 1 248 0
+ 266 007e 884B     		ldr	r3, .L44+4
+ 267 0080 0122     		movs	r2, #1
+ 268 0082 1A60     		str	r2, [r3]
+ 269              	.L12:
+ 249:..\Common\Minimal/GenQTest.c **** 		}
+ 250:..\Common\Minimal/GenQTest.c **** 
+ 251:..\Common\Minimal/GenQTest.c **** 		if( xQueueReceive( xQueue, ( void * ) &ulData, intsemNO_BLOCK ) != pdPASS )
+ 270              		.loc 1 251 0
+ 271 0084 07F11001 		add	r1, r7, #16
+ 272 0088 0023     		movs	r3, #0
+ 273 008a 0022     		movs	r2, #0
+ 274 008c 7869     		ldr	r0, [r7, #20]
+ 275 008e FFF7FEFF 		bl	xQueueGenericReceive
+ 276 0092 0346     		mov	r3, r0
+ 277 0094 012B     		cmp	r3, #1
+ 278 0096 02D0     		beq	.L13
+ 252:..\Common\Minimal/GenQTest.c **** 		{
+ 253:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 279              		.loc 1 253 0
+ 280 0098 814B     		ldr	r3, .L44+4
+ 281 009a 0122     		movs	r2, #1
+ 282 009c 1A60     		str	r2, [r3]
+ 283              	.L13:
+ 254:..\Common\Minimal/GenQTest.c **** 		}
+ 255:..\Common\Minimal/GenQTest.c **** 
+ 256:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 0 )
+ 284              		.loc 1 256 0
+ 285 009e 7869     		ldr	r0, [r7, #20]
+ 286 00a0 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 287 00a4 0346     		mov	r3, r0
+ 288 00a6 002B     		cmp	r3, #0
+ 289 00a8 02D0     		beq	.L14
+ 257:..\Common\Minimal/GenQTest.c **** 		{
+ 258:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 290              		.loc 1 258 0
+ 291 00aa 7D4B     		ldr	r3, .L44+4
+ 292 00ac 0122     		movs	r2, #1
+ 293 00ae 1A60     		str	r2, [r3]
+ 294              	.L14:
+ 259:..\Common\Minimal/GenQTest.c **** 		}
+ 260:..\Common\Minimal/GenQTest.c **** 
+ 261:..\Common\Minimal/GenQTest.c **** 		/* The data we sent to the queue should equal the data we just received
+ 262:..\Common\Minimal/GenQTest.c **** 		from the queue. */
+ 263:..\Common\Minimal/GenQTest.c **** 		if( ulLoopCounter != ulData )
+ 295              		.loc 1 263 0
+ 296 00b0 7A4B     		ldr	r3, .L44
+ 297 00b2 1A68     		ldr	r2, [r3]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 11
+
+
+ 298 00b4 3B69     		ldr	r3, [r7, #16]
+ 299 00b6 9A42     		cmp	r2, r3
+ 300 00b8 02D0     		beq	.L15
+ 264:..\Common\Minimal/GenQTest.c **** 		{
+ 265:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 301              		.loc 1 265 0
+ 302 00ba 794B     		ldr	r3, .L44+4
+ 303 00bc 0122     		movs	r2, #1
+ 304 00be 1A60     		str	r2, [r3]
+ 305              	.L15:
+ 266:..\Common\Minimal/GenQTest.c **** 		}
+ 267:..\Common\Minimal/GenQTest.c **** 
+ 268:..\Common\Minimal/GenQTest.c **** 		#if configUSE_PREEMPTION == 0
+ 269:..\Common\Minimal/GenQTest.c **** 			taskYIELD();
+ 270:..\Common\Minimal/GenQTest.c **** 		#endif
+ 271:..\Common\Minimal/GenQTest.c **** 
+ 272:..\Common\Minimal/GenQTest.c **** 
+ 273:..\Common\Minimal/GenQTest.c **** 
+ 274:..\Common\Minimal/GenQTest.c **** 		/* Place 2, 3, 4 into the queue, adding items to the back of the queue. */
+ 275:..\Common\Minimal/GenQTest.c **** 		for( ulData = 2; ulData < 5; ulData++ )
+ 306              		.loc 1 275 0
+ 307 00c0 0223     		movs	r3, #2
+ 308 00c2 3B61     		str	r3, [r7, #16]
+ 309 00c4 09E0     		b	.L16
+ 310              	.L17:
+ 276:..\Common\Minimal/GenQTest.c **** 		{
+ 277:..\Common\Minimal/GenQTest.c **** 			xQueueSendToBack( xQueue, ( void * ) &ulData, intsemNO_BLOCK );
+ 311              		.loc 1 277 0 discriminator 3
+ 312 00c6 07F11001 		add	r1, r7, #16
+ 313 00ca 0023     		movs	r3, #0
+ 314 00cc 0022     		movs	r2, #0
+ 315 00ce 7869     		ldr	r0, [r7, #20]
+ 316 00d0 FFF7FEFF 		bl	xQueueGenericSend
+ 275:..\Common\Minimal/GenQTest.c **** 		{
+ 317              		.loc 1 275 0 discriminator 3
+ 318 00d4 3B69     		ldr	r3, [r7, #16]
+ 319 00d6 0133     		adds	r3, r3, #1
+ 320 00d8 3B61     		str	r3, [r7, #16]
+ 321              	.L16:
+ 275:..\Common\Minimal/GenQTest.c **** 		{
+ 322              		.loc 1 275 0 is_stmt 0 discriminator 1
+ 323 00da 3B69     		ldr	r3, [r7, #16]
+ 324 00dc 042B     		cmp	r3, #4
+ 325 00de F2D9     		bls	.L17
+ 278:..\Common\Minimal/GenQTest.c **** 		}
+ 279:..\Common\Minimal/GenQTest.c **** 
+ 280:..\Common\Minimal/GenQTest.c **** 		/* Now the order in the queue should be 2, 3, 4, with 2 being the first
+ 281:..\Common\Minimal/GenQTest.c **** 		thing to be read out.  Now add 1 then 0 to the front of the queue. */
+ 282:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 3 )
+ 326              		.loc 1 282 0 is_stmt 1
+ 327 00e0 7869     		ldr	r0, [r7, #20]
+ 328 00e2 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 329 00e6 0346     		mov	r3, r0
+ 330 00e8 032B     		cmp	r3, #3
+ 331 00ea 02D0     		beq	.L18
+ 283:..\Common\Minimal/GenQTest.c **** 		{
+ 284:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 12
+
+
+ 332              		.loc 1 284 0
+ 333 00ec 6C4B     		ldr	r3, .L44+4
+ 334 00ee 0122     		movs	r2, #1
+ 335 00f0 1A60     		str	r2, [r3]
+ 336              	.L18:
+ 285:..\Common\Minimal/GenQTest.c **** 		}
+ 286:..\Common\Minimal/GenQTest.c **** 		ulData = 1;
+ 337              		.loc 1 286 0
+ 338 00f2 0123     		movs	r3, #1
+ 339 00f4 3B61     		str	r3, [r7, #16]
+ 287:..\Common\Minimal/GenQTest.c **** 		xQueueSendToFront( xQueue, ( void * ) &ulData, intsemNO_BLOCK );
+ 340              		.loc 1 287 0
+ 341 00f6 07F11001 		add	r1, r7, #16
+ 342 00fa 0123     		movs	r3, #1
+ 343 00fc 0022     		movs	r2, #0
+ 344 00fe 7869     		ldr	r0, [r7, #20]
+ 345 0100 FFF7FEFF 		bl	xQueueGenericSend
+ 288:..\Common\Minimal/GenQTest.c **** 		ulData = 0;
+ 346              		.loc 1 288 0
+ 347 0104 0023     		movs	r3, #0
+ 348 0106 3B61     		str	r3, [r7, #16]
+ 289:..\Common\Minimal/GenQTest.c **** 		xQueueSendToFront( xQueue, ( void * ) &ulData, intsemNO_BLOCK );
+ 349              		.loc 1 289 0
+ 350 0108 07F11001 		add	r1, r7, #16
+ 351 010c 0123     		movs	r3, #1
+ 352 010e 0022     		movs	r2, #0
+ 353 0110 7869     		ldr	r0, [r7, #20]
+ 354 0112 FFF7FEFF 		bl	xQueueGenericSend
+ 290:..\Common\Minimal/GenQTest.c **** 
+ 291:..\Common\Minimal/GenQTest.c **** 		/* Now the queue should be full, and when we read the data out we
+ 292:..\Common\Minimal/GenQTest.c **** 		should receive 0, 1, 2, 3, 4. */
+ 293:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 5 )
+ 355              		.loc 1 293 0
+ 356 0116 7869     		ldr	r0, [r7, #20]
+ 357 0118 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 358 011c 0346     		mov	r3, r0
+ 359 011e 052B     		cmp	r3, #5
+ 360 0120 02D0     		beq	.L19
+ 294:..\Common\Minimal/GenQTest.c **** 		{
+ 295:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 361              		.loc 1 295 0
+ 362 0122 5F4B     		ldr	r3, .L44+4
+ 363 0124 0122     		movs	r2, #1
+ 364 0126 1A60     		str	r2, [r3]
+ 365              	.L19:
+ 296:..\Common\Minimal/GenQTest.c **** 		}
+ 297:..\Common\Minimal/GenQTest.c **** 
+ 298:..\Common\Minimal/GenQTest.c **** 		if( xQueueSendToFront( xQueue, ( void * ) &ulData, intsemNO_BLOCK ) != errQUEUE_FULL )
+ 366              		.loc 1 298 0
+ 367 0128 07F11001 		add	r1, r7, #16
+ 368 012c 0123     		movs	r3, #1
+ 369 012e 0022     		movs	r2, #0
+ 370 0130 7869     		ldr	r0, [r7, #20]
+ 371 0132 FFF7FEFF 		bl	xQueueGenericSend
+ 372 0136 0346     		mov	r3, r0
+ 373 0138 002B     		cmp	r3, #0
+ 374 013a 02D0     		beq	.L20
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 13
+
+
+ 299:..\Common\Minimal/GenQTest.c **** 		{
+ 300:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 375              		.loc 1 300 0
+ 376 013c 584B     		ldr	r3, .L44+4
+ 377 013e 0122     		movs	r2, #1
+ 378 0140 1A60     		str	r2, [r3]
+ 379              	.L20:
+ 301:..\Common\Minimal/GenQTest.c **** 		}
+ 302:..\Common\Minimal/GenQTest.c **** 
+ 303:..\Common\Minimal/GenQTest.c **** 		if( xQueueSendToBack( xQueue, ( void * ) &ulData, intsemNO_BLOCK ) != errQUEUE_FULL )
+ 380              		.loc 1 303 0
+ 381 0142 07F11001 		add	r1, r7, #16
+ 382 0146 0023     		movs	r3, #0
+ 383 0148 0022     		movs	r2, #0
+ 384 014a 7869     		ldr	r0, [r7, #20]
+ 385 014c FFF7FEFF 		bl	xQueueGenericSend
+ 386 0150 0346     		mov	r3, r0
+ 387 0152 002B     		cmp	r3, #0
+ 388 0154 02D0     		beq	.L21
+ 304:..\Common\Minimal/GenQTest.c **** 		{
+ 305:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 389              		.loc 1 305 0
+ 390 0156 524B     		ldr	r3, .L44+4
+ 391 0158 0122     		movs	r2, #1
+ 392 015a 1A60     		str	r2, [r3]
+ 393              	.L21:
+ 306:..\Common\Minimal/GenQTest.c **** 		}
+ 307:..\Common\Minimal/GenQTest.c **** 
+ 308:..\Common\Minimal/GenQTest.c **** 		#if configUSE_PREEMPTION == 0
+ 309:..\Common\Minimal/GenQTest.c **** 			taskYIELD();
+ 310:..\Common\Minimal/GenQTest.c **** 		#endif
+ 311:..\Common\Minimal/GenQTest.c **** 
+ 312:..\Common\Minimal/GenQTest.c **** 		/* Check the data we read out is in the expected order. */
+ 313:..\Common\Minimal/GenQTest.c **** 		for( ulData = 0; ulData < genqQUEUE_LENGTH; ulData++ )
+ 394              		.loc 1 313 0
+ 395 015c 0023     		movs	r3, #0
+ 396 015e 3B61     		str	r3, [r7, #16]
+ 397 0160 2DE0     		b	.L22
+ 398              	.L27:
+ 314:..\Common\Minimal/GenQTest.c **** 		{
+ 315:..\Common\Minimal/GenQTest.c **** 			/* Try peeking the data first. */
+ 316:..\Common\Minimal/GenQTest.c **** 			if( xQueuePeek( xQueue, &ulData2, intsemNO_BLOCK ) != pdPASS )
+ 399              		.loc 1 316 0
+ 400 0162 07F10C01 		add	r1, r7, #12
+ 401 0166 0123     		movs	r3, #1
+ 402 0168 0022     		movs	r2, #0
+ 403 016a 7869     		ldr	r0, [r7, #20]
+ 404 016c FFF7FEFF 		bl	xQueueGenericReceive
+ 405 0170 0346     		mov	r3, r0
+ 406 0172 012B     		cmp	r3, #1
+ 407 0174 02D0     		beq	.L23
+ 317:..\Common\Minimal/GenQTest.c **** 			{
+ 318:..\Common\Minimal/GenQTest.c **** 				xErrorDetected = pdTRUE;
+ 408              		.loc 1 318 0
+ 409 0176 4A4B     		ldr	r3, .L44+4
+ 410 0178 0122     		movs	r2, #1
+ 411 017a 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 14
+
+
+ 412              	.L23:
+ 319:..\Common\Minimal/GenQTest.c **** 			}
+ 320:..\Common\Minimal/GenQTest.c **** 
+ 321:..\Common\Minimal/GenQTest.c **** 			if( ulData != ulData2 )
+ 413              		.loc 1 321 0
+ 414 017c 3A69     		ldr	r2, [r7, #16]
+ 415 017e FB68     		ldr	r3, [r7, #12]
+ 416 0180 9A42     		cmp	r2, r3
+ 417 0182 02D0     		beq	.L24
+ 322:..\Common\Minimal/GenQTest.c **** 			{
+ 323:..\Common\Minimal/GenQTest.c **** 				xErrorDetected = pdTRUE;
+ 418              		.loc 1 323 0
+ 419 0184 464B     		ldr	r3, .L44+4
+ 420 0186 0122     		movs	r2, #1
+ 421 0188 1A60     		str	r2, [r3]
+ 422              	.L24:
+ 324:..\Common\Minimal/GenQTest.c **** 			}
+ 325:..\Common\Minimal/GenQTest.c **** 
+ 326:..\Common\Minimal/GenQTest.c **** 
+ 327:..\Common\Minimal/GenQTest.c **** 			/* Now try receiving the data for real.  The value should be the
+ 328:..\Common\Minimal/GenQTest.c **** 			same.  Clobber the value first so we know we really received it. */
+ 329:..\Common\Minimal/GenQTest.c **** 			ulData2 = ~ulData2;
+ 423              		.loc 1 329 0
+ 424 018a FB68     		ldr	r3, [r7, #12]
+ 425 018c DB43     		mvns	r3, r3
+ 426 018e FB60     		str	r3, [r7, #12]
+ 330:..\Common\Minimal/GenQTest.c **** 			if( xQueueReceive( xQueue, &ulData2, intsemNO_BLOCK ) != pdPASS )
+ 427              		.loc 1 330 0
+ 428 0190 07F10C01 		add	r1, r7, #12
+ 429 0194 0023     		movs	r3, #0
+ 430 0196 0022     		movs	r2, #0
+ 431 0198 7869     		ldr	r0, [r7, #20]
+ 432 019a FFF7FEFF 		bl	xQueueGenericReceive
+ 433 019e 0346     		mov	r3, r0
+ 434 01a0 012B     		cmp	r3, #1
+ 435 01a2 02D0     		beq	.L25
+ 331:..\Common\Minimal/GenQTest.c **** 			{
+ 332:..\Common\Minimal/GenQTest.c **** 				xErrorDetected = pdTRUE;
+ 436              		.loc 1 332 0
+ 437 01a4 3E4B     		ldr	r3, .L44+4
+ 438 01a6 0122     		movs	r2, #1
+ 439 01a8 1A60     		str	r2, [r3]
+ 440              	.L25:
+ 333:..\Common\Minimal/GenQTest.c **** 			}
+ 334:..\Common\Minimal/GenQTest.c **** 
+ 335:..\Common\Minimal/GenQTest.c **** 			if( ulData != ulData2 )
+ 441              		.loc 1 335 0
+ 442 01aa 3A69     		ldr	r2, [r7, #16]
+ 443 01ac FB68     		ldr	r3, [r7, #12]
+ 444 01ae 9A42     		cmp	r2, r3
+ 445 01b0 02D0     		beq	.L26
+ 336:..\Common\Minimal/GenQTest.c **** 			{
+ 337:..\Common\Minimal/GenQTest.c **** 				xErrorDetected = pdTRUE;
+ 446              		.loc 1 337 0
+ 447 01b2 3B4B     		ldr	r3, .L44+4
+ 448 01b4 0122     		movs	r2, #1
+ 449 01b6 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 15
+
+
+ 450              	.L26:
+ 313:..\Common\Minimal/GenQTest.c **** 		{
+ 451              		.loc 1 313 0 discriminator 2
+ 452 01b8 3B69     		ldr	r3, [r7, #16]
+ 453 01ba 0133     		adds	r3, r3, #1
+ 454 01bc 3B61     		str	r3, [r7, #16]
+ 455              	.L22:
+ 313:..\Common\Minimal/GenQTest.c **** 		{
+ 456              		.loc 1 313 0 is_stmt 0 discriminator 1
+ 457 01be 3B69     		ldr	r3, [r7, #16]
+ 458 01c0 042B     		cmp	r3, #4
+ 459 01c2 CED9     		bls	.L27
+ 338:..\Common\Minimal/GenQTest.c **** 			}
+ 339:..\Common\Minimal/GenQTest.c **** 		}
+ 340:..\Common\Minimal/GenQTest.c **** 
+ 341:..\Common\Minimal/GenQTest.c **** 		/* The queue should now be empty again. */
+ 342:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 0 )
+ 460              		.loc 1 342 0 is_stmt 1
+ 461 01c4 7869     		ldr	r0, [r7, #20]
+ 462 01c6 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 463 01ca 0346     		mov	r3, r0
+ 464 01cc 002B     		cmp	r3, #0
+ 465 01ce 02D0     		beq	.L28
+ 343:..\Common\Minimal/GenQTest.c **** 		{
+ 344:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 466              		.loc 1 344 0
+ 467 01d0 334B     		ldr	r3, .L44+4
+ 468 01d2 0122     		movs	r2, #1
+ 469 01d4 1A60     		str	r2, [r3]
+ 470              	.L28:
+ 345:..\Common\Minimal/GenQTest.c **** 		}
+ 346:..\Common\Minimal/GenQTest.c **** 
+ 347:..\Common\Minimal/GenQTest.c **** 		#if configUSE_PREEMPTION == 0
+ 348:..\Common\Minimal/GenQTest.c **** 			taskYIELD();
+ 349:..\Common\Minimal/GenQTest.c **** 		#endif
+ 350:..\Common\Minimal/GenQTest.c **** 
+ 351:..\Common\Minimal/GenQTest.c **** 
+ 352:..\Common\Minimal/GenQTest.c **** 		/* Our queue is empty once more, add 10, 11 to the back. */
+ 353:..\Common\Minimal/GenQTest.c **** 		ulData = 10;
+ 471              		.loc 1 353 0
+ 472 01d6 0A23     		movs	r3, #10
+ 473 01d8 3B61     		str	r3, [r7, #16]
+ 354:..\Common\Minimal/GenQTest.c **** 		if( xQueueSend( xQueue, &ulData, intsemNO_BLOCK ) != pdPASS )
+ 474              		.loc 1 354 0
+ 475 01da 07F11001 		add	r1, r7, #16
+ 476 01de 0023     		movs	r3, #0
+ 477 01e0 0022     		movs	r2, #0
+ 478 01e2 7869     		ldr	r0, [r7, #20]
+ 479 01e4 FFF7FEFF 		bl	xQueueGenericSend
+ 480 01e8 0346     		mov	r3, r0
+ 481 01ea 012B     		cmp	r3, #1
+ 482 01ec 02D0     		beq	.L29
+ 355:..\Common\Minimal/GenQTest.c **** 		{
+ 356:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 483              		.loc 1 356 0
+ 484 01ee 2C4B     		ldr	r3, .L44+4
+ 485 01f0 0122     		movs	r2, #1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 16
+
+
+ 486 01f2 1A60     		str	r2, [r3]
+ 487              	.L29:
+ 357:..\Common\Minimal/GenQTest.c **** 		}
+ 358:..\Common\Minimal/GenQTest.c **** 		ulData = 11;
+ 488              		.loc 1 358 0
+ 489 01f4 0B23     		movs	r3, #11
+ 490 01f6 3B61     		str	r3, [r7, #16]
+ 359:..\Common\Minimal/GenQTest.c **** 		if( xQueueSend( xQueue, &ulData, intsemNO_BLOCK ) != pdPASS )
+ 491              		.loc 1 359 0
+ 492 01f8 07F11001 		add	r1, r7, #16
+ 493 01fc 0023     		movs	r3, #0
+ 494 01fe 0022     		movs	r2, #0
+ 495 0200 7869     		ldr	r0, [r7, #20]
+ 496 0202 FFF7FEFF 		bl	xQueueGenericSend
+ 497 0206 0346     		mov	r3, r0
+ 498 0208 012B     		cmp	r3, #1
+ 499 020a 02D0     		beq	.L30
+ 360:..\Common\Minimal/GenQTest.c **** 		{
+ 361:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 500              		.loc 1 361 0
+ 501 020c 244B     		ldr	r3, .L44+4
+ 502 020e 0122     		movs	r2, #1
+ 503 0210 1A60     		str	r2, [r3]
+ 504              	.L30:
+ 362:..\Common\Minimal/GenQTest.c **** 		}
+ 363:..\Common\Minimal/GenQTest.c **** 
+ 364:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 2 )
+ 505              		.loc 1 364 0
+ 506 0212 7869     		ldr	r0, [r7, #20]
+ 507 0214 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 508 0218 0346     		mov	r3, r0
+ 509 021a 022B     		cmp	r3, #2
+ 510 021c 02D0     		beq	.L31
+ 365:..\Common\Minimal/GenQTest.c **** 		{
+ 366:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 511              		.loc 1 366 0
+ 512 021e 204B     		ldr	r3, .L44+4
+ 513 0220 0122     		movs	r2, #1
+ 514 0222 1A60     		str	r2, [r3]
+ 515              	.L31:
+ 367:..\Common\Minimal/GenQTest.c **** 		}
+ 368:..\Common\Minimal/GenQTest.c **** 
+ 369:..\Common\Minimal/GenQTest.c **** 		/* Now we should have 10, 11 in the queue.  Add 7, 8, 9 to the
+ 370:..\Common\Minimal/GenQTest.c **** 		front. */
+ 371:..\Common\Minimal/GenQTest.c **** 		for( ulData = 9; ulData >= 7; ulData-- )
+ 516              		.loc 1 371 0
+ 517 0224 0923     		movs	r3, #9
+ 518 0226 3B61     		str	r3, [r7, #16]
+ 519 0228 0FE0     		b	.L32
+ 520              	.L34:
+ 372:..\Common\Minimal/GenQTest.c **** 		{
+ 373:..\Common\Minimal/GenQTest.c **** 			if( xQueueSendToFront( xQueue, ( void * ) &ulData, intsemNO_BLOCK ) != pdPASS )
+ 521              		.loc 1 373 0
+ 522 022a 07F11001 		add	r1, r7, #16
+ 523 022e 0123     		movs	r3, #1
+ 524 0230 0022     		movs	r2, #0
+ 525 0232 7869     		ldr	r0, [r7, #20]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 17
+
+
+ 526 0234 FFF7FEFF 		bl	xQueueGenericSend
+ 527 0238 0346     		mov	r3, r0
+ 528 023a 012B     		cmp	r3, #1
+ 529 023c 02D0     		beq	.L33
+ 374:..\Common\Minimal/GenQTest.c **** 			{
+ 375:..\Common\Minimal/GenQTest.c **** 				xErrorDetected = pdTRUE;
+ 530              		.loc 1 375 0
+ 531 023e 184B     		ldr	r3, .L44+4
+ 532 0240 0122     		movs	r2, #1
+ 533 0242 1A60     		str	r2, [r3]
+ 534              	.L33:
+ 371:..\Common\Minimal/GenQTest.c **** 		{
+ 535              		.loc 1 371 0 discriminator 2
+ 536 0244 3B69     		ldr	r3, [r7, #16]
+ 537 0246 013B     		subs	r3, r3, #1
+ 538 0248 3B61     		str	r3, [r7, #16]
+ 539              	.L32:
+ 371:..\Common\Minimal/GenQTest.c **** 		{
+ 540              		.loc 1 371 0 is_stmt 0 discriminator 1
+ 541 024a 3B69     		ldr	r3, [r7, #16]
+ 542 024c 062B     		cmp	r3, #6
+ 543 024e ECD8     		bhi	.L34
+ 376:..\Common\Minimal/GenQTest.c **** 			}
+ 377:..\Common\Minimal/GenQTest.c **** 		}
+ 378:..\Common\Minimal/GenQTest.c **** 
+ 379:..\Common\Minimal/GenQTest.c **** 		/* Now check that the queue is full, and that receiving data provides
+ 380:..\Common\Minimal/GenQTest.c **** 		the expected sequence of 7, 8, 9, 10, 11. */
+ 381:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 5 )
+ 544              		.loc 1 381 0 is_stmt 1
+ 545 0250 7869     		ldr	r0, [r7, #20]
+ 546 0252 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 547 0256 0346     		mov	r3, r0
+ 548 0258 052B     		cmp	r3, #5
+ 549 025a 02D0     		beq	.L35
+ 382:..\Common\Minimal/GenQTest.c **** 		{
+ 383:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 550              		.loc 1 383 0
+ 551 025c 104B     		ldr	r3, .L44+4
+ 552 025e 0122     		movs	r2, #1
+ 553 0260 1A60     		str	r2, [r3]
+ 554              	.L35:
+ 384:..\Common\Minimal/GenQTest.c **** 		}
+ 385:..\Common\Minimal/GenQTest.c **** 
+ 386:..\Common\Minimal/GenQTest.c **** 		if( xQueueSendToFront( xQueue, ( void * ) &ulData, intsemNO_BLOCK ) != errQUEUE_FULL )
+ 555              		.loc 1 386 0
+ 556 0262 07F11001 		add	r1, r7, #16
+ 557 0266 0123     		movs	r3, #1
+ 558 0268 0022     		movs	r2, #0
+ 559 026a 7869     		ldr	r0, [r7, #20]
+ 560 026c FFF7FEFF 		bl	xQueueGenericSend
+ 561 0270 0346     		mov	r3, r0
+ 562 0272 002B     		cmp	r3, #0
+ 563 0274 02D0     		beq	.L36
+ 387:..\Common\Minimal/GenQTest.c **** 		{
+ 388:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 564              		.loc 1 388 0
+ 565 0276 0A4B     		ldr	r3, .L44+4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 18
+
+
+ 566 0278 0122     		movs	r2, #1
+ 567 027a 1A60     		str	r2, [r3]
+ 568              	.L36:
+ 389:..\Common\Minimal/GenQTest.c **** 		}
+ 390:..\Common\Minimal/GenQTest.c **** 
+ 391:..\Common\Minimal/GenQTest.c **** 		if( xQueueSendToBack( xQueue, ( void * ) &ulData, intsemNO_BLOCK ) != errQUEUE_FULL )
+ 569              		.loc 1 391 0
+ 570 027c 07F11001 		add	r1, r7, #16
+ 571 0280 0023     		movs	r3, #0
+ 572 0282 0022     		movs	r2, #0
+ 573 0284 7869     		ldr	r0, [r7, #20]
+ 574 0286 FFF7FEFF 		bl	xQueueGenericSend
+ 575 028a 0346     		mov	r3, r0
+ 576 028c 002B     		cmp	r3, #0
+ 577 028e 02D0     		beq	.L37
+ 392:..\Common\Minimal/GenQTest.c **** 		{
+ 393:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 578              		.loc 1 393 0
+ 579 0290 034B     		ldr	r3, .L44+4
+ 580 0292 0122     		movs	r2, #1
+ 581 0294 1A60     		str	r2, [r3]
+ 582              	.L37:
+ 394:..\Common\Minimal/GenQTest.c **** 		}
+ 395:..\Common\Minimal/GenQTest.c **** 
+ 396:..\Common\Minimal/GenQTest.c **** 		#if configUSE_PREEMPTION == 0
+ 397:..\Common\Minimal/GenQTest.c **** 			taskYIELD();
+ 398:..\Common\Minimal/GenQTest.c **** 		#endif
+ 399:..\Common\Minimal/GenQTest.c **** 
+ 400:..\Common\Minimal/GenQTest.c **** 		/* Check the data we read out is in the expected order. */
+ 401:..\Common\Minimal/GenQTest.c **** 		for( ulData = 7; ulData < ( 7 + genqQUEUE_LENGTH ); ulData++ )
+ 583              		.loc 1 401 0
+ 584 0296 0723     		movs	r3, #7
+ 585 0298 3B61     		str	r3, [r7, #16]
+ 586 029a 1AE0     		b	.L38
+ 587              	.L45:
+ 588              		.align	2
+ 589              	.L44:
+ 590 029c 04000000 		.word	ulLoopCounter
+ 591 02a0 00000000 		.word	xErrorDetected
+ 592              	.L41:
+ 402:..\Common\Minimal/GenQTest.c **** 		{
+ 403:..\Common\Minimal/GenQTest.c **** 			if( xQueueReceive( xQueue, &ulData2, intsemNO_BLOCK ) != pdPASS )
+ 593              		.loc 1 403 0
+ 594 02a4 07F10C01 		add	r1, r7, #12
+ 595 02a8 0023     		movs	r3, #0
+ 596 02aa 0022     		movs	r2, #0
+ 597 02ac 7869     		ldr	r0, [r7, #20]
+ 598 02ae FFF7FEFF 		bl	xQueueGenericReceive
+ 599 02b2 0346     		mov	r3, r0
+ 600 02b4 012B     		cmp	r3, #1
+ 601 02b6 02D0     		beq	.L39
+ 404:..\Common\Minimal/GenQTest.c **** 			{
+ 405:..\Common\Minimal/GenQTest.c **** 				xErrorDetected = pdTRUE;
+ 602              		.loc 1 405 0
+ 603 02b8 0F4B     		ldr	r3, .L46
+ 604 02ba 0122     		movs	r2, #1
+ 605 02bc 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 19
+
+
+ 606              	.L39:
+ 406:..\Common\Minimal/GenQTest.c **** 			}
+ 407:..\Common\Minimal/GenQTest.c **** 
+ 408:..\Common\Minimal/GenQTest.c **** 			if( ulData != ulData2 )
+ 607              		.loc 1 408 0
+ 608 02be 3A69     		ldr	r2, [r7, #16]
+ 609 02c0 FB68     		ldr	r3, [r7, #12]
+ 610 02c2 9A42     		cmp	r2, r3
+ 611 02c4 02D0     		beq	.L40
+ 409:..\Common\Minimal/GenQTest.c **** 			{
+ 410:..\Common\Minimal/GenQTest.c **** 				xErrorDetected = pdTRUE;
+ 612              		.loc 1 410 0
+ 613 02c6 0C4B     		ldr	r3, .L46
+ 614 02c8 0122     		movs	r2, #1
+ 615 02ca 1A60     		str	r2, [r3]
+ 616              	.L40:
+ 401:..\Common\Minimal/GenQTest.c **** 		{
+ 617              		.loc 1 401 0 discriminator 2
+ 618 02cc 3B69     		ldr	r3, [r7, #16]
+ 619 02ce 0133     		adds	r3, r3, #1
+ 620 02d0 3B61     		str	r3, [r7, #16]
+ 621              	.L38:
+ 401:..\Common\Minimal/GenQTest.c **** 		{
+ 622              		.loc 1 401 0 is_stmt 0 discriminator 1
+ 623 02d2 3B69     		ldr	r3, [r7, #16]
+ 624 02d4 0B2B     		cmp	r3, #11
+ 625 02d6 E5D9     		bls	.L41
+ 411:..\Common\Minimal/GenQTest.c **** 			}
+ 412:..\Common\Minimal/GenQTest.c **** 		}
+ 413:..\Common\Minimal/GenQTest.c **** 
+ 414:..\Common\Minimal/GenQTest.c **** 		if( uxQueueMessagesWaiting( xQueue ) != 0 )
+ 626              		.loc 1 414 0 is_stmt 1
+ 627 02d8 7869     		ldr	r0, [r7, #20]
+ 628 02da FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 629 02de 0346     		mov	r3, r0
+ 630 02e0 002B     		cmp	r3, #0
+ 631 02e2 02D0     		beq	.L42
+ 415:..\Common\Minimal/GenQTest.c **** 		{
+ 416:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 632              		.loc 1 416 0
+ 633 02e4 044B     		ldr	r3, .L46
+ 634 02e6 0122     		movs	r2, #1
+ 635 02e8 1A60     		str	r2, [r3]
+ 636              	.L42:
+ 417:..\Common\Minimal/GenQTest.c **** 		}
+ 418:..\Common\Minimal/GenQTest.c **** 
+ 419:..\Common\Minimal/GenQTest.c **** 		ulLoopCounter++;
+ 637              		.loc 1 419 0
+ 638 02ea 044B     		ldr	r3, .L46+4
+ 639 02ec 1B68     		ldr	r3, [r3]
+ 640 02ee 0133     		adds	r3, r3, #1
+ 641 02f0 024A     		ldr	r2, .L46+4
+ 642 02f2 1360     		str	r3, [r2]
+ 420:..\Common\Minimal/GenQTest.c **** 	}
+ 643              		.loc 1 420 0
+ 644 02f4 8AE6     		b	.L43
+ 645              	.L47:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 20
+
+
+ 646 02f6 00BF     		.align	2
+ 647              	.L46:
+ 648 02f8 00000000 		.word	xErrorDetected
+ 649 02fc 04000000 		.word	ulLoopCounter
+ 650              		.cfi_endproc
+ 651              	.LFE69:
+ 652              		.size	prvSendFrontAndBackTest, .-prvSendFrontAndBackTest
+ 653              		.section	.text.prvTakeTwoMutexesReturnInDifferentOrder,"ax",%progbits
+ 654              		.align	2
+ 655              		.thumb
+ 656              		.thumb_func
+ 657              		.type	prvTakeTwoMutexesReturnInDifferentOrder, %function
+ 658              	prvTakeTwoMutexesReturnInDifferentOrder:
+ 659              	.LFB70:
+ 421:..\Common\Minimal/GenQTest.c **** }
+ 422:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 423:..\Common\Minimal/GenQTest.c **** 
+ 424:..\Common\Minimal/GenQTest.c **** static void prvTakeTwoMutexesReturnInDifferentOrder( SemaphoreHandle_t xMutex, SemaphoreHandle_t xL
+ 425:..\Common\Minimal/GenQTest.c **** {
+ 660              		.loc 1 425 0
+ 661              		.cfi_startproc
+ 662              		@ args = 0, pretend = 0, frame = 8
+ 663              		@ frame_needed = 1, uses_anonymous_args = 0
+ 664 0000 80B5     		push	{r7, lr}
+ 665              		.cfi_def_cfa_offset 8
+ 666              		.cfi_offset 7, -8
+ 667              		.cfi_offset 14, -4
+ 668 0002 82B0     		sub	sp, sp, #8
+ 669              		.cfi_def_cfa_offset 16
+ 670 0004 00AF     		add	r7, sp, #0
+ 671              		.cfi_def_cfa_register 7
+ 672 0006 7860     		str	r0, [r7, #4]
+ 673 0008 3960     		str	r1, [r7]
+ 426:..\Common\Minimal/GenQTest.c **** 	/* Take the mutex.  It should be available now. */
+ 427:..\Common\Minimal/GenQTest.c **** 	if( xSemaphoreTake( xMutex, intsemNO_BLOCK ) != pdPASS )
+ 674              		.loc 1 427 0
+ 675 000a 0023     		movs	r3, #0
+ 676 000c 0022     		movs	r2, #0
+ 677 000e 0021     		movs	r1, #0
+ 678 0010 7868     		ldr	r0, [r7, #4]
+ 679 0012 FFF7FEFF 		bl	xQueueGenericReceive
+ 680 0016 0346     		mov	r3, r0
+ 681 0018 012B     		cmp	r3, #1
+ 682 001a 02D0     		beq	.L49
+ 428:..\Common\Minimal/GenQTest.c **** 	{
+ 429:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 683              		.loc 1 429 0
+ 684 001c 404B     		ldr	r3, .L61
+ 685 001e 0122     		movs	r2, #1
+ 686 0020 1A60     		str	r2, [r3]
+ 687              	.L49:
+ 430:..\Common\Minimal/GenQTest.c **** 	}
+ 431:..\Common\Minimal/GenQTest.c **** 
+ 432:..\Common\Minimal/GenQTest.c **** 	/* Set the guarded variable to a known start value. */
+ 433:..\Common\Minimal/GenQTest.c **** 	ulGuardedVariable = 0;
+ 688              		.loc 1 433 0
+ 689 0022 404B     		ldr	r3, .L61+4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 21
+
+
+ 690 0024 0022     		movs	r2, #0
+ 691 0026 1A60     		str	r2, [r3]
+ 434:..\Common\Minimal/GenQTest.c **** 
+ 435:..\Common\Minimal/GenQTest.c **** 	/* This task's priority should be as per that assigned when the task was
+ 436:..\Common\Minimal/GenQTest.c **** 	created. */
+ 437:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_LOW_PRIORITY )
+ 692              		.loc 1 437 0
+ 693 0028 0020     		movs	r0, #0
+ 694 002a FFF7FEFF 		bl	uxTaskPriorityGet
+ 695 002e 0346     		mov	r3, r0
+ 696 0030 002B     		cmp	r3, #0
+ 697 0032 02D0     		beq	.L50
+ 438:..\Common\Minimal/GenQTest.c **** 	{
+ 439:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 698              		.loc 1 439 0
+ 699 0034 3A4B     		ldr	r3, .L61
+ 700 0036 0122     		movs	r2, #1
+ 701 0038 1A60     		str	r2, [r3]
+ 702              	.L50:
+ 440:..\Common\Minimal/GenQTest.c **** 	}
+ 441:..\Common\Minimal/GenQTest.c **** 
+ 442:..\Common\Minimal/GenQTest.c **** 	/* Now unsuspend the high priority task.  This will attempt to take the
+ 443:..\Common\Minimal/GenQTest.c **** 	mutex, and block when it finds it cannot obtain it. */
+ 444:..\Common\Minimal/GenQTest.c **** 	vTaskResume( xHighPriorityMutexTask );
+ 703              		.loc 1 444 0
+ 704 003a 3B4B     		ldr	r3, .L61+8
+ 705 003c 1B68     		ldr	r3, [r3]
+ 706 003e 1846     		mov	r0, r3
+ 707 0040 FFF7FEFF 		bl	vTaskResume
+ 445:..\Common\Minimal/GenQTest.c **** 
+ 446:..\Common\Minimal/GenQTest.c **** 	#if configUSE_PREEMPTION == 0
+ 447:..\Common\Minimal/GenQTest.c **** 		taskYIELD();
+ 448:..\Common\Minimal/GenQTest.c **** 	#endif
+ 449:..\Common\Minimal/GenQTest.c **** 
+ 450:..\Common\Minimal/GenQTest.c **** 	/* Ensure the task is reporting its priority as blocked and not
+ 451:..\Common\Minimal/GenQTest.c **** 	suspended (as it would have done in versions up to V7.5.3). */
+ 452:..\Common\Minimal/GenQTest.c **** 	#if( INCLUDE_eTaskGetState == 1 )
+ 453:..\Common\Minimal/GenQTest.c **** 	{
+ 454:..\Common\Minimal/GenQTest.c **** 		configASSERT( eTaskGetState( xHighPriorityMutexTask ) == eBlocked );
+ 455:..\Common\Minimal/GenQTest.c **** 	}
+ 456:..\Common\Minimal/GenQTest.c **** 	#endif /* INCLUDE_eTaskGetState */
+ 457:..\Common\Minimal/GenQTest.c **** 
+ 458:..\Common\Minimal/GenQTest.c **** 	/* The priority of the high priority task should now have been inherited
+ 459:..\Common\Minimal/GenQTest.c **** 	as by now it will have attempted to get the mutex. */
+ 460:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_HIGH_PRIORITY )
+ 708              		.loc 1 460 0
+ 709 0044 0020     		movs	r0, #0
+ 710 0046 FFF7FEFF 		bl	uxTaskPriorityGet
+ 711 004a 0346     		mov	r3, r0
+ 712 004c 032B     		cmp	r3, #3
+ 713 004e 02D0     		beq	.L51
+ 461:..\Common\Minimal/GenQTest.c **** 	{
+ 462:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 714              		.loc 1 462 0
+ 715 0050 334B     		ldr	r3, .L61
+ 716 0052 0122     		movs	r2, #1
+ 717 0054 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 22
+
+
+ 718              	.L51:
+ 463:..\Common\Minimal/GenQTest.c **** 	}
+ 464:..\Common\Minimal/GenQTest.c **** 
+ 465:..\Common\Minimal/GenQTest.c **** 	/* Attempt to set the priority of this task to the test priority -
+ 466:..\Common\Minimal/GenQTest.c **** 	between the	idle priority and the medium/high test priorities, but the
+ 467:..\Common\Minimal/GenQTest.c **** 	actual priority should remain at the high priority. */
+ 468:..\Common\Minimal/GenQTest.c **** 	vTaskPrioritySet( NULL, genqMUTEX_TEST_PRIORITY );
+ 719              		.loc 1 468 0
+ 720 0056 0121     		movs	r1, #1
+ 721 0058 0020     		movs	r0, #0
+ 722 005a FFF7FEFF 		bl	vTaskPrioritySet
+ 469:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_HIGH_PRIORITY )
+ 723              		.loc 1 469 0
+ 724 005e 0020     		movs	r0, #0
+ 725 0060 FFF7FEFF 		bl	uxTaskPriorityGet
+ 726 0064 0346     		mov	r3, r0
+ 727 0066 032B     		cmp	r3, #3
+ 728 0068 02D0     		beq	.L52
+ 470:..\Common\Minimal/GenQTest.c **** 	{
+ 471:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 729              		.loc 1 471 0
+ 730 006a 2D4B     		ldr	r3, .L61
+ 731 006c 0122     		movs	r2, #1
+ 732 006e 1A60     		str	r2, [r3]
+ 733              	.L52:
+ 472:..\Common\Minimal/GenQTest.c **** 	}
+ 473:..\Common\Minimal/GenQTest.c **** 
+ 474:..\Common\Minimal/GenQTest.c **** 	/* Now unsuspend the medium priority task.  This should not run as the
+ 475:..\Common\Minimal/GenQTest.c **** 	inherited priority of this task is above that of the medium priority
+ 476:..\Common\Minimal/GenQTest.c **** 	task. */
+ 477:..\Common\Minimal/GenQTest.c **** 	vTaskResume( xMediumPriorityMutexTask );
+ 734              		.loc 1 477 0
+ 735 0070 2E4B     		ldr	r3, .L61+12
+ 736 0072 1B68     		ldr	r3, [r3]
+ 737 0074 1846     		mov	r0, r3
+ 738 0076 FFF7FEFF 		bl	vTaskResume
+ 478:..\Common\Minimal/GenQTest.c **** 
+ 479:..\Common\Minimal/GenQTest.c **** 	/* If the medium priority task did run then it will have incremented the
+ 480:..\Common\Minimal/GenQTest.c **** 	guarded variable. */
+ 481:..\Common\Minimal/GenQTest.c **** 	if( ulGuardedVariable != 0 )
+ 739              		.loc 1 481 0
+ 740 007a 2A4B     		ldr	r3, .L61+4
+ 741 007c 1B68     		ldr	r3, [r3]
+ 742 007e 002B     		cmp	r3, #0
+ 743 0080 02D0     		beq	.L53
+ 482:..\Common\Minimal/GenQTest.c **** 	{
+ 483:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 744              		.loc 1 483 0
+ 745 0082 274B     		ldr	r3, .L61
+ 746 0084 0122     		movs	r2, #1
+ 747 0086 1A60     		str	r2, [r3]
+ 748              	.L53:
+ 484:..\Common\Minimal/GenQTest.c **** 	}
+ 485:..\Common\Minimal/GenQTest.c **** 
+ 486:..\Common\Minimal/GenQTest.c **** 	/* Take the local mutex too, so two mutexes are now held. */
+ 487:..\Common\Minimal/GenQTest.c **** 	if( xSemaphoreTake( xLocalMutex, intsemNO_BLOCK ) != pdPASS )
+ 749              		.loc 1 487 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 23
+
+
+ 750 0088 0023     		movs	r3, #0
+ 751 008a 0022     		movs	r2, #0
+ 752 008c 0021     		movs	r1, #0
+ 753 008e 3868     		ldr	r0, [r7]
+ 754 0090 FFF7FEFF 		bl	xQueueGenericReceive
+ 755 0094 0346     		mov	r3, r0
+ 756 0096 012B     		cmp	r3, #1
+ 757 0098 02D0     		beq	.L54
+ 488:..\Common\Minimal/GenQTest.c **** 	{
+ 489:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 758              		.loc 1 489 0
+ 759 009a 214B     		ldr	r3, .L61
+ 760 009c 0122     		movs	r2, #1
+ 761 009e 1A60     		str	r2, [r3]
+ 762              	.L54:
+ 490:..\Common\Minimal/GenQTest.c **** 	}
+ 491:..\Common\Minimal/GenQTest.c **** 
+ 492:..\Common\Minimal/GenQTest.c **** 	/* When the semaphore is given back the priority of this task should not
+ 493:..\Common\Minimal/GenQTest.c **** 	yet be disinherited because the local mutex is still held.  This is a
+ 494:..\Common\Minimal/GenQTest.c **** 	simplification to allow FreeRTOS to be integrated with middleware that
+ 495:..\Common\Minimal/GenQTest.c **** 	attempts to hold multiple mutexes without bloating the code with complex
+ 496:..\Common\Minimal/GenQTest.c **** 	algorithms.  It is possible that the high priority mutex task will
+ 497:..\Common\Minimal/GenQTest.c **** 	execute as it shares a priority with this task. */
+ 498:..\Common\Minimal/GenQTest.c **** 	if( xSemaphoreGive( xMutex ) != pdPASS )
+ 763              		.loc 1 498 0
+ 764 00a0 0023     		movs	r3, #0
+ 765 00a2 0022     		movs	r2, #0
+ 766 00a4 0021     		movs	r1, #0
+ 767 00a6 7868     		ldr	r0, [r7, #4]
+ 768 00a8 FFF7FEFF 		bl	xQueueGenericSend
+ 769 00ac 0346     		mov	r3, r0
+ 770 00ae 012B     		cmp	r3, #1
+ 771 00b0 02D0     		beq	.L55
+ 499:..\Common\Minimal/GenQTest.c **** 	{
+ 500:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 772              		.loc 1 500 0
+ 773 00b2 1B4B     		ldr	r3, .L61
+ 774 00b4 0122     		movs	r2, #1
+ 775 00b6 1A60     		str	r2, [r3]
+ 776              	.L55:
+ 501:..\Common\Minimal/GenQTest.c **** 	}
+ 502:..\Common\Minimal/GenQTest.c **** 
+ 503:..\Common\Minimal/GenQTest.c **** 	#if configUSE_PREEMPTION == 0
+ 504:..\Common\Minimal/GenQTest.c **** 		taskYIELD();
+ 505:..\Common\Minimal/GenQTest.c **** 	#endif
+ 506:..\Common\Minimal/GenQTest.c **** 
+ 507:..\Common\Minimal/GenQTest.c **** 	/* The guarded variable is only incremented by the medium priority task,
+ 508:..\Common\Minimal/GenQTest.c **** 	which still should not have executed as this task should remain at the
+ 509:..\Common\Minimal/GenQTest.c **** 	higher priority, ensure this is the case. */
+ 510:..\Common\Minimal/GenQTest.c **** 	if( ulGuardedVariable != 0 )
+ 777              		.loc 1 510 0
+ 778 00b8 1A4B     		ldr	r3, .L61+4
+ 779 00ba 1B68     		ldr	r3, [r3]
+ 780 00bc 002B     		cmp	r3, #0
+ 781 00be 02D0     		beq	.L56
+ 511:..\Common\Minimal/GenQTest.c **** 	{
+ 512:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 24
+
+
+ 782              		.loc 1 512 0
+ 783 00c0 174B     		ldr	r3, .L61
+ 784 00c2 0122     		movs	r2, #1
+ 785 00c4 1A60     		str	r2, [r3]
+ 786              	.L56:
+ 513:..\Common\Minimal/GenQTest.c **** 	}
+ 514:..\Common\Minimal/GenQTest.c **** 
+ 515:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_HIGH_PRIORITY )
+ 787              		.loc 1 515 0
+ 788 00c6 0020     		movs	r0, #0
+ 789 00c8 FFF7FEFF 		bl	uxTaskPriorityGet
+ 790 00cc 0346     		mov	r3, r0
+ 791 00ce 032B     		cmp	r3, #3
+ 792 00d0 02D0     		beq	.L57
+ 516:..\Common\Minimal/GenQTest.c **** 	{
+ 517:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 793              		.loc 1 517 0
+ 794 00d2 134B     		ldr	r3, .L61
+ 795 00d4 0122     		movs	r2, #1
+ 796 00d6 1A60     		str	r2, [r3]
+ 797              	.L57:
+ 518:..\Common\Minimal/GenQTest.c **** 	}
+ 519:..\Common\Minimal/GenQTest.c **** 
+ 520:..\Common\Minimal/GenQTest.c **** 	/* Now also give back the local mutex, taking the held count back to 0.
+ 521:..\Common\Minimal/GenQTest.c **** 	This time the priority of this task should be disinherited back to the
+ 522:..\Common\Minimal/GenQTest.c **** 	priority to which it was set while the mutex was held.  This means
+ 523:..\Common\Minimal/GenQTest.c **** 	the medium priority task should execute and increment the guarded
+ 524:..\Common\Minimal/GenQTest.c **** 	variable.   When this task next	runs both the high and medium priority
+ 525:..\Common\Minimal/GenQTest.c **** 	tasks will have been suspended again. */
+ 526:..\Common\Minimal/GenQTest.c **** 	if( xSemaphoreGive( xLocalMutex ) != pdPASS )
+ 798              		.loc 1 526 0
+ 799 00d8 0023     		movs	r3, #0
+ 800 00da 0022     		movs	r2, #0
+ 801 00dc 0021     		movs	r1, #0
+ 802 00de 3868     		ldr	r0, [r7]
+ 803 00e0 FFF7FEFF 		bl	xQueueGenericSend
+ 804 00e4 0346     		mov	r3, r0
+ 805 00e6 012B     		cmp	r3, #1
+ 806 00e8 02D0     		beq	.L58
+ 527:..\Common\Minimal/GenQTest.c **** 	{
+ 528:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 807              		.loc 1 528 0
+ 808 00ea 0D4B     		ldr	r3, .L61
+ 809 00ec 0122     		movs	r2, #1
+ 810 00ee 1A60     		str	r2, [r3]
+ 811              	.L58:
+ 529:..\Common\Minimal/GenQTest.c **** 	}
+ 530:..\Common\Minimal/GenQTest.c **** 
+ 531:..\Common\Minimal/GenQTest.c **** 	#if configUSE_PREEMPTION == 0
+ 532:..\Common\Minimal/GenQTest.c **** 		taskYIELD();
+ 533:..\Common\Minimal/GenQTest.c **** 	#endif
+ 534:..\Common\Minimal/GenQTest.c **** 
+ 535:..\Common\Minimal/GenQTest.c **** 	/* Check the guarded variable did indeed increment... */
+ 536:..\Common\Minimal/GenQTest.c **** 	if( ulGuardedVariable != 1 )
+ 812              		.loc 1 536 0
+ 813 00f0 0C4B     		ldr	r3, .L61+4
+ 814 00f2 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 25
+
+
+ 815 00f4 012B     		cmp	r3, #1
+ 816 00f6 02D0     		beq	.L59
+ 537:..\Common\Minimal/GenQTest.c **** 	{
+ 538:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 817              		.loc 1 538 0
+ 818 00f8 094B     		ldr	r3, .L61
+ 819 00fa 0122     		movs	r2, #1
+ 820 00fc 1A60     		str	r2, [r3]
+ 821              	.L59:
+ 539:..\Common\Minimal/GenQTest.c **** 	}
+ 540:..\Common\Minimal/GenQTest.c **** 
+ 541:..\Common\Minimal/GenQTest.c **** 	/* ... and that the priority of this task has been disinherited to
+ 542:..\Common\Minimal/GenQTest.c **** 	genqMUTEX_TEST_PRIORITY. */
+ 543:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_TEST_PRIORITY )
+ 822              		.loc 1 543 0
+ 823 00fe 0020     		movs	r0, #0
+ 824 0100 FFF7FEFF 		bl	uxTaskPriorityGet
+ 825 0104 0346     		mov	r3, r0
+ 826 0106 012B     		cmp	r3, #1
+ 827 0108 02D0     		beq	.L60
+ 544:..\Common\Minimal/GenQTest.c **** 	{
+ 545:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 828              		.loc 1 545 0
+ 829 010a 054B     		ldr	r3, .L61
+ 830 010c 0122     		movs	r2, #1
+ 831 010e 1A60     		str	r2, [r3]
+ 832              	.L60:
+ 546:..\Common\Minimal/GenQTest.c **** 	}
+ 547:..\Common\Minimal/GenQTest.c **** 
+ 548:..\Common\Minimal/GenQTest.c **** 	/* Set the priority of this task back to its original value, ready for
+ 549:..\Common\Minimal/GenQTest.c **** 	the next loop around this test. */
+ 550:..\Common\Minimal/GenQTest.c **** 	vTaskPrioritySet( NULL, genqMUTEX_LOW_PRIORITY );
+ 833              		.loc 1 550 0
+ 834 0110 0021     		movs	r1, #0
+ 835 0112 0020     		movs	r0, #0
+ 836 0114 FFF7FEFF 		bl	vTaskPrioritySet
+ 551:..\Common\Minimal/GenQTest.c **** }
+ 837              		.loc 1 551 0
+ 838 0118 00BF     		nop
+ 839 011a 0837     		adds	r7, r7, #8
+ 840              		.cfi_def_cfa_offset 8
+ 841 011c BD46     		mov	sp, r7
+ 842              		.cfi_def_cfa_register 13
+ 843              		@ sp needed
+ 844 011e 80BD     		pop	{r7, pc}
+ 845              	.L62:
+ 846              		.align	2
+ 847              	.L61:
+ 848 0120 00000000 		.word	xErrorDetected
+ 849 0124 0C000000 		.word	ulGuardedVariable
+ 850 0128 10000000 		.word	xHighPriorityMutexTask
+ 851 012c 14000000 		.word	xMediumPriorityMutexTask
+ 852              		.cfi_endproc
+ 853              	.LFE70:
+ 854              		.size	prvTakeTwoMutexesReturnInDifferentOrder, .-prvTakeTwoMutexesReturnInDifferentOrder
+ 855              		.section	.text.prvTakeTwoMutexesReturnInSameOrder,"ax",%progbits
+ 856              		.align	2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 26
+
+
+ 857              		.thumb
+ 858              		.thumb_func
+ 859              		.type	prvTakeTwoMutexesReturnInSameOrder, %function
+ 860              	prvTakeTwoMutexesReturnInSameOrder:
+ 861              	.LFB71:
+ 552:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 553:..\Common\Minimal/GenQTest.c **** 
+ 554:..\Common\Minimal/GenQTest.c **** static void prvTakeTwoMutexesReturnInSameOrder( SemaphoreHandle_t xMutex, SemaphoreHandle_t xLocalM
+ 555:..\Common\Minimal/GenQTest.c **** {
+ 862              		.loc 1 555 0
+ 863              		.cfi_startproc
+ 864              		@ args = 0, pretend = 0, frame = 8
+ 865              		@ frame_needed = 1, uses_anonymous_args = 0
+ 866 0000 80B5     		push	{r7, lr}
+ 867              		.cfi_def_cfa_offset 8
+ 868              		.cfi_offset 7, -8
+ 869              		.cfi_offset 14, -4
+ 870 0002 82B0     		sub	sp, sp, #8
+ 871              		.cfi_def_cfa_offset 16
+ 872 0004 00AF     		add	r7, sp, #0
+ 873              		.cfi_def_cfa_register 7
+ 874 0006 7860     		str	r0, [r7, #4]
+ 875 0008 3960     		str	r1, [r7]
+ 556:..\Common\Minimal/GenQTest.c **** 	/* Take the mutex.  It should be available now. */
+ 557:..\Common\Minimal/GenQTest.c **** 	if( xSemaphoreTake( xMutex, intsemNO_BLOCK ) != pdPASS )
+ 876              		.loc 1 557 0
+ 877 000a 0023     		movs	r3, #0
+ 878 000c 0022     		movs	r2, #0
+ 879 000e 0021     		movs	r1, #0
+ 880 0010 7868     		ldr	r0, [r7, #4]
+ 881 0012 FFF7FEFF 		bl	xQueueGenericReceive
+ 882 0016 0346     		mov	r3, r0
+ 883 0018 012B     		cmp	r3, #1
+ 884 001a 02D0     		beq	.L64
+ 558:..\Common\Minimal/GenQTest.c **** 	{
+ 559:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 885              		.loc 1 559 0
+ 886 001c 384B     		ldr	r3, .L76
+ 887 001e 0122     		movs	r2, #1
+ 888 0020 1A60     		str	r2, [r3]
+ 889              	.L64:
+ 560:..\Common\Minimal/GenQTest.c **** 	}
+ 561:..\Common\Minimal/GenQTest.c **** 
+ 562:..\Common\Minimal/GenQTest.c **** 	/* Set the guarded variable to a known start value. */
+ 563:..\Common\Minimal/GenQTest.c **** 	ulGuardedVariable = 0;
+ 890              		.loc 1 563 0
+ 891 0022 384B     		ldr	r3, .L76+4
+ 892 0024 0022     		movs	r2, #0
+ 893 0026 1A60     		str	r2, [r3]
+ 564:..\Common\Minimal/GenQTest.c **** 
+ 565:..\Common\Minimal/GenQTest.c **** 	/* This task's priority should be as per that assigned when the task was
+ 566:..\Common\Minimal/GenQTest.c **** 	created. */
+ 567:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_LOW_PRIORITY )
+ 894              		.loc 1 567 0
+ 895 0028 0020     		movs	r0, #0
+ 896 002a FFF7FEFF 		bl	uxTaskPriorityGet
+ 897 002e 0346     		mov	r3, r0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 27
+
+
+ 898 0030 002B     		cmp	r3, #0
+ 899 0032 02D0     		beq	.L65
+ 568:..\Common\Minimal/GenQTest.c **** 	{
+ 569:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 900              		.loc 1 569 0
+ 901 0034 324B     		ldr	r3, .L76
+ 902 0036 0122     		movs	r2, #1
+ 903 0038 1A60     		str	r2, [r3]
+ 904              	.L65:
+ 570:..\Common\Minimal/GenQTest.c **** 	}
+ 571:..\Common\Minimal/GenQTest.c **** 
+ 572:..\Common\Minimal/GenQTest.c **** 	/* Now unsuspend the high priority task.  This will attempt to take the
+ 573:..\Common\Minimal/GenQTest.c **** 	mutex, and block when it finds it cannot obtain it. */
+ 574:..\Common\Minimal/GenQTest.c **** 	vTaskResume( xHighPriorityMutexTask );
+ 905              		.loc 1 574 0
+ 906 003a 334B     		ldr	r3, .L76+8
+ 907 003c 1B68     		ldr	r3, [r3]
+ 908 003e 1846     		mov	r0, r3
+ 909 0040 FFF7FEFF 		bl	vTaskResume
+ 575:..\Common\Minimal/GenQTest.c **** 
+ 576:..\Common\Minimal/GenQTest.c **** 	#if configUSE_PREEMPTION == 0
+ 577:..\Common\Minimal/GenQTest.c **** 		taskYIELD();
+ 578:..\Common\Minimal/GenQTest.c **** 	#endif
+ 579:..\Common\Minimal/GenQTest.c **** 
+ 580:..\Common\Minimal/GenQTest.c **** 	/* Ensure the task is reporting its priority as blocked and not
+ 581:..\Common\Minimal/GenQTest.c **** 	suspended (as it would have done in versions up to V7.5.3). */
+ 582:..\Common\Minimal/GenQTest.c **** 	#if( INCLUDE_eTaskGetState == 1 )
+ 583:..\Common\Minimal/GenQTest.c **** 	{
+ 584:..\Common\Minimal/GenQTest.c **** 		configASSERT( eTaskGetState( xHighPriorityMutexTask ) == eBlocked );
+ 585:..\Common\Minimal/GenQTest.c **** 	}
+ 586:..\Common\Minimal/GenQTest.c **** 	#endif /* INCLUDE_eTaskGetState */
+ 587:..\Common\Minimal/GenQTest.c **** 
+ 588:..\Common\Minimal/GenQTest.c **** 	/* The priority of the high priority task should now have been inherited
+ 589:..\Common\Minimal/GenQTest.c **** 	as by now it will have attempted to get the mutex. */
+ 590:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_HIGH_PRIORITY )
+ 910              		.loc 1 590 0
+ 911 0044 0020     		movs	r0, #0
+ 912 0046 FFF7FEFF 		bl	uxTaskPriorityGet
+ 913 004a 0346     		mov	r3, r0
+ 914 004c 032B     		cmp	r3, #3
+ 915 004e 02D0     		beq	.L66
+ 591:..\Common\Minimal/GenQTest.c **** 	{
+ 592:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 916              		.loc 1 592 0
+ 917 0050 2B4B     		ldr	r3, .L76
+ 918 0052 0122     		movs	r2, #1
+ 919 0054 1A60     		str	r2, [r3]
+ 920              	.L66:
+ 593:..\Common\Minimal/GenQTest.c **** 	}
+ 594:..\Common\Minimal/GenQTest.c **** 
+ 595:..\Common\Minimal/GenQTest.c **** 	/* Now unsuspend the medium priority task.  This should not run as the
+ 596:..\Common\Minimal/GenQTest.c **** 	inherited priority of this task is above that of the medium priority
+ 597:..\Common\Minimal/GenQTest.c **** 	task. */
+ 598:..\Common\Minimal/GenQTest.c **** 	vTaskResume( xMediumPriorityMutexTask );
+ 921              		.loc 1 598 0
+ 922 0056 2D4B     		ldr	r3, .L76+12
+ 923 0058 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 28
+
+
+ 924 005a 1846     		mov	r0, r3
+ 925 005c FFF7FEFF 		bl	vTaskResume
+ 599:..\Common\Minimal/GenQTest.c **** 
+ 600:..\Common\Minimal/GenQTest.c **** 	/* If the medium priority task did run then it will have incremented the
+ 601:..\Common\Minimal/GenQTest.c **** 	guarded variable. */
+ 602:..\Common\Minimal/GenQTest.c **** 	if( ulGuardedVariable != 0 )
+ 926              		.loc 1 602 0
+ 927 0060 284B     		ldr	r3, .L76+4
+ 928 0062 1B68     		ldr	r3, [r3]
+ 929 0064 002B     		cmp	r3, #0
+ 930 0066 02D0     		beq	.L67
+ 603:..\Common\Minimal/GenQTest.c **** 	{
+ 604:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 931              		.loc 1 604 0
+ 932 0068 254B     		ldr	r3, .L76
+ 933 006a 0122     		movs	r2, #1
+ 934 006c 1A60     		str	r2, [r3]
+ 935              	.L67:
+ 605:..\Common\Minimal/GenQTest.c **** 	}
+ 606:..\Common\Minimal/GenQTest.c **** 
+ 607:..\Common\Minimal/GenQTest.c **** 	/* Take the local mutex too, so two mutexes are now held. */
+ 608:..\Common\Minimal/GenQTest.c **** 	if( xSemaphoreTake( xLocalMutex, intsemNO_BLOCK ) != pdPASS )
+ 936              		.loc 1 608 0
+ 937 006e 0023     		movs	r3, #0
+ 938 0070 0022     		movs	r2, #0
+ 939 0072 0021     		movs	r1, #0
+ 940 0074 3868     		ldr	r0, [r7]
+ 941 0076 FFF7FEFF 		bl	xQueueGenericReceive
+ 942 007a 0346     		mov	r3, r0
+ 943 007c 012B     		cmp	r3, #1
+ 944 007e 02D0     		beq	.L68
+ 609:..\Common\Minimal/GenQTest.c **** 	{
+ 610:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 945              		.loc 1 610 0
+ 946 0080 1F4B     		ldr	r3, .L76
+ 947 0082 0122     		movs	r2, #1
+ 948 0084 1A60     		str	r2, [r3]
+ 949              	.L68:
+ 611:..\Common\Minimal/GenQTest.c **** 	}
+ 612:..\Common\Minimal/GenQTest.c **** 
+ 613:..\Common\Minimal/GenQTest.c **** 	/* When the local semaphore is given back the priority of this task should
+ 614:..\Common\Minimal/GenQTest.c **** 	not	yet be disinherited because the shared mutex is still held.  This is a
+ 615:..\Common\Minimal/GenQTest.c **** 	simplification to allow FreeRTOS to be integrated with middleware that
+ 616:..\Common\Minimal/GenQTest.c **** 	attempts to hold multiple mutexes without bloating the code with complex
+ 617:..\Common\Minimal/GenQTest.c **** 	algorithms.  It is possible that the high priority mutex task will
+ 618:..\Common\Minimal/GenQTest.c **** 	execute as it shares a priority with this task. */
+ 619:..\Common\Minimal/GenQTest.c **** 	if( xSemaphoreGive( xLocalMutex ) != pdPASS )
+ 950              		.loc 1 619 0
+ 951 0086 0023     		movs	r3, #0
+ 952 0088 0022     		movs	r2, #0
+ 953 008a 0021     		movs	r1, #0
+ 954 008c 3868     		ldr	r0, [r7]
+ 955 008e FFF7FEFF 		bl	xQueueGenericSend
+ 956 0092 0346     		mov	r3, r0
+ 957 0094 012B     		cmp	r3, #1
+ 958 0096 02D0     		beq	.L69
+ 620:..\Common\Minimal/GenQTest.c **** 	{
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 29
+
+
+ 621:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 959              		.loc 1 621 0
+ 960 0098 194B     		ldr	r3, .L76
+ 961 009a 0122     		movs	r2, #1
+ 962 009c 1A60     		str	r2, [r3]
+ 963              	.L69:
+ 622:..\Common\Minimal/GenQTest.c **** 	}
+ 623:..\Common\Minimal/GenQTest.c **** 
+ 624:..\Common\Minimal/GenQTest.c **** 	#if configUSE_PREEMPTION == 0
+ 625:..\Common\Minimal/GenQTest.c **** 		taskYIELD();
+ 626:..\Common\Minimal/GenQTest.c **** 	#endif
+ 627:..\Common\Minimal/GenQTest.c **** 
+ 628:..\Common\Minimal/GenQTest.c **** 	/* The guarded variable is only incremented by the medium priority task,
+ 629:..\Common\Minimal/GenQTest.c **** 	which still should not have executed as this task should remain at the
+ 630:..\Common\Minimal/GenQTest.c **** 	higher priority, ensure this is the case. */
+ 631:..\Common\Minimal/GenQTest.c **** 	if( ulGuardedVariable != 0 )
+ 964              		.loc 1 631 0
+ 965 009e 194B     		ldr	r3, .L76+4
+ 966 00a0 1B68     		ldr	r3, [r3]
+ 967 00a2 002B     		cmp	r3, #0
+ 968 00a4 02D0     		beq	.L70
+ 632:..\Common\Minimal/GenQTest.c **** 	{
+ 633:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 969              		.loc 1 633 0
+ 970 00a6 164B     		ldr	r3, .L76
+ 971 00a8 0122     		movs	r2, #1
+ 972 00aa 1A60     		str	r2, [r3]
+ 973              	.L70:
+ 634:..\Common\Minimal/GenQTest.c **** 	}
+ 635:..\Common\Minimal/GenQTest.c **** 
+ 636:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_HIGH_PRIORITY )
+ 974              		.loc 1 636 0
+ 975 00ac 0020     		movs	r0, #0
+ 976 00ae FFF7FEFF 		bl	uxTaskPriorityGet
+ 977 00b2 0346     		mov	r3, r0
+ 978 00b4 032B     		cmp	r3, #3
+ 979 00b6 02D0     		beq	.L71
+ 637:..\Common\Minimal/GenQTest.c **** 	{
+ 638:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 980              		.loc 1 638 0
+ 981 00b8 114B     		ldr	r3, .L76
+ 982 00ba 0122     		movs	r2, #1
+ 983 00bc 1A60     		str	r2, [r3]
+ 984              	.L71:
+ 639:..\Common\Minimal/GenQTest.c **** 	}
+ 640:..\Common\Minimal/GenQTest.c **** 
+ 641:..\Common\Minimal/GenQTest.c **** 	/* Now also give back the shared mutex, taking the held count back to 0.
+ 642:..\Common\Minimal/GenQTest.c **** 	This time the priority of this task should be disinherited back to the
+ 643:..\Common\Minimal/GenQTest.c **** 	priority at which it was created.  This means the medium priority task
+ 644:..\Common\Minimal/GenQTest.c **** 	should execute and increment the guarded variable.  When this task next runs
+ 645:..\Common\Minimal/GenQTest.c **** 	both the high and medium priority tasks will have been suspended again. */
+ 646:..\Common\Minimal/GenQTest.c **** 	if( xSemaphoreGive( xMutex ) != pdPASS )
+ 985              		.loc 1 646 0
+ 986 00be 0023     		movs	r3, #0
+ 987 00c0 0022     		movs	r2, #0
+ 988 00c2 0021     		movs	r1, #0
+ 989 00c4 7868     		ldr	r0, [r7, #4]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 30
+
+
+ 990 00c6 FFF7FEFF 		bl	xQueueGenericSend
+ 991 00ca 0346     		mov	r3, r0
+ 992 00cc 012B     		cmp	r3, #1
+ 993 00ce 02D0     		beq	.L72
+ 647:..\Common\Minimal/GenQTest.c **** 	{
+ 648:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 994              		.loc 1 648 0
+ 995 00d0 0B4B     		ldr	r3, .L76
+ 996 00d2 0122     		movs	r2, #1
+ 997 00d4 1A60     		str	r2, [r3]
+ 998              	.L72:
+ 649:..\Common\Minimal/GenQTest.c **** 	}
+ 650:..\Common\Minimal/GenQTest.c **** 
+ 651:..\Common\Minimal/GenQTest.c **** 	#if configUSE_PREEMPTION == 0
+ 652:..\Common\Minimal/GenQTest.c **** 		taskYIELD();
+ 653:..\Common\Minimal/GenQTest.c **** 	#endif
+ 654:..\Common\Minimal/GenQTest.c **** 
+ 655:..\Common\Minimal/GenQTest.c **** 	/* Check the guarded variable did indeed increment... */
+ 656:..\Common\Minimal/GenQTest.c **** 	if( ulGuardedVariable != 1 )
+ 999              		.loc 1 656 0
+ 1000 00d6 0B4B     		ldr	r3, .L76+4
+ 1001 00d8 1B68     		ldr	r3, [r3]
+ 1002 00da 012B     		cmp	r3, #1
+ 1003 00dc 02D0     		beq	.L73
+ 657:..\Common\Minimal/GenQTest.c **** 	{
+ 658:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 1004              		.loc 1 658 0
+ 1005 00de 084B     		ldr	r3, .L76
+ 1006 00e0 0122     		movs	r2, #1
+ 1007 00e2 1A60     		str	r2, [r3]
+ 1008              	.L73:
+ 659:..\Common\Minimal/GenQTest.c **** 	}
+ 660:..\Common\Minimal/GenQTest.c **** 
+ 661:..\Common\Minimal/GenQTest.c **** 	/* ... and that the priority of this task has been disinherited to
+ 662:..\Common\Minimal/GenQTest.c **** 	genqMUTEX_LOW_PRIORITY. */
+ 663:..\Common\Minimal/GenQTest.c **** 	if( uxTaskPriorityGet( NULL ) != genqMUTEX_LOW_PRIORITY )
+ 1009              		.loc 1 663 0
+ 1010 00e4 0020     		movs	r0, #0
+ 1011 00e6 FFF7FEFF 		bl	uxTaskPriorityGet
+ 1012 00ea 0346     		mov	r3, r0
+ 1013 00ec 002B     		cmp	r3, #0
+ 1014 00ee 02D0     		beq	.L75
+ 664:..\Common\Minimal/GenQTest.c **** 	{
+ 665:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 1015              		.loc 1 665 0
+ 1016 00f0 034B     		ldr	r3, .L76
+ 1017 00f2 0122     		movs	r2, #1
+ 1018 00f4 1A60     		str	r2, [r3]
+ 1019              	.L75:
+ 666:..\Common\Minimal/GenQTest.c **** 	}
+ 667:..\Common\Minimal/GenQTest.c **** }
+ 1020              		.loc 1 667 0
+ 1021 00f6 00BF     		nop
+ 1022 00f8 0837     		adds	r7, r7, #8
+ 1023              		.cfi_def_cfa_offset 8
+ 1024 00fa BD46     		mov	sp, r7
+ 1025              		.cfi_def_cfa_register 13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 31
+
+
+ 1026              		@ sp needed
+ 1027 00fc 80BD     		pop	{r7, pc}
+ 1028              	.L77:
+ 1029 00fe 00BF     		.align	2
+ 1030              	.L76:
+ 1031 0100 00000000 		.word	xErrorDetected
+ 1032 0104 0C000000 		.word	ulGuardedVariable
+ 1033 0108 10000000 		.word	xHighPriorityMutexTask
+ 1034 010c 14000000 		.word	xMediumPriorityMutexTask
+ 1035              		.cfi_endproc
+ 1036              	.LFE71:
+ 1037              		.size	prvTakeTwoMutexesReturnInSameOrder, .-prvTakeTwoMutexesReturnInSameOrder
+ 1038              		.section	.text.prvLowPriorityMutexTask,"ax",%progbits
+ 1039              		.align	2
+ 1040              		.thumb
+ 1041              		.thumb_func
+ 1042              		.type	prvLowPriorityMutexTask, %function
+ 1043              	prvLowPriorityMutexTask:
+ 1044              	.LFB72:
+ 668:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 669:..\Common\Minimal/GenQTest.c **** 
+ 670:..\Common\Minimal/GenQTest.c **** static void prvLowPriorityMutexTask( void *pvParameters )
+ 671:..\Common\Minimal/GenQTest.c **** {
+ 1045              		.loc 1 671 0
+ 1046              		.cfi_startproc
+ 1047              		@ args = 0, pretend = 0, frame = 16
+ 1048              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1049 0000 80B5     		push	{r7, lr}
+ 1050              		.cfi_def_cfa_offset 8
+ 1051              		.cfi_offset 7, -8
+ 1052              		.cfi_offset 14, -4
+ 1053 0002 84B0     		sub	sp, sp, #16
+ 1054              		.cfi_def_cfa_offset 24
+ 1055 0004 00AF     		add	r7, sp, #0
+ 1056              		.cfi_def_cfa_register 7
+ 1057 0006 7860     		str	r0, [r7, #4]
+ 672:..\Common\Minimal/GenQTest.c **** SemaphoreHandle_t xMutex = ( SemaphoreHandle_t ) pvParameters, xLocalMutex;
+ 1058              		.loc 1 672 0
+ 1059 0008 7B68     		ldr	r3, [r7, #4]
+ 1060 000a FB60     		str	r3, [r7, #12]
+ 673:..\Common\Minimal/GenQTest.c **** 
+ 674:..\Common\Minimal/GenQTest.c **** 	#ifdef USE_STDIO
+ 675:..\Common\Minimal/GenQTest.c **** 	void vPrintDisplayMessage( const char * const * ppcMessageToSend );
+ 676:..\Common\Minimal/GenQTest.c **** 
+ 677:..\Common\Minimal/GenQTest.c **** 		const char * const pcTaskStartMsg = "Mutex with priority inheritance test started.\r\n";
+ 678:..\Common\Minimal/GenQTest.c **** 
+ 679:..\Common\Minimal/GenQTest.c **** 		/* Queue a message for printing to say the task has started. */
+ 680:..\Common\Minimal/GenQTest.c **** 		vPrintDisplayMessage( &pcTaskStartMsg );
+ 681:..\Common\Minimal/GenQTest.c **** 	#endif
+ 682:..\Common\Minimal/GenQTest.c **** 
+ 683:..\Common\Minimal/GenQTest.c **** 	/* The local mutex is used to check the 'mutexs held' count. */
+ 684:..\Common\Minimal/GenQTest.c **** 	xLocalMutex = xSemaphoreCreateMutex();
+ 1061              		.loc 1 684 0
+ 1062 000c 0120     		movs	r0, #1
+ 1063 000e FFF7FEFF 		bl	xQueueCreateMutex
+ 1064 0012 B860     		str	r0, [r7, #8]
+ 1065              	.L79:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 32
+
+
+ 685:..\Common\Minimal/GenQTest.c **** 	configASSERT( xLocalMutex );
+ 686:..\Common\Minimal/GenQTest.c **** 
+ 687:..\Common\Minimal/GenQTest.c **** 	for( ;; )
+ 688:..\Common\Minimal/GenQTest.c **** 	{
+ 689:..\Common\Minimal/GenQTest.c **** 		/* The first tests exercise the priority inheritance when two mutexes
+ 690:..\Common\Minimal/GenQTest.c **** 		are taken then returned in a different order to which they were
+ 691:..\Common\Minimal/GenQTest.c **** 		taken. */
+ 692:..\Common\Minimal/GenQTest.c **** 		prvTakeTwoMutexesReturnInDifferentOrder( xMutex, xLocalMutex );
+ 1066              		.loc 1 692 0 discriminator 1
+ 1067 0014 B968     		ldr	r1, [r7, #8]
+ 1068 0016 F868     		ldr	r0, [r7, #12]
+ 1069 0018 FFF7FEFF 		bl	prvTakeTwoMutexesReturnInDifferentOrder
+ 693:..\Common\Minimal/GenQTest.c **** 
+ 694:..\Common\Minimal/GenQTest.c **** 		/* Just to show this task is still running. */
+ 695:..\Common\Minimal/GenQTest.c **** 		ulLoopCounter2++;
+ 1070              		.loc 1 695 0 discriminator 1
+ 1071 001c 074B     		ldr	r3, .L80
+ 1072 001e 1B68     		ldr	r3, [r3]
+ 1073 0020 0133     		adds	r3, r3, #1
+ 1074 0022 064A     		ldr	r2, .L80
+ 1075 0024 1360     		str	r3, [r2]
+ 696:..\Common\Minimal/GenQTest.c **** 
+ 697:..\Common\Minimal/GenQTest.c **** 		#if configUSE_PREEMPTION == 0
+ 698:..\Common\Minimal/GenQTest.c **** 			taskYIELD();
+ 699:..\Common\Minimal/GenQTest.c **** 		#endif
+ 700:..\Common\Minimal/GenQTest.c **** 
+ 701:..\Common\Minimal/GenQTest.c **** 		/* The second tests exercise the priority inheritance when two mutexes
+ 702:..\Common\Minimal/GenQTest.c **** 		are taken then returned in the same order in which they were taken. */
+ 703:..\Common\Minimal/GenQTest.c **** 		prvTakeTwoMutexesReturnInSameOrder( xMutex, xLocalMutex );
+ 1076              		.loc 1 703 0 discriminator 1
+ 1077 0026 B968     		ldr	r1, [r7, #8]
+ 1078 0028 F868     		ldr	r0, [r7, #12]
+ 1079 002a FFF7FEFF 		bl	prvTakeTwoMutexesReturnInSameOrder
+ 704:..\Common\Minimal/GenQTest.c **** 
+ 705:..\Common\Minimal/GenQTest.c **** 		/* Just to show this task is still running. */
+ 706:..\Common\Minimal/GenQTest.c **** 		ulLoopCounter2++;
+ 1080              		.loc 1 706 0 discriminator 1
+ 1081 002e 034B     		ldr	r3, .L80
+ 1082 0030 1B68     		ldr	r3, [r3]
+ 1083 0032 0133     		adds	r3, r3, #1
+ 1084 0034 014A     		ldr	r2, .L80
+ 1085 0036 1360     		str	r3, [r2]
+ 707:..\Common\Minimal/GenQTest.c **** 
+ 708:..\Common\Minimal/GenQTest.c **** 		#if configUSE_PREEMPTION == 0
+ 709:..\Common\Minimal/GenQTest.c **** 			taskYIELD();
+ 710:..\Common\Minimal/GenQTest.c **** 		#endif
+ 711:..\Common\Minimal/GenQTest.c **** 	}
+ 1086              		.loc 1 711 0 discriminator 1
+ 1087 0038 ECE7     		b	.L79
+ 1088              	.L81:
+ 1089 003a 00BF     		.align	2
+ 1090              	.L80:
+ 1091 003c 08000000 		.word	ulLoopCounter2
+ 1092              		.cfi_endproc
+ 1093              	.LFE72:
+ 1094              		.size	prvLowPriorityMutexTask, .-prvLowPriorityMutexTask
+ 1095              		.section	.text.prvMediumPriorityMutexTask,"ax",%progbits
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 33
+
+
+ 1096              		.align	2
+ 1097              		.thumb
+ 1098              		.thumb_func
+ 1099              		.type	prvMediumPriorityMutexTask, %function
+ 1100              	prvMediumPriorityMutexTask:
+ 1101              	.LFB73:
+ 712:..\Common\Minimal/GenQTest.c **** }
+ 713:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 714:..\Common\Minimal/GenQTest.c **** 
+ 715:..\Common\Minimal/GenQTest.c **** static void prvMediumPriorityMutexTask( void *pvParameters )
+ 716:..\Common\Minimal/GenQTest.c **** {
+ 1102              		.loc 1 716 0
+ 1103              		.cfi_startproc
+ 1104              		@ args = 0, pretend = 0, frame = 8
+ 1105              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1106 0000 80B5     		push	{r7, lr}
+ 1107              		.cfi_def_cfa_offset 8
+ 1108              		.cfi_offset 7, -8
+ 1109              		.cfi_offset 14, -4
+ 1110 0002 82B0     		sub	sp, sp, #8
+ 1111              		.cfi_def_cfa_offset 16
+ 1112 0004 00AF     		add	r7, sp, #0
+ 1113              		.cfi_def_cfa_register 7
+ 1114 0006 7860     		str	r0, [r7, #4]
+ 1115              	.L83:
+ 717:..\Common\Minimal/GenQTest.c **** 	( void ) pvParameters;
+ 718:..\Common\Minimal/GenQTest.c **** 
+ 719:..\Common\Minimal/GenQTest.c **** 	for( ;; )
+ 720:..\Common\Minimal/GenQTest.c **** 	{
+ 721:..\Common\Minimal/GenQTest.c **** 		/* The medium priority task starts by suspending itself.  The low
+ 722:..\Common\Minimal/GenQTest.c **** 		priority task will unsuspend this task when required. */
+ 723:..\Common\Minimal/GenQTest.c **** 		vTaskSuspend( NULL );
+ 1116              		.loc 1 723 0 discriminator 1
+ 1117 0008 0020     		movs	r0, #0
+ 1118 000a FFF7FEFF 		bl	vTaskSuspend
+ 724:..\Common\Minimal/GenQTest.c **** 
+ 725:..\Common\Minimal/GenQTest.c **** 		/* When this task unsuspends all it does is increment the guarded
+ 726:..\Common\Minimal/GenQTest.c **** 		variable, this is so the low priority task knows that it has
+ 727:..\Common\Minimal/GenQTest.c **** 		executed. */
+ 728:..\Common\Minimal/GenQTest.c **** 		ulGuardedVariable++;
+ 1119              		.loc 1 728 0 discriminator 1
+ 1120 000e 034B     		ldr	r3, .L84
+ 1121 0010 1B68     		ldr	r3, [r3]
+ 1122 0012 0133     		adds	r3, r3, #1
+ 1123 0014 014A     		ldr	r2, .L84
+ 1124 0016 1360     		str	r3, [r2]
+ 729:..\Common\Minimal/GenQTest.c **** 	}
+ 1125              		.loc 1 729 0 discriminator 1
+ 1126 0018 F6E7     		b	.L83
+ 1127              	.L85:
+ 1128 001a 00BF     		.align	2
+ 1129              	.L84:
+ 1130 001c 0C000000 		.word	ulGuardedVariable
+ 1131              		.cfi_endproc
+ 1132              	.LFE73:
+ 1133              		.size	prvMediumPriorityMutexTask, .-prvMediumPriorityMutexTask
+ 1134              		.section	.text.prvHighPriorityMutexTask,"ax",%progbits
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 34
+
+
+ 1135              		.align	2
+ 1136              		.thumb
+ 1137              		.thumb_func
+ 1138              		.type	prvHighPriorityMutexTask, %function
+ 1139              	prvHighPriorityMutexTask:
+ 1140              	.LFB74:
+ 730:..\Common\Minimal/GenQTest.c **** }
+ 731:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 732:..\Common\Minimal/GenQTest.c **** 
+ 733:..\Common\Minimal/GenQTest.c **** static void prvHighPriorityMutexTask( void *pvParameters )
+ 734:..\Common\Minimal/GenQTest.c **** {
+ 1141              		.loc 1 734 0
+ 1142              		.cfi_startproc
+ 1143              		@ args = 0, pretend = 0, frame = 16
+ 1144              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1145 0000 80B5     		push	{r7, lr}
+ 1146              		.cfi_def_cfa_offset 8
+ 1147              		.cfi_offset 7, -8
+ 1148              		.cfi_offset 14, -4
+ 1149 0002 84B0     		sub	sp, sp, #16
+ 1150              		.cfi_def_cfa_offset 24
+ 1151 0004 00AF     		add	r7, sp, #0
+ 1152              		.cfi_def_cfa_register 7
+ 1153 0006 7860     		str	r0, [r7, #4]
+ 735:..\Common\Minimal/GenQTest.c **** SemaphoreHandle_t xMutex = ( SemaphoreHandle_t ) pvParameters;
+ 1154              		.loc 1 735 0
+ 1155 0008 7B68     		ldr	r3, [r7, #4]
+ 1156 000a FB60     		str	r3, [r7, #12]
+ 1157              	.L89:
+ 736:..\Common\Minimal/GenQTest.c **** 
+ 737:..\Common\Minimal/GenQTest.c **** 	for( ;; )
+ 738:..\Common\Minimal/GenQTest.c **** 	{
+ 739:..\Common\Minimal/GenQTest.c **** 		/* The high priority task starts by suspending itself.  The low
+ 740:..\Common\Minimal/GenQTest.c **** 		priority task will unsuspend this task when required. */
+ 741:..\Common\Minimal/GenQTest.c **** 		vTaskSuspend( NULL );
+ 1158              		.loc 1 741 0
+ 1159 000c 0020     		movs	r0, #0
+ 1160 000e FFF7FEFF 		bl	vTaskSuspend
+ 742:..\Common\Minimal/GenQTest.c **** 
+ 743:..\Common\Minimal/GenQTest.c **** 		/* When this task unsuspends all it does is attempt to obtain
+ 744:..\Common\Minimal/GenQTest.c **** 		the mutex.  It should find the mutex is not available so a
+ 745:..\Common\Minimal/GenQTest.c **** 		block time is specified. */
+ 746:..\Common\Minimal/GenQTest.c **** 		if( xSemaphoreTake( xMutex, portMAX_DELAY ) != pdPASS )
+ 1161              		.loc 1 746 0
+ 1162 0012 0023     		movs	r3, #0
+ 1163 0014 4FF0FF32 		mov	r2, #-1
+ 1164 0018 0021     		movs	r1, #0
+ 1165 001a F868     		ldr	r0, [r7, #12]
+ 1166 001c FFF7FEFF 		bl	xQueueGenericReceive
+ 1167 0020 0346     		mov	r3, r0
+ 1168 0022 012B     		cmp	r3, #1
+ 1169 0024 02D0     		beq	.L87
+ 747:..\Common\Minimal/GenQTest.c **** 		{
+ 748:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 1170              		.loc 1 748 0
+ 1171 0026 084B     		ldr	r3, .L90
+ 1172 0028 0122     		movs	r2, #1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 35
+
+
+ 1173 002a 1A60     		str	r2, [r3]
+ 1174              	.L87:
+ 749:..\Common\Minimal/GenQTest.c **** 		}
+ 750:..\Common\Minimal/GenQTest.c **** 
+ 751:..\Common\Minimal/GenQTest.c **** 		/* When the mutex is eventually obtained it is just given back before
+ 752:..\Common\Minimal/GenQTest.c **** 		returning to suspend ready for the next cycle. */
+ 753:..\Common\Minimal/GenQTest.c **** 		if( xSemaphoreGive( xMutex ) != pdPASS )
+ 1175              		.loc 1 753 0
+ 1176 002c 0023     		movs	r3, #0
+ 1177 002e 0022     		movs	r2, #0
+ 1178 0030 0021     		movs	r1, #0
+ 1179 0032 F868     		ldr	r0, [r7, #12]
+ 1180 0034 FFF7FEFF 		bl	xQueueGenericSend
+ 1181 0038 0346     		mov	r3, r0
+ 1182 003a 012B     		cmp	r3, #1
+ 1183 003c E6D0     		beq	.L89
+ 754:..\Common\Minimal/GenQTest.c **** 		{
+ 755:..\Common\Minimal/GenQTest.c **** 			xErrorDetected = pdTRUE;
+ 1184              		.loc 1 755 0
+ 1185 003e 024B     		ldr	r3, .L90
+ 1186 0040 0122     		movs	r2, #1
+ 1187 0042 1A60     		str	r2, [r3]
+ 756:..\Common\Minimal/GenQTest.c **** 		}
+ 757:..\Common\Minimal/GenQTest.c **** 	}
+ 1188              		.loc 1 757 0
+ 1189 0044 E2E7     		b	.L89
+ 1190              	.L91:
+ 1191 0046 00BF     		.align	2
+ 1192              	.L90:
+ 1193 0048 00000000 		.word	xErrorDetected
+ 1194              		.cfi_endproc
+ 1195              	.LFE74:
+ 1196              		.size	prvHighPriorityMutexTask, .-prvHighPriorityMutexTask
+ 1197              		.section	.text.xAreGenericQueueTasksStillRunning,"ax",%progbits
+ 1198              		.align	2
+ 1199              		.global	xAreGenericQueueTasksStillRunning
+ 1200              		.thumb
+ 1201              		.thumb_func
+ 1202              		.type	xAreGenericQueueTasksStillRunning, %function
+ 1203              	xAreGenericQueueTasksStillRunning:
+ 1204              	.LFB75:
+ 758:..\Common\Minimal/GenQTest.c **** }
+ 759:..\Common\Minimal/GenQTest.c **** /*-----------------------------------------------------------*/
+ 760:..\Common\Minimal/GenQTest.c **** 
+ 761:..\Common\Minimal/GenQTest.c **** 
+ 762:..\Common\Minimal/GenQTest.c **** /* This is called to check that all the created tasks are still running. */
+ 763:..\Common\Minimal/GenQTest.c **** BaseType_t xAreGenericQueueTasksStillRunning( void )
+ 764:..\Common\Minimal/GenQTest.c **** {
+ 1205              		.loc 1 764 0
+ 1206              		.cfi_startproc
+ 1207              		@ args = 0, pretend = 0, frame = 0
+ 1208              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1209              		@ link register save eliminated.
+ 1210 0000 80B4     		push	{r7}
+ 1211              		.cfi_def_cfa_offset 4
+ 1212              		.cfi_offset 7, -4
+ 1213 0002 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 36
+
+
+ 1214              		.cfi_def_cfa_register 7
+ 765:..\Common\Minimal/GenQTest.c **** static uint32_t ulLastLoopCounter = 0, ulLastLoopCounter2 = 0;
+ 766:..\Common\Minimal/GenQTest.c **** 
+ 767:..\Common\Minimal/GenQTest.c **** 	/* If the demo task is still running then we expect the loop counters to
+ 768:..\Common\Minimal/GenQTest.c **** 	have incremented since this function was last called. */
+ 769:..\Common\Minimal/GenQTest.c **** 	if( ulLastLoopCounter == ulLoopCounter )
+ 1215              		.loc 1 769 0
+ 1216 0004 124B     		ldr	r3, .L96
+ 1217 0006 1A68     		ldr	r2, [r3]
+ 1218 0008 124B     		ldr	r3, .L96+4
+ 1219 000a 1B68     		ldr	r3, [r3]
+ 1220 000c 9A42     		cmp	r2, r3
+ 1221 000e 02D1     		bne	.L93
+ 770:..\Common\Minimal/GenQTest.c **** 	{
+ 771:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 1222              		.loc 1 771 0
+ 1223 0010 114B     		ldr	r3, .L96+8
+ 1224 0012 0122     		movs	r2, #1
+ 1225 0014 1A60     		str	r2, [r3]
+ 1226              	.L93:
+ 772:..\Common\Minimal/GenQTest.c **** 	}
+ 773:..\Common\Minimal/GenQTest.c **** 
+ 774:..\Common\Minimal/GenQTest.c **** 	if( ulLastLoopCounter2 == ulLoopCounter2 )
+ 1227              		.loc 1 774 0
+ 1228 0016 114B     		ldr	r3, .L96+12
+ 1229 0018 1A68     		ldr	r2, [r3]
+ 1230 001a 114B     		ldr	r3, .L96+16
+ 1231 001c 1B68     		ldr	r3, [r3]
+ 1232 001e 9A42     		cmp	r2, r3
+ 1233 0020 02D1     		bne	.L94
+ 775:..\Common\Minimal/GenQTest.c **** 	{
+ 776:..\Common\Minimal/GenQTest.c **** 		xErrorDetected = pdTRUE;
+ 1234              		.loc 1 776 0
+ 1235 0022 0D4B     		ldr	r3, .L96+8
+ 1236 0024 0122     		movs	r2, #1
+ 1237 0026 1A60     		str	r2, [r3]
+ 1238              	.L94:
+ 777:..\Common\Minimal/GenQTest.c **** 	}
+ 778:..\Common\Minimal/GenQTest.c **** 
+ 779:..\Common\Minimal/GenQTest.c **** 	ulLastLoopCounter = ulLoopCounter;
+ 1239              		.loc 1 779 0
+ 1240 0028 0A4B     		ldr	r3, .L96+4
+ 1241 002a 1B68     		ldr	r3, [r3]
+ 1242 002c 084A     		ldr	r2, .L96
+ 1243 002e 1360     		str	r3, [r2]
+ 780:..\Common\Minimal/GenQTest.c **** 	ulLastLoopCounter2 = ulLoopCounter2;
+ 1244              		.loc 1 780 0
+ 1245 0030 0B4B     		ldr	r3, .L96+16
+ 1246 0032 1B68     		ldr	r3, [r3]
+ 1247 0034 094A     		ldr	r2, .L96+12
+ 1248 0036 1360     		str	r3, [r2]
+ 781:..\Common\Minimal/GenQTest.c **** 
+ 782:..\Common\Minimal/GenQTest.c **** 	/* Errors detected in the task itself will have latched xErrorDetected
+ 783:..\Common\Minimal/GenQTest.c **** 	to true. */
+ 784:..\Common\Minimal/GenQTest.c **** 
+ 785:..\Common\Minimal/GenQTest.c **** 	return ( BaseType_t ) !xErrorDetected;
+ 1249              		.loc 1 785 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 37
+
+
+ 1250 0038 074B     		ldr	r3, .L96+8
+ 1251 003a 1B68     		ldr	r3, [r3]
+ 1252 003c 002B     		cmp	r3, #0
+ 1253 003e 0CBF     		ite	eq
+ 1254 0040 0123     		moveq	r3, #1
+ 1255 0042 0023     		movne	r3, #0
+ 1256 0044 DBB2     		uxtb	r3, r3
+ 786:..\Common\Minimal/GenQTest.c **** }
+ 1257              		.loc 1 786 0
+ 1258 0046 1846     		mov	r0, r3
+ 1259 0048 BD46     		mov	sp, r7
+ 1260              		.cfi_def_cfa_register 13
+ 1261              		@ sp needed
+ 1262 004a 80BC     		pop	{r7}
+ 1263              		.cfi_restore 7
+ 1264              		.cfi_def_cfa_offset 0
+ 1265 004c 7047     		bx	lr
+ 1266              	.L97:
+ 1267 004e 00BF     		.align	2
+ 1268              	.L96:
+ 1269 0050 18000000 		.word	ulLastLoopCounter.7598
+ 1270 0054 04000000 		.word	ulLoopCounter
+ 1271 0058 00000000 		.word	xErrorDetected
+ 1272 005c 1C000000 		.word	ulLastLoopCounter2.7599
+ 1273 0060 08000000 		.word	ulLoopCounter2
+ 1274              		.cfi_endproc
+ 1275              	.LFE75:
+ 1276              		.size	xAreGenericQueueTasksStillRunning, .-xAreGenericQueueTasksStillRunning
+ 1277              		.bss
+ 1278              		.align	2
+ 1279              	ulLastLoopCounter.7598:
+ 1280 0018 00000000 		.space	4
+ 1281              		.align	2
+ 1282              	ulLastLoopCounter2.7599:
+ 1283 001c 00000000 		.space	4
+ 1284              		.text
+ 1285              	.Letext0:
+ 1286              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1287              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1288              		.file 4 ".\\Tracer/sniffPayload.h"
+ 1289              		.file 5 ".\\Tracer/selfFIFO.h"
+ 1290              		.file 6 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 1291              		.file 7 "..\\Source\\include/task.h"
+ 1292              		.file 8 "..\\Source\\include/queue.h"
+ 1293              		.file 9 "..\\Source\\include/semphr.h"
+ 1294              		.file 10 "Generated_Source\\PSoC5/core_cm3.h"
+ 1295              		.file 11 ".\\Tracer/sniffTask.h"
+ 1296              		.section	.debug_info,"",%progbits
+ 1297              	.Ldebug_info0:
+ 1298 0000 0B050000 		.4byte	0x50b
+ 1299 0004 0400     		.2byte	0x4
+ 1300 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1301 000a 04       		.byte	0x4
+ 1302 000b 01       		.uleb128 0x1
+ 1303 000c AA000000 		.4byte	.LASF74
+ 1304 0010 0C       		.byte	0xc
+ 1305 0011 1D030000 		.4byte	.LASF75
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 38
+
+
+ 1306 0015 CF040000 		.4byte	.LASF76
+ 1307 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1308 001d 00000000 		.4byte	0
+ 1309 0021 00000000 		.4byte	.Ldebug_line0
+ 1310 0025 02       		.uleb128 0x2
+ 1311 0026 04       		.byte	0x4
+ 1312 0027 07       		.byte	0x7
+ 1313 0028 B4020000 		.4byte	.LASF0
+ 1314 002c 03       		.uleb128 0x3
+ 1315 002d 04       		.byte	0x4
+ 1316 002e 05       		.byte	0x5
+ 1317 002f 696E7400 		.ascii	"int\000"
+ 1318 0033 02       		.uleb128 0x2
+ 1319 0034 08       		.byte	0x8
+ 1320 0035 05       		.byte	0x5
+ 1321 0036 B4010000 		.4byte	.LASF1
+ 1322 003a 02       		.uleb128 0x2
+ 1323 003b 08       		.byte	0x8
+ 1324 003c 04       		.byte	0x4
+ 1325 003d 4D020000 		.4byte	.LASF2
+ 1326 0041 02       		.uleb128 0x2
+ 1327 0042 01       		.byte	0x1
+ 1328 0043 06       		.byte	0x6
+ 1329 0044 88020000 		.4byte	.LASF3
+ 1330 0048 04       		.uleb128 0x4
+ 1331 0049 0A020000 		.4byte	.LASF7
+ 1332 004d 02       		.byte	0x2
+ 1333 004e 1D       		.byte	0x1d
+ 1334 004f 53000000 		.4byte	0x53
+ 1335 0053 02       		.uleb128 0x2
+ 1336 0054 01       		.byte	0x1
+ 1337 0055 08       		.byte	0x8
+ 1338 0056 6B020000 		.4byte	.LASF4
+ 1339 005a 02       		.uleb128 0x2
+ 1340 005b 02       		.byte	0x2
+ 1341 005c 05       		.byte	0x5
+ 1342 005d 44000000 		.4byte	.LASF5
+ 1343 0061 02       		.uleb128 0x2
+ 1344 0062 02       		.byte	0x2
+ 1345 0063 07       		.byte	0x7
+ 1346 0064 EA020000 		.4byte	.LASF6
+ 1347 0068 04       		.uleb128 0x4
+ 1348 0069 35040000 		.4byte	.LASF8
+ 1349 006d 02       		.byte	0x2
+ 1350 006e 3F       		.byte	0x3f
+ 1351 006f 73000000 		.4byte	0x73
+ 1352 0073 02       		.uleb128 0x2
+ 1353 0074 04       		.byte	0x4
+ 1354 0075 05       		.byte	0x5
+ 1355 0076 D4010000 		.4byte	.LASF9
+ 1356 007a 04       		.uleb128 0x4
+ 1357 007b 38010000 		.4byte	.LASF10
+ 1358 007f 02       		.byte	0x2
+ 1359 0080 41       		.byte	0x41
+ 1360 0081 85000000 		.4byte	0x85
+ 1361 0085 02       		.uleb128 0x2
+ 1362 0086 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 39
+
+
+ 1363 0087 07       		.byte	0x7
+ 1364 0088 BB030000 		.4byte	.LASF11
+ 1365 008c 02       		.uleb128 0x2
+ 1366 008d 08       		.byte	0x8
+ 1367 008e 07       		.byte	0x7
+ 1368 008f 94020000 		.4byte	.LASF12
+ 1369 0093 02       		.uleb128 0x2
+ 1370 0094 04       		.byte	0x4
+ 1371 0095 07       		.byte	0x7
+ 1372 0096 60000000 		.4byte	.LASF13
+ 1373 009a 05       		.uleb128 0x5
+ 1374 009b 04       		.byte	0x4
+ 1375 009c 02       		.uleb128 0x2
+ 1376 009d 01       		.byte	0x1
+ 1377 009e 08       		.byte	0x8
+ 1378 009f 18030000 		.4byte	.LASF14
+ 1379 00a3 04       		.uleb128 0x4
+ 1380 00a4 69010000 		.4byte	.LASF15
+ 1381 00a8 03       		.byte	0x3
+ 1382 00a9 18       		.byte	0x18
+ 1383 00aa 48000000 		.4byte	0x48
+ 1384 00ae 04       		.uleb128 0x4
+ 1385 00af 4A030000 		.4byte	.LASF16
+ 1386 00b3 03       		.byte	0x3
+ 1387 00b4 2C       		.byte	0x2c
+ 1388 00b5 68000000 		.4byte	0x68
+ 1389 00b9 04       		.uleb128 0x4
+ 1390 00ba AB020000 		.4byte	.LASF17
+ 1391 00be 03       		.byte	0x3
+ 1392 00bf 30       		.byte	0x30
+ 1393 00c0 7A000000 		.4byte	0x7a
+ 1394 00c4 02       		.uleb128 0x2
+ 1395 00c5 04       		.byte	0x4
+ 1396 00c6 04       		.byte	0x4
+ 1397 00c7 9D010000 		.4byte	.LASF18
+ 1398 00cb 02       		.uleb128 0x2
+ 1399 00cc 08       		.byte	0x8
+ 1400 00cd 04       		.byte	0x4
+ 1401 00ce CD030000 		.4byte	.LASF19
+ 1402 00d2 06       		.uleb128 0x6
+ 1403 00d3 B9000000 		.4byte	0xb9
+ 1404 00d7 07       		.uleb128 0x7
+ 1405 00d8 01       		.byte	0x1
+ 1406 00d9 53000000 		.4byte	0x53
+ 1407 00dd 04       		.byte	0x4
+ 1408 00de 10       		.byte	0x10
+ 1409 00df 0E010000 		.4byte	0x10e
+ 1410 00e3 08       		.uleb128 0x8
+ 1411 00e4 29020000 		.4byte	.LASF20
+ 1412 00e8 00       		.byte	0
+ 1413 00e9 08       		.uleb128 0x8
+ 1414 00ea 69000000 		.4byte	.LASF21
+ 1415 00ee 01       		.byte	0x1
+ 1416 00ef 08       		.uleb128 0x8
+ 1417 00f0 2F020000 		.4byte	.LASF22
+ 1418 00f4 02       		.byte	0x2
+ 1419 00f5 08       		.uleb128 0x8
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 40
+
+
+ 1420 00f6 D4030000 		.4byte	.LASF23
+ 1421 00fa 03       		.byte	0x3
+ 1422 00fb 08       		.uleb128 0x8
+ 1423 00fc FA010000 		.4byte	.LASF24
+ 1424 0100 04       		.byte	0x4
+ 1425 0101 08       		.uleb128 0x8
+ 1426 0102 08040000 		.4byte	.LASF25
+ 1427 0106 05       		.byte	0x5
+ 1428 0107 08       		.uleb128 0x8
+ 1429 0108 A5030000 		.4byte	.LASF26
+ 1430 010c 06       		.byte	0x6
+ 1431 010d 00       		.byte	0
+ 1432 010e 04       		.uleb128 0x4
+ 1433 010f 8B010000 		.4byte	.LASF27
+ 1434 0113 04       		.byte	0x4
+ 1435 0114 10       		.byte	0x10
+ 1436 0115 D7000000 		.4byte	0xd7
+ 1437 0119 09       		.uleb128 0x9
+ 1438 011a 04       		.byte	0x4
+ 1439 011b 04       		.byte	0x4
+ 1440 011c 86       		.byte	0x86
+ 1441 011d 52010000 		.4byte	0x152
+ 1442 0121 0A       		.uleb128 0xa
+ 1443 0122 41030000 		.4byte	.LASF28
+ 1444 0126 04       		.byte	0x4
+ 1445 0127 87       		.byte	0x87
+ 1446 0128 A3000000 		.4byte	0xa3
+ 1447 012c 00       		.byte	0
+ 1448 012d 0A       		.uleb128 0xa
+ 1449 012e 00000000 		.4byte	.LASF29
+ 1450 0132 04       		.byte	0x4
+ 1451 0133 88       		.byte	0x88
+ 1452 0134 A3000000 		.4byte	0xa3
+ 1453 0138 01       		.byte	0x1
+ 1454 0139 0A       		.uleb128 0xa
+ 1455 013a 9F000000 		.4byte	.LASF30
+ 1456 013e 04       		.byte	0x4
+ 1457 013f 89       		.byte	0x89
+ 1458 0140 0E010000 		.4byte	0x10e
+ 1459 0144 02       		.byte	0x2
+ 1460 0145 0A       		.uleb128 0xa
+ 1461 0146 96010000 		.4byte	.LASF31
+ 1462 014a 04       		.byte	0x4
+ 1463 014b 8A       		.byte	0x8a
+ 1464 014c A3000000 		.4byte	0xa3
+ 1465 0150 03       		.byte	0x3
+ 1466 0151 00       		.byte	0
+ 1467 0152 04       		.uleb128 0x4
+ 1468 0153 C1020000 		.4byte	.LASF32
+ 1469 0157 04       		.byte	0x4
+ 1470 0158 8B       		.byte	0x8b
+ 1471 0159 19010000 		.4byte	0x119
+ 1472 015d 09       		.uleb128 0x9
+ 1473 015e 0E       		.byte	0xe
+ 1474 015f 04       		.byte	0x4
+ 1475 0160 95       		.byte	0x95
+ 1476 0161 8A010000 		.4byte	0x18a
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 41
+
+
+ 1477 0165 0A       		.uleb128 0xa
+ 1478 0166 37000000 		.4byte	.LASF33
+ 1479 016a 04       		.byte	0x4
+ 1480 016b 96       		.byte	0x96
+ 1481 016c A3000000 		.4byte	0xa3
+ 1482 0170 00       		.byte	0
+ 1483 0171 0A       		.uleb128 0xa
+ 1484 0172 7D010000 		.4byte	.LASF34
+ 1485 0176 04       		.byte	0x4
+ 1486 0177 97       		.byte	0x97
+ 1487 0178 A3000000 		.4byte	0xa3
+ 1488 017c 01       		.byte	0x1
+ 1489 017d 0A       		.uleb128 0xa
+ 1490 017e 42020000 		.4byte	.LASF35
+ 1491 0182 04       		.byte	0x4
+ 1492 0183 98       		.byte	0x98
+ 1493 0184 8A010000 		.4byte	0x18a
+ 1494 0188 02       		.byte	0x2
+ 1495 0189 00       		.byte	0
+ 1496 018a 0B       		.uleb128 0xb
+ 1497 018b 9C000000 		.4byte	0x9c
+ 1498 018f 9A010000 		.4byte	0x19a
+ 1499 0193 0C       		.uleb128 0xc
+ 1500 0194 93000000 		.4byte	0x93
+ 1501 0198 0B       		.byte	0xb
+ 1502 0199 00       		.byte	0
+ 1503 019a 04       		.uleb128 0x4
+ 1504 019b 56040000 		.4byte	.LASF36
+ 1505 019f 04       		.byte	0x4
+ 1506 01a0 99       		.byte	0x99
+ 1507 01a1 5D010000 		.4byte	0x15d
+ 1508 01a5 0D       		.uleb128 0xd
+ 1509 01a6 1C01     		.2byte	0x11c
+ 1510 01a8 04       		.byte	0x4
+ 1511 01a9 A3       		.byte	0xa3
+ 1512 01aa C7010000 		.4byte	0x1c7
+ 1513 01ae 0A       		.uleb128 0xa
+ 1514 01af 43010000 		.4byte	.LASF37
+ 1515 01b3 04       		.byte	0x4
+ 1516 01b4 A4       		.byte	0xa4
+ 1517 01b5 52010000 		.4byte	0x152
+ 1518 01b9 00       		.byte	0
+ 1519 01ba 0A       		.uleb128 0xa
+ 1520 01bb 71010000 		.4byte	.LASF38
+ 1521 01bf 04       		.byte	0x4
+ 1522 01c0 A5       		.byte	0xa5
+ 1523 01c1 C7010000 		.4byte	0x1c7
+ 1524 01c5 04       		.byte	0x4
+ 1525 01c6 00       		.byte	0
+ 1526 01c7 0B       		.uleb128 0xb
+ 1527 01c8 9A010000 		.4byte	0x19a
+ 1528 01cc D7010000 		.4byte	0x1d7
+ 1529 01d0 0C       		.uleb128 0xc
+ 1530 01d1 93000000 		.4byte	0x93
+ 1531 01d5 13       		.byte	0x13
+ 1532 01d6 00       		.byte	0
+ 1533 01d7 04       		.uleb128 0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 42
+
+
+ 1534 01d8 8C040000 		.4byte	.LASF39
+ 1535 01dc 04       		.byte	0x4
+ 1536 01dd A6       		.byte	0xa6
+ 1537 01de A5010000 		.4byte	0x1a5
+ 1538 01e2 0E       		.uleb128 0xe
+ 1539 01e3 22020000 		.4byte	.LASF77
+ 1540 01e7 0210     		.2byte	0x1002
+ 1541 01e9 05       		.byte	0x5
+ 1542 01ea 0C       		.byte	0xc
+ 1543 01eb 16020000 		.4byte	0x216
+ 1544 01ef 0A       		.uleb128 0xa
+ 1545 01f0 65030000 		.4byte	.LASF40
+ 1546 01f4 05       		.byte	0x5
+ 1547 01f5 0D       		.byte	0xd
+ 1548 01f6 16020000 		.4byte	0x216
+ 1549 01fa 00       		.byte	0
+ 1550 01fb 0F       		.uleb128 0xf
+ 1551 01fc AF010000 		.4byte	.LASF41
+ 1552 0200 05       		.byte	0x5
+ 1553 0201 0E       		.byte	0xe
+ 1554 0202 A3000000 		.4byte	0xa3
+ 1555 0206 0010     		.2byte	0x1000
+ 1556 0208 0F       		.uleb128 0xf
+ 1557 0209 19000000 		.4byte	.LASF42
+ 1558 020d 05       		.byte	0x5
+ 1559 020e 0F       		.byte	0xf
+ 1560 020f A3000000 		.4byte	0xa3
+ 1561 0213 0110     		.2byte	0x1001
+ 1562 0215 00       		.byte	0
+ 1563 0216 0B       		.uleb128 0xb
+ 1564 0217 A3000000 		.4byte	0xa3
+ 1565 021b 27020000 		.4byte	0x227
+ 1566 021f 10       		.uleb128 0x10
+ 1567 0220 93000000 		.4byte	0x93
+ 1568 0224 FF0F     		.2byte	0xfff
+ 1569 0226 00       		.byte	0
+ 1570 0227 04       		.uleb128 0x4
+ 1571 0228 D2020000 		.4byte	.LASF43
+ 1572 022c 06       		.byte	0x6
+ 1573 022d 62       		.byte	0x62
+ 1574 022e 73000000 		.4byte	0x73
+ 1575 0232 04       		.uleb128 0x4
+ 1576 0233 59030000 		.4byte	.LASF44
+ 1577 0237 06       		.byte	0x6
+ 1578 0238 63       		.byte	0x63
+ 1579 0239 85000000 		.4byte	0x85
+ 1580 023d 04       		.uleb128 0x4
+ 1581 023e C2010000 		.4byte	.LASF45
+ 1582 0242 06       		.byte	0x6
+ 1583 0243 69       		.byte	0x69
+ 1584 0244 B9000000 		.4byte	0xb9
+ 1585 0248 04       		.uleb128 0x4
+ 1586 0249 6F000000 		.4byte	.LASF46
+ 1587 024d 07       		.byte	0x7
+ 1588 024e 67       		.byte	0x67
+ 1589 024f 9A000000 		.4byte	0x9a
+ 1590 0253 04       		.uleb128 0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 43
+
+
+ 1591 0254 14020000 		.4byte	.LASF47
+ 1592 0258 08       		.byte	0x8
+ 1593 0259 58       		.byte	0x58
+ 1594 025a 9A000000 		.4byte	0x9a
+ 1595 025e 04       		.uleb128 0x4
+ 1596 025f 59020000 		.4byte	.LASF48
+ 1597 0263 09       		.byte	0x9
+ 1598 0264 4F       		.byte	0x4f
+ 1599 0265 53020000 		.4byte	0x253
+ 1600 0269 11       		.uleb128 0x11
+ 1601 026a 1F000000 		.4byte	.LASF78
+ 1602 026e 01       		.byte	0x1
+ 1603 026f 94       		.byte	0x94
+ 1604 0270 00000000 		.4byte	.LFB68
+ 1605 0274 C0000000 		.4byte	.LFE68-.LFB68
+ 1606 0278 01       		.uleb128 0x1
+ 1607 0279 9C       		.byte	0x9c
+ 1608 027a A9020000 		.4byte	0x2a9
+ 1609 027e 12       		.uleb128 0x12
+ 1610 027f 0E000000 		.4byte	.LASF51
+ 1611 0283 01       		.byte	0x1
+ 1612 0284 94       		.byte	0x94
+ 1613 0285 32020000 		.4byte	0x232
+ 1614 0289 02       		.uleb128 0x2
+ 1615 028a 91       		.byte	0x91
+ 1616 028b 6C       		.sleb128 -20
+ 1617 028c 13       		.uleb128 0x13
+ 1618 028d 52030000 		.4byte	.LASF49
+ 1619 0291 01       		.byte	0x1
+ 1620 0292 96       		.byte	0x96
+ 1621 0293 53020000 		.4byte	0x253
+ 1622 0297 02       		.uleb128 0x2
+ 1623 0298 91       		.byte	0x91
+ 1624 0299 74       		.sleb128 -12
+ 1625 029a 13       		.uleb128 0x13
+ 1626 029b CD010000 		.4byte	.LASF50
+ 1627 029f 01       		.byte	0x1
+ 1628 02a0 97       		.byte	0x97
+ 1629 02a1 5E020000 		.4byte	0x25e
+ 1630 02a5 02       		.uleb128 0x2
+ 1631 02a6 91       		.byte	0x91
+ 1632 02a7 70       		.sleb128 -16
+ 1633 02a8 00       		.byte	0
+ 1634 02a9 14       		.uleb128 0x14
+ 1635 02aa F0030000 		.4byte	.LASF55
+ 1636 02ae 01       		.byte	0x1
+ 1637 02af C4       		.byte	0xc4
+ 1638 02b0 00000000 		.4byte	.LFB69
+ 1639 02b4 00030000 		.4byte	.LFE69-.LFB69
+ 1640 02b8 01       		.uleb128 0x1
+ 1641 02b9 9C       		.byte	0x9c
+ 1642 02ba F7020000 		.4byte	0x2f7
+ 1643 02be 12       		.uleb128 0x12
+ 1644 02bf DD020000 		.4byte	.LASF52
+ 1645 02c3 01       		.byte	0x1
+ 1646 02c4 C4       		.byte	0xc4
+ 1647 02c5 9A000000 		.4byte	0x9a
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 44
+
+
+ 1648 02c9 02       		.uleb128 0x2
+ 1649 02ca 91       		.byte	0x91
+ 1650 02cb 64       		.sleb128 -28
+ 1651 02cc 13       		.uleb128 0x13
+ 1652 02cd 3A030000 		.4byte	.LASF53
+ 1653 02d1 01       		.byte	0x1
+ 1654 02d2 C6       		.byte	0xc6
+ 1655 02d3 B9000000 		.4byte	0xb9
+ 1656 02d7 02       		.uleb128 0x2
+ 1657 02d8 91       		.byte	0x91
+ 1658 02d9 70       		.sleb128 -16
+ 1659 02da 13       		.uleb128 0x13
+ 1660 02db 84040000 		.4byte	.LASF54
+ 1661 02df 01       		.byte	0x1
+ 1662 02e0 C6       		.byte	0xc6
+ 1663 02e1 B9000000 		.4byte	0xb9
+ 1664 02e5 02       		.uleb128 0x2
+ 1665 02e6 91       		.byte	0x91
+ 1666 02e7 6C       		.sleb128 -20
+ 1667 02e8 13       		.uleb128 0x13
+ 1668 02e9 52030000 		.4byte	.LASF49
+ 1669 02ed 01       		.byte	0x1
+ 1670 02ee C7       		.byte	0xc7
+ 1671 02ef 53020000 		.4byte	0x253
+ 1672 02f3 02       		.uleb128 0x2
+ 1673 02f4 91       		.byte	0x91
+ 1674 02f5 74       		.sleb128 -12
+ 1675 02f6 00       		.byte	0
+ 1676 02f7 15       		.uleb128 0x15
+ 1677 02f8 0D040000 		.4byte	.LASF56
+ 1678 02fc 01       		.byte	0x1
+ 1679 02fd A801     		.2byte	0x1a8
+ 1680 02ff 00000000 		.4byte	.LFB70
+ 1681 0303 30010000 		.4byte	.LFE70-.LFB70
+ 1682 0307 01       		.uleb128 0x1
+ 1683 0308 9C       		.byte	0x9c
+ 1684 0309 2C030000 		.4byte	0x32c
+ 1685 030d 16       		.uleb128 0x16
+ 1686 030e CD010000 		.4byte	.LASF50
+ 1687 0312 01       		.byte	0x1
+ 1688 0313 A801     		.2byte	0x1a8
+ 1689 0315 5E020000 		.4byte	0x25e
+ 1690 0319 02       		.uleb128 0x2
+ 1691 031a 91       		.byte	0x91
+ 1692 031b 74       		.sleb128 -12
+ 1693 031c 16       		.uleb128 0x16
+ 1694 031d A3010000 		.4byte	.LASF57
+ 1695 0321 01       		.byte	0x1
+ 1696 0322 A801     		.2byte	0x1a8
+ 1697 0324 5E020000 		.4byte	0x25e
+ 1698 0328 02       		.uleb128 0x2
+ 1699 0329 91       		.byte	0x91
+ 1700 032a 70       		.sleb128 -16
+ 1701 032b 00       		.byte	0
+ 1702 032c 15       		.uleb128 0x15
+ 1703 032d 7C000000 		.4byte	.LASF58
+ 1704 0331 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 45
+
+
+ 1705 0332 2A02     		.2byte	0x22a
+ 1706 0334 00000000 		.4byte	.LFB71
+ 1707 0338 10010000 		.4byte	.LFE71-.LFB71
+ 1708 033c 01       		.uleb128 0x1
+ 1709 033d 9C       		.byte	0x9c
+ 1710 033e 61030000 		.4byte	0x361
+ 1711 0342 16       		.uleb128 0x16
+ 1712 0343 CD010000 		.4byte	.LASF50
+ 1713 0347 01       		.byte	0x1
+ 1714 0348 2A02     		.2byte	0x22a
+ 1715 034a 5E020000 		.4byte	0x25e
+ 1716 034e 02       		.uleb128 0x2
+ 1717 034f 91       		.byte	0x91
+ 1718 0350 74       		.sleb128 -12
+ 1719 0351 16       		.uleb128 0x16
+ 1720 0352 A3010000 		.4byte	.LASF57
+ 1721 0356 01       		.byte	0x1
+ 1722 0357 2A02     		.2byte	0x22a
+ 1723 0359 5E020000 		.4byte	0x25e
+ 1724 035d 02       		.uleb128 0x2
+ 1725 035e 91       		.byte	0x91
+ 1726 035f 70       		.sleb128 -16
+ 1727 0360 00       		.byte	0
+ 1728 0361 15       		.uleb128 0x15
+ 1729 0362 A4040000 		.4byte	.LASF59
+ 1730 0366 01       		.byte	0x1
+ 1731 0367 9E02     		.2byte	0x29e
+ 1732 0369 00000000 		.4byte	.LFB72
+ 1733 036d 40000000 		.4byte	.LFE72-.LFB72
+ 1734 0371 01       		.uleb128 0x1
+ 1735 0372 9C       		.byte	0x9c
+ 1736 0373 A5030000 		.4byte	0x3a5
+ 1737 0377 16       		.uleb128 0x16
+ 1738 0378 DD020000 		.4byte	.LASF52
+ 1739 037c 01       		.byte	0x1
+ 1740 037d 9E02     		.2byte	0x29e
+ 1741 037f 9A000000 		.4byte	0x9a
+ 1742 0383 02       		.uleb128 0x2
+ 1743 0384 91       		.byte	0x91
+ 1744 0385 6C       		.sleb128 -20
+ 1745 0386 17       		.uleb128 0x17
+ 1746 0387 CD010000 		.4byte	.LASF50
+ 1747 038b 01       		.byte	0x1
+ 1748 038c A002     		.2byte	0x2a0
+ 1749 038e 5E020000 		.4byte	0x25e
+ 1750 0392 02       		.uleb128 0x2
+ 1751 0393 91       		.byte	0x91
+ 1752 0394 74       		.sleb128 -12
+ 1753 0395 17       		.uleb128 0x17
+ 1754 0396 A3010000 		.4byte	.LASF57
+ 1755 039a 01       		.byte	0x1
+ 1756 039b A002     		.2byte	0x2a0
+ 1757 039d 5E020000 		.4byte	0x25e
+ 1758 03a1 02       		.uleb128 0x2
+ 1759 03a2 91       		.byte	0x91
+ 1760 03a3 70       		.sleb128 -16
+ 1761 03a4 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 46
+
+
+ 1762 03a5 15       		.uleb128 0x15
+ 1763 03a6 FD020000 		.4byte	.LASF60
+ 1764 03aa 01       		.byte	0x1
+ 1765 03ab CB02     		.2byte	0x2cb
+ 1766 03ad 00000000 		.4byte	.LFB73
+ 1767 03b1 20000000 		.4byte	.LFE73-.LFB73
+ 1768 03b5 01       		.uleb128 0x1
+ 1769 03b6 9C       		.byte	0x9c
+ 1770 03b7 CB030000 		.4byte	0x3cb
+ 1771 03bb 16       		.uleb128 0x16
+ 1772 03bc DD020000 		.4byte	.LASF52
+ 1773 03c0 01       		.byte	0x1
+ 1774 03c1 CB02     		.2byte	0x2cb
+ 1775 03c3 9A000000 		.4byte	0x9a
+ 1776 03c7 02       		.uleb128 0x2
+ 1777 03c8 91       		.byte	0x91
+ 1778 03c9 74       		.sleb128 -12
+ 1779 03ca 00       		.byte	0
+ 1780 03cb 15       		.uleb128 0x15
+ 1781 03cc 50010000 		.4byte	.LASF61
+ 1782 03d0 01       		.byte	0x1
+ 1783 03d1 DD02     		.2byte	0x2dd
+ 1784 03d3 00000000 		.4byte	.LFB74
+ 1785 03d7 4C000000 		.4byte	.LFE74-.LFB74
+ 1786 03db 01       		.uleb128 0x1
+ 1787 03dc 9C       		.byte	0x9c
+ 1788 03dd 00040000 		.4byte	0x400
+ 1789 03e1 16       		.uleb128 0x16
+ 1790 03e2 DD020000 		.4byte	.LASF52
+ 1791 03e6 01       		.byte	0x1
+ 1792 03e7 DD02     		.2byte	0x2dd
+ 1793 03e9 9A000000 		.4byte	0x9a
+ 1794 03ed 02       		.uleb128 0x2
+ 1795 03ee 91       		.byte	0x91
+ 1796 03ef 6C       		.sleb128 -20
+ 1797 03f0 17       		.uleb128 0x17
+ 1798 03f1 CD010000 		.4byte	.LASF50
+ 1799 03f5 01       		.byte	0x1
+ 1800 03f6 DF02     		.2byte	0x2df
+ 1801 03f8 5E020000 		.4byte	0x25e
+ 1802 03fc 02       		.uleb128 0x2
+ 1803 03fd 91       		.byte	0x91
+ 1804 03fe 74       		.sleb128 -12
+ 1805 03ff 00       		.byte	0
+ 1806 0400 18       		.uleb128 0x18
+ 1807 0401 6A030000 		.4byte	.LASF79
+ 1808 0405 01       		.byte	0x1
+ 1809 0406 FB02     		.2byte	0x2fb
+ 1810 0408 27020000 		.4byte	0x227
+ 1811 040c 00000000 		.4byte	.LFB75
+ 1812 0410 64000000 		.4byte	.LFE75-.LFB75
+ 1813 0414 01       		.uleb128 0x1
+ 1814 0415 9C       		.byte	0x9c
+ 1815 0416 3F040000 		.4byte	0x43f
+ 1816 041a 17       		.uleb128 0x17
+ 1817 041b 93030000 		.4byte	.LASF62
+ 1818 041f 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 47
+
+
+ 1819 0420 FD02     		.2byte	0x2fd
+ 1820 0422 B9000000 		.4byte	0xb9
+ 1821 0426 05       		.uleb128 0x5
+ 1822 0427 03       		.byte	0x3
+ 1823 0428 18000000 		.4byte	ulLastLoopCounter.7598
+ 1824 042c 17       		.uleb128 0x17
+ 1825 042d BC040000 		.4byte	.LASF63
+ 1826 0431 01       		.byte	0x1
+ 1827 0432 FD02     		.2byte	0x2fd
+ 1828 0434 B9000000 		.4byte	0xb9
+ 1829 0438 05       		.uleb128 0x5
+ 1830 0439 03       		.byte	0x3
+ 1831 043a 1C000000 		.4byte	ulLastLoopCounter2.7599
+ 1832 043e 00       		.byte	0
+ 1833 043f 13       		.uleb128 0x13
+ 1834 0440 79020000 		.4byte	.LASF64
+ 1835 0444 01       		.byte	0x1
+ 1836 0445 84       		.byte	0x84
+ 1837 0446 50040000 		.4byte	0x450
+ 1838 044a 05       		.uleb128 0x5
+ 1839 044b 03       		.byte	0x3
+ 1840 044c 00000000 		.4byte	xErrorDetected
+ 1841 0450 06       		.uleb128 0x6
+ 1842 0451 27020000 		.4byte	0x227
+ 1843 0455 13       		.uleb128 0x13
+ 1844 0456 5D040000 		.4byte	.LASF65
+ 1845 045a 01       		.byte	0x1
+ 1846 045b 88       		.byte	0x88
+ 1847 045c D2000000 		.4byte	0xd2
+ 1848 0460 05       		.uleb128 0x5
+ 1849 0461 03       		.byte	0x3
+ 1850 0462 04000000 		.4byte	ulLoopCounter
+ 1851 0466 13       		.uleb128 0x13
+ 1852 0467 EB010000 		.4byte	.LASF66
+ 1853 046b 01       		.byte	0x1
+ 1854 046c 89       		.byte	0x89
+ 1855 046d D2000000 		.4byte	0xd2
+ 1856 0471 05       		.uleb128 0x5
+ 1857 0472 03       		.byte	0x3
+ 1858 0473 08000000 		.4byte	ulLoopCounter2
+ 1859 0477 13       		.uleb128 0x13
+ 1860 0478 4E000000 		.4byte	.LASF67
+ 1861 047c 01       		.byte	0x1
+ 1862 047d 8C       		.byte	0x8c
+ 1863 047e D2000000 		.4byte	0xd2
+ 1864 0482 05       		.uleb128 0x5
+ 1865 0483 03       		.byte	0x3
+ 1866 0484 0C000000 		.4byte	ulGuardedVariable
+ 1867 0488 13       		.uleb128 0x13
+ 1868 0489 3F040000 		.4byte	.LASF68
+ 1869 048d 01       		.byte	0x1
+ 1870 048e 90       		.byte	0x90
+ 1871 048f 48020000 		.4byte	0x248
+ 1872 0493 05       		.uleb128 0x5
+ 1873 0494 03       		.byte	0x3
+ 1874 0495 10000000 		.4byte	xHighPriorityMutexTask
+ 1875 0499 13       		.uleb128 0x13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 48
+
+
+ 1876 049a 6B040000 		.4byte	.LASF69
+ 1877 049e 01       		.byte	0x1
+ 1878 049f 90       		.byte	0x90
+ 1879 04a0 48020000 		.4byte	0x248
+ 1880 04a4 05       		.uleb128 0x5
+ 1881 04a5 03       		.byte	0x3
+ 1882 04a6 14000000 		.4byte	xMediumPriorityMutexTask
+ 1883 04aa 19       		.uleb128 0x19
+ 1884 04ab 97040000 		.4byte	.LASF70
+ 1885 04af 0A       		.byte	0xa
+ 1886 04b0 9606     		.2byte	0x696
+ 1887 04b2 B6040000 		.4byte	0x4b6
+ 1888 04b6 06       		.uleb128 0x6
+ 1889 04b7 AE000000 		.4byte	0xae
+ 1890 04bb 0B       		.uleb128 0xb
+ 1891 04bc A3000000 		.4byte	0xa3
+ 1892 04c0 CB040000 		.4byte	0x4cb
+ 1893 04c4 0C       		.uleb128 0xc
+ 1894 04c5 93000000 		.4byte	0x93
+ 1895 04c9 0C       		.byte	0xc
+ 1896 04ca 00       		.byte	0
+ 1897 04cb 1A       		.uleb128 0x1a
+ 1898 04cc DD010000 		.4byte	.LASF71
+ 1899 04d0 04       		.byte	0x4
+ 1900 04d1 12       		.byte	0x12
+ 1901 04d2 BB040000 		.4byte	0x4bb
+ 1902 04d6 05       		.uleb128 0x5
+ 1903 04d7 03       		.byte	0x3
+ 1904 04d8 00000000 		.4byte	sniffIDFilter
+ 1905 04dc 1A       		.uleb128 0x1a
+ 1906 04dd 8C030000 		.4byte	.LASF72
+ 1907 04e1 05       		.byte	0x5
+ 1908 04e2 10       		.byte	0x10
+ 1909 04e3 E2010000 		.4byte	0x1e2
+ 1910 04e7 05       		.uleb128 0x5
+ 1911 04e8 03       		.byte	0x3
+ 1912 04e9 00000000 		.4byte	buffer
+ 1913 04ed 0B       		.uleb128 0xb
+ 1914 04ee D7010000 		.4byte	0x1d7
+ 1915 04f2 FD040000 		.4byte	0x4fd
+ 1916 04f6 0C       		.uleb128 0xc
+ 1917 04f7 93000000 		.4byte	0x93
+ 1918 04fb 05       		.byte	0x5
+ 1919 04fc 00       		.byte	0
+ 1920 04fd 1A       		.uleb128 0x1a
+ 1921 04fe E5030000 		.4byte	.LASF73
+ 1922 0502 0B       		.byte	0xb
+ 1923 0503 0D       		.byte	0xd
+ 1924 0504 ED040000 		.4byte	0x4ed
+ 1925 0508 05       		.uleb128 0x5
+ 1926 0509 03       		.byte	0x3
+ 1927 050a 00000000 		.4byte	objectList
+ 1928 050e 00       		.byte	0
+ 1929              		.section	.debug_abbrev,"",%progbits
+ 1930              	.Ldebug_abbrev0:
+ 1931 0000 01       		.uleb128 0x1
+ 1932 0001 11       		.uleb128 0x11
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 49
+
+
+ 1933 0002 01       		.byte	0x1
+ 1934 0003 25       		.uleb128 0x25
+ 1935 0004 0E       		.uleb128 0xe
+ 1936 0005 13       		.uleb128 0x13
+ 1937 0006 0B       		.uleb128 0xb
+ 1938 0007 03       		.uleb128 0x3
+ 1939 0008 0E       		.uleb128 0xe
+ 1940 0009 1B       		.uleb128 0x1b
+ 1941 000a 0E       		.uleb128 0xe
+ 1942 000b 55       		.uleb128 0x55
+ 1943 000c 17       		.uleb128 0x17
+ 1944 000d 11       		.uleb128 0x11
+ 1945 000e 01       		.uleb128 0x1
+ 1946 000f 10       		.uleb128 0x10
+ 1947 0010 17       		.uleb128 0x17
+ 1948 0011 00       		.byte	0
+ 1949 0012 00       		.byte	0
+ 1950 0013 02       		.uleb128 0x2
+ 1951 0014 24       		.uleb128 0x24
+ 1952 0015 00       		.byte	0
+ 1953 0016 0B       		.uleb128 0xb
+ 1954 0017 0B       		.uleb128 0xb
+ 1955 0018 3E       		.uleb128 0x3e
+ 1956 0019 0B       		.uleb128 0xb
+ 1957 001a 03       		.uleb128 0x3
+ 1958 001b 0E       		.uleb128 0xe
+ 1959 001c 00       		.byte	0
+ 1960 001d 00       		.byte	0
+ 1961 001e 03       		.uleb128 0x3
+ 1962 001f 24       		.uleb128 0x24
+ 1963 0020 00       		.byte	0
+ 1964 0021 0B       		.uleb128 0xb
+ 1965 0022 0B       		.uleb128 0xb
+ 1966 0023 3E       		.uleb128 0x3e
+ 1967 0024 0B       		.uleb128 0xb
+ 1968 0025 03       		.uleb128 0x3
+ 1969 0026 08       		.uleb128 0x8
+ 1970 0027 00       		.byte	0
+ 1971 0028 00       		.byte	0
+ 1972 0029 04       		.uleb128 0x4
+ 1973 002a 16       		.uleb128 0x16
+ 1974 002b 00       		.byte	0
+ 1975 002c 03       		.uleb128 0x3
+ 1976 002d 0E       		.uleb128 0xe
+ 1977 002e 3A       		.uleb128 0x3a
+ 1978 002f 0B       		.uleb128 0xb
+ 1979 0030 3B       		.uleb128 0x3b
+ 1980 0031 0B       		.uleb128 0xb
+ 1981 0032 49       		.uleb128 0x49
+ 1982 0033 13       		.uleb128 0x13
+ 1983 0034 00       		.byte	0
+ 1984 0035 00       		.byte	0
+ 1985 0036 05       		.uleb128 0x5
+ 1986 0037 0F       		.uleb128 0xf
+ 1987 0038 00       		.byte	0
+ 1988 0039 0B       		.uleb128 0xb
+ 1989 003a 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 50
+
+
+ 1990 003b 00       		.byte	0
+ 1991 003c 00       		.byte	0
+ 1992 003d 06       		.uleb128 0x6
+ 1993 003e 35       		.uleb128 0x35
+ 1994 003f 00       		.byte	0
+ 1995 0040 49       		.uleb128 0x49
+ 1996 0041 13       		.uleb128 0x13
+ 1997 0042 00       		.byte	0
+ 1998 0043 00       		.byte	0
+ 1999 0044 07       		.uleb128 0x7
+ 2000 0045 04       		.uleb128 0x4
+ 2001 0046 01       		.byte	0x1
+ 2002 0047 0B       		.uleb128 0xb
+ 2003 0048 0B       		.uleb128 0xb
+ 2004 0049 49       		.uleb128 0x49
+ 2005 004a 13       		.uleb128 0x13
+ 2006 004b 3A       		.uleb128 0x3a
+ 2007 004c 0B       		.uleb128 0xb
+ 2008 004d 3B       		.uleb128 0x3b
+ 2009 004e 0B       		.uleb128 0xb
+ 2010 004f 01       		.uleb128 0x1
+ 2011 0050 13       		.uleb128 0x13
+ 2012 0051 00       		.byte	0
+ 2013 0052 00       		.byte	0
+ 2014 0053 08       		.uleb128 0x8
+ 2015 0054 28       		.uleb128 0x28
+ 2016 0055 00       		.byte	0
+ 2017 0056 03       		.uleb128 0x3
+ 2018 0057 0E       		.uleb128 0xe
+ 2019 0058 1C       		.uleb128 0x1c
+ 2020 0059 0B       		.uleb128 0xb
+ 2021 005a 00       		.byte	0
+ 2022 005b 00       		.byte	0
+ 2023 005c 09       		.uleb128 0x9
+ 2024 005d 13       		.uleb128 0x13
+ 2025 005e 01       		.byte	0x1
+ 2026 005f 0B       		.uleb128 0xb
+ 2027 0060 0B       		.uleb128 0xb
+ 2028 0061 3A       		.uleb128 0x3a
+ 2029 0062 0B       		.uleb128 0xb
+ 2030 0063 3B       		.uleb128 0x3b
+ 2031 0064 0B       		.uleb128 0xb
+ 2032 0065 01       		.uleb128 0x1
+ 2033 0066 13       		.uleb128 0x13
+ 2034 0067 00       		.byte	0
+ 2035 0068 00       		.byte	0
+ 2036 0069 0A       		.uleb128 0xa
+ 2037 006a 0D       		.uleb128 0xd
+ 2038 006b 00       		.byte	0
+ 2039 006c 03       		.uleb128 0x3
+ 2040 006d 0E       		.uleb128 0xe
+ 2041 006e 3A       		.uleb128 0x3a
+ 2042 006f 0B       		.uleb128 0xb
+ 2043 0070 3B       		.uleb128 0x3b
+ 2044 0071 0B       		.uleb128 0xb
+ 2045 0072 49       		.uleb128 0x49
+ 2046 0073 13       		.uleb128 0x13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 51
+
+
+ 2047 0074 38       		.uleb128 0x38
+ 2048 0075 0B       		.uleb128 0xb
+ 2049 0076 00       		.byte	0
+ 2050 0077 00       		.byte	0
+ 2051 0078 0B       		.uleb128 0xb
+ 2052 0079 01       		.uleb128 0x1
+ 2053 007a 01       		.byte	0x1
+ 2054 007b 49       		.uleb128 0x49
+ 2055 007c 13       		.uleb128 0x13
+ 2056 007d 01       		.uleb128 0x1
+ 2057 007e 13       		.uleb128 0x13
+ 2058 007f 00       		.byte	0
+ 2059 0080 00       		.byte	0
+ 2060 0081 0C       		.uleb128 0xc
+ 2061 0082 21       		.uleb128 0x21
+ 2062 0083 00       		.byte	0
+ 2063 0084 49       		.uleb128 0x49
+ 2064 0085 13       		.uleb128 0x13
+ 2065 0086 2F       		.uleb128 0x2f
+ 2066 0087 0B       		.uleb128 0xb
+ 2067 0088 00       		.byte	0
+ 2068 0089 00       		.byte	0
+ 2069 008a 0D       		.uleb128 0xd
+ 2070 008b 13       		.uleb128 0x13
+ 2071 008c 01       		.byte	0x1
+ 2072 008d 0B       		.uleb128 0xb
+ 2073 008e 05       		.uleb128 0x5
+ 2074 008f 3A       		.uleb128 0x3a
+ 2075 0090 0B       		.uleb128 0xb
+ 2076 0091 3B       		.uleb128 0x3b
+ 2077 0092 0B       		.uleb128 0xb
+ 2078 0093 01       		.uleb128 0x1
+ 2079 0094 13       		.uleb128 0x13
+ 2080 0095 00       		.byte	0
+ 2081 0096 00       		.byte	0
+ 2082 0097 0E       		.uleb128 0xe
+ 2083 0098 13       		.uleb128 0x13
+ 2084 0099 01       		.byte	0x1
+ 2085 009a 03       		.uleb128 0x3
+ 2086 009b 0E       		.uleb128 0xe
+ 2087 009c 0B       		.uleb128 0xb
+ 2088 009d 05       		.uleb128 0x5
+ 2089 009e 3A       		.uleb128 0x3a
+ 2090 009f 0B       		.uleb128 0xb
+ 2091 00a0 3B       		.uleb128 0x3b
+ 2092 00a1 0B       		.uleb128 0xb
+ 2093 00a2 01       		.uleb128 0x1
+ 2094 00a3 13       		.uleb128 0x13
+ 2095 00a4 00       		.byte	0
+ 2096 00a5 00       		.byte	0
+ 2097 00a6 0F       		.uleb128 0xf
+ 2098 00a7 0D       		.uleb128 0xd
+ 2099 00a8 00       		.byte	0
+ 2100 00a9 03       		.uleb128 0x3
+ 2101 00aa 0E       		.uleb128 0xe
+ 2102 00ab 3A       		.uleb128 0x3a
+ 2103 00ac 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 52
+
+
+ 2104 00ad 3B       		.uleb128 0x3b
+ 2105 00ae 0B       		.uleb128 0xb
+ 2106 00af 49       		.uleb128 0x49
+ 2107 00b0 13       		.uleb128 0x13
+ 2108 00b1 38       		.uleb128 0x38
+ 2109 00b2 05       		.uleb128 0x5
+ 2110 00b3 00       		.byte	0
+ 2111 00b4 00       		.byte	0
+ 2112 00b5 10       		.uleb128 0x10
+ 2113 00b6 21       		.uleb128 0x21
+ 2114 00b7 00       		.byte	0
+ 2115 00b8 49       		.uleb128 0x49
+ 2116 00b9 13       		.uleb128 0x13
+ 2117 00ba 2F       		.uleb128 0x2f
+ 2118 00bb 05       		.uleb128 0x5
+ 2119 00bc 00       		.byte	0
+ 2120 00bd 00       		.byte	0
+ 2121 00be 11       		.uleb128 0x11
+ 2122 00bf 2E       		.uleb128 0x2e
+ 2123 00c0 01       		.byte	0x1
+ 2124 00c1 3F       		.uleb128 0x3f
+ 2125 00c2 19       		.uleb128 0x19
+ 2126 00c3 03       		.uleb128 0x3
+ 2127 00c4 0E       		.uleb128 0xe
+ 2128 00c5 3A       		.uleb128 0x3a
+ 2129 00c6 0B       		.uleb128 0xb
+ 2130 00c7 3B       		.uleb128 0x3b
+ 2131 00c8 0B       		.uleb128 0xb
+ 2132 00c9 27       		.uleb128 0x27
+ 2133 00ca 19       		.uleb128 0x19
+ 2134 00cb 11       		.uleb128 0x11
+ 2135 00cc 01       		.uleb128 0x1
+ 2136 00cd 12       		.uleb128 0x12
+ 2137 00ce 06       		.uleb128 0x6
+ 2138 00cf 40       		.uleb128 0x40
+ 2139 00d0 18       		.uleb128 0x18
+ 2140 00d1 9642     		.uleb128 0x2116
+ 2141 00d3 19       		.uleb128 0x19
+ 2142 00d4 01       		.uleb128 0x1
+ 2143 00d5 13       		.uleb128 0x13
+ 2144 00d6 00       		.byte	0
+ 2145 00d7 00       		.byte	0
+ 2146 00d8 12       		.uleb128 0x12
+ 2147 00d9 05       		.uleb128 0x5
+ 2148 00da 00       		.byte	0
+ 2149 00db 03       		.uleb128 0x3
+ 2150 00dc 0E       		.uleb128 0xe
+ 2151 00dd 3A       		.uleb128 0x3a
+ 2152 00de 0B       		.uleb128 0xb
+ 2153 00df 3B       		.uleb128 0x3b
+ 2154 00e0 0B       		.uleb128 0xb
+ 2155 00e1 49       		.uleb128 0x49
+ 2156 00e2 13       		.uleb128 0x13
+ 2157 00e3 02       		.uleb128 0x2
+ 2158 00e4 18       		.uleb128 0x18
+ 2159 00e5 00       		.byte	0
+ 2160 00e6 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 53
+
+
+ 2161 00e7 13       		.uleb128 0x13
+ 2162 00e8 34       		.uleb128 0x34
+ 2163 00e9 00       		.byte	0
+ 2164 00ea 03       		.uleb128 0x3
+ 2165 00eb 0E       		.uleb128 0xe
+ 2166 00ec 3A       		.uleb128 0x3a
+ 2167 00ed 0B       		.uleb128 0xb
+ 2168 00ee 3B       		.uleb128 0x3b
+ 2169 00ef 0B       		.uleb128 0xb
+ 2170 00f0 49       		.uleb128 0x49
+ 2171 00f1 13       		.uleb128 0x13
+ 2172 00f2 02       		.uleb128 0x2
+ 2173 00f3 18       		.uleb128 0x18
+ 2174 00f4 00       		.byte	0
+ 2175 00f5 00       		.byte	0
+ 2176 00f6 14       		.uleb128 0x14
+ 2177 00f7 2E       		.uleb128 0x2e
+ 2178 00f8 01       		.byte	0x1
+ 2179 00f9 03       		.uleb128 0x3
+ 2180 00fa 0E       		.uleb128 0xe
+ 2181 00fb 3A       		.uleb128 0x3a
+ 2182 00fc 0B       		.uleb128 0xb
+ 2183 00fd 3B       		.uleb128 0x3b
+ 2184 00fe 0B       		.uleb128 0xb
+ 2185 00ff 27       		.uleb128 0x27
+ 2186 0100 19       		.uleb128 0x19
+ 2187 0101 11       		.uleb128 0x11
+ 2188 0102 01       		.uleb128 0x1
+ 2189 0103 12       		.uleb128 0x12
+ 2190 0104 06       		.uleb128 0x6
+ 2191 0105 40       		.uleb128 0x40
+ 2192 0106 18       		.uleb128 0x18
+ 2193 0107 9642     		.uleb128 0x2116
+ 2194 0109 19       		.uleb128 0x19
+ 2195 010a 01       		.uleb128 0x1
+ 2196 010b 13       		.uleb128 0x13
+ 2197 010c 00       		.byte	0
+ 2198 010d 00       		.byte	0
+ 2199 010e 15       		.uleb128 0x15
+ 2200 010f 2E       		.uleb128 0x2e
+ 2201 0110 01       		.byte	0x1
+ 2202 0111 03       		.uleb128 0x3
+ 2203 0112 0E       		.uleb128 0xe
+ 2204 0113 3A       		.uleb128 0x3a
+ 2205 0114 0B       		.uleb128 0xb
+ 2206 0115 3B       		.uleb128 0x3b
+ 2207 0116 05       		.uleb128 0x5
+ 2208 0117 27       		.uleb128 0x27
+ 2209 0118 19       		.uleb128 0x19
+ 2210 0119 11       		.uleb128 0x11
+ 2211 011a 01       		.uleb128 0x1
+ 2212 011b 12       		.uleb128 0x12
+ 2213 011c 06       		.uleb128 0x6
+ 2214 011d 40       		.uleb128 0x40
+ 2215 011e 18       		.uleb128 0x18
+ 2216 011f 9642     		.uleb128 0x2116
+ 2217 0121 19       		.uleb128 0x19
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 54
+
+
+ 2218 0122 01       		.uleb128 0x1
+ 2219 0123 13       		.uleb128 0x13
+ 2220 0124 00       		.byte	0
+ 2221 0125 00       		.byte	0
+ 2222 0126 16       		.uleb128 0x16
+ 2223 0127 05       		.uleb128 0x5
+ 2224 0128 00       		.byte	0
+ 2225 0129 03       		.uleb128 0x3
+ 2226 012a 0E       		.uleb128 0xe
+ 2227 012b 3A       		.uleb128 0x3a
+ 2228 012c 0B       		.uleb128 0xb
+ 2229 012d 3B       		.uleb128 0x3b
+ 2230 012e 05       		.uleb128 0x5
+ 2231 012f 49       		.uleb128 0x49
+ 2232 0130 13       		.uleb128 0x13
+ 2233 0131 02       		.uleb128 0x2
+ 2234 0132 18       		.uleb128 0x18
+ 2235 0133 00       		.byte	0
+ 2236 0134 00       		.byte	0
+ 2237 0135 17       		.uleb128 0x17
+ 2238 0136 34       		.uleb128 0x34
+ 2239 0137 00       		.byte	0
+ 2240 0138 03       		.uleb128 0x3
+ 2241 0139 0E       		.uleb128 0xe
+ 2242 013a 3A       		.uleb128 0x3a
+ 2243 013b 0B       		.uleb128 0xb
+ 2244 013c 3B       		.uleb128 0x3b
+ 2245 013d 05       		.uleb128 0x5
+ 2246 013e 49       		.uleb128 0x49
+ 2247 013f 13       		.uleb128 0x13
+ 2248 0140 02       		.uleb128 0x2
+ 2249 0141 18       		.uleb128 0x18
+ 2250 0142 00       		.byte	0
+ 2251 0143 00       		.byte	0
+ 2252 0144 18       		.uleb128 0x18
+ 2253 0145 2E       		.uleb128 0x2e
+ 2254 0146 01       		.byte	0x1
+ 2255 0147 3F       		.uleb128 0x3f
+ 2256 0148 19       		.uleb128 0x19
+ 2257 0149 03       		.uleb128 0x3
+ 2258 014a 0E       		.uleb128 0xe
+ 2259 014b 3A       		.uleb128 0x3a
+ 2260 014c 0B       		.uleb128 0xb
+ 2261 014d 3B       		.uleb128 0x3b
+ 2262 014e 05       		.uleb128 0x5
+ 2263 014f 27       		.uleb128 0x27
+ 2264 0150 19       		.uleb128 0x19
+ 2265 0151 49       		.uleb128 0x49
+ 2266 0152 13       		.uleb128 0x13
+ 2267 0153 11       		.uleb128 0x11
+ 2268 0154 01       		.uleb128 0x1
+ 2269 0155 12       		.uleb128 0x12
+ 2270 0156 06       		.uleb128 0x6
+ 2271 0157 40       		.uleb128 0x40
+ 2272 0158 18       		.uleb128 0x18
+ 2273 0159 9742     		.uleb128 0x2117
+ 2274 015b 19       		.uleb128 0x19
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 55
+
+
+ 2275 015c 01       		.uleb128 0x1
+ 2276 015d 13       		.uleb128 0x13
+ 2277 015e 00       		.byte	0
+ 2278 015f 00       		.byte	0
+ 2279 0160 19       		.uleb128 0x19
+ 2280 0161 34       		.uleb128 0x34
+ 2281 0162 00       		.byte	0
+ 2282 0163 03       		.uleb128 0x3
+ 2283 0164 0E       		.uleb128 0xe
+ 2284 0165 3A       		.uleb128 0x3a
+ 2285 0166 0B       		.uleb128 0xb
+ 2286 0167 3B       		.uleb128 0x3b
+ 2287 0168 05       		.uleb128 0x5
+ 2288 0169 49       		.uleb128 0x49
+ 2289 016a 13       		.uleb128 0x13
+ 2290 016b 3F       		.uleb128 0x3f
+ 2291 016c 19       		.uleb128 0x19
+ 2292 016d 3C       		.uleb128 0x3c
+ 2293 016e 19       		.uleb128 0x19
+ 2294 016f 00       		.byte	0
+ 2295 0170 00       		.byte	0
+ 2296 0171 1A       		.uleb128 0x1a
+ 2297 0172 34       		.uleb128 0x34
+ 2298 0173 00       		.byte	0
+ 2299 0174 03       		.uleb128 0x3
+ 2300 0175 0E       		.uleb128 0xe
+ 2301 0176 3A       		.uleb128 0x3a
+ 2302 0177 0B       		.uleb128 0xb
+ 2303 0178 3B       		.uleb128 0x3b
+ 2304 0179 0B       		.uleb128 0xb
+ 2305 017a 49       		.uleb128 0x49
+ 2306 017b 13       		.uleb128 0x13
+ 2307 017c 3F       		.uleb128 0x3f
+ 2308 017d 19       		.uleb128 0x19
+ 2309 017e 02       		.uleb128 0x2
+ 2310 017f 18       		.uleb128 0x18
+ 2311 0180 00       		.byte	0
+ 2312 0181 00       		.byte	0
+ 2313 0182 00       		.byte	0
+ 2314              		.section	.debug_aranges,"",%progbits
+ 2315 0000 54000000 		.4byte	0x54
+ 2316 0004 0200     		.2byte	0x2
+ 2317 0006 00000000 		.4byte	.Ldebug_info0
+ 2318 000a 04       		.byte	0x4
+ 2319 000b 00       		.byte	0
+ 2320 000c 0000     		.2byte	0
+ 2321 000e 0000     		.2byte	0
+ 2322 0010 00000000 		.4byte	.LFB68
+ 2323 0014 C0000000 		.4byte	.LFE68-.LFB68
+ 2324 0018 00000000 		.4byte	.LFB69
+ 2325 001c 00030000 		.4byte	.LFE69-.LFB69
+ 2326 0020 00000000 		.4byte	.LFB70
+ 2327 0024 30010000 		.4byte	.LFE70-.LFB70
+ 2328 0028 00000000 		.4byte	.LFB71
+ 2329 002c 10010000 		.4byte	.LFE71-.LFB71
+ 2330 0030 00000000 		.4byte	.LFB72
+ 2331 0034 40000000 		.4byte	.LFE72-.LFB72
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 56
+
+
+ 2332 0038 00000000 		.4byte	.LFB73
+ 2333 003c 20000000 		.4byte	.LFE73-.LFB73
+ 2334 0040 00000000 		.4byte	.LFB74
+ 2335 0044 4C000000 		.4byte	.LFE74-.LFB74
+ 2336 0048 00000000 		.4byte	.LFB75
+ 2337 004c 64000000 		.4byte	.LFE75-.LFB75
+ 2338 0050 00000000 		.4byte	0
+ 2339 0054 00000000 		.4byte	0
+ 2340              		.section	.debug_ranges,"",%progbits
+ 2341              	.Ldebug_ranges0:
+ 2342 0000 00000000 		.4byte	.LFB68
+ 2343 0004 C0000000 		.4byte	.LFE68
+ 2344 0008 00000000 		.4byte	.LFB69
+ 2345 000c 00030000 		.4byte	.LFE69
+ 2346 0010 00000000 		.4byte	.LFB70
+ 2347 0014 30010000 		.4byte	.LFE70
+ 2348 0018 00000000 		.4byte	.LFB71
+ 2349 001c 10010000 		.4byte	.LFE71
+ 2350 0020 00000000 		.4byte	.LFB72
+ 2351 0024 40000000 		.4byte	.LFE72
+ 2352 0028 00000000 		.4byte	.LFB73
+ 2353 002c 20000000 		.4byte	.LFE73
+ 2354 0030 00000000 		.4byte	.LFB74
+ 2355 0034 4C000000 		.4byte	.LFE74
+ 2356 0038 00000000 		.4byte	.LFB75
+ 2357 003c 64000000 		.4byte	.LFE75
+ 2358 0040 00000000 		.4byte	0
+ 2359 0044 00000000 		.4byte	0
+ 2360              		.section	.debug_line,"",%progbits
+ 2361              	.Ldebug_line0:
+ 2362 0000 8B030000 		.section	.debug_str,"MS",%progbits,1
+ 2362      0200EE01 
+ 2362      00000201 
+ 2362      FB0E0D00 
+ 2362      01010101 
+ 2363              	.LASF29:
+ 2364 0000 696E666F 		.ascii	"informationID\000"
+ 2364      726D6174 
+ 2364      696F6E49 
+ 2364      4400
+ 2365              	.LASF51:
+ 2366 000e 75785072 		.ascii	"uxPriority\000"
+ 2366      696F7269 
+ 2366      747900
+ 2367              	.LASF42:
+ 2368 0019 77726974 		.ascii	"write\000"
+ 2368      6500
+ 2369              	.LASF78:
+ 2370 001f 76537461 		.ascii	"vStartGenericQueueTasks\000"
+ 2370      72744765 
+ 2370      6E657269 
+ 2370      63517565 
+ 2370      75655461 
+ 2371              	.LASF33:
+ 2372 0037 6F626A65 		.ascii	"objectNumber\000"
+ 2372      63744E75 
+ 2372      6D626572 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 57
+
+
+ 2372      00
+ 2373              	.LASF5:
+ 2374 0044 73686F72 		.ascii	"short int\000"
+ 2374      7420696E 
+ 2374      7400
+ 2375              	.LASF67:
+ 2376 004e 756C4775 		.ascii	"ulGuardedVariable\000"
+ 2376      61726465 
+ 2376      64566172 
+ 2376      6961626C 
+ 2376      6500
+ 2377              	.LASF13:
+ 2378 0060 73697A65 		.ascii	"sizetype\000"
+ 2378      74797065 
+ 2378      00
+ 2379              	.LASF21:
+ 2380 0069 4D555445 		.ascii	"MUTEX\000"
+ 2380      5800
+ 2381              	.LASF46:
+ 2382 006f 5461736B 		.ascii	"TaskHandle_t\000"
+ 2382      48616E64 
+ 2382      6C655F74 
+ 2382      00
+ 2383              	.LASF58:
+ 2384 007c 70727654 		.ascii	"prvTakeTwoMutexesReturnInSameOrder\000"
+ 2384      616B6554 
+ 2384      776F4D75 
+ 2384      74657865 
+ 2384      73526574 
+ 2385              	.LASF30:
+ 2386 009f 6F626A65 		.ascii	"objectType\000"
+ 2386      63745479 
+ 2386      706500
+ 2387              	.LASF74:
+ 2388 00aa 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2388      43313120 
+ 2388      352E342E 
+ 2388      31203230 
+ 2388      31363036 
+ 2389 00dd 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2389      20726576 
+ 2389      6973696F 
+ 2389      6E203233 
+ 2389      37373135 
+ 2390 0110 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 2390      66756E63 
+ 2390      74696F6E 
+ 2390      2D736563 
+ 2390      74696F6E 
+ 2391              	.LASF10:
+ 2392 0138 5F5F7569 		.ascii	"__uint32_t\000"
+ 2392      6E743332 
+ 2392      5F7400
+ 2393              	.LASF37:
+ 2394 0143 6F626A65 		.ascii	"objectHeader\000"
+ 2394      63744865 
+ 2394      61646572 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 58
+
+
+ 2394      00
+ 2395              	.LASF61:
+ 2396 0150 70727648 		.ascii	"prvHighPriorityMutexTask\000"
+ 2396      69676850 
+ 2396      72696F72 
+ 2396      6974794D 
+ 2396      75746578 
+ 2397              	.LASF15:
+ 2398 0169 75696E74 		.ascii	"uint8_t\000"
+ 2398      385F7400 
+ 2399              	.LASF38:
+ 2400 0171 6F626A65 		.ascii	"objectArray\000"
+ 2400      63744172 
+ 2400      72617900 
+ 2401              	.LASF34:
+ 2402 017d 6C656E4F 		.ascii	"lenObjectName\000"
+ 2402      626A6563 
+ 2402      744E616D 
+ 2402      6500
+ 2403              	.LASF27:
+ 2404 018b 4F626A65 		.ascii	"ObjectType\000"
+ 2404      63745479 
+ 2404      706500
+ 2405              	.LASF31:
+ 2406 0196 6C656E67 		.ascii	"length\000"
+ 2406      746800
+ 2407              	.LASF18:
+ 2408 019d 666C6F61 		.ascii	"float\000"
+ 2408      7400
+ 2409              	.LASF57:
+ 2410 01a3 784C6F63 		.ascii	"xLocalMutex\000"
+ 2410      616C4D75 
+ 2410      74657800 
+ 2411              	.LASF41:
+ 2412 01af 72656164 		.ascii	"read\000"
+ 2412      00
+ 2413              	.LASF1:
+ 2414 01b4 6C6F6E67 		.ascii	"long long int\000"
+ 2414      206C6F6E 
+ 2414      6720696E 
+ 2414      7400
+ 2415              	.LASF45:
+ 2416 01c2 5469636B 		.ascii	"TickType_t\000"
+ 2416      54797065 
+ 2416      5F7400
+ 2417              	.LASF50:
+ 2418 01cd 784D7574 		.ascii	"xMutex\000"
+ 2418      657800
+ 2419              	.LASF9:
+ 2420 01d4 6C6F6E67 		.ascii	"long int\000"
+ 2420      20696E74 
+ 2420      00
+ 2421              	.LASF71:
+ 2422 01dd 736E6966 		.ascii	"sniffIDFilter\000"
+ 2422      66494446 
+ 2422      696C7465 
+ 2422      7200
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 59
+
+
+ 2423              	.LASF66:
+ 2424 01eb 756C4C6F 		.ascii	"ulLoopCounter2\000"
+ 2424      6F70436F 
+ 2424      756E7465 
+ 2424      723200
+ 2425              	.LASF24:
+ 2426 01fa 52454355 		.ascii	"RECURSIVE_MUTEX\000"
+ 2426      52534956 
+ 2426      455F4D55 
+ 2426      54455800 
+ 2427              	.LASF7:
+ 2428 020a 5F5F7569 		.ascii	"__uint8_t\000"
+ 2428      6E74385F 
+ 2428      7400
+ 2429              	.LASF47:
+ 2430 0214 51756575 		.ascii	"QueueHandle_t\000"
+ 2430      6548616E 
+ 2430      646C655F 
+ 2430      7400
+ 2431              	.LASF77:
+ 2432 0222 42756666 		.ascii	"Buffer\000"
+ 2432      657200
+ 2433              	.LASF20:
+ 2434 0229 51554555 		.ascii	"QUEUE\000"
+ 2434      4500
+ 2435              	.LASF22:
+ 2436 022f 434F554E 		.ascii	"COUNTING_SEMAPHORE\000"
+ 2436      54494E47 
+ 2436      5F53454D 
+ 2436      4150484F 
+ 2436      524500
+ 2437              	.LASF35:
+ 2438 0242 6F626A65 		.ascii	"objectName\000"
+ 2438      63744E61 
+ 2438      6D6500
+ 2439              	.LASF2:
+ 2440 024d 6C6F6E67 		.ascii	"long double\000"
+ 2440      20646F75 
+ 2440      626C6500 
+ 2441              	.LASF48:
+ 2442 0259 53656D61 		.ascii	"SemaphoreHandle_t\000"
+ 2442      70686F72 
+ 2442      6548616E 
+ 2442      646C655F 
+ 2442      7400
+ 2443              	.LASF4:
+ 2444 026b 756E7369 		.ascii	"unsigned char\000"
+ 2444      676E6564 
+ 2444      20636861 
+ 2444      7200
+ 2445              	.LASF64:
+ 2446 0279 78457272 		.ascii	"xErrorDetected\000"
+ 2446      6F724465 
+ 2446      74656374 
+ 2446      656400
+ 2447              	.LASF3:
+ 2448 0288 7369676E 		.ascii	"signed char\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 60
+
+
+ 2448      65642063 
+ 2448      68617200 
+ 2449              	.LASF12:
+ 2450 0294 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2450      206C6F6E 
+ 2450      6720756E 
+ 2450      7369676E 
+ 2450      65642069 
+ 2451              	.LASF17:
+ 2452 02ab 75696E74 		.ascii	"uint32_t\000"
+ 2452      33325F74 
+ 2452      00
+ 2453              	.LASF0:
+ 2454 02b4 756E7369 		.ascii	"unsigned int\000"
+ 2454      676E6564 
+ 2454      20696E74 
+ 2454      00
+ 2455              	.LASF32:
+ 2456 02c1 4F626A65 		.ascii	"ObjectListHeader\000"
+ 2456      63744C69 
+ 2456      73744865 
+ 2456      61646572 
+ 2456      00
+ 2457              	.LASF43:
+ 2458 02d2 42617365 		.ascii	"BaseType_t\000"
+ 2458      54797065 
+ 2458      5F7400
+ 2459              	.LASF52:
+ 2460 02dd 70765061 		.ascii	"pvParameters\000"
+ 2460      72616D65 
+ 2460      74657273 
+ 2460      00
+ 2461              	.LASF6:
+ 2462 02ea 73686F72 		.ascii	"short unsigned int\000"
+ 2462      7420756E 
+ 2462      7369676E 
+ 2462      65642069 
+ 2462      6E7400
+ 2463              	.LASF60:
+ 2464 02fd 7072764D 		.ascii	"prvMediumPriorityMutexTask\000"
+ 2464      65646975 
+ 2464      6D507269 
+ 2464      6F726974 
+ 2464      794D7574 
+ 2465              	.LASF14:
+ 2466 0318 63686172 		.ascii	"char\000"
+ 2466      00
+ 2467              	.LASF75:
+ 2468 031d 2E2E5C43 		.ascii	"..\\Common\\Minimal\\GenQTest.c\000"
+ 2468      6F6D6D6F 
+ 2468      6E5C4D69 
+ 2468      6E696D61 
+ 2468      6C5C4765 
+ 2469              	.LASF53:
+ 2470 033a 756C4461 		.ascii	"ulData\000"
+ 2470      746100
+ 2471              	.LASF28:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 61
+
+
+ 2472 0341 7061636B 		.ascii	"packetID\000"
+ 2472      65744944 
+ 2472      00
+ 2473              	.LASF16:
+ 2474 034a 696E7433 		.ascii	"int32_t\000"
+ 2474      325F7400 
+ 2475              	.LASF49:
+ 2476 0352 78517565 		.ascii	"xQueue\000"
+ 2476      756500
+ 2477              	.LASF44:
+ 2478 0359 55426173 		.ascii	"UBaseType_t\000"
+ 2478      65547970 
+ 2478      655F7400 
+ 2479              	.LASF40:
+ 2480 0365 64617461 		.ascii	"data\000"
+ 2480      00
+ 2481              	.LASF79:
+ 2482 036a 78417265 		.ascii	"xAreGenericQueueTasksStillRunning\000"
+ 2482      47656E65 
+ 2482      72696351 
+ 2482      75657565 
+ 2482      5461736B 
+ 2483              	.LASF72:
+ 2484 038c 62756666 		.ascii	"buffer\000"
+ 2484      657200
+ 2485              	.LASF62:
+ 2486 0393 756C4C61 		.ascii	"ulLastLoopCounter\000"
+ 2486      73744C6F 
+ 2486      6F70436F 
+ 2486      756E7465 
+ 2486      7200
+ 2487              	.LASF26:
+ 2488 03a5 4E554D42 		.ascii	"NUMBER_OF_OBJECTTYPES\000"
+ 2488      45525F4F 
+ 2488      465F4F42 
+ 2488      4A454354 
+ 2488      54595045 
+ 2489              	.LASF11:
+ 2490 03bb 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2490      20756E73 
+ 2490      69676E65 
+ 2490      6420696E 
+ 2490      7400
+ 2491              	.LASF19:
+ 2492 03cd 646F7562 		.ascii	"double\000"
+ 2492      6C6500
+ 2493              	.LASF23:
+ 2494 03d4 42494E41 		.ascii	"BINARY_SEMAPHORE\000"
+ 2494      52595F53 
+ 2494      454D4150 
+ 2494      484F5245 
+ 2494      00
+ 2495              	.LASF73:
+ 2496 03e5 6F626A65 		.ascii	"objectList\000"
+ 2496      63744C69 
+ 2496      737400
+ 2497              	.LASF55:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 62
+
+
+ 2498 03f0 70727653 		.ascii	"prvSendFrontAndBackTest\000"
+ 2498      656E6446 
+ 2498      726F6E74 
+ 2498      416E6442 
+ 2498      61636B54 
+ 2499              	.LASF25:
+ 2500 0408 5441534B 		.ascii	"TASK\000"
+ 2500      00
+ 2501              	.LASF56:
+ 2502 040d 70727654 		.ascii	"prvTakeTwoMutexesReturnInDifferentOrder\000"
+ 2502      616B6554 
+ 2502      776F4D75 
+ 2502      74657865 
+ 2502      73526574 
+ 2503              	.LASF8:
+ 2504 0435 5F5F696E 		.ascii	"__int32_t\000"
+ 2504      7433325F 
+ 2504      7400
+ 2505              	.LASF68:
+ 2506 043f 78486967 		.ascii	"xHighPriorityMutexTask\000"
+ 2506      68507269 
+ 2506      6F726974 
+ 2506      794D7574 
+ 2506      65785461 
+ 2507              	.LASF36:
+ 2508 0456 4F626A65 		.ascii	"Object\000"
+ 2508      637400
+ 2509              	.LASF65:
+ 2510 045d 756C4C6F 		.ascii	"ulLoopCounter\000"
+ 2510      6F70436F 
+ 2510      756E7465 
+ 2510      7200
+ 2511              	.LASF69:
+ 2512 046b 784D6564 		.ascii	"xMediumPriorityMutexTask\000"
+ 2512      69756D50 
+ 2512      72696F72 
+ 2512      6974794D 
+ 2512      75746578 
+ 2513              	.LASF54:
+ 2514 0484 756C4461 		.ascii	"ulData2\000"
+ 2514      74613200 
+ 2515              	.LASF39:
+ 2516 048c 4F626A65 		.ascii	"ObjectList\000"
+ 2516      63744C69 
+ 2516      737400
+ 2517              	.LASF70:
+ 2518 0497 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2518      52784275 
+ 2518      66666572 
+ 2518      00
+ 2519              	.LASF59:
+ 2520 04a4 7072764C 		.ascii	"prvLowPriorityMutexTask\000"
+ 2520      6F775072 
+ 2520      696F7269 
+ 2520      74794D75 
+ 2520      74657854 
+ 2521              	.LASF63:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccFIS02E.s 			page 63
+
+
+ 2522 04bc 756C4C61 		.ascii	"ulLastLoopCounter2\000"
+ 2522      73744C6F 
+ 2522      6F70436F 
+ 2522      756E7465 
+ 2522      723200
+ 2523              	.LASF76:
+ 2524 04cf 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ 2524      726F6772 
+ 2524      616D6D65 
+ 2524      5F536372 
+ 2524      69707473 
+ 2525 04fe 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 2525      5F435938 
+ 2525      434B4954 
+ 2525      5F303539 
+ 2525      2D6D6173 
+ 2526              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

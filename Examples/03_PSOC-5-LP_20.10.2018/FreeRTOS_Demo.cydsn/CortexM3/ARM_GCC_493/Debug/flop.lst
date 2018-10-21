@@ -1,0 +1,2378 @@
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"flop.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.bss
+  19              		.align	2
+  20              	usTaskCheck:
+  21 0000 00000000 		.space	8
+  21      00000000 
+  22              		.section	.rodata
+  23              		.align	2
+  24              	.LC0:
+  25 0000 4D617468 		.ascii	"Math1\000"
+  25      3100
+  26 0006 0000     		.align	2
+  27              	.LC1:
+  28 0008 4D617468 		.ascii	"Math2\000"
+  28      3200
+  29 000e 0000     		.align	2
+  30              	.LC2:
+  31 0010 4D617468 		.ascii	"Math3\000"
+  31      3300
+  32 0016 0000     		.align	2
+  33              	.LC3:
+  34 0018 4D617468 		.ascii	"Math4\000"
+  34      3400
+  35 001e 0000     		.section	.text.vStartMathTasks,"ax",%progbits
+  36              		.align	2
+  37              		.global	vStartMathTasks
+  38              		.thumb
+  39              		.thumb_func
+  40              		.type	vStartMathTasks, %function
+  41              	vStartMathTasks:
+  42              	.LFB68:
+  43              		.file 1 "..\\Common\\Minimal\\flop.c"
+   1:..\Common\Minimal/flop.c **** /*
+   2:..\Common\Minimal/flop.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Common\Minimal/flop.c ****     All rights reserved
+   4:..\Common\Minimal/flop.c **** 
+   5:..\Common\Minimal/flop.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Common\Minimal/flop.c **** 
+   7:..\Common\Minimal/flop.c ****     This file is part of the FreeRTOS distribution.
+   8:..\Common\Minimal/flop.c **** 
+   9:..\Common\Minimal/flop.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 2
+
+
+  10:..\Common\Minimal/flop.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Common\Minimal/flop.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Common\Minimal/flop.c **** 
+  13:..\Common\Minimal/flop.c ****     ***************************************************************************
+  14:..\Common\Minimal/flop.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Common\Minimal/flop.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Common\Minimal/flop.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Common\Minimal/flop.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Common\Minimal/flop.c ****     ***************************************************************************
+  19:..\Common\Minimal/flop.c **** 
+  20:..\Common\Minimal/flop.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Common\Minimal/flop.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Common\Minimal/flop.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:..\Common\Minimal/flop.c ****     link: http://www.freertos.org/a00114.html
+  24:..\Common\Minimal/flop.c **** 
+  25:..\Common\Minimal/flop.c ****     ***************************************************************************
+  26:..\Common\Minimal/flop.c ****      *                                                                       *
+  27:..\Common\Minimal/flop.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Common\Minimal/flop.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Common\Minimal/flop.c ****      *    platform software that is more than just the market leader, it     *
+  30:..\Common\Minimal/flop.c ****      *    is the industry's de facto standard.                               *
+  31:..\Common\Minimal/flop.c ****      *                                                                       *
+  32:..\Common\Minimal/flop.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Common\Minimal/flop.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Common\Minimal/flop.c ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Common\Minimal/flop.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Common\Minimal/flop.c ****      *                                                                       *
+  37:..\Common\Minimal/flop.c ****     ***************************************************************************
+  38:..\Common\Minimal/flop.c **** 
+  39:..\Common\Minimal/flop.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Common\Minimal/flop.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Common\Minimal/flop.c ****     defined configASSERT()?
+  42:..\Common\Minimal/flop.c **** 
+  43:..\Common\Minimal/flop.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Common\Minimal/flop.c ****     embedded software for free we request you assist our global community by
+  45:..\Common\Minimal/flop.c ****     participating in the support forum.
+  46:..\Common\Minimal/flop.c **** 
+  47:..\Common\Minimal/flop.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:..\Common\Minimal/flop.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Common\Minimal/flop.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Common\Minimal/flop.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:..\Common\Minimal/flop.c **** 
+  52:..\Common\Minimal/flop.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Common\Minimal/flop.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:..\Common\Minimal/flop.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Common\Minimal/flop.c **** 
+  56:..\Common\Minimal/flop.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Common\Minimal/flop.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Common\Minimal/flop.c **** 
+  59:..\Common\Minimal/flop.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Common\Minimal/flop.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Common\Minimal/flop.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Common\Minimal/flop.c **** 
+  63:..\Common\Minimal/flop.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Common\Minimal/flop.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Common\Minimal/flop.c ****     mission critical applications that require provable dependability.
+  66:..\Common\Minimal/flop.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 3
+
+
+  67:..\Common\Minimal/flop.c ****     1 tab == 4 spaces!
+  68:..\Common\Minimal/flop.c **** */
+  69:..\Common\Minimal/flop.c **** 
+  70:..\Common\Minimal/flop.c **** /*
+  71:..\Common\Minimal/flop.c ****  * Creates eight tasks, each of which loops continuously performing a floating
+  72:..\Common\Minimal/flop.c ****  * point calculation.
+  73:..\Common\Minimal/flop.c ****  *
+  74:..\Common\Minimal/flop.c ****  * All the tasks run at the idle priority and never block or yield.  This causes
+  75:..\Common\Minimal/flop.c ****  * all eight tasks to time slice with the idle task.  Running at the idle
+  76:..\Common\Minimal/flop.c ****  * priority means that these tasks will get pre-empted any time another task is
+  77:..\Common\Minimal/flop.c ****  * ready to run or a time slice occurs.  More often than not the pre-emption
+  78:..\Common\Minimal/flop.c ****  * will occur mid calculation, creating a good test of the schedulers context
+  79:..\Common\Minimal/flop.c ****  * switch mechanism - a calculation producing an unexpected result could be a
+  80:..\Common\Minimal/flop.c ****  * symptom of a corruption in the context of a task.
+  81:..\Common\Minimal/flop.c ****  */
+  82:..\Common\Minimal/flop.c **** 
+  83:..\Common\Minimal/flop.c **** /* Standard includes. */
+  84:..\Common\Minimal/flop.c **** #include <stdlib.h>
+  85:..\Common\Minimal/flop.c **** #include <math.h>
+  86:..\Common\Minimal/flop.c **** 
+  87:..\Common\Minimal/flop.c **** /* Scheduler include files. */
+  88:..\Common\Minimal/flop.c **** #include "FreeRTOS.h"
+  89:..\Common\Minimal/flop.c **** #include "task.h"
+  90:..\Common\Minimal/flop.c **** 
+  91:..\Common\Minimal/flop.c **** /* Demo program include files. */
+  92:..\Common\Minimal/flop.c **** #include "flop.h"
+  93:..\Common\Minimal/flop.c **** 
+  94:..\Common\Minimal/flop.c **** #ifndef mathSTACK_SIZE
+  95:..\Common\Minimal/flop.c **** 	#define mathSTACK_SIZE		configMINIMAL_STACK_SIZE
+  96:..\Common\Minimal/flop.c **** #endif
+  97:..\Common\Minimal/flop.c **** 
+  98:..\Common\Minimal/flop.c **** #define mathNUMBER_OF_TASKS  ( 4 )
+  99:..\Common\Minimal/flop.c **** 
+ 100:..\Common\Minimal/flop.c **** /* Four tasks, each of which performs a different floating point calculation.
+ 101:..\Common\Minimal/flop.c **** Each of the four is created twice. */
+ 102:..\Common\Minimal/flop.c **** static portTASK_FUNCTION_PROTO( vCompetingMathTask1, pvParameters );
+ 103:..\Common\Minimal/flop.c **** static portTASK_FUNCTION_PROTO( vCompetingMathTask2, pvParameters );
+ 104:..\Common\Minimal/flop.c **** static portTASK_FUNCTION_PROTO( vCompetingMathTask3, pvParameters );
+ 105:..\Common\Minimal/flop.c **** static portTASK_FUNCTION_PROTO( vCompetingMathTask4, pvParameters );
+ 106:..\Common\Minimal/flop.c **** 
+ 107:..\Common\Minimal/flop.c **** /* These variables are used to check that all the tasks are still running.  If a
+ 108:..\Common\Minimal/flop.c **** task gets a calculation wrong it will stop setting its check variable. */
+ 109:..\Common\Minimal/flop.c **** static volatile uint16_t usTaskCheck[ mathNUMBER_OF_TASKS ] = { ( uint16_t ) 0 };
+ 110:..\Common\Minimal/flop.c **** 
+ 111:..\Common\Minimal/flop.c **** /*-----------------------------------------------------------*/
+ 112:..\Common\Minimal/flop.c **** 
+ 113:..\Common\Minimal/flop.c **** void vStartMathTasks( UBaseType_t uxPriority )
+ 114:..\Common\Minimal/flop.c **** {
+  44              		.loc 1 114 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 8
+  47              		@ frame_needed = 1, uses_anonymous_args = 0
+  48 0000 80B5     		push	{r7, lr}
+  49              		.cfi_def_cfa_offset 8
+  50              		.cfi_offset 7, -8
+  51              		.cfi_offset 14, -4
+  52 0002 84B0     		sub	sp, sp, #16
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 4
+
+
+  53              		.cfi_def_cfa_offset 24
+  54 0004 02AF     		add	r7, sp, #8
+  55              		.cfi_def_cfa 7, 16
+  56 0006 7860     		str	r0, [r7, #4]
+ 115:..\Common\Minimal/flop.c **** 	xTaskCreate( vCompetingMathTask1, "Math1", mathSTACK_SIZE, ( void * ) &( usTaskCheck[ 0 ] ), uxPri
+  57              		.loc 1 115 0
+  58 0008 7B68     		ldr	r3, [r7, #4]
+  59 000a 0093     		str	r3, [sp]
+  60 000c 0023     		movs	r3, #0
+  61 000e 0193     		str	r3, [sp, #4]
+  62 0010 1348     		ldr	r0, .L2
+  63 0012 1449     		ldr	r1, .L2+4
+  64 0014 6422     		movs	r2, #100
+  65 0016 144B     		ldr	r3, .L2+8
+  66 0018 FFF7FEFF 		bl	xTaskCreate
+ 116:..\Common\Minimal/flop.c **** 	xTaskCreate( vCompetingMathTask2, "Math2", mathSTACK_SIZE, ( void * ) &( usTaskCheck[ 1 ] ), uxPri
+  67              		.loc 1 116 0
+  68 001c 7B68     		ldr	r3, [r7, #4]
+  69 001e 0093     		str	r3, [sp]
+  70 0020 0023     		movs	r3, #0
+  71 0022 0193     		str	r3, [sp, #4]
+  72 0024 1148     		ldr	r0, .L2+12
+  73 0026 1249     		ldr	r1, .L2+16
+  74 0028 6422     		movs	r2, #100
+  75 002a 124B     		ldr	r3, .L2+20
+  76 002c FFF7FEFF 		bl	xTaskCreate
+ 117:..\Common\Minimal/flop.c **** 	xTaskCreate( vCompetingMathTask3, "Math3", mathSTACK_SIZE, ( void * ) &( usTaskCheck[ 2 ] ), uxPri
+  77              		.loc 1 117 0
+  78 0030 7B68     		ldr	r3, [r7, #4]
+  79 0032 0093     		str	r3, [sp]
+  80 0034 0023     		movs	r3, #0
+  81 0036 0193     		str	r3, [sp, #4]
+  82 0038 0F48     		ldr	r0, .L2+24
+  83 003a 1049     		ldr	r1, .L2+28
+  84 003c 6422     		movs	r2, #100
+  85 003e 104B     		ldr	r3, .L2+32
+  86 0040 FFF7FEFF 		bl	xTaskCreate
+ 118:..\Common\Minimal/flop.c **** 	xTaskCreate( vCompetingMathTask4, "Math4", mathSTACK_SIZE, ( void * ) &( usTaskCheck[ 3 ] ), uxPri
+  87              		.loc 1 118 0
+  88 0044 7B68     		ldr	r3, [r7, #4]
+  89 0046 0093     		str	r3, [sp]
+  90 0048 0023     		movs	r3, #0
+  91 004a 0193     		str	r3, [sp, #4]
+  92 004c 0D48     		ldr	r0, .L2+36
+  93 004e 0E49     		ldr	r1, .L2+40
+  94 0050 6422     		movs	r2, #100
+  95 0052 0E4B     		ldr	r3, .L2+44
+  96 0054 FFF7FEFF 		bl	xTaskCreate
+ 119:..\Common\Minimal/flop.c **** }
+  97              		.loc 1 119 0
+  98 0058 0837     		adds	r7, r7, #8
+  99              		.cfi_def_cfa_offset 8
+ 100 005a BD46     		mov	sp, r7
+ 101              		.cfi_def_cfa_register 13
+ 102              		@ sp needed
+ 103 005c 80BD     		pop	{r7, pc}
+ 104              	.L3:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 5
+
+
+ 105 005e 00BF     		.align	2
+ 106              	.L2:
+ 107 0060 00000000 		.word	vCompetingMathTask1
+ 108 0064 00000000 		.word	.LC0
+ 109 0068 00000000 		.word	usTaskCheck
+ 110 006c 00000000 		.word	vCompetingMathTask2
+ 111 0070 08000000 		.word	.LC1
+ 112 0074 02000000 		.word	usTaskCheck+2
+ 113 0078 00000000 		.word	vCompetingMathTask3
+ 114 007c 10000000 		.word	.LC2
+ 115 0080 04000000 		.word	usTaskCheck+4
+ 116 0084 00000000 		.word	vCompetingMathTask4
+ 117 0088 18000000 		.word	.LC3
+ 118 008c 06000000 		.word	usTaskCheck+6
+ 119              		.cfi_endproc
+ 120              	.LFE68:
+ 121              		.size	vStartMathTasks, .-vStartMathTasks
+ 122              		.global	__aeabi_dadd
+ 123              		.global	__aeabi_dmul
+ 124              		.global	__aeabi_dsub
+ 125              		.global	__aeabi_dcmpgt
+ 126              		.section	.text.vCompetingMathTask1,"ax",%progbits
+ 127              		.align	2
+ 128              		.thumb
+ 129              		.thumb_func
+ 130              		.type	vCompetingMathTask1, %function
+ 131              	vCompetingMathTask1:
+ 132              	.LFB69:
+ 120:..\Common\Minimal/flop.c **** /*-----------------------------------------------------------*/
+ 121:..\Common\Minimal/flop.c **** 
+ 122:..\Common\Minimal/flop.c **** static portTASK_FUNCTION( vCompetingMathTask1, pvParameters )
+ 123:..\Common\Minimal/flop.c **** {
+ 133              		.loc 1 123 0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 56
+ 136              		@ frame_needed = 1, uses_anonymous_args = 0
+ 137 0000 B0B5     		push	{r4, r5, r7, lr}
+ 138              		.cfi_def_cfa_offset 16
+ 139              		.cfi_offset 4, -16
+ 140              		.cfi_offset 5, -12
+ 141              		.cfi_offset 7, -8
+ 142              		.cfi_offset 14, -4
+ 143 0002 8EB0     		sub	sp, sp, #56
+ 144              		.cfi_def_cfa_offset 72
+ 145 0004 00AF     		add	r7, sp, #0
+ 146              		.cfi_def_cfa_register 7
+ 147 0006 7860     		str	r0, [r7, #4]
+ 124:..\Common\Minimal/flop.c **** volatile portDOUBLE d1, d2, d3, d4;
+ 125:..\Common\Minimal/flop.c **** volatile uint16_t *pusTaskCheckVariable;
+ 126:..\Common\Minimal/flop.c **** volatile portDOUBLE dAnswer;
+ 127:..\Common\Minimal/flop.c **** short sError = pdFALSE;
+ 148              		.loc 1 127 0
+ 149 0008 0023     		movs	r3, #0
+ 150 000a FB86     		strh	r3, [r7, #54]	@ movhi
+ 128:..\Common\Minimal/flop.c **** 
+ 129:..\Common\Minimal/flop.c **** 	/* Some ports require that tasks that use a hardware floating point unit
+ 130:..\Common\Minimal/flop.c **** 	tell the kernel that they require a floating point context before any
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 6
+
+
+ 131:..\Common\Minimal/flop.c **** 	floating point instructions are executed. */
+ 132:..\Common\Minimal/flop.c **** 	portTASK_USES_FLOATING_POINT();
+ 133:..\Common\Minimal/flop.c **** 
+ 134:..\Common\Minimal/flop.c **** 	d1 = 123.4567;
+ 151              		.loc 1 134 0
+ 152 000c 32A3     		adr	r3, .L10
+ 153 000e D3E90023 		ldrd	r2, [r3]
+ 154 0012 C7E90A23 		strd	r2, [r7, #40]
+ 135:..\Common\Minimal/flop.c **** 	d2 = 2345.6789;
+ 155              		.loc 1 135 0
+ 156 0016 32A3     		adr	r3, .L10+8
+ 157 0018 D3E90023 		ldrd	r2, [r3]
+ 158 001c C7E90823 		strd	r2, [r7, #32]
+ 136:..\Common\Minimal/flop.c **** 	d3 = -918.222;
+ 159              		.loc 1 136 0
+ 160 0020 31A3     		adr	r3, .L10+16
+ 161 0022 D3E90023 		ldrd	r2, [r3]
+ 162 0026 C7E90623 		strd	r2, [r7, #24]
+ 137:..\Common\Minimal/flop.c **** 
+ 138:..\Common\Minimal/flop.c **** 	dAnswer = ( d1 + d2 ) * d3;
+ 163              		.loc 1 138 0
+ 164 002a D7E90A01 		ldrd	r0, [r7, #40]
+ 165 002e D7E90823 		ldrd	r2, [r7, #32]
+ 166 0032 FFF7FEFF 		bl	__aeabi_dadd
+ 167 0036 0246     		mov	r2, r0
+ 168 0038 0B46     		mov	r3, r1
+ 169 003a 1046     		mov	r0, r2
+ 170 003c 1946     		mov	r1, r3
+ 171 003e D7E90623 		ldrd	r2, [r7, #24]
+ 172 0042 FFF7FEFF 		bl	__aeabi_dmul
+ 173 0046 0246     		mov	r2, r0
+ 174 0048 0B46     		mov	r3, r1
+ 175 004a C7E90223 		strd	r2, [r7, #8]
+ 139:..\Common\Minimal/flop.c **** 
+ 140:..\Common\Minimal/flop.c **** 	/* The variable this task increments to show it is still running is passed in
+ 141:..\Common\Minimal/flop.c **** 	as the parameter. */
+ 142:..\Common\Minimal/flop.c **** 	pusTaskCheckVariable = ( uint16_t * ) pvParameters;
+ 176              		.loc 1 142 0
+ 177 004e 7B68     		ldr	r3, [r7, #4]
+ 178 0050 3B63     		str	r3, [r7, #48]
+ 179              	.L8:
+ 143:..\Common\Minimal/flop.c **** 
+ 144:..\Common\Minimal/flop.c **** 	/* Keep performing a calculation and checking the result against a constant. */
+ 145:..\Common\Minimal/flop.c **** 	for(;;)
+ 146:..\Common\Minimal/flop.c **** 	{
+ 147:..\Common\Minimal/flop.c **** 		d1 = 123.4567;
+ 180              		.loc 1 147 0
+ 181 0052 21A3     		adr	r3, .L10
+ 182 0054 D3E90023 		ldrd	r2, [r3]
+ 183 0058 C7E90A23 		strd	r2, [r7, #40]
+ 148:..\Common\Minimal/flop.c **** 		d2 = 2345.6789;
+ 184              		.loc 1 148 0
+ 185 005c 20A3     		adr	r3, .L10+8
+ 186 005e D3E90023 		ldrd	r2, [r3]
+ 187 0062 C7E90823 		strd	r2, [r7, #32]
+ 149:..\Common\Minimal/flop.c **** 		d3 = -918.222;
+ 188              		.loc 1 149 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 7
+
+
+ 189 0066 20A3     		adr	r3, .L10+16
+ 190 0068 D3E90023 		ldrd	r2, [r3]
+ 191 006c C7E90623 		strd	r2, [r7, #24]
+ 150:..\Common\Minimal/flop.c **** 
+ 151:..\Common\Minimal/flop.c **** 		d4 = ( d1 + d2 ) * d3;
+ 192              		.loc 1 151 0
+ 193 0070 D7E90A01 		ldrd	r0, [r7, #40]
+ 194 0074 D7E90823 		ldrd	r2, [r7, #32]
+ 195 0078 FFF7FEFF 		bl	__aeabi_dadd
+ 196 007c 0246     		mov	r2, r0
+ 197 007e 0B46     		mov	r3, r1
+ 198 0080 1046     		mov	r0, r2
+ 199 0082 1946     		mov	r1, r3
+ 200 0084 D7E90623 		ldrd	r2, [r7, #24]
+ 201 0088 FFF7FEFF 		bl	__aeabi_dmul
+ 202 008c 0246     		mov	r2, r0
+ 203 008e 0B46     		mov	r3, r1
+ 204 0090 C7E90423 		strd	r2, [r7, #16]
+ 152:..\Common\Minimal/flop.c **** 
+ 153:..\Common\Minimal/flop.c **** 		#if configUSE_PREEMPTION == 0
+ 154:..\Common\Minimal/flop.c **** 			taskYIELD();
+ 155:..\Common\Minimal/flop.c **** 		#endif
+ 156:..\Common\Minimal/flop.c **** 
+ 157:..\Common\Minimal/flop.c **** 		/* If the calculation does not match the expected constant, stop the
+ 158:..\Common\Minimal/flop.c **** 		increment of the check variable. */
+ 159:..\Common\Minimal/flop.c **** 		if( fabs( d4 - dAnswer ) > 0.001 )
+ 205              		.loc 1 159 0
+ 206 0094 D7E90401 		ldrd	r0, [r7, #16]
+ 207 0098 D7E90223 		ldrd	r2, [r7, #8]
+ 208 009c FFF7FEFF 		bl	__aeabi_dsub
+ 209 00a0 0246     		mov	r2, r0
+ 210 00a2 0B46     		mov	r3, r1
+ 211 00a4 1446     		mov	r4, r2
+ 212 00a6 23F00045 		bic	r5, r3, #-2147483648
+ 213 00aa 2046     		mov	r0, r4
+ 214 00ac 2946     		mov	r1, r5
+ 215 00ae 10A3     		adr	r3, .L10+24
+ 216 00b0 D3E90023 		ldrd	r2, [r3]
+ 217 00b4 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 218 00b8 0346     		mov	r3, r0
+ 219 00ba 002B     		cmp	r3, #0
+ 220 00bc 01D0     		beq	.L5
+ 160:..\Common\Minimal/flop.c **** 		{
+ 161:..\Common\Minimal/flop.c **** 			sError = pdTRUE;
+ 221              		.loc 1 161 0
+ 222 00be 0123     		movs	r3, #1
+ 223 00c0 FB86     		strh	r3, [r7, #54]	@ movhi
+ 224              	.L5:
+ 162:..\Common\Minimal/flop.c **** 		}
+ 163:..\Common\Minimal/flop.c **** 
+ 164:..\Common\Minimal/flop.c **** 		if( sError == pdFALSE )
+ 225              		.loc 1 164 0
+ 226 00c2 B7F93630 		ldrsh	r3, [r7, #54]
+ 227 00c6 002B     		cmp	r3, #0
+ 228 00c8 02D1     		bne	.L7
+ 165:..\Common\Minimal/flop.c **** 		{
+ 166:..\Common\Minimal/flop.c **** 			/* If the calculation has always been correct then set set the check
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 8
+
+
+ 167:..\Common\Minimal/flop.c **** 			variable.  The check variable will get set to pdFALSE each time
+ 168:..\Common\Minimal/flop.c **** 			xAreMathsTaskStillRunning() is executed. */
+ 169:..\Common\Minimal/flop.c **** 			( *pusTaskCheckVariable ) = pdTRUE;
+ 229              		.loc 1 169 0
+ 230 00ca 3B6B     		ldr	r3, [r7, #48]
+ 231 00cc 0122     		movs	r2, #1
+ 232 00ce 1A80     		strh	r2, [r3]	@ movhi
+ 233              	.L7:
+ 170:..\Common\Minimal/flop.c **** 		}
+ 171:..\Common\Minimal/flop.c **** 
+ 172:..\Common\Minimal/flop.c **** 		#if configUSE_PREEMPTION == 0
+ 173:..\Common\Minimal/flop.c **** 			taskYIELD();
+ 174:..\Common\Minimal/flop.c **** 		#endif
+ 175:..\Common\Minimal/flop.c **** 
+ 176:..\Common\Minimal/flop.c **** 	}
+ 234              		.loc 1 176 0
+ 235 00d0 BFE7     		b	.L8
+ 236              	.L11:
+ 237 00d2 00BFAFF3 		.align	3
+ 237      0080
+ 238              	.L10:
+ 239 00d8 5305A392 		.word	-1834810029
+ 240 00dc 3ADD5E40 		.word	1079958842
+ 241 00e0 82E2C798 		.word	-1731730814
+ 242 00e4 5B53A240 		.word	1084379995
+ 243 00e8 B29DEFA7 		.word	-1477468750
+ 244 00ec C6B18CC0 		.word	-1064521274
+ 245 00f0 FCA9F1D2 		.word	-755914244
+ 246 00f4 4D62503F 		.word	1062232653
+ 247              		.cfi_endproc
+ 248              	.LFE69:
+ 249              		.size	vCompetingMathTask1, .-vCompetingMathTask1
+ 250              		.global	__aeabi_ddiv
+ 251              		.section	.text.vCompetingMathTask2,"ax",%progbits
+ 252              		.align	2
+ 253              		.thumb
+ 254              		.thumb_func
+ 255              		.type	vCompetingMathTask2, %function
+ 256              	vCompetingMathTask2:
+ 257              	.LFB70:
+ 177:..\Common\Minimal/flop.c **** }
+ 178:..\Common\Minimal/flop.c **** /*-----------------------------------------------------------*/
+ 179:..\Common\Minimal/flop.c **** 
+ 180:..\Common\Minimal/flop.c **** static portTASK_FUNCTION( vCompetingMathTask2, pvParameters )
+ 181:..\Common\Minimal/flop.c **** {
+ 258              		.loc 1 181 0
+ 259              		.cfi_startproc
+ 260              		@ args = 0, pretend = 0, frame = 56
+ 261              		@ frame_needed = 1, uses_anonymous_args = 0
+ 262 0000 B0B5     		push	{r4, r5, r7, lr}
+ 263              		.cfi_def_cfa_offset 16
+ 264              		.cfi_offset 4, -16
+ 265              		.cfi_offset 5, -12
+ 266              		.cfi_offset 7, -8
+ 267              		.cfi_offset 14, -4
+ 268 0002 8EB0     		sub	sp, sp, #56
+ 269              		.cfi_def_cfa_offset 72
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 9
+
+
+ 270 0004 00AF     		add	r7, sp, #0
+ 271              		.cfi_def_cfa_register 7
+ 272 0006 7860     		str	r0, [r7, #4]
+ 182:..\Common\Minimal/flop.c **** volatile portDOUBLE d1, d2, d3, d4;
+ 183:..\Common\Minimal/flop.c **** volatile uint16_t *pusTaskCheckVariable;
+ 184:..\Common\Minimal/flop.c **** volatile portDOUBLE dAnswer;
+ 185:..\Common\Minimal/flop.c **** short sError = pdFALSE;
+ 273              		.loc 1 185 0
+ 274 0008 0023     		movs	r3, #0
+ 275 000a FB86     		strh	r3, [r7, #54]	@ movhi
+ 186:..\Common\Minimal/flop.c **** 
+ 187:..\Common\Minimal/flop.c **** 	/* Some ports require that tasks that use a hardware floating point unit
+ 188:..\Common\Minimal/flop.c **** 	tell the kernel that they require a floating point context before any
+ 189:..\Common\Minimal/flop.c **** 	floating point instructions are executed. */
+ 190:..\Common\Minimal/flop.c **** 	portTASK_USES_FLOATING_POINT();
+ 191:..\Common\Minimal/flop.c **** 
+ 192:..\Common\Minimal/flop.c **** 	d1 = -389.38;
+ 276              		.loc 1 192 0
+ 277 000c 32A3     		adr	r3, .L18
+ 278 000e D3E90023 		ldrd	r2, [r3]
+ 279 0012 C7E90A23 		strd	r2, [r7, #40]
+ 193:..\Common\Minimal/flop.c **** 	d2 = 32498.2;
+ 280              		.loc 1 193 0
+ 281 0016 32A3     		adr	r3, .L18+8
+ 282 0018 D3E90023 		ldrd	r2, [r3]
+ 283 001c C7E90823 		strd	r2, [r7, #32]
+ 194:..\Common\Minimal/flop.c **** 	d3 = -2.0001;
+ 284              		.loc 1 194 0
+ 285 0020 31A3     		adr	r3, .L18+16
+ 286 0022 D3E90023 		ldrd	r2, [r3]
+ 287 0026 C7E90623 		strd	r2, [r7, #24]
+ 195:..\Common\Minimal/flop.c **** 
+ 196:..\Common\Minimal/flop.c **** 	dAnswer = ( d1 / d2 ) * d3;
+ 288              		.loc 1 196 0
+ 289 002a D7E90A01 		ldrd	r0, [r7, #40]
+ 290 002e D7E90823 		ldrd	r2, [r7, #32]
+ 291 0032 FFF7FEFF 		bl	__aeabi_ddiv
+ 292 0036 0246     		mov	r2, r0
+ 293 0038 0B46     		mov	r3, r1
+ 294 003a 1046     		mov	r0, r2
+ 295 003c 1946     		mov	r1, r3
+ 296 003e D7E90623 		ldrd	r2, [r7, #24]
+ 297 0042 FFF7FEFF 		bl	__aeabi_dmul
+ 298 0046 0246     		mov	r2, r0
+ 299 0048 0B46     		mov	r3, r1
+ 300 004a C7E90223 		strd	r2, [r7, #8]
+ 197:..\Common\Minimal/flop.c **** 
+ 198:..\Common\Minimal/flop.c **** 
+ 199:..\Common\Minimal/flop.c **** 	/* The variable this task increments to show it is still running is passed in
+ 200:..\Common\Minimal/flop.c **** 	as the parameter. */
+ 201:..\Common\Minimal/flop.c **** 	pusTaskCheckVariable = ( uint16_t * ) pvParameters;
+ 301              		.loc 1 201 0
+ 302 004e 7B68     		ldr	r3, [r7, #4]
+ 303 0050 3B63     		str	r3, [r7, #48]
+ 304              	.L16:
+ 202:..\Common\Minimal/flop.c **** 
+ 203:..\Common\Minimal/flop.c **** 	/* Keep performing a calculation and checking the result against a constant. */
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 10
+
+
+ 204:..\Common\Minimal/flop.c **** 	for( ;; )
+ 205:..\Common\Minimal/flop.c **** 	{
+ 206:..\Common\Minimal/flop.c **** 		d1 = -389.38;
+ 305              		.loc 1 206 0
+ 306 0052 21A3     		adr	r3, .L18
+ 307 0054 D3E90023 		ldrd	r2, [r3]
+ 308 0058 C7E90A23 		strd	r2, [r7, #40]
+ 207:..\Common\Minimal/flop.c **** 		d2 = 32498.2;
+ 309              		.loc 1 207 0
+ 310 005c 20A3     		adr	r3, .L18+8
+ 311 005e D3E90023 		ldrd	r2, [r3]
+ 312 0062 C7E90823 		strd	r2, [r7, #32]
+ 208:..\Common\Minimal/flop.c **** 		d3 = -2.0001;
+ 313              		.loc 1 208 0
+ 314 0066 20A3     		adr	r3, .L18+16
+ 315 0068 D3E90023 		ldrd	r2, [r3]
+ 316 006c C7E90623 		strd	r2, [r7, #24]
+ 209:..\Common\Minimal/flop.c **** 
+ 210:..\Common\Minimal/flop.c **** 		d4 = ( d1 / d2 ) * d3;
+ 317              		.loc 1 210 0
+ 318 0070 D7E90A01 		ldrd	r0, [r7, #40]
+ 319 0074 D7E90823 		ldrd	r2, [r7, #32]
+ 320 0078 FFF7FEFF 		bl	__aeabi_ddiv
+ 321 007c 0246     		mov	r2, r0
+ 322 007e 0B46     		mov	r3, r1
+ 323 0080 1046     		mov	r0, r2
+ 324 0082 1946     		mov	r1, r3
+ 325 0084 D7E90623 		ldrd	r2, [r7, #24]
+ 326 0088 FFF7FEFF 		bl	__aeabi_dmul
+ 327 008c 0246     		mov	r2, r0
+ 328 008e 0B46     		mov	r3, r1
+ 329 0090 C7E90423 		strd	r2, [r7, #16]
+ 211:..\Common\Minimal/flop.c **** 
+ 212:..\Common\Minimal/flop.c **** 		#if configUSE_PREEMPTION == 0
+ 213:..\Common\Minimal/flop.c **** 			taskYIELD();
+ 214:..\Common\Minimal/flop.c **** 		#endif
+ 215:..\Common\Minimal/flop.c **** 
+ 216:..\Common\Minimal/flop.c **** 		/* If the calculation does not match the expected constant, stop the
+ 217:..\Common\Minimal/flop.c **** 		increment of the check variable. */
+ 218:..\Common\Minimal/flop.c **** 		if( fabs( d4 - dAnswer ) > 0.001 )
+ 330              		.loc 1 218 0
+ 331 0094 D7E90401 		ldrd	r0, [r7, #16]
+ 332 0098 D7E90223 		ldrd	r2, [r7, #8]
+ 333 009c FFF7FEFF 		bl	__aeabi_dsub
+ 334 00a0 0246     		mov	r2, r0
+ 335 00a2 0B46     		mov	r3, r1
+ 336 00a4 1446     		mov	r4, r2
+ 337 00a6 23F00045 		bic	r5, r3, #-2147483648
+ 338 00aa 2046     		mov	r0, r4
+ 339 00ac 2946     		mov	r1, r5
+ 340 00ae 10A3     		adr	r3, .L18+24
+ 341 00b0 D3E90023 		ldrd	r2, [r3]
+ 342 00b4 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 343 00b8 0346     		mov	r3, r0
+ 344 00ba 002B     		cmp	r3, #0
+ 345 00bc 01D0     		beq	.L13
+ 219:..\Common\Minimal/flop.c **** 		{
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 11
+
+
+ 220:..\Common\Minimal/flop.c **** 			sError = pdTRUE;
+ 346              		.loc 1 220 0
+ 347 00be 0123     		movs	r3, #1
+ 348 00c0 FB86     		strh	r3, [r7, #54]	@ movhi
+ 349              	.L13:
+ 221:..\Common\Minimal/flop.c **** 		}
+ 222:..\Common\Minimal/flop.c **** 
+ 223:..\Common\Minimal/flop.c **** 		if( sError == pdFALSE )
+ 350              		.loc 1 223 0
+ 351 00c2 B7F93630 		ldrsh	r3, [r7, #54]
+ 352 00c6 002B     		cmp	r3, #0
+ 353 00c8 02D1     		bne	.L15
+ 224:..\Common\Minimal/flop.c **** 		{
+ 225:..\Common\Minimal/flop.c **** 			/* If the calculation has always been correct then set set the check
+ 226:..\Common\Minimal/flop.c **** 			variable.  The check variable will get set to pdFALSE each time
+ 227:..\Common\Minimal/flop.c **** 			xAreMathsTaskStillRunning() is executed. */
+ 228:..\Common\Minimal/flop.c **** 			( *pusTaskCheckVariable ) = pdTRUE;
+ 354              		.loc 1 228 0
+ 355 00ca 3B6B     		ldr	r3, [r7, #48]
+ 356 00cc 0122     		movs	r2, #1
+ 357 00ce 1A80     		strh	r2, [r3]	@ movhi
+ 358              	.L15:
+ 229:..\Common\Minimal/flop.c **** 		}
+ 230:..\Common\Minimal/flop.c **** 
+ 231:..\Common\Minimal/flop.c **** 		#if configUSE_PREEMPTION == 0
+ 232:..\Common\Minimal/flop.c **** 			taskYIELD();
+ 233:..\Common\Minimal/flop.c **** 		#endif
+ 234:..\Common\Minimal/flop.c **** 	}
+ 359              		.loc 1 234 0
+ 360 00d0 BFE7     		b	.L16
+ 361              	.L19:
+ 362 00d2 00BFAFF3 		.align	3
+ 362      0080
+ 363              	.L18:
+ 364 00d8 AE47E17A 		.word	2061584302
+ 365 00dc 145678C0 		.word	-1065855468
+ 366 00e0 CDCCCCCC 		.word	-858993459
+ 367 00e4 8CBCDF40 		.word	1088404620
+ 368 00e8 39D6C56D 		.word	1841681977
+ 369 00ec 340000C0 		.word	-1073741772
+ 370 00f0 FCA9F1D2 		.word	-755914244
+ 371 00f4 4D62503F 		.word	1062232653
+ 372              		.cfi_endproc
+ 373              	.LFE70:
+ 374              		.size	vCompetingMathTask2, .-vCompetingMathTask2
+ 375              		.global	__aeabi_ui2d
+ 376              		.section	.text.vCompetingMathTask3,"ax",%progbits
+ 377              		.align	2
+ 378              		.thumb
+ 379              		.thumb_func
+ 380              		.type	vCompetingMathTask3, %function
+ 381              	vCompetingMathTask3:
+ 382              	.LFB71:
+ 235:..\Common\Minimal/flop.c **** }
+ 236:..\Common\Minimal/flop.c **** /*-----------------------------------------------------------*/
+ 237:..\Common\Minimal/flop.c **** 
+ 238:..\Common\Minimal/flop.c **** static portTASK_FUNCTION( vCompetingMathTask3, pvParameters )
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 12
+
+
+ 239:..\Common\Minimal/flop.c **** {
+ 383              		.loc 1 239 0
+ 384              		.cfi_startproc
+ 385              		@ args = 0, pretend = 0, frame = 56
+ 386              		@ frame_needed = 1, uses_anonymous_args = 0
+ 387 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 388              		.cfi_def_cfa_offset 20
+ 389              		.cfi_offset 4, -20
+ 390              		.cfi_offset 5, -16
+ 391              		.cfi_offset 6, -12
+ 392              		.cfi_offset 7, -8
+ 393              		.cfi_offset 14, -4
+ 394 0002 8FB0     		sub	sp, sp, #60
+ 395              		.cfi_def_cfa_offset 80
+ 396 0004 00AF     		add	r7, sp, #0
+ 397              		.cfi_def_cfa_register 7
+ 398 0006 7860     		str	r0, [r7, #4]
+ 240:..\Common\Minimal/flop.c **** volatile portDOUBLE *pdArray, dTotal1, dTotal2, dDifference;
+ 241:..\Common\Minimal/flop.c **** volatile uint16_t *pusTaskCheckVariable;
+ 242:..\Common\Minimal/flop.c **** const size_t xArraySize = 10;
+ 399              		.loc 1 242 0
+ 400 0008 0A23     		movs	r3, #10
+ 401 000a FB62     		str	r3, [r7, #44]
+ 243:..\Common\Minimal/flop.c **** size_t xPosition;
+ 244:..\Common\Minimal/flop.c **** short sError = pdFALSE;
+ 402              		.loc 1 244 0
+ 403 000c 0023     		movs	r3, #0
+ 404 000e 7B86     		strh	r3, [r7, #50]	@ movhi
+ 245:..\Common\Minimal/flop.c **** 
+ 246:..\Common\Minimal/flop.c **** 	/* Some ports require that tasks that use a hardware floating point unit
+ 247:..\Common\Minimal/flop.c **** 	tell the kernel that they require a floating point context before any
+ 248:..\Common\Minimal/flop.c **** 	floating point instructions are executed. */
+ 249:..\Common\Minimal/flop.c **** 	portTASK_USES_FLOATING_POINT();
+ 250:..\Common\Minimal/flop.c **** 
+ 251:..\Common\Minimal/flop.c **** 	/* The variable this task increments to show it is still running is passed in
+ 252:..\Common\Minimal/flop.c **** 	as the parameter. */
+ 253:..\Common\Minimal/flop.c **** 	pusTaskCheckVariable = ( uint16_t * ) pvParameters;
+ 405              		.loc 1 253 0
+ 406 0010 7B68     		ldr	r3, [r7, #4]
+ 407 0012 BB62     		str	r3, [r7, #40]
+ 254:..\Common\Minimal/flop.c **** 
+ 255:..\Common\Minimal/flop.c **** 	pdArray = ( portDOUBLE * ) pvPortMalloc( xArraySize * sizeof( portDOUBLE ) );
+ 408              		.loc 1 255 0
+ 409 0014 FB6A     		ldr	r3, [r7, #44]
+ 410 0016 DB00     		lsls	r3, r3, #3
+ 411 0018 1846     		mov	r0, r3
+ 412 001a FFF7FEFF 		bl	pvPortMalloc
+ 413 001e 7862     		str	r0, [r7, #36]
+ 414              	.L28:
+ 256:..\Common\Minimal/flop.c **** 
+ 257:..\Common\Minimal/flop.c **** 	/* Keep filling an array, keeping a running total of the values placed in the
+ 258:..\Common\Minimal/flop.c **** 	array.  Then run through the array adding up all the values.  If the two totals
+ 259:..\Common\Minimal/flop.c **** 	do not match, stop the check variable from incrementing. */
+ 260:..\Common\Minimal/flop.c **** 	for( ;; )
+ 261:..\Common\Minimal/flop.c **** 	{
+ 262:..\Common\Minimal/flop.c **** 		dTotal1 = 0.0;
+ 415              		.loc 1 262 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 13
+
+
+ 416 0020 4FF00002 		mov	r2, #0
+ 417 0024 4FF00003 		mov	r3, #0
+ 418 0028 C7E90623 		strd	r2, [r7, #24]
+ 263:..\Common\Minimal/flop.c **** 		dTotal2 = 0.0;
+ 419              		.loc 1 263 0
+ 420 002c 4FF00002 		mov	r2, #0
+ 421 0030 4FF00003 		mov	r3, #0
+ 422 0034 C7E90423 		strd	r2, [r7, #16]
+ 264:..\Common\Minimal/flop.c **** 
+ 265:..\Common\Minimal/flop.c **** 		for( xPosition = 0; xPosition < xArraySize; xPosition++ )
+ 423              		.loc 1 265 0
+ 424 0038 0023     		movs	r3, #0
+ 425 003a 7B63     		str	r3, [r7, #52]
+ 426 003c 2EE0     		b	.L21
+ 427              	.L22:
+ 266:..\Common\Minimal/flop.c **** 		{
+ 267:..\Common\Minimal/flop.c **** 			pdArray[ xPosition ] = ( portDOUBLE ) xPosition + 5.5;
+ 428              		.loc 1 267 0 discriminator 3
+ 429 003e 7B6B     		ldr	r3, [r7, #52]
+ 430 0040 DB00     		lsls	r3, r3, #3
+ 431 0042 7A6A     		ldr	r2, [r7, #36]
+ 432 0044 D618     		adds	r6, r2, r3
+ 433 0046 786B     		ldr	r0, [r7, #52]
+ 434 0048 FFF7FEFF 		bl	__aeabi_ui2d
+ 435 004c 0246     		mov	r2, r0
+ 436 004e 0B46     		mov	r3, r1
+ 437 0050 1046     		mov	r0, r2
+ 438 0052 1946     		mov	r1, r3
+ 439 0054 4FF00002 		mov	r2, #0
+ 440 0058 334B     		ldr	r3, .L30+8
+ 441 005a FFF7FEFF 		bl	__aeabi_dadd
+ 442 005e 0246     		mov	r2, r0
+ 443 0060 0B46     		mov	r3, r1
+ 444 0062 C6E90023 		strd	r2, [r6]
+ 268:..\Common\Minimal/flop.c **** 			dTotal1 += ( portDOUBLE ) xPosition + 5.5;
+ 445              		.loc 1 268 0 discriminator 3
+ 446 0066 786B     		ldr	r0, [r7, #52]
+ 447 0068 FFF7FEFF 		bl	__aeabi_ui2d
+ 448 006c 0246     		mov	r2, r0
+ 449 006e 0B46     		mov	r3, r1
+ 450 0070 1046     		mov	r0, r2
+ 451 0072 1946     		mov	r1, r3
+ 452 0074 4FF00002 		mov	r2, #0
+ 453 0078 2B4B     		ldr	r3, .L30+8
+ 454 007a FFF7FEFF 		bl	__aeabi_dadd
+ 455 007e 0246     		mov	r2, r0
+ 456 0080 0B46     		mov	r3, r1
+ 457 0082 1046     		mov	r0, r2
+ 458 0084 1946     		mov	r1, r3
+ 459 0086 D7E90623 		ldrd	r2, [r7, #24]
+ 460 008a FFF7FEFF 		bl	__aeabi_dadd
+ 461 008e 0246     		mov	r2, r0
+ 462 0090 0B46     		mov	r3, r1
+ 463 0092 C7E90623 		strd	r2, [r7, #24]
+ 265:..\Common\Minimal/flop.c **** 		{
+ 464              		.loc 1 265 0 discriminator 3
+ 465 0096 7B6B     		ldr	r3, [r7, #52]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 14
+
+
+ 466 0098 0133     		adds	r3, r3, #1
+ 467 009a 7B63     		str	r3, [r7, #52]
+ 468              	.L21:
+ 265:..\Common\Minimal/flop.c **** 		{
+ 469              		.loc 1 265 0 is_stmt 0 discriminator 1
+ 470 009c 7A6B     		ldr	r2, [r7, #52]
+ 471 009e FB6A     		ldr	r3, [r7, #44]
+ 472 00a0 9A42     		cmp	r2, r3
+ 473 00a2 CCD3     		bcc	.L22
+ 269:..\Common\Minimal/flop.c **** 		}
+ 270:..\Common\Minimal/flop.c **** 
+ 271:..\Common\Minimal/flop.c **** 		#if configUSE_PREEMPTION == 0
+ 272:..\Common\Minimal/flop.c **** 			taskYIELD();
+ 273:..\Common\Minimal/flop.c **** 		#endif
+ 274:..\Common\Minimal/flop.c **** 
+ 275:..\Common\Minimal/flop.c **** 		for( xPosition = 0; xPosition < xArraySize; xPosition++ )
+ 474              		.loc 1 275 0 is_stmt 1
+ 475 00a4 0023     		movs	r3, #0
+ 476 00a6 7B63     		str	r3, [r7, #52]
+ 477 00a8 10E0     		b	.L23
+ 478              	.L24:
+ 276:..\Common\Minimal/flop.c **** 		{
+ 277:..\Common\Minimal/flop.c **** 			dTotal2 += pdArray[ xPosition ];
+ 479              		.loc 1 277 0 discriminator 3
+ 480 00aa 7B6B     		ldr	r3, [r7, #52]
+ 481 00ac DB00     		lsls	r3, r3, #3
+ 482 00ae 7A6A     		ldr	r2, [r7, #36]
+ 483 00b0 1344     		add	r3, r3, r2
+ 484 00b2 D3E90001 		ldrd	r0, [r3]
+ 485 00b6 D7E90423 		ldrd	r2, [r7, #16]
+ 486 00ba FFF7FEFF 		bl	__aeabi_dadd
+ 487 00be 0246     		mov	r2, r0
+ 488 00c0 0B46     		mov	r3, r1
+ 489 00c2 C7E90423 		strd	r2, [r7, #16]
+ 275:..\Common\Minimal/flop.c **** 		{
+ 490              		.loc 1 275 0 discriminator 3
+ 491 00c6 7B6B     		ldr	r3, [r7, #52]
+ 492 00c8 0133     		adds	r3, r3, #1
+ 493 00ca 7B63     		str	r3, [r7, #52]
+ 494              	.L23:
+ 275:..\Common\Minimal/flop.c **** 		{
+ 495              		.loc 1 275 0 is_stmt 0 discriminator 1
+ 496 00cc 7A6B     		ldr	r2, [r7, #52]
+ 497 00ce FB6A     		ldr	r3, [r7, #44]
+ 498 00d0 9A42     		cmp	r2, r3
+ 499 00d2 EAD3     		bcc	.L24
+ 278:..\Common\Minimal/flop.c **** 		}
+ 279:..\Common\Minimal/flop.c **** 
+ 280:..\Common\Minimal/flop.c **** 		dDifference = dTotal1 - dTotal2;
+ 500              		.loc 1 280 0 is_stmt 1
+ 501 00d4 D7E90601 		ldrd	r0, [r7, #24]
+ 502 00d8 D7E90423 		ldrd	r2, [r7, #16]
+ 503 00dc FFF7FEFF 		bl	__aeabi_dsub
+ 504 00e0 0246     		mov	r2, r0
+ 505 00e2 0B46     		mov	r3, r1
+ 506 00e4 C7E90223 		strd	r2, [r7, #8]
+ 281:..\Common\Minimal/flop.c **** 		if( fabs( dDifference ) > 0.001 )
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 15
+
+
+ 507              		.loc 1 281 0
+ 508 00e8 D7E90223 		ldrd	r2, [r7, #8]
+ 509 00ec 1446     		mov	r4, r2
+ 510 00ee 23F00045 		bic	r5, r3, #-2147483648
+ 511 00f2 2046     		mov	r0, r4
+ 512 00f4 2946     		mov	r1, r5
+ 513 00f6 0AA3     		adr	r3, .L30
+ 514 00f8 D3E90023 		ldrd	r2, [r3]
+ 515 00fc FFF7FEFF 		bl	__aeabi_dcmpgt
+ 516 0100 0346     		mov	r3, r0
+ 517 0102 002B     		cmp	r3, #0
+ 518 0104 01D0     		beq	.L25
+ 282:..\Common\Minimal/flop.c **** 		{
+ 283:..\Common\Minimal/flop.c **** 			sError = pdTRUE;
+ 519              		.loc 1 283 0
+ 520 0106 0123     		movs	r3, #1
+ 521 0108 7B86     		strh	r3, [r7, #50]	@ movhi
+ 522              	.L25:
+ 284:..\Common\Minimal/flop.c **** 		}
+ 285:..\Common\Minimal/flop.c **** 
+ 286:..\Common\Minimal/flop.c **** 		#if configUSE_PREEMPTION == 0
+ 287:..\Common\Minimal/flop.c **** 			taskYIELD();
+ 288:..\Common\Minimal/flop.c **** 		#endif
+ 289:..\Common\Minimal/flop.c **** 
+ 290:..\Common\Minimal/flop.c **** 		if( sError == pdFALSE )
+ 523              		.loc 1 290 0
+ 524 010a B7F93230 		ldrsh	r3, [r7, #50]
+ 525 010e 002B     		cmp	r3, #0
+ 526 0110 02D1     		bne	.L27
+ 291:..\Common\Minimal/flop.c **** 		{
+ 292:..\Common\Minimal/flop.c **** 			/* If the calculation has always been correct then set set the check
+ 293:..\Common\Minimal/flop.c **** 			variable.  The check variable will get set to pdFALSE each time
+ 294:..\Common\Minimal/flop.c **** 			xAreMathsTaskStillRunning() is executed. */
+ 295:..\Common\Minimal/flop.c **** 			( *pusTaskCheckVariable ) = pdTRUE;
+ 527              		.loc 1 295 0
+ 528 0112 BB6A     		ldr	r3, [r7, #40]
+ 529 0114 0122     		movs	r2, #1
+ 530 0116 1A80     		strh	r2, [r3]	@ movhi
+ 531              	.L27:
+ 296:..\Common\Minimal/flop.c **** 		}
+ 297:..\Common\Minimal/flop.c **** 	}
+ 532              		.loc 1 297 0
+ 533 0118 82E7     		b	.L28
+ 534              	.L31:
+ 535 011a 00BFAFF3 		.align	3
+ 535      0080
+ 536              	.L30:
+ 537 0120 FCA9F1D2 		.word	-755914244
+ 538 0124 4D62503F 		.word	1062232653
+ 539 0128 00001640 		.word	1075183616
+ 540              		.cfi_endproc
+ 541              	.LFE71:
+ 542              		.size	vCompetingMathTask3, .-vCompetingMathTask3
+ 543 012c AFF30080 		.section	.text.vCompetingMathTask4,"ax",%progbits
+ 544              		.align	2
+ 545              		.thumb
+ 546              		.thumb_func
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 16
+
+
+ 547              		.type	vCompetingMathTask4, %function
+ 548              	vCompetingMathTask4:
+ 549              	.LFB72:
+ 298:..\Common\Minimal/flop.c **** }
+ 299:..\Common\Minimal/flop.c **** /*-----------------------------------------------------------*/
+ 300:..\Common\Minimal/flop.c **** 
+ 301:..\Common\Minimal/flop.c **** static portTASK_FUNCTION( vCompetingMathTask4, pvParameters )
+ 302:..\Common\Minimal/flop.c **** {
+ 550              		.loc 1 302 0
+ 551              		.cfi_startproc
+ 552              		@ args = 0, pretend = 0, frame = 56
+ 553              		@ frame_needed = 1, uses_anonymous_args = 0
+ 554 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 555              		.cfi_def_cfa_offset 20
+ 556              		.cfi_offset 4, -20
+ 557              		.cfi_offset 5, -16
+ 558              		.cfi_offset 6, -12
+ 559              		.cfi_offset 7, -8
+ 560              		.cfi_offset 14, -4
+ 561 0002 8FB0     		sub	sp, sp, #60
+ 562              		.cfi_def_cfa_offset 80
+ 563 0004 00AF     		add	r7, sp, #0
+ 564              		.cfi_def_cfa_register 7
+ 565 0006 7860     		str	r0, [r7, #4]
+ 303:..\Common\Minimal/flop.c **** volatile portDOUBLE *pdArray, dTotal1, dTotal2, dDifference;
+ 304:..\Common\Minimal/flop.c **** volatile uint16_t *pusTaskCheckVariable;
+ 305:..\Common\Minimal/flop.c **** const size_t xArraySize = 10;
+ 566              		.loc 1 305 0
+ 567 0008 0A23     		movs	r3, #10
+ 568 000a FB62     		str	r3, [r7, #44]
+ 306:..\Common\Minimal/flop.c **** size_t xPosition;
+ 307:..\Common\Minimal/flop.c **** short sError = pdFALSE;
+ 569              		.loc 1 307 0
+ 570 000c 0023     		movs	r3, #0
+ 571 000e 7B86     		strh	r3, [r7, #50]	@ movhi
+ 308:..\Common\Minimal/flop.c **** 
+ 309:..\Common\Minimal/flop.c **** 	/* Some ports require that tasks that use a hardware floating point unit
+ 310:..\Common\Minimal/flop.c **** 	tell the kernel that they require a floating point context before any
+ 311:..\Common\Minimal/flop.c **** 	floating point instructions are executed. */
+ 312:..\Common\Minimal/flop.c **** 	portTASK_USES_FLOATING_POINT();
+ 313:..\Common\Minimal/flop.c **** 
+ 314:..\Common\Minimal/flop.c **** 	/* The variable this task increments to show it is still running is passed in
+ 315:..\Common\Minimal/flop.c **** 	as the parameter. */
+ 316:..\Common\Minimal/flop.c **** 	pusTaskCheckVariable = ( uint16_t * ) pvParameters;
+ 572              		.loc 1 316 0
+ 573 0010 7B68     		ldr	r3, [r7, #4]
+ 574 0012 BB62     		str	r3, [r7, #40]
+ 317:..\Common\Minimal/flop.c **** 
+ 318:..\Common\Minimal/flop.c **** 	pdArray = ( portDOUBLE * ) pvPortMalloc( xArraySize * sizeof( portDOUBLE ) );
+ 575              		.loc 1 318 0
+ 576 0014 FB6A     		ldr	r3, [r7, #44]
+ 577 0016 DB00     		lsls	r3, r3, #3
+ 578 0018 1846     		mov	r0, r3
+ 579 001a FFF7FEFF 		bl	pvPortMalloc
+ 580 001e 7862     		str	r0, [r7, #36]
+ 581              	.L40:
+ 319:..\Common\Minimal/flop.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 17
+
+
+ 320:..\Common\Minimal/flop.c **** 	/* Keep filling an array, keeping a running total of the values placed in the
+ 321:..\Common\Minimal/flop.c **** 	array.  Then run through the array adding up all the values.  If the two totals
+ 322:..\Common\Minimal/flop.c **** 	do not match, stop the check variable from incrementing. */
+ 323:..\Common\Minimal/flop.c **** 	for( ;; )
+ 324:..\Common\Minimal/flop.c **** 	{
+ 325:..\Common\Minimal/flop.c **** 		dTotal1 = 0.0;
+ 582              		.loc 1 325 0
+ 583 0020 4FF00002 		mov	r2, #0
+ 584 0024 4FF00003 		mov	r3, #0
+ 585 0028 C7E90623 		strd	r2, [r7, #24]
+ 326:..\Common\Minimal/flop.c **** 		dTotal2 = 0.0;
+ 586              		.loc 1 326 0
+ 587 002c 4FF00002 		mov	r2, #0
+ 588 0030 4FF00003 		mov	r3, #0
+ 589 0034 C7E90423 		strd	r2, [r7, #16]
+ 327:..\Common\Minimal/flop.c **** 
+ 328:..\Common\Minimal/flop.c **** 		for( xPosition = 0; xPosition < xArraySize; xPosition++ )
+ 590              		.loc 1 328 0
+ 591 0038 0023     		movs	r3, #0
+ 592 003a 7B63     		str	r3, [r7, #52]
+ 593 003c 2EE0     		b	.L33
+ 594              	.L34:
+ 329:..\Common\Minimal/flop.c **** 		{
+ 330:..\Common\Minimal/flop.c **** 			pdArray[ xPosition ] = ( portDOUBLE ) xPosition * 12.123;
+ 595              		.loc 1 330 0 discriminator 3
+ 596 003e 7B6B     		ldr	r3, [r7, #52]
+ 597 0040 DB00     		lsls	r3, r3, #3
+ 598 0042 7A6A     		ldr	r2, [r7, #36]
+ 599 0044 D618     		adds	r6, r2, r3
+ 600 0046 786B     		ldr	r0, [r7, #52]
+ 601 0048 FFF7FEFF 		bl	__aeabi_ui2d
+ 602 004c 0246     		mov	r2, r0
+ 603 004e 0B46     		mov	r3, r1
+ 604 0050 1046     		mov	r0, r2
+ 605 0052 1946     		mov	r1, r3
+ 606 0054 32A3     		adr	r3, .L42
+ 607 0056 D3E90023 		ldrd	r2, [r3]
+ 608 005a FFF7FEFF 		bl	__aeabi_dmul
+ 609 005e 0246     		mov	r2, r0
+ 610 0060 0B46     		mov	r3, r1
+ 611 0062 C6E90023 		strd	r2, [r6]
+ 331:..\Common\Minimal/flop.c **** 			dTotal1 += ( portDOUBLE ) xPosition * 12.123;
+ 612              		.loc 1 331 0 discriminator 3
+ 613 0066 786B     		ldr	r0, [r7, #52]
+ 614 0068 FFF7FEFF 		bl	__aeabi_ui2d
+ 615 006c 0246     		mov	r2, r0
+ 616 006e 0B46     		mov	r3, r1
+ 617 0070 1046     		mov	r0, r2
+ 618 0072 1946     		mov	r1, r3
+ 619 0074 2AA3     		adr	r3, .L42
+ 620 0076 D3E90023 		ldrd	r2, [r3]
+ 621 007a FFF7FEFF 		bl	__aeabi_dmul
+ 622 007e 0246     		mov	r2, r0
+ 623 0080 0B46     		mov	r3, r1
+ 624 0082 1046     		mov	r0, r2
+ 625 0084 1946     		mov	r1, r3
+ 626 0086 D7E90623 		ldrd	r2, [r7, #24]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 18
+
+
+ 627 008a FFF7FEFF 		bl	__aeabi_dadd
+ 628 008e 0246     		mov	r2, r0
+ 629 0090 0B46     		mov	r3, r1
+ 630 0092 C7E90623 		strd	r2, [r7, #24]
+ 328:..\Common\Minimal/flop.c **** 		{
+ 631              		.loc 1 328 0 discriminator 3
+ 632 0096 7B6B     		ldr	r3, [r7, #52]
+ 633 0098 0133     		adds	r3, r3, #1
+ 634 009a 7B63     		str	r3, [r7, #52]
+ 635              	.L33:
+ 328:..\Common\Minimal/flop.c **** 		{
+ 636              		.loc 1 328 0 is_stmt 0 discriminator 1
+ 637 009c 7A6B     		ldr	r2, [r7, #52]
+ 638 009e FB6A     		ldr	r3, [r7, #44]
+ 639 00a0 9A42     		cmp	r2, r3
+ 640 00a2 CCD3     		bcc	.L34
+ 332:..\Common\Minimal/flop.c **** 		}
+ 333:..\Common\Minimal/flop.c **** 
+ 334:..\Common\Minimal/flop.c **** 		#if configUSE_PREEMPTION == 0
+ 335:..\Common\Minimal/flop.c **** 			taskYIELD();
+ 336:..\Common\Minimal/flop.c **** 		#endif
+ 337:..\Common\Minimal/flop.c **** 
+ 338:..\Common\Minimal/flop.c **** 		for( xPosition = 0; xPosition < xArraySize; xPosition++ )
+ 641              		.loc 1 338 0 is_stmt 1
+ 642 00a4 0023     		movs	r3, #0
+ 643 00a6 7B63     		str	r3, [r7, #52]
+ 644 00a8 10E0     		b	.L35
+ 645              	.L36:
+ 339:..\Common\Minimal/flop.c **** 		{
+ 340:..\Common\Minimal/flop.c **** 			dTotal2 += pdArray[ xPosition ];
+ 646              		.loc 1 340 0 discriminator 3
+ 647 00aa 7B6B     		ldr	r3, [r7, #52]
+ 648 00ac DB00     		lsls	r3, r3, #3
+ 649 00ae 7A6A     		ldr	r2, [r7, #36]
+ 650 00b0 1344     		add	r3, r3, r2
+ 651 00b2 D3E90001 		ldrd	r0, [r3]
+ 652 00b6 D7E90423 		ldrd	r2, [r7, #16]
+ 653 00ba FFF7FEFF 		bl	__aeabi_dadd
+ 654 00be 0246     		mov	r2, r0
+ 655 00c0 0B46     		mov	r3, r1
+ 656 00c2 C7E90423 		strd	r2, [r7, #16]
+ 338:..\Common\Minimal/flop.c **** 		{
+ 657              		.loc 1 338 0 discriminator 3
+ 658 00c6 7B6B     		ldr	r3, [r7, #52]
+ 659 00c8 0133     		adds	r3, r3, #1
+ 660 00ca 7B63     		str	r3, [r7, #52]
+ 661              	.L35:
+ 338:..\Common\Minimal/flop.c **** 		{
+ 662              		.loc 1 338 0 is_stmt 0 discriminator 1
+ 663 00cc 7A6B     		ldr	r2, [r7, #52]
+ 664 00ce FB6A     		ldr	r3, [r7, #44]
+ 665 00d0 9A42     		cmp	r2, r3
+ 666 00d2 EAD3     		bcc	.L36
+ 341:..\Common\Minimal/flop.c **** 		}
+ 342:..\Common\Minimal/flop.c **** 
+ 343:..\Common\Minimal/flop.c **** 		dDifference = dTotal1 - dTotal2;
+ 667              		.loc 1 343 0 is_stmt 1
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 19
+
+
+ 668 00d4 D7E90601 		ldrd	r0, [r7, #24]
+ 669 00d8 D7E90423 		ldrd	r2, [r7, #16]
+ 670 00dc FFF7FEFF 		bl	__aeabi_dsub
+ 671 00e0 0246     		mov	r2, r0
+ 672 00e2 0B46     		mov	r3, r1
+ 673 00e4 C7E90223 		strd	r2, [r7, #8]
+ 344:..\Common\Minimal/flop.c **** 		if( fabs( dDifference ) > 0.001 )
+ 674              		.loc 1 344 0
+ 675 00e8 D7E90223 		ldrd	r2, [r7, #8]
+ 676 00ec 1446     		mov	r4, r2
+ 677 00ee 23F00045 		bic	r5, r3, #-2147483648
+ 678 00f2 2046     		mov	r0, r4
+ 679 00f4 2946     		mov	r1, r5
+ 680 00f6 0CA3     		adr	r3, .L42+8
+ 681 00f8 D3E90023 		ldrd	r2, [r3]
+ 682 00fc FFF7FEFF 		bl	__aeabi_dcmpgt
+ 683 0100 0346     		mov	r3, r0
+ 684 0102 002B     		cmp	r3, #0
+ 685 0104 01D0     		beq	.L37
+ 345:..\Common\Minimal/flop.c **** 		{
+ 346:..\Common\Minimal/flop.c **** 			sError = pdTRUE;
+ 686              		.loc 1 346 0
+ 687 0106 0123     		movs	r3, #1
+ 688 0108 7B86     		strh	r3, [r7, #50]	@ movhi
+ 689              	.L37:
+ 347:..\Common\Minimal/flop.c **** 		}
+ 348:..\Common\Minimal/flop.c **** 
+ 349:..\Common\Minimal/flop.c **** 		#if configUSE_PREEMPTION == 0
+ 350:..\Common\Minimal/flop.c **** 			taskYIELD();
+ 351:..\Common\Minimal/flop.c **** 		#endif
+ 352:..\Common\Minimal/flop.c **** 
+ 353:..\Common\Minimal/flop.c **** 		if( sError == pdFALSE )
+ 690              		.loc 1 353 0
+ 691 010a B7F93230 		ldrsh	r3, [r7, #50]
+ 692 010e 002B     		cmp	r3, #0
+ 693 0110 02D1     		bne	.L39
+ 354:..\Common\Minimal/flop.c **** 		{
+ 355:..\Common\Minimal/flop.c **** 			/* If the calculation has always been correct then set set the check
+ 356:..\Common\Minimal/flop.c **** 			variable.  The check variable will get set to pdFALSE each time
+ 357:..\Common\Minimal/flop.c **** 			xAreMathsTaskStillRunning() is executed. */
+ 358:..\Common\Minimal/flop.c **** 			( *pusTaskCheckVariable ) = pdTRUE;
+ 694              		.loc 1 358 0
+ 695 0112 BB6A     		ldr	r3, [r7, #40]
+ 696 0114 0122     		movs	r2, #1
+ 697 0116 1A80     		strh	r2, [r3]	@ movhi
+ 698              	.L39:
+ 359:..\Common\Minimal/flop.c **** 		}
+ 360:..\Common\Minimal/flop.c **** 	}
+ 699              		.loc 1 360 0
+ 700 0118 82E7     		b	.L40
+ 701              	.L43:
+ 702 011a 00BFAFF3 		.align	3
+ 702      0080
+ 703              	.L42:
+ 704 0120 E5D022DB 		.word	-618475291
+ 705 0124 F93E2840 		.word	1076379385
+ 706 0128 FCA9F1D2 		.word	-755914244
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 20
+
+
+ 707 012c 4D62503F 		.word	1062232653
+ 708              		.cfi_endproc
+ 709              	.LFE72:
+ 710              		.size	vCompetingMathTask4, .-vCompetingMathTask4
+ 711              		.section	.text.xAreMathsTaskStillRunning,"ax",%progbits
+ 712              		.align	2
+ 713              		.global	xAreMathsTaskStillRunning
+ 714              		.thumb
+ 715              		.thumb_func
+ 716              		.type	xAreMathsTaskStillRunning, %function
+ 717              	xAreMathsTaskStillRunning:
+ 718              	.LFB73:
+ 361:..\Common\Minimal/flop.c **** }
+ 362:..\Common\Minimal/flop.c **** /*-----------------------------------------------------------*/
+ 363:..\Common\Minimal/flop.c **** 
+ 364:..\Common\Minimal/flop.c **** /* This is called to check that all the created tasks are still running. */
+ 365:..\Common\Minimal/flop.c **** BaseType_t xAreMathsTaskStillRunning( void )
+ 366:..\Common\Minimal/flop.c **** {
+ 719              		.loc 1 366 0
+ 720              		.cfi_startproc
+ 721              		@ args = 0, pretend = 0, frame = 8
+ 722              		@ frame_needed = 1, uses_anonymous_args = 0
+ 723              		@ link register save eliminated.
+ 724 0000 80B4     		push	{r7}
+ 725              		.cfi_def_cfa_offset 4
+ 726              		.cfi_offset 7, -4
+ 727 0002 83B0     		sub	sp, sp, #12
+ 728              		.cfi_def_cfa_offset 16
+ 729 0004 00AF     		add	r7, sp, #0
+ 730              		.cfi_def_cfa_register 7
+ 367:..\Common\Minimal/flop.c **** BaseType_t xReturn = pdPASS, xTask;
+ 731              		.loc 1 367 0
+ 732 0006 0123     		movs	r3, #1
+ 733 0008 7B60     		str	r3, [r7, #4]
+ 368:..\Common\Minimal/flop.c **** 
+ 369:..\Common\Minimal/flop.c **** 	/* Check the maths tasks are still running by ensuring their check variables
+ 370:..\Common\Minimal/flop.c **** 	have been set to pdPASS. */
+ 371:..\Common\Minimal/flop.c **** 	for( xTask = 0; xTask < mathNUMBER_OF_TASKS; xTask++ )
+ 734              		.loc 1 371 0
+ 735 000a 0023     		movs	r3, #0
+ 736 000c 3B60     		str	r3, [r7]
+ 737 000e 11E0     		b	.L45
+ 738              	.L48:
+ 372:..\Common\Minimal/flop.c **** 	{
+ 373:..\Common\Minimal/flop.c **** 		if( usTaskCheck[ xTask ] != pdTRUE )
+ 739              		.loc 1 373 0
+ 740 0010 0D4A     		ldr	r2, .L50
+ 741 0012 3B68     		ldr	r3, [r7]
+ 742 0014 32F81330 		ldrh	r3, [r2, r3, lsl #1]	@ movhi
+ 743 0018 9BB2     		uxth	r3, r3
+ 744 001a 012B     		cmp	r3, #1
+ 745 001c 02D0     		beq	.L46
+ 374:..\Common\Minimal/flop.c **** 		{
+ 375:..\Common\Minimal/flop.c **** 			/* The check has not been set so the associated task has either
+ 376:..\Common\Minimal/flop.c **** 			stalled or detected an error. */
+ 377:..\Common\Minimal/flop.c **** 			xReturn = pdFAIL;
+ 746              		.loc 1 377 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 21
+
+
+ 747 001e 0023     		movs	r3, #0
+ 748 0020 7B60     		str	r3, [r7, #4]
+ 749 0022 04E0     		b	.L47
+ 750              	.L46:
+ 378:..\Common\Minimal/flop.c **** 		}
+ 379:..\Common\Minimal/flop.c **** 		else
+ 380:..\Common\Minimal/flop.c **** 		{
+ 381:..\Common\Minimal/flop.c **** 			/* Reset the variable so it can be checked again the next time this
+ 382:..\Common\Minimal/flop.c **** 			function is executed. */
+ 383:..\Common\Minimal/flop.c **** 			usTaskCheck[ xTask ] = pdFALSE;
+ 751              		.loc 1 383 0
+ 752 0024 084A     		ldr	r2, .L50
+ 753 0026 3B68     		ldr	r3, [r7]
+ 754 0028 0021     		movs	r1, #0
+ 755 002a 22F81310 		strh	r1, [r2, r3, lsl #1]	@ movhi
+ 756              	.L47:
+ 371:..\Common\Minimal/flop.c **** 	{
+ 757              		.loc 1 371 0 discriminator 2
+ 758 002e 3B68     		ldr	r3, [r7]
+ 759 0030 0133     		adds	r3, r3, #1
+ 760 0032 3B60     		str	r3, [r7]
+ 761              	.L45:
+ 371:..\Common\Minimal/flop.c **** 	{
+ 762              		.loc 1 371 0 is_stmt 0 discriminator 1
+ 763 0034 3B68     		ldr	r3, [r7]
+ 764 0036 032B     		cmp	r3, #3
+ 765 0038 EADD     		ble	.L48
+ 384:..\Common\Minimal/flop.c **** 		}
+ 385:..\Common\Minimal/flop.c **** 	}
+ 386:..\Common\Minimal/flop.c **** 
+ 387:..\Common\Minimal/flop.c **** 	return xReturn;
+ 766              		.loc 1 387 0 is_stmt 1
+ 767 003a 7B68     		ldr	r3, [r7, #4]
+ 388:..\Common\Minimal/flop.c **** }
+ 768              		.loc 1 388 0
+ 769 003c 1846     		mov	r0, r3
+ 770 003e 0C37     		adds	r7, r7, #12
+ 771              		.cfi_def_cfa_offset 4
+ 772 0040 BD46     		mov	sp, r7
+ 773              		.cfi_def_cfa_register 13
+ 774              		@ sp needed
+ 775 0042 5DF8047B 		ldr	r7, [sp], #4
+ 776              		.cfi_restore 7
+ 777              		.cfi_def_cfa_offset 0
+ 778 0046 7047     		bx	lr
+ 779              	.L51:
+ 780              		.align	2
+ 781              	.L50:
+ 782 0048 00000000 		.word	usTaskCheck
+ 783              		.cfi_endproc
+ 784              	.LFE73:
+ 785              		.size	xAreMathsTaskStillRunning, .-xAreMathsTaskStillRunning
+ 786              		.text
+ 787              	.Letext0:
+ 788              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 789              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 790              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 22
+
+
+ 791              		.file 5 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 792              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 793              		.section	.debug_info,"",%progbits
+ 794              	.Ldebug_info0:
+ 795 0000 C5030000 		.4byte	0x3c5
+ 796 0004 0400     		.2byte	0x4
+ 797 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 798 000a 04       		.byte	0x4
+ 799 000b 01       		.uleb128 0x1
+ 800 000c 17000000 		.4byte	.LASF39
+ 801 0010 01       		.byte	0x1
+ 802 0011 F5000000 		.4byte	.LASF40
+ 803 0015 AC020000 		.4byte	.LASF41
+ 804 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 805 001d 00000000 		.4byte	0
+ 806 0021 00000000 		.4byte	.Ldebug_line0
+ 807 0025 02       		.uleb128 0x2
+ 808 0026 06000000 		.4byte	.LASF4
+ 809 002a 02       		.byte	0x2
+ 810 002b D4       		.byte	0xd4
+ 811 002c 30000000 		.4byte	0x30
+ 812 0030 03       		.uleb128 0x3
+ 813 0031 04       		.byte	0x4
+ 814 0032 07       		.byte	0x7
+ 815 0033 AA010000 		.4byte	.LASF0
+ 816 0037 04       		.uleb128 0x4
+ 817 0038 04       		.byte	0x4
+ 818 0039 05       		.byte	0x5
+ 819 003a 696E7400 		.ascii	"int\000"
+ 820 003e 03       		.uleb128 0x3
+ 821 003f 01       		.byte	0x1
+ 822 0040 06       		.byte	0x6
+ 823 0041 7D020000 		.4byte	.LASF1
+ 824 0045 03       		.uleb128 0x3
+ 825 0046 01       		.byte	0x1
+ 826 0047 08       		.byte	0x8
+ 827 0048 36010000 		.4byte	.LASF2
+ 828 004c 03       		.uleb128 0x3
+ 829 004d 02       		.byte	0x2
+ 830 004e 05       		.byte	0x5
+ 831 004f 31020000 		.4byte	.LASF3
+ 832 0053 02       		.uleb128 0x2
+ 833 0054 7E010000 		.4byte	.LASF5
+ 834 0058 03       		.byte	0x3
+ 835 0059 2B       		.byte	0x2b
+ 836 005a 5E000000 		.4byte	0x5e
+ 837 005e 03       		.uleb128 0x3
+ 838 005f 02       		.byte	0x2
+ 839 0060 07       		.byte	0x7
+ 840 0061 56010000 		.4byte	.LASF6
+ 841 0065 02       		.uleb128 0x2
+ 842 0066 0D000000 		.4byte	.LASF7
+ 843 006a 03       		.byte	0x3
+ 844 006b 3F       		.byte	0x3f
+ 845 006c 70000000 		.4byte	0x70
+ 846 0070 03       		.uleb128 0x3
+ 847 0071 04       		.byte	0x4
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 23
+
+
+ 848 0072 05       		.byte	0x5
+ 849 0073 69020000 		.4byte	.LASF8
+ 850 0077 03       		.uleb128 0x3
+ 851 0078 04       		.byte	0x4
+ 852 0079 07       		.byte	0x7
+ 853 007a 44010000 		.4byte	.LASF9
+ 854 007e 03       		.uleb128 0x3
+ 855 007f 08       		.byte	0x8
+ 856 0080 05       		.byte	0x5
+ 857 0081 F7010000 		.4byte	.LASF10
+ 858 0085 03       		.uleb128 0x3
+ 859 0086 08       		.byte	0x8
+ 860 0087 07       		.byte	0x7
+ 861 0088 BF010000 		.4byte	.LASF11
+ 862 008c 03       		.uleb128 0x3
+ 863 008d 04       		.byte	0x4
+ 864 008e 07       		.byte	0x7
+ 865 008f EE010000 		.4byte	.LASF12
+ 866 0093 05       		.uleb128 0x5
+ 867 0094 04       		.byte	0x4
+ 868 0095 03       		.uleb128 0x3
+ 869 0096 01       		.byte	0x1
+ 870 0097 08       		.byte	0x8
+ 871 0098 1F020000 		.4byte	.LASF13
+ 872 009c 03       		.uleb128 0x3
+ 873 009d 08       		.byte	0x8
+ 874 009e 04       		.byte	0x4
+ 875 009f 89010000 		.4byte	.LASF14
+ 876 00a3 03       		.uleb128 0x3
+ 877 00a4 04       		.byte	0x4
+ 878 00a5 04       		.byte	0x4
+ 879 00a6 26010000 		.4byte	.LASF15
+ 880 00aa 03       		.uleb128 0x3
+ 881 00ab 08       		.byte	0x8
+ 882 00ac 04       		.byte	0x4
+ 883 00ad E2010000 		.4byte	.LASF16
+ 884 00b1 02       		.uleb128 0x2
+ 885 00b2 3B020000 		.4byte	.LASF17
+ 886 00b6 04       		.byte	0x4
+ 887 00b7 21       		.byte	0x21
+ 888 00b8 53000000 		.4byte	0x53
+ 889 00bc 02       		.uleb128 0x2
+ 890 00bd 1E010000 		.4byte	.LASF18
+ 891 00c1 04       		.byte	0x4
+ 892 00c2 2C       		.byte	0x2c
+ 893 00c3 65000000 		.4byte	0x65
+ 894 00c7 06       		.uleb128 0x6
+ 895 00c8 B1000000 		.4byte	0xb1
+ 896 00cc 02       		.uleb128 0x2
+ 897 00cd A1020000 		.4byte	.LASF19
+ 898 00d1 05       		.byte	0x5
+ 899 00d2 62       		.byte	0x62
+ 900 00d3 70000000 		.4byte	0x70
+ 901 00d7 02       		.uleb128 0x2
+ 902 00d8 95020000 		.4byte	.LASF20
+ 903 00dc 05       		.byte	0x5
+ 904 00dd 63       		.byte	0x63
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 24
+
+
+ 905 00de 77000000 		.4byte	0x77
+ 906 00e2 07       		.uleb128 0x7
+ 907 00e3 44020000 		.4byte	.LASF42
+ 908 00e7 01       		.byte	0x1
+ 909 00e8 71       		.byte	0x71
+ 910 00e9 00000000 		.4byte	.LFB68
+ 911 00ed 90000000 		.4byte	.LFE68-.LFB68
+ 912 00f1 01       		.uleb128 0x1
+ 913 00f2 9C       		.byte	0x9c
+ 914 00f3 06010000 		.4byte	0x106
+ 915 00f7 08       		.uleb128 0x8
+ 916 00f8 9F010000 		.4byte	.LASF21
+ 917 00fc 01       		.byte	0x1
+ 918 00fd 71       		.byte	0x71
+ 919 00fe D7000000 		.4byte	0xd7
+ 920 0102 02       		.uleb128 0x2
+ 921 0103 91       		.byte	0x91
+ 922 0104 74       		.sleb128 -12
+ 923 0105 00       		.byte	0
+ 924 0106 09       		.uleb128 0x9
+ 925 0107 A5000000 		.4byte	.LASF26
+ 926 010b 01       		.byte	0x1
+ 927 010c 7A       		.byte	0x7a
+ 928 010d 00000000 		.4byte	.LFB69
+ 929 0111 F8000000 		.4byte	.LFE69-.LFB69
+ 930 0115 01       		.uleb128 0x1
+ 931 0116 9C       		.byte	0x9c
+ 932 0117 89010000 		.4byte	0x189
+ 933 011b 08       		.uleb128 0x8
+ 934 011c 24020000 		.4byte	.LASF22
+ 935 0120 01       		.byte	0x1
+ 936 0121 7A       		.byte	0x7a
+ 937 0122 93000000 		.4byte	0x93
+ 938 0126 03       		.uleb128 0x3
+ 939 0127 91       		.byte	0x91
+ 940 0128 BC7F     		.sleb128 -68
+ 941 012a 0A       		.uleb128 0xa
+ 942 012b 643100   		.ascii	"d1\000"
+ 943 012e 01       		.byte	0x1
+ 944 012f 7C       		.byte	0x7c
+ 945 0130 89010000 		.4byte	0x189
+ 946 0134 02       		.uleb128 0x2
+ 947 0135 91       		.byte	0x91
+ 948 0136 60       		.sleb128 -32
+ 949 0137 0A       		.uleb128 0xa
+ 950 0138 643200   		.ascii	"d2\000"
+ 951 013b 01       		.byte	0x1
+ 952 013c 7C       		.byte	0x7c
+ 953 013d 89010000 		.4byte	0x189
+ 954 0141 02       		.uleb128 0x2
+ 955 0142 91       		.byte	0x91
+ 956 0143 58       		.sleb128 -40
+ 957 0144 0A       		.uleb128 0xa
+ 958 0145 643300   		.ascii	"d3\000"
+ 959 0148 01       		.byte	0x1
+ 960 0149 7C       		.byte	0x7c
+ 961 014a 89010000 		.4byte	0x189
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 25
+
+
+ 962 014e 02       		.uleb128 0x2
+ 963 014f 91       		.byte	0x91
+ 964 0150 50       		.sleb128 -48
+ 965 0151 0A       		.uleb128 0xa
+ 966 0152 643400   		.ascii	"d4\000"
+ 967 0155 01       		.byte	0x1
+ 968 0156 7C       		.byte	0x7c
+ 969 0157 89010000 		.4byte	0x189
+ 970 015b 02       		.uleb128 0x2
+ 971 015c 91       		.byte	0x91
+ 972 015d 48       		.sleb128 -56
+ 973 015e 0B       		.uleb128 0xb
+ 974 015f 54020000 		.4byte	.LASF23
+ 975 0163 01       		.byte	0x1
+ 976 0164 7D       		.byte	0x7d
+ 977 0165 8E010000 		.4byte	0x18e
+ 978 0169 02       		.uleb128 0x2
+ 979 016a 91       		.byte	0x91
+ 980 016b 68       		.sleb128 -24
+ 981 016c 0B       		.uleb128 0xb
+ 982 016d 16010000 		.4byte	.LASF24
+ 983 0171 01       		.byte	0x1
+ 984 0172 7E       		.byte	0x7e
+ 985 0173 89010000 		.4byte	0x189
+ 986 0177 02       		.uleb128 0x2
+ 987 0178 91       		.byte	0x91
+ 988 0179 40       		.sleb128 -64
+ 989 017a 0B       		.uleb128 0xb
+ 990 017b 90010000 		.4byte	.LASF25
+ 991 017f 01       		.byte	0x1
+ 992 0180 7F       		.byte	0x7f
+ 993 0181 4C000000 		.4byte	0x4c
+ 994 0185 02       		.uleb128 0x2
+ 995 0186 91       		.byte	0x91
+ 996 0187 6E       		.sleb128 -18
+ 997 0188 00       		.byte	0
+ 998 0189 06       		.uleb128 0x6
+ 999 018a 9C000000 		.4byte	0x9c
+ 1000 018e 0C       		.uleb128 0xc
+ 1001 018f 04       		.byte	0x4
+ 1002 0190 C7000000 		.4byte	0xc7
+ 1003 0194 09       		.uleb128 0x9
+ 1004 0195 B9000000 		.4byte	.LASF27
+ 1005 0199 01       		.byte	0x1
+ 1006 019a B4       		.byte	0xb4
+ 1007 019b 00000000 		.4byte	.LFB70
+ 1008 019f F8000000 		.4byte	.LFE70-.LFB70
+ 1009 01a3 01       		.uleb128 0x1
+ 1010 01a4 9C       		.byte	0x9c
+ 1011 01a5 17020000 		.4byte	0x217
+ 1012 01a9 08       		.uleb128 0x8
+ 1013 01aa 24020000 		.4byte	.LASF22
+ 1014 01ae 01       		.byte	0x1
+ 1015 01af B4       		.byte	0xb4
+ 1016 01b0 93000000 		.4byte	0x93
+ 1017 01b4 03       		.uleb128 0x3
+ 1018 01b5 91       		.byte	0x91
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 26
+
+
+ 1019 01b6 BC7F     		.sleb128 -68
+ 1020 01b8 0A       		.uleb128 0xa
+ 1021 01b9 643100   		.ascii	"d1\000"
+ 1022 01bc 01       		.byte	0x1
+ 1023 01bd B6       		.byte	0xb6
+ 1024 01be 89010000 		.4byte	0x189
+ 1025 01c2 02       		.uleb128 0x2
+ 1026 01c3 91       		.byte	0x91
+ 1027 01c4 60       		.sleb128 -32
+ 1028 01c5 0A       		.uleb128 0xa
+ 1029 01c6 643200   		.ascii	"d2\000"
+ 1030 01c9 01       		.byte	0x1
+ 1031 01ca B6       		.byte	0xb6
+ 1032 01cb 89010000 		.4byte	0x189
+ 1033 01cf 02       		.uleb128 0x2
+ 1034 01d0 91       		.byte	0x91
+ 1035 01d1 58       		.sleb128 -40
+ 1036 01d2 0A       		.uleb128 0xa
+ 1037 01d3 643300   		.ascii	"d3\000"
+ 1038 01d6 01       		.byte	0x1
+ 1039 01d7 B6       		.byte	0xb6
+ 1040 01d8 89010000 		.4byte	0x189
+ 1041 01dc 02       		.uleb128 0x2
+ 1042 01dd 91       		.byte	0x91
+ 1043 01de 50       		.sleb128 -48
+ 1044 01df 0A       		.uleb128 0xa
+ 1045 01e0 643400   		.ascii	"d4\000"
+ 1046 01e3 01       		.byte	0x1
+ 1047 01e4 B6       		.byte	0xb6
+ 1048 01e5 89010000 		.4byte	0x189
+ 1049 01e9 02       		.uleb128 0x2
+ 1050 01ea 91       		.byte	0x91
+ 1051 01eb 48       		.sleb128 -56
+ 1052 01ec 0B       		.uleb128 0xb
+ 1053 01ed 54020000 		.4byte	.LASF23
+ 1054 01f1 01       		.byte	0x1
+ 1055 01f2 B7       		.byte	0xb7
+ 1056 01f3 8E010000 		.4byte	0x18e
+ 1057 01f7 02       		.uleb128 0x2
+ 1058 01f8 91       		.byte	0x91
+ 1059 01f9 68       		.sleb128 -24
+ 1060 01fa 0B       		.uleb128 0xb
+ 1061 01fb 16010000 		.4byte	.LASF24
+ 1062 01ff 01       		.byte	0x1
+ 1063 0200 B8       		.byte	0xb8
+ 1064 0201 89010000 		.4byte	0x189
+ 1065 0205 02       		.uleb128 0x2
+ 1066 0206 91       		.byte	0x91
+ 1067 0207 40       		.sleb128 -64
+ 1068 0208 0B       		.uleb128 0xb
+ 1069 0209 90010000 		.4byte	.LASF25
+ 1070 020d 01       		.byte	0x1
+ 1071 020e B9       		.byte	0xb9
+ 1072 020f 4C000000 		.4byte	0x4c
+ 1073 0213 02       		.uleb128 0x2
+ 1074 0214 91       		.byte	0x91
+ 1075 0215 6E       		.sleb128 -18
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 27
+
+
+ 1076 0216 00       		.byte	0
+ 1077 0217 09       		.uleb128 0x9
+ 1078 0218 CD000000 		.4byte	.LASF28
+ 1079 021c 01       		.byte	0x1
+ 1080 021d EE       		.byte	0xee
+ 1081 021e 00000000 		.4byte	.LFB71
+ 1082 0222 2C010000 		.4byte	.LFE71-.LFB71
+ 1083 0226 01       		.uleb128 0x1
+ 1084 0227 9C       		.byte	0x9c
+ 1085 0228 AD020000 		.4byte	0x2ad
+ 1086 022c 08       		.uleb128 0x8
+ 1087 022d 24020000 		.4byte	.LASF22
+ 1088 0231 01       		.byte	0x1
+ 1089 0232 EE       		.byte	0xee
+ 1090 0233 93000000 		.4byte	0x93
+ 1091 0237 03       		.uleb128 0x3
+ 1092 0238 91       		.byte	0x91
+ 1093 0239 B47F     		.sleb128 -76
+ 1094 023b 0B       		.uleb128 0xb
+ 1095 023c 69010000 		.4byte	.LASF29
+ 1096 0240 01       		.byte	0x1
+ 1097 0241 F0       		.byte	0xf0
+ 1098 0242 AD020000 		.4byte	0x2ad
+ 1099 0246 02       		.uleb128 0x2
+ 1100 0247 91       		.byte	0x91
+ 1101 0248 54       		.sleb128 -44
+ 1102 0249 0B       		.uleb128 0xb
+ 1103 024a 0E010000 		.4byte	.LASF30
+ 1104 024e 01       		.byte	0x1
+ 1105 024f F0       		.byte	0xf0
+ 1106 0250 89010000 		.4byte	0x189
+ 1107 0254 02       		.uleb128 0x2
+ 1108 0255 91       		.byte	0x91
+ 1109 0256 48       		.sleb128 -56
+ 1110 0257 0B       		.uleb128 0xb
+ 1111 0258 B7010000 		.4byte	.LASF31
+ 1112 025c 01       		.byte	0x1
+ 1113 025d F0       		.byte	0xf0
+ 1114 025e 89010000 		.4byte	0x189
+ 1115 0262 02       		.uleb128 0x2
+ 1116 0263 91       		.byte	0x91
+ 1117 0264 40       		.sleb128 -64
+ 1118 0265 0B       		.uleb128 0xb
+ 1119 0266 D6010000 		.4byte	.LASF32
+ 1120 026a 01       		.byte	0x1
+ 1121 026b F0       		.byte	0xf0
+ 1122 026c 89010000 		.4byte	0x189
+ 1123 0270 03       		.uleb128 0x3
+ 1124 0271 91       		.byte	0x91
+ 1125 0272 B87F     		.sleb128 -72
+ 1126 0274 0B       		.uleb128 0xb
+ 1127 0275 54020000 		.4byte	.LASF23
+ 1128 0279 01       		.byte	0x1
+ 1129 027a F1       		.byte	0xf1
+ 1130 027b 8E010000 		.4byte	0x18e
+ 1131 027f 02       		.uleb128 0x2
+ 1132 0280 91       		.byte	0x91
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 28
+
+
+ 1133 0281 58       		.sleb128 -40
+ 1134 0282 0B       		.uleb128 0xb
+ 1135 0283 72020000 		.4byte	.LASF33
+ 1136 0287 01       		.byte	0x1
+ 1137 0288 F2       		.byte	0xf2
+ 1138 0289 B3020000 		.4byte	0x2b3
+ 1139 028d 02       		.uleb128 0x2
+ 1140 028e 91       		.byte	0x91
+ 1141 028f 5C       		.sleb128 -36
+ 1142 0290 0B       		.uleb128 0xb
+ 1143 0291 2C010000 		.4byte	.LASF34
+ 1144 0295 01       		.byte	0x1
+ 1145 0296 F3       		.byte	0xf3
+ 1146 0297 25000000 		.4byte	0x25
+ 1147 029b 02       		.uleb128 0x2
+ 1148 029c 91       		.byte	0x91
+ 1149 029d 64       		.sleb128 -28
+ 1150 029e 0B       		.uleb128 0xb
+ 1151 029f 90010000 		.4byte	.LASF25
+ 1152 02a3 01       		.byte	0x1
+ 1153 02a4 F4       		.byte	0xf4
+ 1154 02a5 4C000000 		.4byte	0x4c
+ 1155 02a9 02       		.uleb128 0x2
+ 1156 02aa 91       		.byte	0x91
+ 1157 02ab 62       		.sleb128 -30
+ 1158 02ac 00       		.byte	0
+ 1159 02ad 0C       		.uleb128 0xc
+ 1160 02ae 04       		.byte	0x4
+ 1161 02af 89010000 		.4byte	0x189
+ 1162 02b3 0D       		.uleb128 0xd
+ 1163 02b4 25000000 		.4byte	0x25
+ 1164 02b8 0E       		.uleb128 0xe
+ 1165 02b9 E1000000 		.4byte	.LASF35
+ 1166 02bd 01       		.byte	0x1
+ 1167 02be 2D01     		.2byte	0x12d
+ 1168 02c0 00000000 		.4byte	.LFB72
+ 1169 02c4 30010000 		.4byte	.LFE72-.LFB72
+ 1170 02c8 01       		.uleb128 0x1
+ 1171 02c9 9C       		.byte	0x9c
+ 1172 02ca 58030000 		.4byte	0x358
+ 1173 02ce 0F       		.uleb128 0xf
+ 1174 02cf 24020000 		.4byte	.LASF22
+ 1175 02d3 01       		.byte	0x1
+ 1176 02d4 2D01     		.2byte	0x12d
+ 1177 02d6 93000000 		.4byte	0x93
+ 1178 02da 03       		.uleb128 0x3
+ 1179 02db 91       		.byte	0x91
+ 1180 02dc B47F     		.sleb128 -76
+ 1181 02de 10       		.uleb128 0x10
+ 1182 02df 69010000 		.4byte	.LASF29
+ 1183 02e3 01       		.byte	0x1
+ 1184 02e4 2F01     		.2byte	0x12f
+ 1185 02e6 AD020000 		.4byte	0x2ad
+ 1186 02ea 02       		.uleb128 0x2
+ 1187 02eb 91       		.byte	0x91
+ 1188 02ec 54       		.sleb128 -44
+ 1189 02ed 10       		.uleb128 0x10
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 29
+
+
+ 1190 02ee 0E010000 		.4byte	.LASF30
+ 1191 02f2 01       		.byte	0x1
+ 1192 02f3 2F01     		.2byte	0x12f
+ 1193 02f5 89010000 		.4byte	0x189
+ 1194 02f9 02       		.uleb128 0x2
+ 1195 02fa 91       		.byte	0x91
+ 1196 02fb 48       		.sleb128 -56
+ 1197 02fc 10       		.uleb128 0x10
+ 1198 02fd B7010000 		.4byte	.LASF31
+ 1199 0301 01       		.byte	0x1
+ 1200 0302 2F01     		.2byte	0x12f
+ 1201 0304 89010000 		.4byte	0x189
+ 1202 0308 02       		.uleb128 0x2
+ 1203 0309 91       		.byte	0x91
+ 1204 030a 40       		.sleb128 -64
+ 1205 030b 10       		.uleb128 0x10
+ 1206 030c D6010000 		.4byte	.LASF32
+ 1207 0310 01       		.byte	0x1
+ 1208 0311 2F01     		.2byte	0x12f
+ 1209 0313 89010000 		.4byte	0x189
+ 1210 0317 03       		.uleb128 0x3
+ 1211 0318 91       		.byte	0x91
+ 1212 0319 B87F     		.sleb128 -72
+ 1213 031b 10       		.uleb128 0x10
+ 1214 031c 54020000 		.4byte	.LASF23
+ 1215 0320 01       		.byte	0x1
+ 1216 0321 3001     		.2byte	0x130
+ 1217 0323 8E010000 		.4byte	0x18e
+ 1218 0327 02       		.uleb128 0x2
+ 1219 0328 91       		.byte	0x91
+ 1220 0329 58       		.sleb128 -40
+ 1221 032a 10       		.uleb128 0x10
+ 1222 032b 72020000 		.4byte	.LASF33
+ 1223 032f 01       		.byte	0x1
+ 1224 0330 3101     		.2byte	0x131
+ 1225 0332 B3020000 		.4byte	0x2b3
+ 1226 0336 02       		.uleb128 0x2
+ 1227 0337 91       		.byte	0x91
+ 1228 0338 5C       		.sleb128 -36
+ 1229 0339 10       		.uleb128 0x10
+ 1230 033a 2C010000 		.4byte	.LASF34
+ 1231 033e 01       		.byte	0x1
+ 1232 033f 3201     		.2byte	0x132
+ 1233 0341 25000000 		.4byte	0x25
+ 1234 0345 02       		.uleb128 0x2
+ 1235 0346 91       		.byte	0x91
+ 1236 0347 64       		.sleb128 -28
+ 1237 0348 10       		.uleb128 0x10
+ 1238 0349 90010000 		.4byte	.LASF25
+ 1239 034d 01       		.byte	0x1
+ 1240 034e 3301     		.2byte	0x133
+ 1241 0350 4C000000 		.4byte	0x4c
+ 1242 0354 02       		.uleb128 0x2
+ 1243 0355 91       		.byte	0x91
+ 1244 0356 62       		.sleb128 -30
+ 1245 0357 00       		.byte	0
+ 1246 0358 11       		.uleb128 0x11
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 30
+
+
+ 1247 0359 05020000 		.4byte	.LASF43
+ 1248 035d 01       		.byte	0x1
+ 1249 035e 6D01     		.2byte	0x16d
+ 1250 0360 CC000000 		.4byte	0xcc
+ 1251 0364 00000000 		.4byte	.LFB73
+ 1252 0368 4C000000 		.4byte	.LFE73-.LFB73
+ 1253 036c 01       		.uleb128 0x1
+ 1254 036d 9C       		.byte	0x9c
+ 1255 036e 91030000 		.4byte	0x391
+ 1256 0372 10       		.uleb128 0x10
+ 1257 0373 97010000 		.4byte	.LASF36
+ 1258 0377 01       		.byte	0x1
+ 1259 0378 6F01     		.2byte	0x16f
+ 1260 037a CC000000 		.4byte	0xcc
+ 1261 037e 02       		.uleb128 0x2
+ 1262 037f 91       		.byte	0x91
+ 1263 0380 74       		.sleb128 -12
+ 1264 0381 10       		.uleb128 0x10
+ 1265 0382 00000000 		.4byte	.LASF37
+ 1266 0386 01       		.byte	0x1
+ 1267 0387 6F01     		.2byte	0x16f
+ 1268 0389 CC000000 		.4byte	0xcc
+ 1269 038d 02       		.uleb128 0x2
+ 1270 038e 91       		.byte	0x91
+ 1271 038f 70       		.sleb128 -16
+ 1272 0390 00       		.byte	0
+ 1273 0391 12       		.uleb128 0x12
+ 1274 0392 B1000000 		.4byte	0xb1
+ 1275 0396 A1030000 		.4byte	0x3a1
+ 1276 039a 13       		.uleb128 0x13
+ 1277 039b 8C000000 		.4byte	0x8c
+ 1278 039f 03       		.byte	0x3
+ 1279 03a0 00       		.byte	0
+ 1280 03a1 0B       		.uleb128 0xb
+ 1281 03a2 89020000 		.4byte	.LASF38
+ 1282 03a6 01       		.byte	0x1
+ 1283 03a7 6D       		.byte	0x6d
+ 1284 03a8 B2030000 		.4byte	0x3b2
+ 1285 03ac 05       		.uleb128 0x5
+ 1286 03ad 03       		.byte	0x3
+ 1287 03ae 00000000 		.4byte	usTaskCheck
+ 1288 03b2 06       		.uleb128 0x6
+ 1289 03b3 91030000 		.4byte	0x391
+ 1290 03b7 14       		.uleb128 0x14
+ 1291 03b8 71010000 		.4byte	.LASF44
+ 1292 03bc 06       		.byte	0x6
+ 1293 03bd 9606     		.2byte	0x696
+ 1294 03bf C3030000 		.4byte	0x3c3
+ 1295 03c3 06       		.uleb128 0x6
+ 1296 03c4 BC000000 		.4byte	0xbc
+ 1297 03c8 00       		.byte	0
+ 1298              		.section	.debug_abbrev,"",%progbits
+ 1299              	.Ldebug_abbrev0:
+ 1300 0000 01       		.uleb128 0x1
+ 1301 0001 11       		.uleb128 0x11
+ 1302 0002 01       		.byte	0x1
+ 1303 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 31
+
+
+ 1304 0004 0E       		.uleb128 0xe
+ 1305 0005 13       		.uleb128 0x13
+ 1306 0006 0B       		.uleb128 0xb
+ 1307 0007 03       		.uleb128 0x3
+ 1308 0008 0E       		.uleb128 0xe
+ 1309 0009 1B       		.uleb128 0x1b
+ 1310 000a 0E       		.uleb128 0xe
+ 1311 000b 55       		.uleb128 0x55
+ 1312 000c 17       		.uleb128 0x17
+ 1313 000d 11       		.uleb128 0x11
+ 1314 000e 01       		.uleb128 0x1
+ 1315 000f 10       		.uleb128 0x10
+ 1316 0010 17       		.uleb128 0x17
+ 1317 0011 00       		.byte	0
+ 1318 0012 00       		.byte	0
+ 1319 0013 02       		.uleb128 0x2
+ 1320 0014 16       		.uleb128 0x16
+ 1321 0015 00       		.byte	0
+ 1322 0016 03       		.uleb128 0x3
+ 1323 0017 0E       		.uleb128 0xe
+ 1324 0018 3A       		.uleb128 0x3a
+ 1325 0019 0B       		.uleb128 0xb
+ 1326 001a 3B       		.uleb128 0x3b
+ 1327 001b 0B       		.uleb128 0xb
+ 1328 001c 49       		.uleb128 0x49
+ 1329 001d 13       		.uleb128 0x13
+ 1330 001e 00       		.byte	0
+ 1331 001f 00       		.byte	0
+ 1332 0020 03       		.uleb128 0x3
+ 1333 0021 24       		.uleb128 0x24
+ 1334 0022 00       		.byte	0
+ 1335 0023 0B       		.uleb128 0xb
+ 1336 0024 0B       		.uleb128 0xb
+ 1337 0025 3E       		.uleb128 0x3e
+ 1338 0026 0B       		.uleb128 0xb
+ 1339 0027 03       		.uleb128 0x3
+ 1340 0028 0E       		.uleb128 0xe
+ 1341 0029 00       		.byte	0
+ 1342 002a 00       		.byte	0
+ 1343 002b 04       		.uleb128 0x4
+ 1344 002c 24       		.uleb128 0x24
+ 1345 002d 00       		.byte	0
+ 1346 002e 0B       		.uleb128 0xb
+ 1347 002f 0B       		.uleb128 0xb
+ 1348 0030 3E       		.uleb128 0x3e
+ 1349 0031 0B       		.uleb128 0xb
+ 1350 0032 03       		.uleb128 0x3
+ 1351 0033 08       		.uleb128 0x8
+ 1352 0034 00       		.byte	0
+ 1353 0035 00       		.byte	0
+ 1354 0036 05       		.uleb128 0x5
+ 1355 0037 0F       		.uleb128 0xf
+ 1356 0038 00       		.byte	0
+ 1357 0039 0B       		.uleb128 0xb
+ 1358 003a 0B       		.uleb128 0xb
+ 1359 003b 00       		.byte	0
+ 1360 003c 00       		.byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 32
+
+
+ 1361 003d 06       		.uleb128 0x6
+ 1362 003e 35       		.uleb128 0x35
+ 1363 003f 00       		.byte	0
+ 1364 0040 49       		.uleb128 0x49
+ 1365 0041 13       		.uleb128 0x13
+ 1366 0042 00       		.byte	0
+ 1367 0043 00       		.byte	0
+ 1368 0044 07       		.uleb128 0x7
+ 1369 0045 2E       		.uleb128 0x2e
+ 1370 0046 01       		.byte	0x1
+ 1371 0047 3F       		.uleb128 0x3f
+ 1372 0048 19       		.uleb128 0x19
+ 1373 0049 03       		.uleb128 0x3
+ 1374 004a 0E       		.uleb128 0xe
+ 1375 004b 3A       		.uleb128 0x3a
+ 1376 004c 0B       		.uleb128 0xb
+ 1377 004d 3B       		.uleb128 0x3b
+ 1378 004e 0B       		.uleb128 0xb
+ 1379 004f 27       		.uleb128 0x27
+ 1380 0050 19       		.uleb128 0x19
+ 1381 0051 11       		.uleb128 0x11
+ 1382 0052 01       		.uleb128 0x1
+ 1383 0053 12       		.uleb128 0x12
+ 1384 0054 06       		.uleb128 0x6
+ 1385 0055 40       		.uleb128 0x40
+ 1386 0056 18       		.uleb128 0x18
+ 1387 0057 9642     		.uleb128 0x2116
+ 1388 0059 19       		.uleb128 0x19
+ 1389 005a 01       		.uleb128 0x1
+ 1390 005b 13       		.uleb128 0x13
+ 1391 005c 00       		.byte	0
+ 1392 005d 00       		.byte	0
+ 1393 005e 08       		.uleb128 0x8
+ 1394 005f 05       		.uleb128 0x5
+ 1395 0060 00       		.byte	0
+ 1396 0061 03       		.uleb128 0x3
+ 1397 0062 0E       		.uleb128 0xe
+ 1398 0063 3A       		.uleb128 0x3a
+ 1399 0064 0B       		.uleb128 0xb
+ 1400 0065 3B       		.uleb128 0x3b
+ 1401 0066 0B       		.uleb128 0xb
+ 1402 0067 49       		.uleb128 0x49
+ 1403 0068 13       		.uleb128 0x13
+ 1404 0069 02       		.uleb128 0x2
+ 1405 006a 18       		.uleb128 0x18
+ 1406 006b 00       		.byte	0
+ 1407 006c 00       		.byte	0
+ 1408 006d 09       		.uleb128 0x9
+ 1409 006e 2E       		.uleb128 0x2e
+ 1410 006f 01       		.byte	0x1
+ 1411 0070 03       		.uleb128 0x3
+ 1412 0071 0E       		.uleb128 0xe
+ 1413 0072 3A       		.uleb128 0x3a
+ 1414 0073 0B       		.uleb128 0xb
+ 1415 0074 3B       		.uleb128 0x3b
+ 1416 0075 0B       		.uleb128 0xb
+ 1417 0076 27       		.uleb128 0x27
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 33
+
+
+ 1418 0077 19       		.uleb128 0x19
+ 1419 0078 11       		.uleb128 0x11
+ 1420 0079 01       		.uleb128 0x1
+ 1421 007a 12       		.uleb128 0x12
+ 1422 007b 06       		.uleb128 0x6
+ 1423 007c 40       		.uleb128 0x40
+ 1424 007d 18       		.uleb128 0x18
+ 1425 007e 9642     		.uleb128 0x2116
+ 1426 0080 19       		.uleb128 0x19
+ 1427 0081 01       		.uleb128 0x1
+ 1428 0082 13       		.uleb128 0x13
+ 1429 0083 00       		.byte	0
+ 1430 0084 00       		.byte	0
+ 1431 0085 0A       		.uleb128 0xa
+ 1432 0086 34       		.uleb128 0x34
+ 1433 0087 00       		.byte	0
+ 1434 0088 03       		.uleb128 0x3
+ 1435 0089 08       		.uleb128 0x8
+ 1436 008a 3A       		.uleb128 0x3a
+ 1437 008b 0B       		.uleb128 0xb
+ 1438 008c 3B       		.uleb128 0x3b
+ 1439 008d 0B       		.uleb128 0xb
+ 1440 008e 49       		.uleb128 0x49
+ 1441 008f 13       		.uleb128 0x13
+ 1442 0090 02       		.uleb128 0x2
+ 1443 0091 18       		.uleb128 0x18
+ 1444 0092 00       		.byte	0
+ 1445 0093 00       		.byte	0
+ 1446 0094 0B       		.uleb128 0xb
+ 1447 0095 34       		.uleb128 0x34
+ 1448 0096 00       		.byte	0
+ 1449 0097 03       		.uleb128 0x3
+ 1450 0098 0E       		.uleb128 0xe
+ 1451 0099 3A       		.uleb128 0x3a
+ 1452 009a 0B       		.uleb128 0xb
+ 1453 009b 3B       		.uleb128 0x3b
+ 1454 009c 0B       		.uleb128 0xb
+ 1455 009d 49       		.uleb128 0x49
+ 1456 009e 13       		.uleb128 0x13
+ 1457 009f 02       		.uleb128 0x2
+ 1458 00a0 18       		.uleb128 0x18
+ 1459 00a1 00       		.byte	0
+ 1460 00a2 00       		.byte	0
+ 1461 00a3 0C       		.uleb128 0xc
+ 1462 00a4 0F       		.uleb128 0xf
+ 1463 00a5 00       		.byte	0
+ 1464 00a6 0B       		.uleb128 0xb
+ 1465 00a7 0B       		.uleb128 0xb
+ 1466 00a8 49       		.uleb128 0x49
+ 1467 00a9 13       		.uleb128 0x13
+ 1468 00aa 00       		.byte	0
+ 1469 00ab 00       		.byte	0
+ 1470 00ac 0D       		.uleb128 0xd
+ 1471 00ad 26       		.uleb128 0x26
+ 1472 00ae 00       		.byte	0
+ 1473 00af 49       		.uleb128 0x49
+ 1474 00b0 13       		.uleb128 0x13
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 34
+
+
+ 1475 00b1 00       		.byte	0
+ 1476 00b2 00       		.byte	0
+ 1477 00b3 0E       		.uleb128 0xe
+ 1478 00b4 2E       		.uleb128 0x2e
+ 1479 00b5 01       		.byte	0x1
+ 1480 00b6 03       		.uleb128 0x3
+ 1481 00b7 0E       		.uleb128 0xe
+ 1482 00b8 3A       		.uleb128 0x3a
+ 1483 00b9 0B       		.uleb128 0xb
+ 1484 00ba 3B       		.uleb128 0x3b
+ 1485 00bb 05       		.uleb128 0x5
+ 1486 00bc 27       		.uleb128 0x27
+ 1487 00bd 19       		.uleb128 0x19
+ 1488 00be 11       		.uleb128 0x11
+ 1489 00bf 01       		.uleb128 0x1
+ 1490 00c0 12       		.uleb128 0x12
+ 1491 00c1 06       		.uleb128 0x6
+ 1492 00c2 40       		.uleb128 0x40
+ 1493 00c3 18       		.uleb128 0x18
+ 1494 00c4 9642     		.uleb128 0x2116
+ 1495 00c6 19       		.uleb128 0x19
+ 1496 00c7 01       		.uleb128 0x1
+ 1497 00c8 13       		.uleb128 0x13
+ 1498 00c9 00       		.byte	0
+ 1499 00ca 00       		.byte	0
+ 1500 00cb 0F       		.uleb128 0xf
+ 1501 00cc 05       		.uleb128 0x5
+ 1502 00cd 00       		.byte	0
+ 1503 00ce 03       		.uleb128 0x3
+ 1504 00cf 0E       		.uleb128 0xe
+ 1505 00d0 3A       		.uleb128 0x3a
+ 1506 00d1 0B       		.uleb128 0xb
+ 1507 00d2 3B       		.uleb128 0x3b
+ 1508 00d3 05       		.uleb128 0x5
+ 1509 00d4 49       		.uleb128 0x49
+ 1510 00d5 13       		.uleb128 0x13
+ 1511 00d6 02       		.uleb128 0x2
+ 1512 00d7 18       		.uleb128 0x18
+ 1513 00d8 00       		.byte	0
+ 1514 00d9 00       		.byte	0
+ 1515 00da 10       		.uleb128 0x10
+ 1516 00db 34       		.uleb128 0x34
+ 1517 00dc 00       		.byte	0
+ 1518 00dd 03       		.uleb128 0x3
+ 1519 00de 0E       		.uleb128 0xe
+ 1520 00df 3A       		.uleb128 0x3a
+ 1521 00e0 0B       		.uleb128 0xb
+ 1522 00e1 3B       		.uleb128 0x3b
+ 1523 00e2 05       		.uleb128 0x5
+ 1524 00e3 49       		.uleb128 0x49
+ 1525 00e4 13       		.uleb128 0x13
+ 1526 00e5 02       		.uleb128 0x2
+ 1527 00e6 18       		.uleb128 0x18
+ 1528 00e7 00       		.byte	0
+ 1529 00e8 00       		.byte	0
+ 1530 00e9 11       		.uleb128 0x11
+ 1531 00ea 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 35
+
+
+ 1532 00eb 01       		.byte	0x1
+ 1533 00ec 3F       		.uleb128 0x3f
+ 1534 00ed 19       		.uleb128 0x19
+ 1535 00ee 03       		.uleb128 0x3
+ 1536 00ef 0E       		.uleb128 0xe
+ 1537 00f0 3A       		.uleb128 0x3a
+ 1538 00f1 0B       		.uleb128 0xb
+ 1539 00f2 3B       		.uleb128 0x3b
+ 1540 00f3 05       		.uleb128 0x5
+ 1541 00f4 27       		.uleb128 0x27
+ 1542 00f5 19       		.uleb128 0x19
+ 1543 00f6 49       		.uleb128 0x49
+ 1544 00f7 13       		.uleb128 0x13
+ 1545 00f8 11       		.uleb128 0x11
+ 1546 00f9 01       		.uleb128 0x1
+ 1547 00fa 12       		.uleb128 0x12
+ 1548 00fb 06       		.uleb128 0x6
+ 1549 00fc 40       		.uleb128 0x40
+ 1550 00fd 18       		.uleb128 0x18
+ 1551 00fe 9742     		.uleb128 0x2117
+ 1552 0100 19       		.uleb128 0x19
+ 1553 0101 01       		.uleb128 0x1
+ 1554 0102 13       		.uleb128 0x13
+ 1555 0103 00       		.byte	0
+ 1556 0104 00       		.byte	0
+ 1557 0105 12       		.uleb128 0x12
+ 1558 0106 01       		.uleb128 0x1
+ 1559 0107 01       		.byte	0x1
+ 1560 0108 49       		.uleb128 0x49
+ 1561 0109 13       		.uleb128 0x13
+ 1562 010a 01       		.uleb128 0x1
+ 1563 010b 13       		.uleb128 0x13
+ 1564 010c 00       		.byte	0
+ 1565 010d 00       		.byte	0
+ 1566 010e 13       		.uleb128 0x13
+ 1567 010f 21       		.uleb128 0x21
+ 1568 0110 00       		.byte	0
+ 1569 0111 49       		.uleb128 0x49
+ 1570 0112 13       		.uleb128 0x13
+ 1571 0113 2F       		.uleb128 0x2f
+ 1572 0114 0B       		.uleb128 0xb
+ 1573 0115 00       		.byte	0
+ 1574 0116 00       		.byte	0
+ 1575 0117 14       		.uleb128 0x14
+ 1576 0118 34       		.uleb128 0x34
+ 1577 0119 00       		.byte	0
+ 1578 011a 03       		.uleb128 0x3
+ 1579 011b 0E       		.uleb128 0xe
+ 1580 011c 3A       		.uleb128 0x3a
+ 1581 011d 0B       		.uleb128 0xb
+ 1582 011e 3B       		.uleb128 0x3b
+ 1583 011f 05       		.uleb128 0x5
+ 1584 0120 49       		.uleb128 0x49
+ 1585 0121 13       		.uleb128 0x13
+ 1586 0122 3F       		.uleb128 0x3f
+ 1587 0123 19       		.uleb128 0x19
+ 1588 0124 3C       		.uleb128 0x3c
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 36
+
+
+ 1589 0125 19       		.uleb128 0x19
+ 1590 0126 00       		.byte	0
+ 1591 0127 00       		.byte	0
+ 1592 0128 00       		.byte	0
+ 1593              		.section	.debug_aranges,"",%progbits
+ 1594 0000 44000000 		.4byte	0x44
+ 1595 0004 0200     		.2byte	0x2
+ 1596 0006 00000000 		.4byte	.Ldebug_info0
+ 1597 000a 04       		.byte	0x4
+ 1598 000b 00       		.byte	0
+ 1599 000c 0000     		.2byte	0
+ 1600 000e 0000     		.2byte	0
+ 1601 0010 00000000 		.4byte	.LFB68
+ 1602 0014 90000000 		.4byte	.LFE68-.LFB68
+ 1603 0018 00000000 		.4byte	.LFB69
+ 1604 001c F8000000 		.4byte	.LFE69-.LFB69
+ 1605 0020 00000000 		.4byte	.LFB70
+ 1606 0024 F8000000 		.4byte	.LFE70-.LFB70
+ 1607 0028 00000000 		.4byte	.LFB71
+ 1608 002c 2C010000 		.4byte	.LFE71-.LFB71
+ 1609 0030 00000000 		.4byte	.LFB72
+ 1610 0034 30010000 		.4byte	.LFE72-.LFB72
+ 1611 0038 00000000 		.4byte	.LFB73
+ 1612 003c 4C000000 		.4byte	.LFE73-.LFB73
+ 1613 0040 00000000 		.4byte	0
+ 1614 0044 00000000 		.4byte	0
+ 1615              		.section	.debug_ranges,"",%progbits
+ 1616              	.Ldebug_ranges0:
+ 1617 0000 00000000 		.4byte	.LFB68
+ 1618 0004 90000000 		.4byte	.LFE68
+ 1619 0008 00000000 		.4byte	.LFB69
+ 1620 000c F8000000 		.4byte	.LFE69
+ 1621 0010 00000000 		.4byte	.LFB70
+ 1622 0014 F8000000 		.4byte	.LFE70
+ 1623 0018 00000000 		.4byte	.LFB71
+ 1624 001c 2C010000 		.4byte	.LFE71
+ 1625 0020 00000000 		.4byte	.LFB72
+ 1626 0024 30010000 		.4byte	.LFE72
+ 1627 0028 00000000 		.4byte	.LFB73
+ 1628 002c 4C000000 		.4byte	.LFE73
+ 1629 0030 00000000 		.4byte	0
+ 1630 0034 00000000 		.4byte	0
+ 1631              		.section	.debug_line,"",%progbits
+ 1632              	.Ldebug_line0:
+ 1633 0000 18030000 		.section	.debug_str,"MS",%progbits,1
+ 1633      0200FC01 
+ 1633      00000201 
+ 1633      FB0E0D00 
+ 1633      01010101 
+ 1634              	.LASF37:
+ 1635 0000 78546173 		.ascii	"xTask\000"
+ 1635      6B00
+ 1636              	.LASF4:
+ 1637 0006 73697A65 		.ascii	"size_t\000"
+ 1637      5F7400
+ 1638              	.LASF7:
+ 1639 000d 5F5F696E 		.ascii	"__int32_t\000"
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 37
+
+
+ 1639      7433325F 
+ 1639      7400
+ 1640              	.LASF39:
+ 1641 0017 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1641      4320342E 
+ 1641      392E3320 
+ 1641      32303135 
+ 1641      30333033 
+ 1642 004a 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1642      20726576 
+ 1642      6973696F 
+ 1642      6E203232 
+ 1642      31323230 
+ 1643 007d 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1643      66756E63 
+ 1643      74696F6E 
+ 1643      2D736563 
+ 1643      74696F6E 
+ 1644              	.LASF26:
+ 1645 00a5 76436F6D 		.ascii	"vCompetingMathTask1\000"
+ 1645      70657469 
+ 1645      6E674D61 
+ 1645      74685461 
+ 1645      736B3100 
+ 1646              	.LASF27:
+ 1647 00b9 76436F6D 		.ascii	"vCompetingMathTask2\000"
+ 1647      70657469 
+ 1647      6E674D61 
+ 1647      74685461 
+ 1647      736B3200 
+ 1648              	.LASF28:
+ 1649 00cd 76436F6D 		.ascii	"vCompetingMathTask3\000"
+ 1649      70657469 
+ 1649      6E674D61 
+ 1649      74685461 
+ 1649      736B3300 
+ 1650              	.LASF35:
+ 1651 00e1 76436F6D 		.ascii	"vCompetingMathTask4\000"
+ 1651      70657469 
+ 1651      6E674D61 
+ 1651      74685461 
+ 1651      736B3400 
+ 1652              	.LASF40:
+ 1653 00f5 2E2E5C43 		.ascii	"..\\Common\\Minimal\\flop.c\000"
+ 1653      6F6D6D6F 
+ 1653      6E5C4D69 
+ 1653      6E696D61 
+ 1653      6C5C666C 
+ 1654              	.LASF30:
+ 1655 010e 64546F74 		.ascii	"dTotal1\000"
+ 1655      616C3100 
+ 1656              	.LASF24:
+ 1657 0116 64416E73 		.ascii	"dAnswer\000"
+ 1657      77657200 
+ 1658              	.LASF18:
+ 1659 011e 696E7433 		.ascii	"int32_t\000"
+ 1659      325F7400 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 38
+
+
+ 1660              	.LASF15:
+ 1661 0126 666C6F61 		.ascii	"float\000"
+ 1661      7400
+ 1662              	.LASF34:
+ 1663 012c 78506F73 		.ascii	"xPosition\000"
+ 1663      6974696F 
+ 1663      6E00
+ 1664              	.LASF2:
+ 1665 0136 756E7369 		.ascii	"unsigned char\000"
+ 1665      676E6564 
+ 1665      20636861 
+ 1665      7200
+ 1666              	.LASF9:
+ 1667 0144 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1667      20756E73 
+ 1667      69676E65 
+ 1667      6420696E 
+ 1667      7400
+ 1668              	.LASF6:
+ 1669 0156 73686F72 		.ascii	"short unsigned int\000"
+ 1669      7420756E 
+ 1669      7369676E 
+ 1669      65642069 
+ 1669      6E7400
+ 1670              	.LASF29:
+ 1671 0169 70644172 		.ascii	"pdArray\000"
+ 1671      72617900 
+ 1672              	.LASF44:
+ 1673 0171 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1673      52784275 
+ 1673      66666572 
+ 1673      00
+ 1674              	.LASF5:
+ 1675 017e 5F5F7569 		.ascii	"__uint16_t\000"
+ 1675      6E743136 
+ 1675      5F7400
+ 1676              	.LASF14:
+ 1677 0189 646F7562 		.ascii	"double\000"
+ 1677      6C6500
+ 1678              	.LASF25:
+ 1679 0190 73457272 		.ascii	"sError\000"
+ 1679      6F7200
+ 1680              	.LASF36:
+ 1681 0197 78526574 		.ascii	"xReturn\000"
+ 1681      75726E00 
+ 1682              	.LASF21:
+ 1683 019f 75785072 		.ascii	"uxPriority\000"
+ 1683      696F7269 
+ 1683      747900
+ 1684              	.LASF0:
+ 1685 01aa 756E7369 		.ascii	"unsigned int\000"
+ 1685      676E6564 
+ 1685      20696E74 
+ 1685      00
+ 1686              	.LASF31:
+ 1687 01b7 64546F74 		.ascii	"dTotal2\000"
+ 1687      616C3200 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 39
+
+
+ 1688              	.LASF11:
+ 1689 01bf 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1689      206C6F6E 
+ 1689      6720756E 
+ 1689      7369676E 
+ 1689      65642069 
+ 1690              	.LASF32:
+ 1691 01d6 64446966 		.ascii	"dDifference\000"
+ 1691      66657265 
+ 1691      6E636500 
+ 1692              	.LASF16:
+ 1693 01e2 6C6F6E67 		.ascii	"long double\000"
+ 1693      20646F75 
+ 1693      626C6500 
+ 1694              	.LASF12:
+ 1695 01ee 73697A65 		.ascii	"sizetype\000"
+ 1695      74797065 
+ 1695      00
+ 1696              	.LASF10:
+ 1697 01f7 6C6F6E67 		.ascii	"long long int\000"
+ 1697      206C6F6E 
+ 1697      6720696E 
+ 1697      7400
+ 1698              	.LASF43:
+ 1699 0205 78417265 		.ascii	"xAreMathsTaskStillRunning\000"
+ 1699      4D617468 
+ 1699      73546173 
+ 1699      6B537469 
+ 1699      6C6C5275 
+ 1700              	.LASF13:
+ 1701 021f 63686172 		.ascii	"char\000"
+ 1701      00
+ 1702              	.LASF22:
+ 1703 0224 70765061 		.ascii	"pvParameters\000"
+ 1703      72616D65 
+ 1703      74657273 
+ 1703      00
+ 1704              	.LASF3:
+ 1705 0231 73686F72 		.ascii	"short int\000"
+ 1705      7420696E 
+ 1705      7400
+ 1706              	.LASF17:
+ 1707 023b 75696E74 		.ascii	"uint16_t\000"
+ 1707      31365F74 
+ 1707      00
+ 1708              	.LASF42:
+ 1709 0244 76537461 		.ascii	"vStartMathTasks\000"
+ 1709      72744D61 
+ 1709      74685461 
+ 1709      736B7300 
+ 1710              	.LASF23:
+ 1711 0254 70757354 		.ascii	"pusTaskCheckVariable\000"
+ 1711      61736B43 
+ 1711      6865636B 
+ 1711      56617269 
+ 1711      61626C65 
+ 1712              	.LASF8:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccG20Xsh.s 			page 40
+
+
+ 1713 0269 6C6F6E67 		.ascii	"long int\000"
+ 1713      20696E74 
+ 1713      00
+ 1714              	.LASF33:
+ 1715 0272 78417272 		.ascii	"xArraySize\000"
+ 1715      61795369 
+ 1715      7A6500
+ 1716              	.LASF1:
+ 1717 027d 7369676E 		.ascii	"signed char\000"
+ 1717      65642063 
+ 1717      68617200 
+ 1718              	.LASF38:
+ 1719 0289 75735461 		.ascii	"usTaskCheck\000"
+ 1719      736B4368 
+ 1719      65636B00 
+ 1720              	.LASF20:
+ 1721 0295 55426173 		.ascii	"UBaseType_t\000"
+ 1721      65547970 
+ 1721      655F7400 
+ 1722              	.LASF19:
+ 1723 02a1 42617365 		.ascii	"BaseType_t\000"
+ 1723      54797065 
+ 1723      5F7400
+ 1724              	.LASF41:
+ 1725 02ac 433A5C55 		.ascii	"C:\\Users\\bmt\\Documents\\GitHub\\FreeRTOS_CY8CKIT"
+ 1725      73657273 
+ 1725      5C626D74 
+ 1725      5C446F63 
+ 1725      756D656E 
+ 1726 02da 5F303539 		.ascii	"_059\\FreeRTOS_Demo.cydsn\000"
+ 1726      5C467265 
+ 1726      6552544F 
+ 1726      535F4465 
+ 1726      6D6F2E63 
+ 1727              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

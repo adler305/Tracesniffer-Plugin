@@ -1,0 +1,2654 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"sniffFIFO.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	sniffIDFilter,13,4
+  20              		.comm	streamFIFO,19512,4
+  21              		.comm	receiveFIFO,88,4
+  22              		.comm	errorFIFO,12,4
+  23              		.section	.text.writeStreamFIFO,"ax",%progbits
+  24              		.align	2
+  25              		.global	writeStreamFIFO
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	writeStreamFIFO, %function
+  29              	writeStreamFIFO:
+  30              	.LFB1:
+  31              		.file 1 "Tracer\\sniffFIFO.c"
+   1:Tracer/sniffFIFO.c **** /** \file sniffFIFO.c
+   2:Tracer/sniffFIFO.c ****  * \brief sniffFIFO source file.
+   3:Tracer/sniffFIFO.c ****  * \details Implements the priority FIFO which can be configured in sniffConfig.h.
+   4:Tracer/sniffFIFO.c ****  * \author Marco Seiller
+   5:Tracer/sniffFIFO.c ****  * \date 2018
+   6:Tracer/sniffFIFO.c ****  */
+   7:Tracer/sniffFIFO.c **** 
+   8:Tracer/sniffFIFO.c **** 
+   9:Tracer/sniffFIFO.c **** 
+  10:Tracer/sniffFIFO.c **** #include <sys/types.h>
+  11:Tracer/sniffFIFO.c **** #include <stdint.h>
+  12:Tracer/sniffFIFO.c **** #include <stdlib.h>
+  13:Tracer/sniffFIFO.c **** #include <stdio.h>
+  14:Tracer/sniffFIFO.c **** #include <string.h>
+  15:Tracer/sniffFIFO.c **** 
+  16:Tracer/sniffFIFO.c **** #include <sniffPayload.h>
+  17:Tracer/sniffFIFO.c **** #include <sniffFIFO.h>
+  18:Tracer/sniffFIFO.c **** 
+  19:Tracer/sniffFIFO.c **** 
+  20:Tracer/sniffFIFO.c **** //TODO: Any possibility to get the different data structures more variable? (Byte vs Payload3)
+  21:Tracer/sniffFIFO.c **** #if SEND_WITHOUT_SNIFF_TASK == 0
+  22:Tracer/sniffFIFO.c **** StreamFIFO streamFIFO;
+  23:Tracer/sniffFIFO.c **** #endif
+  24:Tracer/sniffFIFO.c **** ReceiveFIFO receiveFIFO;
+  25:Tracer/sniffFIFO.c **** ErrorFIFO errorFIFO;
+  26:Tracer/sniffFIFO.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 2
+
+
+  27:Tracer/sniffFIFO.c **** /*
+  28:Tracer/sniffFIFO.c **** Push data to FIFO
+  29:Tracer/sniffFIFO.c **** Params:
+  30:Tracer/sniffFIFO.c **** 	fifo: DUAL_PORT_FIFO instance
+  31:Tracer/sniffFIFO.c **** 	data: pointer to data object
+  32:Tracer/sniffFIFO.c **** 	len: length of data object (currently ignored)
+  33:Tracer/sniffFIFO.c **** 	prio: priority, 1=HP, 0=LP
+  34:Tracer/sniffFIFO.c **** return codes:
+  35:Tracer/sniffFIFO.c **** 0 -> OK
+  36:Tracer/sniffFIFO.c **** 1 -> FULL
+  37:Tracer/sniffFIFO.c **** */
+  38:Tracer/sniffFIFO.c **** 
+  39:Tracer/sniffFIFO.c **** 
+  40:Tracer/sniffFIFO.c **** #if SEND_WITHOUT_SNIFF_TASK == 0
+  41:Tracer/sniffFIFO.c **** inline uint8_t writeStreamFIFO(void* inData,payloadType pType){
+  32              		.loc 1 41 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 16
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36 0000 80B5     		push	{r7, lr}
+  37              		.cfi_def_cfa_offset 8
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 84B0     		sub	sp, sp, #16
+  41              		.cfi_def_cfa_offset 24
+  42 0004 00AF     		add	r7, sp, #0
+  43              		.cfi_def_cfa_register 7
+  44 0006 7860     		str	r0, [r7, #4]
+  45 0008 0B46     		mov	r3, r1
+  46 000a FB70     		strb	r3, [r7, #3]
+  42:Tracer/sniffFIFO.c **** 
+  43:Tracer/sniffFIFO.c **** 	size_t nextWptr = (streamFIFO.wptr+1)%streamFIFO.size;
+  47              		.loc 1 43 0
+  48 000c 174B     		ldr	r3, .L4
+  49 000e 1B68     		ldr	r3, [r3]
+  50 0010 0133     		adds	r3, r3, #1
+  51 0012 164A     		ldr	r2, .L4
+  52 0014 9268     		ldr	r2, [r2, #8]
+  53 0016 B3FBF2F1 		udiv	r1, r3, r2
+  54 001a 02FB01F2 		mul	r2, r2, r1
+  55 001e 9B1A     		subs	r3, r3, r2
+  56 0020 FB60     		str	r3, [r7, #12]
+  44:Tracer/sniffFIFO.c **** 
+  45:Tracer/sniffFIFO.c **** 	if ((streamFIFO.rptr)==nextWptr){
+  57              		.loc 1 45 0
+  58 0022 124B     		ldr	r3, .L4
+  59 0024 5A68     		ldr	r2, [r3, #4]
+  60 0026 FB68     		ldr	r3, [r7, #12]
+  61 0028 9A42     		cmp	r2, r3
+  62 002a 01D1     		bne	.L2
+  46:Tracer/sniffFIFO.c **** 		return 1;
+  63              		.loc 1 46 0
+  64 002c 0123     		movs	r3, #1
+  65 002e 19E0     		b	.L3
+  66              	.L2:
+  47:Tracer/sniffFIFO.c **** 	}
+  48:Tracer/sniffFIFO.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 3
+
+
+  49:Tracer/sniffFIFO.c **** 	memcpy(&(streamFIFO.Buffer[streamFIFO.wptr]),inData,pType);
+  67              		.loc 1 49 0
+  68 0030 0E4B     		ldr	r3, .L4
+  69 0032 1A68     		ldr	r2, [r3]
+  70 0034 1346     		mov	r3, r2
+  71 0036 DB00     		lsls	r3, r3, #3
+  72 0038 1344     		add	r3, r3, r2
+  73 003a 0833     		adds	r3, r3, #8
+  74 003c 0B4A     		ldr	r2, .L4
+  75 003e 1344     		add	r3, r3, r2
+  76 0040 0433     		adds	r3, r3, #4
+  77 0042 FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+  78 0044 7968     		ldr	r1, [r7, #4]
+  79 0046 1846     		mov	r0, r3
+  80 0048 FFF7FEFF 		bl	memcpy
+  50:Tracer/sniffFIFO.c **** 
+  51:Tracer/sniffFIFO.c **** 	streamFIFO.DataType[streamFIFO.wptr] = pType;
+  81              		.loc 1 51 0
+  82 004c 074B     		ldr	r3, .L4
+  83 004e 1B68     		ldr	r3, [r3]
+  84 0050 FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+  85 0052 0649     		ldr	r1, .L4
+  86 0054 03F63253 		addw	r3, r3, #3378
+  87 0058 41F82320 		str	r2, [r1, r3, lsl #2]
+  52:Tracer/sniffFIFO.c **** 	streamFIFO.wptr = nextWptr;
+  88              		.loc 1 52 0
+  89 005c 034A     		ldr	r2, .L4
+  90 005e FB68     		ldr	r3, [r7, #12]
+  91 0060 1360     		str	r3, [r2]
+  53:Tracer/sniffFIFO.c **** 
+  54:Tracer/sniffFIFO.c **** 	return 0;
+  92              		.loc 1 54 0
+  93 0062 0023     		movs	r3, #0
+  94              	.L3:
+  55:Tracer/sniffFIFO.c **** }
+  95              		.loc 1 55 0
+  96 0064 1846     		mov	r0, r3
+  97 0066 1037     		adds	r7, r7, #16
+  98              		.cfi_def_cfa_offset 8
+  99 0068 BD46     		mov	sp, r7
+ 100              		.cfi_def_cfa_register 13
+ 101              		@ sp needed
+ 102 006a 80BD     		pop	{r7, pc}
+ 103              	.L5:
+ 104              		.align	2
+ 105              	.L4:
+ 106 006c 00000000 		.word	streamFIFO
+ 107              		.cfi_endproc
+ 108              	.LFE1:
+ 109              		.size	writeStreamFIFO, .-writeStreamFIFO
+ 110              		.section	.text.writeReceiveFIFO,"ax",%progbits
+ 111              		.align	2
+ 112              		.global	writeReceiveFIFO
+ 113              		.thumb
+ 114              		.thumb_func
+ 115              		.type	writeReceiveFIFO, %function
+ 116              	writeReceiveFIFO:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 4
+
+
+ 117              	.LFB2:
+  56:Tracer/sniffFIFO.c **** #endif
+  57:Tracer/sniffFIFO.c **** inline uint8_t writeReceiveFIFO(void* inData,payloadType pType){
+ 118              		.loc 1 57 0
+ 119              		.cfi_startproc
+ 120              		@ args = 0, pretend = 0, frame = 16
+ 121              		@ frame_needed = 1, uses_anonymous_args = 0
+ 122 0000 80B5     		push	{r7, lr}
+ 123              		.cfi_def_cfa_offset 8
+ 124              		.cfi_offset 7, -8
+ 125              		.cfi_offset 14, -4
+ 126 0002 84B0     		sub	sp, sp, #16
+ 127              		.cfi_def_cfa_offset 24
+ 128 0004 00AF     		add	r7, sp, #0
+ 129              		.cfi_def_cfa_register 7
+ 130 0006 7860     		str	r0, [r7, #4]
+ 131 0008 0B46     		mov	r3, r1
+ 132 000a FB70     		strb	r3, [r7, #3]
+  58:Tracer/sniffFIFO.c **** 
+  59:Tracer/sniffFIFO.c **** 	size_t nextWptr = (receiveFIFO.wptr+1)%receiveFIFO.size;
+ 133              		.loc 1 59 0
+ 134 000c 164B     		ldr	r3, .L9
+ 135 000e 1B68     		ldr	r3, [r3]
+ 136 0010 0133     		adds	r3, r3, #1
+ 137 0012 154A     		ldr	r2, .L9
+ 138 0014 9268     		ldr	r2, [r2, #8]
+ 139 0016 B3FBF2F1 		udiv	r1, r3, r2
+ 140 001a 02FB01F2 		mul	r2, r2, r1
+ 141 001e 9B1A     		subs	r3, r3, r2
+ 142 0020 FB60     		str	r3, [r7, #12]
+  60:Tracer/sniffFIFO.c **** 
+  61:Tracer/sniffFIFO.c **** 	if ((receiveFIFO.rptr)==nextWptr){
+ 143              		.loc 1 61 0
+ 144 0022 114B     		ldr	r3, .L9
+ 145 0024 5A68     		ldr	r2, [r3, #4]
+ 146 0026 FB68     		ldr	r3, [r7, #12]
+ 147 0028 9A42     		cmp	r2, r3
+ 148 002a 01D1     		bne	.L7
+  62:Tracer/sniffFIFO.c **** 		return 1;
+ 149              		.loc 1 62 0
+ 150 002c 0123     		movs	r3, #1
+ 151 002e 16E0     		b	.L8
+ 152              	.L7:
+  63:Tracer/sniffFIFO.c **** 	}
+  64:Tracer/sniffFIFO.c **** 	//receiveFIFO.Buffer[receiveFIFO.wptr]=*inData;
+  65:Tracer/sniffFIFO.c **** 	memcpy(&(receiveFIFO.Buffer[receiveFIFO.wptr]),inData,pType);
+ 153              		.loc 1 65 0
+ 154 0030 0D4B     		ldr	r3, .L9
+ 155 0032 1B68     		ldr	r3, [r3]
+ 156 0034 0833     		adds	r3, r3, #8
+ 157 0036 0C4A     		ldr	r2, .L9
+ 158 0038 1344     		add	r3, r3, r2
+ 159 003a 0433     		adds	r3, r3, #4
+ 160 003c FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+ 161 003e 7968     		ldr	r1, [r7, #4]
+ 162 0040 1846     		mov	r0, r3
+ 163 0042 FFF7FEFF 		bl	memcpy
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 5
+
+
+  66:Tracer/sniffFIFO.c **** 
+  67:Tracer/sniffFIFO.c **** 	receiveFIFO.DataType[receiveFIFO.wptr] = pType; //TODO: Kein Typ gebraucht nur Bytes
+ 164              		.loc 1 67 0
+ 165 0046 084B     		ldr	r3, .L9
+ 166 0048 1B68     		ldr	r3, [r3]
+ 167 004a FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+ 168 004c 0649     		ldr	r1, .L9
+ 169 004e 0633     		adds	r3, r3, #6
+ 170 0050 9B00     		lsls	r3, r3, #2
+ 171 0052 0B44     		add	r3, r3, r1
+ 172 0054 5A60     		str	r2, [r3, #4]
+  68:Tracer/sniffFIFO.c **** 	receiveFIFO.wptr = nextWptr;
+ 173              		.loc 1 68 0
+ 174 0056 044A     		ldr	r2, .L9
+ 175 0058 FB68     		ldr	r3, [r7, #12]
+ 176 005a 1360     		str	r3, [r2]
+  69:Tracer/sniffFIFO.c **** 
+  70:Tracer/sniffFIFO.c **** 	return 0;
+ 177              		.loc 1 70 0
+ 178 005c 0023     		movs	r3, #0
+ 179              	.L8:
+  71:Tracer/sniffFIFO.c **** }
+ 180              		.loc 1 71 0
+ 181 005e 1846     		mov	r0, r3
+ 182 0060 1037     		adds	r7, r7, #16
+ 183              		.cfi_def_cfa_offset 8
+ 184 0062 BD46     		mov	sp, r7
+ 185              		.cfi_def_cfa_register 13
+ 186              		@ sp needed
+ 187 0064 80BD     		pop	{r7, pc}
+ 188              	.L10:
+ 189 0066 00BF     		.align	2
+ 190              	.L9:
+ 191 0068 00000000 		.word	receiveFIFO
+ 192              		.cfi_endproc
+ 193              	.LFE2:
+ 194              		.size	writeReceiveFIFO, .-writeReceiveFIFO
+ 195              		.section	.text.writeErrorFIFO,"ax",%progbits
+ 196              		.align	2
+ 197              		.global	writeErrorFIFO
+ 198              		.thumb
+ 199              		.thumb_func
+ 200              		.type	writeErrorFIFO, %function
+ 201              	writeErrorFIFO:
+ 202              	.LFB3:
+  72:Tracer/sniffFIFO.c **** 
+  73:Tracer/sniffFIFO.c **** inline uint8_t writeErrorFIFO(void* inData,payloadType pType){
+ 203              		.loc 1 73 0
+ 204              		.cfi_startproc
+ 205              		@ args = 0, pretend = 0, frame = 16
+ 206              		@ frame_needed = 1, uses_anonymous_args = 0
+ 207 0000 80B5     		push	{r7, lr}
+ 208              		.cfi_def_cfa_offset 8
+ 209              		.cfi_offset 7, -8
+ 210              		.cfi_offset 14, -4
+ 211 0002 84B0     		sub	sp, sp, #16
+ 212              		.cfi_def_cfa_offset 24
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 6
+
+
+ 213 0004 00AF     		add	r7, sp, #0
+ 214              		.cfi_def_cfa_register 7
+ 215 0006 7860     		str	r0, [r7, #4]
+ 216 0008 0B46     		mov	r3, r1
+ 217 000a FB70     		strb	r3, [r7, #3]
+  74:Tracer/sniffFIFO.c **** 
+  75:Tracer/sniffFIFO.c **** 	size_t nextWptr = (errorFIFO.wptr+1)%errorFIFO.size;
+ 218              		.loc 1 75 0
+ 219 000c 184B     		ldr	r3, .L14
+ 220 000e 1B68     		ldr	r3, [r3]
+ 221 0010 0133     		adds	r3, r3, #1
+ 222 0012 174A     		ldr	r2, .L14
+ 223 0014 9268     		ldr	r2, [r2, #8]
+ 224 0016 B3FBF2F1 		udiv	r1, r3, r2
+ 225 001a 02FB01F2 		mul	r2, r2, r1
+ 226 001e 9B1A     		subs	r3, r3, r2
+ 227 0020 FB60     		str	r3, [r7, #12]
+  76:Tracer/sniffFIFO.c **** 
+  77:Tracer/sniffFIFO.c **** 	if ((errorFIFO.rptr)==nextWptr){
+ 228              		.loc 1 77 0
+ 229 0022 134B     		ldr	r3, .L14
+ 230 0024 5A68     		ldr	r2, [r3, #4]
+ 231 0026 FB68     		ldr	r3, [r7, #12]
+ 232 0028 9A42     		cmp	r2, r3
+ 233 002a 01D1     		bne	.L12
+  78:Tracer/sniffFIFO.c **** 		return 1;
+ 234              		.loc 1 78 0
+ 235 002c 0123     		movs	r3, #1
+ 236 002e 1AE0     		b	.L13
+ 237              	.L12:
+  79:Tracer/sniffFIFO.c **** 	}
+  80:Tracer/sniffFIFO.c **** 
+  81:Tracer/sniffFIFO.c **** 	memcpy(&(errorFIFO.Buffer[errorFIFO.wptr]),inData,pType);
+ 238              		.loc 1 81 0
+ 239 0030 0F4B     		ldr	r3, .L14
+ 240 0032 1A68     		ldr	r2, [r3]
+ 241 0034 1346     		mov	r3, r2
+ 242 0036 5B00     		lsls	r3, r3, #1
+ 243 0038 1344     		add	r3, r3, r2
+ 244 003a 5B00     		lsls	r3, r3, #1
+ 245 003c 0833     		adds	r3, r3, #8
+ 246 003e 0C4A     		ldr	r2, .L14
+ 247 0040 1344     		add	r3, r3, r2
+ 248 0042 0433     		adds	r3, r3, #4
+ 249 0044 FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+ 250 0046 7968     		ldr	r1, [r7, #4]
+ 251 0048 1846     		mov	r0, r3
+ 252 004a FFF7FEFF 		bl	memcpy
+  82:Tracer/sniffFIFO.c **** 
+  83:Tracer/sniffFIFO.c **** 	errorFIFO.DataType[errorFIFO.wptr] = pType;
+ 253              		.loc 1 83 0
+ 254 004e 084B     		ldr	r3, .L14
+ 255 0050 1B68     		ldr	r3, [r3]
+ 256 0052 FA78     		ldrb	r2, [r7, #3]	@ zero_extendqisi2
+ 257 0054 0649     		ldr	r1, .L14
+ 258 0056 0233     		adds	r3, r3, #2
+ 259 0058 9B00     		lsls	r3, r3, #2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 7
+
+
+ 260 005a 0B44     		add	r3, r3, r1
+ 261 005c 5A60     		str	r2, [r3, #4]
+  84:Tracer/sniffFIFO.c **** 	errorFIFO.wptr = nextWptr;
+ 262              		.loc 1 84 0
+ 263 005e 044A     		ldr	r2, .L14
+ 264 0060 FB68     		ldr	r3, [r7, #12]
+ 265 0062 1360     		str	r3, [r2]
+  85:Tracer/sniffFIFO.c **** 
+  86:Tracer/sniffFIFO.c **** 	return 0;
+ 266              		.loc 1 86 0
+ 267 0064 0023     		movs	r3, #0
+ 268              	.L13:
+  87:Tracer/sniffFIFO.c **** }
+ 269              		.loc 1 87 0
+ 270 0066 1846     		mov	r0, r3
+ 271 0068 1037     		adds	r7, r7, #16
+ 272              		.cfi_def_cfa_offset 8
+ 273 006a BD46     		mov	sp, r7
+ 274              		.cfi_def_cfa_register 13
+ 275              		@ sp needed
+ 276 006c 80BD     		pop	{r7, pc}
+ 277              	.L15:
+ 278 006e 00BF     		.align	2
+ 279              	.L14:
+ 280 0070 00000000 		.word	errorFIFO
+ 281              		.cfi_endproc
+ 282              	.LFE3:
+ 283              		.size	writeErrorFIFO, .-writeErrorFIFO
+ 284              		.section	.text.writeFIFO,"ax",%progbits
+ 285              		.align	2
+ 286              		.global	writeFIFO
+ 287              		.thumb
+ 288              		.thumb_func
+ 289              		.type	writeFIFO, %function
+ 290              	writeFIFO:
+ 291              	.LFB4:
+  88:Tracer/sniffFIFO.c **** 
+  89:Tracer/sniffFIFO.c **** inline uint8_t writeFIFO(void* inData,payloadType pType,Priority prio){
+ 292              		.loc 1 89 0
+ 293              		.cfi_startproc
+ 294              		@ args = 0, pretend = 0, frame = 8
+ 295              		@ frame_needed = 1, uses_anonymous_args = 0
+ 296 0000 80B5     		push	{r7, lr}
+ 297              		.cfi_def_cfa_offset 8
+ 298              		.cfi_offset 7, -8
+ 299              		.cfi_offset 14, -4
+ 300 0002 82B0     		sub	sp, sp, #8
+ 301              		.cfi_def_cfa_offset 16
+ 302 0004 00AF     		add	r7, sp, #0
+ 303              		.cfi_def_cfa_register 7
+ 304 0006 7860     		str	r0, [r7, #4]
+ 305 0008 0B46     		mov	r3, r1
+ 306 000a FB70     		strb	r3, [r7, #3]
+ 307 000c 1346     		mov	r3, r2
+ 308 000e BB70     		strb	r3, [r7, #2]
+  90:Tracer/sniffFIFO.c **** 	switch (prio) {
+ 309              		.loc 1 90 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 8
+
+
+ 310 0010 BB78     		ldrb	r3, [r7, #2]	@ zero_extendqisi2
+ 311 0012 012B     		cmp	r3, #1
+ 312 0014 0BD0     		beq	.L18
+ 313 0016 022B     		cmp	r3, #2
+ 314 0018 02D0     		beq	.L19
+ 315 001a 002B     		cmp	r3, #0
+ 316 001c 0ED0     		beq	.L20
+ 317 001e 14E0     		b	.L22
+ 318              	.L19:
+  91:Tracer/sniffFIFO.c **** 		case prioRECEIVE:
+  92:Tracer/sniffFIFO.c **** 			return writeReceiveFIFO(inData,pType);
+ 319              		.loc 1 92 0
+ 320 0020 FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 321 0022 1946     		mov	r1, r3
+ 322 0024 7868     		ldr	r0, [r7, #4]
+ 323 0026 FFF7FEFF 		bl	writeReceiveFIFO
+ 324 002a 0346     		mov	r3, r0
+ 325 002c 0EE0     		b	.L21
+ 326              	.L18:
+  93:Tracer/sniffFIFO.c **** 			break;
+  94:Tracer/sniffFIFO.c **** #if SEND_WITHOUT_SNIFF_TASK == 0
+  95:Tracer/sniffFIFO.c **** 		case prioSTREAM:
+  96:Tracer/sniffFIFO.c **** 			return writeStreamFIFO(inData,pType);
+ 327              		.loc 1 96 0
+ 328 002e FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 329 0030 1946     		mov	r1, r3
+ 330 0032 7868     		ldr	r0, [r7, #4]
+ 331 0034 FFF7FEFF 		bl	writeStreamFIFO
+ 332 0038 0346     		mov	r3, r0
+ 333 003a 07E0     		b	.L21
+ 334              	.L20:
+  97:Tracer/sniffFIFO.c **** 			break;
+  98:Tracer/sniffFIFO.c **** #endif
+  99:Tracer/sniffFIFO.c **** 		case prioERROR:
+ 100:Tracer/sniffFIFO.c **** 			return writeErrorFIFO(inData,pType);
+ 335              		.loc 1 100 0
+ 336 003c FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 337 003e 1946     		mov	r1, r3
+ 338 0040 7868     		ldr	r0, [r7, #4]
+ 339 0042 FFF7FEFF 		bl	writeErrorFIFO
+ 340 0046 0346     		mov	r3, r0
+ 341 0048 00E0     		b	.L21
+ 342              	.L22:
+ 101:Tracer/sniffFIFO.c **** 			break;
+ 102:Tracer/sniffFIFO.c **** 		default:
+ 103:Tracer/sniffFIFO.c **** 			return 1;
+ 343              		.loc 1 103 0
+ 344 004a 0123     		movs	r3, #1
+ 345              	.L21:
+ 104:Tracer/sniffFIFO.c **** 			break;
+ 105:Tracer/sniffFIFO.c **** 	}
+ 106:Tracer/sniffFIFO.c **** }
+ 346              		.loc 1 106 0
+ 347 004c 1846     		mov	r0, r3
+ 348 004e 0837     		adds	r7, r7, #8
+ 349              		.cfi_def_cfa_offset 8
+ 350 0050 BD46     		mov	sp, r7
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 9
+
+
+ 351              		.cfi_def_cfa_register 13
+ 352              		@ sp needed
+ 353 0052 80BD     		pop	{r7, pc}
+ 354              		.cfi_endproc
+ 355              	.LFE4:
+ 356              		.size	writeFIFO, .-writeFIFO
+ 357              		.section	.text.readStreamFIFO,"ax",%progbits
+ 358              		.align	2
+ 359              		.global	readStreamFIFO
+ 360              		.thumb
+ 361              		.thumb_func
+ 362              		.type	readStreamFIFO, %function
+ 363              	readStreamFIFO:
+ 364              	.LFB5:
+ 107:Tracer/sniffFIFO.c **** 
+ 108:Tracer/sniffFIFO.c **** /*
+ 109:Tracer/sniffFIFO.c **** Behavior:
+ 110:Tracer/sniffFIFO.c **** Reads data from fifo, highest priority first
+ 111:Tracer/sniffFIFO.c **** It's up to the user to free the buffer after use
+ 112:Tracer/sniffFIFO.c **** 
+ 113:Tracer/sniffFIFO.c **** Params:
+ 114:Tracer/sniffFIFO.c **** 	fifo: DUAL_PORT_FIFO instance
+ 115:Tracer/sniffFIFO.c **** 	pData: target buffer for data
+ 116:Tracer/sniffFIFO.c **** 	pDType: buffer to put read lenght into
+ 117:Tracer/sniffFIFO.c **** 	pPrio: buffer to put read priority
+ 118:Tracer/sniffFIFO.c **** return:
+ 119:Tracer/sniffFIFO.c **** 0: read OK
+ 120:Tracer/sniffFIFO.c **** 1: read FAIL
+ 121:Tracer/sniffFIFO.c **** */
+ 122:Tracer/sniffFIFO.c **** 
+ 123:Tracer/sniffFIFO.c **** #if SEND_WITHOUT_SNIFF_TASK == 0
+ 124:Tracer/sniffFIFO.c **** inline uint8_t readStreamFIFO(void* pData, payloadType* pType){
+ 365              		.loc 1 124 0
+ 366              		.cfi_startproc
+ 367              		@ args = 0, pretend = 0, frame = 8
+ 368              		@ frame_needed = 1, uses_anonymous_args = 0
+ 369 0000 80B5     		push	{r7, lr}
+ 370              		.cfi_def_cfa_offset 8
+ 371              		.cfi_offset 7, -8
+ 372              		.cfi_offset 14, -4
+ 373 0002 82B0     		sub	sp, sp, #8
+ 374              		.cfi_def_cfa_offset 16
+ 375 0004 00AF     		add	r7, sp, #0
+ 376              		.cfi_def_cfa_register 7
+ 377 0006 7860     		str	r0, [r7, #4]
+ 378 0008 3960     		str	r1, [r7]
+ 125:Tracer/sniffFIFO.c **** 
+ 126:Tracer/sniffFIFO.c ****         if (streamFIFO.wptr!=streamFIFO.rptr){
+ 379              		.loc 1 126 0
+ 380 000a 194B     		ldr	r3, .L26
+ 381 000c 1A68     		ldr	r2, [r3]
+ 382 000e 184B     		ldr	r3, .L26
+ 383 0010 5B68     		ldr	r3, [r3, #4]
+ 384 0012 9A42     		cmp	r2, r3
+ 385 0014 26D0     		beq	.L24
+ 127:Tracer/sniffFIFO.c ****             *pType= streamFIFO.DataType[streamFIFO.rptr];
+ 386              		.loc 1 127 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 10
+
+
+ 387 0016 164B     		ldr	r3, .L26
+ 388 0018 5B68     		ldr	r3, [r3, #4]
+ 389 001a 154A     		ldr	r2, .L26
+ 390 001c 03F63253 		addw	r3, r3, #3378
+ 391 0020 52F82330 		ldr	r3, [r2, r3, lsl #2]
+ 392 0024 DAB2     		uxtb	r2, r3
+ 393 0026 3B68     		ldr	r3, [r7]
+ 394 0028 1A70     		strb	r2, [r3]
+ 128:Tracer/sniffFIFO.c **** 
+ 129:Tracer/sniffFIFO.c **** 			memcpy(pData,&(streamFIFO.Buffer[streamFIFO.rptr]),*pType);
+ 395              		.loc 1 129 0
+ 396 002a 114B     		ldr	r3, .L26
+ 397 002c 5A68     		ldr	r2, [r3, #4]
+ 398 002e 1346     		mov	r3, r2
+ 399 0030 DB00     		lsls	r3, r3, #3
+ 400 0032 1344     		add	r3, r3, r2
+ 401 0034 0833     		adds	r3, r3, #8
+ 402 0036 0E4A     		ldr	r2, .L26
+ 403 0038 1344     		add	r3, r3, r2
+ 404 003a 191D     		adds	r1, r3, #4
+ 405 003c 3B68     		ldr	r3, [r7]
+ 406 003e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 407 0040 1A46     		mov	r2, r3
+ 408 0042 7868     		ldr	r0, [r7, #4]
+ 409 0044 FFF7FEFF 		bl	memcpy
+ 130:Tracer/sniffFIFO.c **** 
+ 131:Tracer/sniffFIFO.c ****            // free(fifo[prio].Buffer[fifo[prio].rptr]);
+ 132:Tracer/sniffFIFO.c ****             //fifo[prio].Buffer[fifo[prio].rptr]=0;
+ 133:Tracer/sniffFIFO.c **** 			streamFIFO.rptr=(streamFIFO.rptr+1)%streamFIFO.size;
+ 410              		.loc 1 133 0
+ 411 0048 094B     		ldr	r3, .L26
+ 412 004a 5B68     		ldr	r3, [r3, #4]
+ 413 004c 0133     		adds	r3, r3, #1
+ 414 004e 084A     		ldr	r2, .L26
+ 415 0050 9268     		ldr	r2, [r2, #8]
+ 416 0052 B3FBF2F1 		udiv	r1, r3, r2
+ 417 0056 02FB01F2 		mul	r2, r2, r1
+ 418 005a 9B1A     		subs	r3, r3, r2
+ 419 005c 044A     		ldr	r2, .L26
+ 420 005e 5360     		str	r3, [r2, #4]
+ 134:Tracer/sniffFIFO.c ****             return 0;
+ 421              		.loc 1 134 0
+ 422 0060 0023     		movs	r3, #0
+ 423 0062 00E0     		b	.L25
+ 424              	.L24:
+ 135:Tracer/sniffFIFO.c ****         }
+ 136:Tracer/sniffFIFO.c ****     //EMPTY
+ 137:Tracer/sniffFIFO.c **** 	return 1;
+ 425              		.loc 1 137 0
+ 426 0064 0123     		movs	r3, #1
+ 427              	.L25:
+ 138:Tracer/sniffFIFO.c **** }
+ 428              		.loc 1 138 0
+ 429 0066 1846     		mov	r0, r3
+ 430 0068 0837     		adds	r7, r7, #8
+ 431              		.cfi_def_cfa_offset 8
+ 432 006a BD46     		mov	sp, r7
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 11
+
+
+ 433              		.cfi_def_cfa_register 13
+ 434              		@ sp needed
+ 435 006c 80BD     		pop	{r7, pc}
+ 436              	.L27:
+ 437 006e 00BF     		.align	2
+ 438              	.L26:
+ 439 0070 00000000 		.word	streamFIFO
+ 440              		.cfi_endproc
+ 441              	.LFE5:
+ 442              		.size	readStreamFIFO, .-readStreamFIFO
+ 443              		.section	.text.readReceiveFIFO,"ax",%progbits
+ 444              		.align	2
+ 445              		.global	readReceiveFIFO
+ 446              		.thumb
+ 447              		.thumb_func
+ 448              		.type	readReceiveFIFO, %function
+ 449              	readReceiveFIFO:
+ 450              	.LFB6:
+ 139:Tracer/sniffFIFO.c **** #endif
+ 140:Tracer/sniffFIFO.c **** 
+ 141:Tracer/sniffFIFO.c **** inline uint8_t readReceiveFIFO(void* pData, payloadType* pType){
+ 451              		.loc 1 141 0
+ 452              		.cfi_startproc
+ 453              		@ args = 0, pretend = 0, frame = 8
+ 454              		@ frame_needed = 1, uses_anonymous_args = 0
+ 455 0000 80B5     		push	{r7, lr}
+ 456              		.cfi_def_cfa_offset 8
+ 457              		.cfi_offset 7, -8
+ 458              		.cfi_offset 14, -4
+ 459 0002 82B0     		sub	sp, sp, #8
+ 460              		.cfi_def_cfa_offset 16
+ 461 0004 00AF     		add	r7, sp, #0
+ 462              		.cfi_def_cfa_register 7
+ 463 0006 7860     		str	r0, [r7, #4]
+ 464 0008 3960     		str	r1, [r7]
+ 142:Tracer/sniffFIFO.c **** 
+ 143:Tracer/sniffFIFO.c ****         if (receiveFIFO.wptr!=receiveFIFO.rptr){
+ 465              		.loc 1 143 0
+ 466 000a 174B     		ldr	r3, .L31
+ 467 000c 1A68     		ldr	r2, [r3]
+ 468 000e 164B     		ldr	r3, .L31
+ 469 0010 5B68     		ldr	r3, [r3, #4]
+ 470 0012 9A42     		cmp	r2, r3
+ 471 0014 23D0     		beq	.L29
+ 144:Tracer/sniffFIFO.c ****             *pType= receiveFIFO.DataType[receiveFIFO.rptr];
+ 472              		.loc 1 144 0
+ 473 0016 144B     		ldr	r3, .L31
+ 474 0018 5B68     		ldr	r3, [r3, #4]
+ 475 001a 134A     		ldr	r2, .L31
+ 476 001c 0633     		adds	r3, r3, #6
+ 477 001e 9B00     		lsls	r3, r3, #2
+ 478 0020 1344     		add	r3, r3, r2
+ 479 0022 5B68     		ldr	r3, [r3, #4]
+ 480 0024 DAB2     		uxtb	r2, r3
+ 481 0026 3B68     		ldr	r3, [r7]
+ 482 0028 1A70     		strb	r2, [r3]
+ 145:Tracer/sniffFIFO.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 12
+
+
+ 146:Tracer/sniffFIFO.c **** 			memcpy(pData,&(receiveFIFO.Buffer[receiveFIFO.rptr]),*pType);
+ 483              		.loc 1 146 0
+ 484 002a 0F4B     		ldr	r3, .L31
+ 485 002c 5B68     		ldr	r3, [r3, #4]
+ 486 002e 0833     		adds	r3, r3, #8
+ 487 0030 0D4A     		ldr	r2, .L31
+ 488 0032 1344     		add	r3, r3, r2
+ 489 0034 191D     		adds	r1, r3, #4
+ 490 0036 3B68     		ldr	r3, [r7]
+ 491 0038 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 492 003a 1A46     		mov	r2, r3
+ 493 003c 7868     		ldr	r0, [r7, #4]
+ 494 003e FFF7FEFF 		bl	memcpy
+ 147:Tracer/sniffFIFO.c **** 
+ 148:Tracer/sniffFIFO.c ****            // free(fifo[prio].Buffer[fifo[prio].rptr]);
+ 149:Tracer/sniffFIFO.c ****             //fifo[prio].Buffer[fifo[prio].rptr]=0;
+ 150:Tracer/sniffFIFO.c **** 			receiveFIFO.rptr=(receiveFIFO.rptr+1)%receiveFIFO.size;
+ 495              		.loc 1 150 0
+ 496 0042 094B     		ldr	r3, .L31
+ 497 0044 5B68     		ldr	r3, [r3, #4]
+ 498 0046 0133     		adds	r3, r3, #1
+ 499 0048 074A     		ldr	r2, .L31
+ 500 004a 9268     		ldr	r2, [r2, #8]
+ 501 004c B3FBF2F1 		udiv	r1, r3, r2
+ 502 0050 02FB01F2 		mul	r2, r2, r1
+ 503 0054 9B1A     		subs	r3, r3, r2
+ 504 0056 044A     		ldr	r2, .L31
+ 505 0058 5360     		str	r3, [r2, #4]
+ 151:Tracer/sniffFIFO.c ****             return 0;
+ 506              		.loc 1 151 0
+ 507 005a 0023     		movs	r3, #0
+ 508 005c 00E0     		b	.L30
+ 509              	.L29:
+ 152:Tracer/sniffFIFO.c ****         }
+ 153:Tracer/sniffFIFO.c **** 
+ 154:Tracer/sniffFIFO.c ****     //EMPTY
+ 155:Tracer/sniffFIFO.c **** 	return 1;
+ 510              		.loc 1 155 0
+ 511 005e 0123     		movs	r3, #1
+ 512              	.L30:
+ 156:Tracer/sniffFIFO.c **** }
+ 513              		.loc 1 156 0
+ 514 0060 1846     		mov	r0, r3
+ 515 0062 0837     		adds	r7, r7, #8
+ 516              		.cfi_def_cfa_offset 8
+ 517 0064 BD46     		mov	sp, r7
+ 518              		.cfi_def_cfa_register 13
+ 519              		@ sp needed
+ 520 0066 80BD     		pop	{r7, pc}
+ 521              	.L32:
+ 522              		.align	2
+ 523              	.L31:
+ 524 0068 00000000 		.word	receiveFIFO
+ 525              		.cfi_endproc
+ 526              	.LFE6:
+ 527              		.size	readReceiveFIFO, .-readReceiveFIFO
+ 528              		.section	.text.readErrorFIFO,"ax",%progbits
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 13
+
+
+ 529              		.align	2
+ 530              		.global	readErrorFIFO
+ 531              		.thumb
+ 532              		.thumb_func
+ 533              		.type	readErrorFIFO, %function
+ 534              	readErrorFIFO:
+ 535              	.LFB7:
+ 157:Tracer/sniffFIFO.c **** 
+ 158:Tracer/sniffFIFO.c **** inline uint8_t readErrorFIFO(void* pData, payloadType* pType){
+ 536              		.loc 1 158 0
+ 537              		.cfi_startproc
+ 538              		@ args = 0, pretend = 0, frame = 8
+ 539              		@ frame_needed = 1, uses_anonymous_args = 0
+ 540 0000 80B5     		push	{r7, lr}
+ 541              		.cfi_def_cfa_offset 8
+ 542              		.cfi_offset 7, -8
+ 543              		.cfi_offset 14, -4
+ 544 0002 82B0     		sub	sp, sp, #8
+ 545              		.cfi_def_cfa_offset 16
+ 546 0004 00AF     		add	r7, sp, #0
+ 547              		.cfi_def_cfa_register 7
+ 548 0006 7860     		str	r0, [r7, #4]
+ 549 0008 3960     		str	r1, [r7]
+ 159:Tracer/sniffFIFO.c **** 
+ 160:Tracer/sniffFIFO.c ****         if (errorFIFO.wptr!=errorFIFO.rptr){
+ 550              		.loc 1 160 0
+ 551 000a 194B     		ldr	r3, .L36
+ 552 000c 1A68     		ldr	r2, [r3]
+ 553 000e 184B     		ldr	r3, .L36
+ 554 0010 5B68     		ldr	r3, [r3, #4]
+ 555 0012 9A42     		cmp	r2, r3
+ 556 0014 27D0     		beq	.L34
+ 161:Tracer/sniffFIFO.c ****             *pType= errorFIFO.DataType[errorFIFO.rptr];
+ 557              		.loc 1 161 0
+ 558 0016 164B     		ldr	r3, .L36
+ 559 0018 5B68     		ldr	r3, [r3, #4]
+ 560 001a 154A     		ldr	r2, .L36
+ 561 001c 0233     		adds	r3, r3, #2
+ 562 001e 9B00     		lsls	r3, r3, #2
+ 563 0020 1344     		add	r3, r3, r2
+ 564 0022 5B68     		ldr	r3, [r3, #4]
+ 565 0024 DAB2     		uxtb	r2, r3
+ 566 0026 3B68     		ldr	r3, [r7]
+ 567 0028 1A70     		strb	r2, [r3]
+ 162:Tracer/sniffFIFO.c **** 
+ 163:Tracer/sniffFIFO.c **** 			memcpy(pData,&(errorFIFO.Buffer[errorFIFO.rptr]),*pType);
+ 568              		.loc 1 163 0
+ 569 002a 114B     		ldr	r3, .L36
+ 570 002c 5A68     		ldr	r2, [r3, #4]
+ 571 002e 1346     		mov	r3, r2
+ 572 0030 5B00     		lsls	r3, r3, #1
+ 573 0032 1344     		add	r3, r3, r2
+ 574 0034 5B00     		lsls	r3, r3, #1
+ 575 0036 0833     		adds	r3, r3, #8
+ 576 0038 0D4A     		ldr	r2, .L36
+ 577 003a 1344     		add	r3, r3, r2
+ 578 003c 191D     		adds	r1, r3, #4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 14
+
+
+ 579 003e 3B68     		ldr	r3, [r7]
+ 580 0040 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 581 0042 1A46     		mov	r2, r3
+ 582 0044 7868     		ldr	r0, [r7, #4]
+ 583 0046 FFF7FEFF 		bl	memcpy
+ 164:Tracer/sniffFIFO.c **** 
+ 165:Tracer/sniffFIFO.c ****            // free(fifo[prio].Buffer[fifo[prio].rptr]);
+ 166:Tracer/sniffFIFO.c ****             //fifo[prio].Buffer[fifo[prio].rptr]=0;
+ 167:Tracer/sniffFIFO.c **** 			errorFIFO.rptr=(errorFIFO.rptr+1)%errorFIFO.size;
+ 584              		.loc 1 167 0
+ 585 004a 094B     		ldr	r3, .L36
+ 586 004c 5B68     		ldr	r3, [r3, #4]
+ 587 004e 0133     		adds	r3, r3, #1
+ 588 0050 074A     		ldr	r2, .L36
+ 589 0052 9268     		ldr	r2, [r2, #8]
+ 590 0054 B3FBF2F1 		udiv	r1, r3, r2
+ 591 0058 02FB01F2 		mul	r2, r2, r1
+ 592 005c 9B1A     		subs	r3, r3, r2
+ 593 005e 044A     		ldr	r2, .L36
+ 594 0060 5360     		str	r3, [r2, #4]
+ 168:Tracer/sniffFIFO.c ****             return 0;
+ 595              		.loc 1 168 0
+ 596 0062 0023     		movs	r3, #0
+ 597 0064 00E0     		b	.L35
+ 598              	.L34:
+ 169:Tracer/sniffFIFO.c ****         }
+ 170:Tracer/sniffFIFO.c **** 
+ 171:Tracer/sniffFIFO.c ****     //EMPTY
+ 172:Tracer/sniffFIFO.c **** 	return 1;
+ 599              		.loc 1 172 0
+ 600 0066 0123     		movs	r3, #1
+ 601              	.L35:
+ 173:Tracer/sniffFIFO.c **** }
+ 602              		.loc 1 173 0
+ 603 0068 1846     		mov	r0, r3
+ 604 006a 0837     		adds	r7, r7, #8
+ 605              		.cfi_def_cfa_offset 8
+ 606 006c BD46     		mov	sp, r7
+ 607              		.cfi_def_cfa_register 13
+ 608              		@ sp needed
+ 609 006e 80BD     		pop	{r7, pc}
+ 610              	.L37:
+ 611              		.align	2
+ 612              	.L36:
+ 613 0070 00000000 		.word	errorFIFO
+ 614              		.cfi_endproc
+ 615              	.LFE7:
+ 616              		.size	readErrorFIFO, .-readErrorFIFO
+ 617              		.section	.text.readFIFO,"ax",%progbits
+ 618              		.align	2
+ 619              		.global	readFIFO
+ 620              		.thumb
+ 621              		.thumb_func
+ 622              		.type	readFIFO, %function
+ 623              	readFIFO:
+ 624              	.LFB8:
+ 174:Tracer/sniffFIFO.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 15
+
+
+ 175:Tracer/sniffFIFO.c **** inline uint8_t readFIFO(void* pData, payloadType* pType,Priority* prio){
+ 625              		.loc 1 175 0
+ 626              		.cfi_startproc
+ 627              		@ args = 0, pretend = 0, frame = 16
+ 628              		@ frame_needed = 1, uses_anonymous_args = 0
+ 629 0000 80B5     		push	{r7, lr}
+ 630              		.cfi_def_cfa_offset 8
+ 631              		.cfi_offset 7, -8
+ 632              		.cfi_offset 14, -4
+ 633 0002 84B0     		sub	sp, sp, #16
+ 634              		.cfi_def_cfa_offset 24
+ 635 0004 00AF     		add	r7, sp, #0
+ 636              		.cfi_def_cfa_register 7
+ 637 0006 F860     		str	r0, [r7, #12]
+ 638 0008 B960     		str	r1, [r7, #8]
+ 639 000a 7A60     		str	r2, [r7, #4]
+ 176:Tracer/sniffFIFO.c **** 	if(readReceiveFIFO(pData,pType)==0){
+ 640              		.loc 1 176 0
+ 641 000c B968     		ldr	r1, [r7, #8]
+ 642 000e F868     		ldr	r0, [r7, #12]
+ 643 0010 FFF7FEFF 		bl	readReceiveFIFO
+ 644 0014 0346     		mov	r3, r0
+ 645 0016 002B     		cmp	r3, #0
+ 646 0018 04D1     		bne	.L39
+ 177:Tracer/sniffFIFO.c **** 		*prio = prioRECEIVE;
+ 647              		.loc 1 177 0
+ 648 001a 7B68     		ldr	r3, [r7, #4]
+ 649 001c 0222     		movs	r2, #2
+ 650 001e 1A70     		strb	r2, [r3]
+ 178:Tracer/sniffFIFO.c **** 		return 0;
+ 651              		.loc 1 178 0
+ 652 0020 0023     		movs	r3, #0
+ 653 0022 18E0     		b	.L40
+ 654              	.L39:
+ 179:Tracer/sniffFIFO.c **** 	}
+ 180:Tracer/sniffFIFO.c **** #if SEND_WITHOUT_SNIFF_TASK == 0
+ 181:Tracer/sniffFIFO.c **** 	else if(readStreamFIFO(pData,pType)==0){
+ 655              		.loc 1 181 0
+ 656 0024 B968     		ldr	r1, [r7, #8]
+ 657 0026 F868     		ldr	r0, [r7, #12]
+ 658 0028 FFF7FEFF 		bl	readStreamFIFO
+ 659 002c 0346     		mov	r3, r0
+ 660 002e 002B     		cmp	r3, #0
+ 661 0030 04D1     		bne	.L41
+ 182:Tracer/sniffFIFO.c **** 		*prio = prioSTREAM;
+ 662              		.loc 1 182 0
+ 663 0032 7B68     		ldr	r3, [r7, #4]
+ 664 0034 0122     		movs	r2, #1
+ 665 0036 1A70     		strb	r2, [r3]
+ 183:Tracer/sniffFIFO.c **** 		return 0;
+ 666              		.loc 1 183 0
+ 667 0038 0023     		movs	r3, #0
+ 668 003a 0CE0     		b	.L40
+ 669              	.L41:
+ 184:Tracer/sniffFIFO.c **** 	}
+ 185:Tracer/sniffFIFO.c **** #endif
+ 186:Tracer/sniffFIFO.c **** 	else if(readErrorFIFO(pData,pType)==0){
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 16
+
+
+ 670              		.loc 1 186 0
+ 671 003c B968     		ldr	r1, [r7, #8]
+ 672 003e F868     		ldr	r0, [r7, #12]
+ 673 0040 FFF7FEFF 		bl	readErrorFIFO
+ 674 0044 0346     		mov	r3, r0
+ 675 0046 002B     		cmp	r3, #0
+ 676 0048 04D1     		bne	.L42
+ 187:Tracer/sniffFIFO.c **** 		*prio = prioERROR;
+ 677              		.loc 1 187 0
+ 678 004a 7B68     		ldr	r3, [r7, #4]
+ 679 004c 0022     		movs	r2, #0
+ 680 004e 1A70     		strb	r2, [r3]
+ 188:Tracer/sniffFIFO.c **** 		return 0;
+ 681              		.loc 1 188 0
+ 682 0050 0023     		movs	r3, #0
+ 683 0052 00E0     		b	.L40
+ 684              	.L42:
+ 189:Tracer/sniffFIFO.c **** 	}
+ 190:Tracer/sniffFIFO.c **** 	return 1;
+ 685              		.loc 1 190 0
+ 686 0054 0123     		movs	r3, #1
+ 687              	.L40:
+ 191:Tracer/sniffFIFO.c **** }
+ 688              		.loc 1 191 0
+ 689 0056 1846     		mov	r0, r3
+ 690 0058 1037     		adds	r7, r7, #16
+ 691              		.cfi_def_cfa_offset 8
+ 692 005a BD46     		mov	sp, r7
+ 693              		.cfi_def_cfa_register 13
+ 694              		@ sp needed
+ 695 005c 80BD     		pop	{r7, pc}
+ 696              		.cfi_endproc
+ 697              	.LFE8:
+ 698              		.size	readFIFO, .-readFIFO
+ 699 005e 00BF     		.section	.text.initialiseStreamFIFO,"ax",%progbits
+ 700              		.align	2
+ 701              		.global	initialiseStreamFIFO
+ 702              		.thumb
+ 703              		.thumb_func
+ 704              		.type	initialiseStreamFIFO, %function
+ 705              	initialiseStreamFIFO:
+ 706              	.LFB9:
+ 192:Tracer/sniffFIFO.c **** 
+ 193:Tracer/sniffFIFO.c **** #if SEND_WITHOUT_SNIFF_TASK == 0
+ 194:Tracer/sniffFIFO.c **** void initialiseStreamFIFO(){
+ 707              		.loc 1 194 0
+ 708              		.cfi_startproc
+ 709              		@ args = 0, pretend = 0, frame = 0
+ 710              		@ frame_needed = 1, uses_anonymous_args = 0
+ 711              		@ link register save eliminated.
+ 712 0000 80B4     		push	{r7}
+ 713              		.cfi_def_cfa_offset 4
+ 714              		.cfi_offset 7, -4
+ 715 0002 00AF     		add	r7, sp, #0
+ 716              		.cfi_def_cfa_register 7
+ 195:Tracer/sniffFIFO.c **** 	streamFIFO.wptr=0;
+ 717              		.loc 1 195 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 17
+
+
+ 718 0004 064B     		ldr	r3, .L44
+ 719 0006 0022     		movs	r2, #0
+ 720 0008 1A60     		str	r2, [r3]
+ 196:Tracer/sniffFIFO.c **** 	streamFIFO.rptr=0;
+ 721              		.loc 1 196 0
+ 722 000a 054B     		ldr	r3, .L44
+ 723 000c 0022     		movs	r2, #0
+ 724 000e 5A60     		str	r2, [r3, #4]
+ 197:Tracer/sniffFIFO.c **** 	streamFIFO.size=SIZE_OF_STREAM_FIFO;
+ 725              		.loc 1 197 0
+ 726 0010 034B     		ldr	r3, .L44
+ 727 0012 40F2DC52 		movw	r2, #1500
+ 728 0016 9A60     		str	r2, [r3, #8]
+ 198:Tracer/sniffFIFO.c **** }
+ 729              		.loc 1 198 0
+ 730 0018 00BF     		nop
+ 731 001a BD46     		mov	sp, r7
+ 732              		.cfi_def_cfa_register 13
+ 733              		@ sp needed
+ 734 001c 80BC     		pop	{r7}
+ 735              		.cfi_restore 7
+ 736              		.cfi_def_cfa_offset 0
+ 737 001e 7047     		bx	lr
+ 738              	.L45:
+ 739              		.align	2
+ 740              	.L44:
+ 741 0020 00000000 		.word	streamFIFO
+ 742              		.cfi_endproc
+ 743              	.LFE9:
+ 744              		.size	initialiseStreamFIFO, .-initialiseStreamFIFO
+ 745              		.section	.text.initialiseReceiveFIFO,"ax",%progbits
+ 746              		.align	2
+ 747              		.global	initialiseReceiveFIFO
+ 748              		.thumb
+ 749              		.thumb_func
+ 750              		.type	initialiseReceiveFIFO, %function
+ 751              	initialiseReceiveFIFO:
+ 752              	.LFB10:
+ 199:Tracer/sniffFIFO.c **** #endif
+ 200:Tracer/sniffFIFO.c **** 
+ 201:Tracer/sniffFIFO.c **** void initialiseReceiveFIFO(){
+ 753              		.loc 1 201 0
+ 754              		.cfi_startproc
+ 755              		@ args = 0, pretend = 0, frame = 0
+ 756              		@ frame_needed = 1, uses_anonymous_args = 0
+ 757              		@ link register save eliminated.
+ 758 0000 80B4     		push	{r7}
+ 759              		.cfi_def_cfa_offset 4
+ 760              		.cfi_offset 7, -4
+ 761 0002 00AF     		add	r7, sp, #0
+ 762              		.cfi_def_cfa_register 7
+ 202:Tracer/sniffFIFO.c **** 	receiveFIFO.wptr=0;
+ 763              		.loc 1 202 0
+ 764 0004 064B     		ldr	r3, .L47
+ 765 0006 0022     		movs	r2, #0
+ 766 0008 1A60     		str	r2, [r3]
+ 203:Tracer/sniffFIFO.c **** 	receiveFIFO.rptr=0;
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 18
+
+
+ 767              		.loc 1 203 0
+ 768 000a 054B     		ldr	r3, .L47
+ 769 000c 0022     		movs	r2, #0
+ 770 000e 5A60     		str	r2, [r3, #4]
+ 204:Tracer/sniffFIFO.c **** 	receiveFIFO.size=SIZE_OF_RECEIVE_FIFO;
+ 771              		.loc 1 204 0
+ 772 0010 034B     		ldr	r3, .L47
+ 773 0012 0F22     		movs	r2, #15
+ 774 0014 9A60     		str	r2, [r3, #8]
+ 205:Tracer/sniffFIFO.c **** }
+ 775              		.loc 1 205 0
+ 776 0016 00BF     		nop
+ 777 0018 BD46     		mov	sp, r7
+ 778              		.cfi_def_cfa_register 13
+ 779              		@ sp needed
+ 780 001a 80BC     		pop	{r7}
+ 781              		.cfi_restore 7
+ 782              		.cfi_def_cfa_offset 0
+ 783 001c 7047     		bx	lr
+ 784              	.L48:
+ 785 001e 00BF     		.align	2
+ 786              	.L47:
+ 787 0020 00000000 		.word	receiveFIFO
+ 788              		.cfi_endproc
+ 789              	.LFE10:
+ 790              		.size	initialiseReceiveFIFO, .-initialiseReceiveFIFO
+ 791              		.section	.text.initialiseErrorFIFO,"ax",%progbits
+ 792              		.align	2
+ 793              		.global	initialiseErrorFIFO
+ 794              		.thumb
+ 795              		.thumb_func
+ 796              		.type	initialiseErrorFIFO, %function
+ 797              	initialiseErrorFIFO:
+ 798              	.LFB11:
+ 206:Tracer/sniffFIFO.c **** 
+ 207:Tracer/sniffFIFO.c **** void initialiseErrorFIFO(){
+ 799              		.loc 1 207 0
+ 800              		.cfi_startproc
+ 801              		@ args = 0, pretend = 0, frame = 0
+ 802              		@ frame_needed = 1, uses_anonymous_args = 0
+ 803              		@ link register save eliminated.
+ 804 0000 80B4     		push	{r7}
+ 805              		.cfi_def_cfa_offset 4
+ 806              		.cfi_offset 7, -4
+ 807 0002 00AF     		add	r7, sp, #0
+ 808              		.cfi_def_cfa_register 7
+ 208:Tracer/sniffFIFO.c **** 	errorFIFO.wptr=0;
+ 809              		.loc 1 208 0
+ 810 0004 064B     		ldr	r3, .L50
+ 811 0006 0022     		movs	r2, #0
+ 812 0008 1A60     		str	r2, [r3]
+ 209:Tracer/sniffFIFO.c **** 	errorFIFO.rptr=0;
+ 813              		.loc 1 209 0
+ 814 000a 054B     		ldr	r3, .L50
+ 815 000c 0022     		movs	r2, #0
+ 816 000e 5A60     		str	r2, [r3, #4]
+ 210:Tracer/sniffFIFO.c **** 	errorFIFO.size=SIZE_OF_ERROR_FIFO;
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 19
+
+
+ 817              		.loc 1 210 0
+ 818 0010 034B     		ldr	r3, .L50
+ 819 0012 0022     		movs	r2, #0
+ 820 0014 9A60     		str	r2, [r3, #8]
+ 211:Tracer/sniffFIFO.c **** }
+ 821              		.loc 1 211 0
+ 822 0016 00BF     		nop
+ 823 0018 BD46     		mov	sp, r7
+ 824              		.cfi_def_cfa_register 13
+ 825              		@ sp needed
+ 826 001a 80BC     		pop	{r7}
+ 827              		.cfi_restore 7
+ 828              		.cfi_def_cfa_offset 0
+ 829 001c 7047     		bx	lr
+ 830              	.L51:
+ 831 001e 00BF     		.align	2
+ 832              	.L50:
+ 833 0020 00000000 		.word	errorFIFO
+ 834              		.cfi_endproc
+ 835              	.LFE11:
+ 836              		.size	initialiseErrorFIFO, .-initialiseErrorFIFO
+ 837              		.section	.text.initialiseFIFO,"ax",%progbits
+ 838              		.align	2
+ 839              		.global	initialiseFIFO
+ 840              		.thumb
+ 841              		.thumb_func
+ 842              		.type	initialiseFIFO, %function
+ 843              	initialiseFIFO:
+ 844              	.LFB12:
+ 212:Tracer/sniffFIFO.c **** 
+ 213:Tracer/sniffFIFO.c **** void initialiseFIFO(){
+ 845              		.loc 1 213 0
+ 846              		.cfi_startproc
+ 847              		@ args = 0, pretend = 0, frame = 0
+ 848              		@ frame_needed = 1, uses_anonymous_args = 0
+ 849 0000 80B5     		push	{r7, lr}
+ 850              		.cfi_def_cfa_offset 8
+ 851              		.cfi_offset 7, -8
+ 852              		.cfi_offset 14, -4
+ 853 0002 00AF     		add	r7, sp, #0
+ 854              		.cfi_def_cfa_register 7
+ 214:Tracer/sniffFIFO.c **** #if SEND_WITHOUT_SNIFF_TASK == 0
+ 215:Tracer/sniffFIFO.c **** initialiseStreamFIFO();
+ 855              		.loc 1 215 0
+ 856 0004 FFF7FEFF 		bl	initialiseStreamFIFO
+ 216:Tracer/sniffFIFO.c **** #endif
+ 217:Tracer/sniffFIFO.c **** initialiseReceiveFIFO();
+ 857              		.loc 1 217 0
+ 858 0008 FFF7FEFF 		bl	initialiseReceiveFIFO
+ 218:Tracer/sniffFIFO.c **** initialiseErrorFIFO();
+ 859              		.loc 1 218 0
+ 860 000c FFF7FEFF 		bl	initialiseErrorFIFO
+ 219:Tracer/sniffFIFO.c **** }
+ 861              		.loc 1 219 0
+ 862 0010 00BF     		nop
+ 863 0012 80BD     		pop	{r7, pc}
+ 864              		.cfi_endproc
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 20
+
+
+ 865              	.LFE12:
+ 866              		.size	initialiseFIFO, .-initialiseFIFO
+ 867              		.text
+ 868              	.Letext0:
+ 869              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 870              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 871              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 872              		.file 5 ".\\Tracer/sniffPayload.h"
+ 873              		.file 6 ".\\Tracer/sniffFIFO.h"
+ 874              		.section	.debug_info,"",%progbits
+ 875              	.Ldebug_info0:
+ 876 0000 B2050000 		.4byte	0x5b2
+ 877 0004 0400     		.2byte	0x4
+ 878 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 879 000a 04       		.byte	0x4
+ 880 000b 01       		.uleb128 0x1
+ 881 000c FC020000 		.4byte	.LASF68
+ 882 0010 0C       		.byte	0xc
+ 883 0011 BA000000 		.4byte	.LASF69
+ 884 0015 B1030000 		.4byte	.LASF70
+ 885 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 886 001d 00000000 		.4byte	0
+ 887 0021 00000000 		.4byte	.Ldebug_line0
+ 888 0025 02       		.uleb128 0x2
+ 889 0026 01       		.byte	0x1
+ 890 0027 06       		.byte	0x6
+ 891 0028 D9010000 		.4byte	.LASF0
+ 892 002c 03       		.uleb128 0x3
+ 893 002d 64010000 		.4byte	.LASF9
+ 894 0031 02       		.byte	0x2
+ 895 0032 1D       		.byte	0x1d
+ 896 0033 37000000 		.4byte	0x37
+ 897 0037 02       		.uleb128 0x2
+ 898 0038 01       		.byte	0x1
+ 899 0039 08       		.byte	0x8
+ 900 003a C2010000 		.4byte	.LASF1
+ 901 003e 02       		.uleb128 0x2
+ 902 003f 02       		.byte	0x2
+ 903 0040 05       		.byte	0x5
+ 904 0041 3C000000 		.4byte	.LASF2
+ 905 0045 02       		.uleb128 0x2
+ 906 0046 02       		.byte	0x2
+ 907 0047 07       		.byte	0x7
+ 908 0048 18020000 		.4byte	.LASF3
+ 909 004c 02       		.uleb128 0x2
+ 910 004d 04       		.byte	0x4
+ 911 004e 05       		.byte	0x5
+ 912 004f 47010000 		.4byte	.LASF4
+ 913 0053 02       		.uleb128 0x2
+ 914 0054 04       		.byte	0x4
+ 915 0055 07       		.byte	0x7
+ 916 0056 6A020000 		.4byte	.LASF5
+ 917 005a 02       		.uleb128 0x2
+ 918 005b 08       		.byte	0x8
+ 919 005c 05       		.byte	0x5
+ 920 005d 88000000 		.4byte	.LASF6
+ 921 0061 02       		.uleb128 0x2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 21
+
+
+ 922 0062 08       		.byte	0x8
+ 923 0063 07       		.byte	0x7
+ 924 0064 E5010000 		.4byte	.LASF7
+ 925 0068 04       		.uleb128 0x4
+ 926 0069 04       		.byte	0x4
+ 927 006a 05       		.byte	0x5
+ 928 006b 696E7400 		.ascii	"int\000"
+ 929 006f 02       		.uleb128 0x2
+ 930 0070 04       		.byte	0x4
+ 931 0071 07       		.byte	0x7
+ 932 0072 FC010000 		.4byte	.LASF8
+ 933 0076 03       		.uleb128 0x3
+ 934 0077 46000000 		.4byte	.LASF10
+ 935 007b 03       		.byte	0x3
+ 936 007c D8       		.byte	0xd8
+ 937 007d 6F000000 		.4byte	0x6f
+ 938 0081 02       		.uleb128 0x2
+ 939 0082 08       		.byte	0x8
+ 940 0083 04       		.byte	0x4
+ 941 0084 A1010000 		.4byte	.LASF11
+ 942 0088 02       		.uleb128 0x2
+ 943 0089 04       		.byte	0x4
+ 944 008a 07       		.byte	0x7
+ 945 008b 5C000000 		.4byte	.LASF12
+ 946 008f 05       		.uleb128 0x5
+ 947 0090 04       		.byte	0x4
+ 948 0091 03       		.uleb128 0x3
+ 949 0092 D6000000 		.4byte	.LASF13
+ 950 0096 04       		.byte	0x4
+ 951 0097 18       		.byte	0x18
+ 952 0098 2C000000 		.4byte	0x2c
+ 953 009c 02       		.uleb128 0x2
+ 954 009d 01       		.byte	0x1
+ 955 009e 08       		.byte	0x8
+ 956 009f 3B020000 		.4byte	.LASF14
+ 957 00a3 06       		.uleb128 0x6
+ 958 00a4 01       		.byte	0x1
+ 959 00a5 37000000 		.4byte	0x37
+ 960 00a9 05       		.byte	0x5
+ 961 00aa 77       		.byte	0x77
+ 962 00ab C8000000 		.4byte	0xc8
+ 963 00af 07       		.uleb128 0x7
+ 964 00b0 CB020000 		.4byte	.LASF15
+ 965 00b4 00       		.byte	0
+ 966 00b5 07       		.uleb128 0x7
+ 967 00b6 4C020000 		.4byte	.LASF16
+ 968 00ba 01       		.byte	0x1
+ 969 00bb 07       		.uleb128 0x7
+ 970 00bc 95010000 		.4byte	.LASF17
+ 971 00c0 02       		.byte	0x2
+ 972 00c1 07       		.uleb128 0x7
+ 973 00c2 65000000 		.4byte	.LASF18
+ 974 00c6 03       		.byte	0x3
+ 975 00c7 00       		.byte	0
+ 976 00c8 03       		.uleb128 0x3
+ 977 00c9 0A000000 		.4byte	.LASF19
+ 978 00cd 05       		.byte	0x5
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 22
+
+
+ 979 00ce 7C       		.byte	0x7c
+ 980 00cf A3000000 		.4byte	0xa3
+ 981 00d3 08       		.uleb128 0x8
+ 982 00d4 06       		.byte	0x6
+ 983 00d5 05       		.byte	0x5
+ 984 00d6 AF       		.byte	0xaf
+ 985 00d7 24010000 		.4byte	0x124
+ 986 00db 09       		.uleb128 0x9
+ 987 00dc D0010000 		.4byte	.LASF20
+ 988 00e0 05       		.byte	0x5
+ 989 00e1 B0       		.byte	0xb0
+ 990 00e2 91000000 		.4byte	0x91
+ 991 00e6 00       		.byte	0
+ 992 00e7 09       		.uleb128 0x9
+ 993 00e8 7A000000 		.4byte	.LASF21
+ 994 00ec 05       		.byte	0x5
+ 995 00ed B1       		.byte	0xb1
+ 996 00ee 91000000 		.4byte	0x91
+ 997 00f2 01       		.byte	0x1
+ 998 00f3 09       		.uleb128 0x9
+ 999 00f4 9E030000 		.4byte	.LASF22
+ 1000 00f8 05       		.byte	0x5
+ 1001 00f9 B2       		.byte	0xb2
+ 1002 00fa 91000000 		.4byte	0x91
+ 1003 00fe 02       		.byte	0x2
+ 1004 00ff 09       		.uleb128 0x9
+ 1005 0100 2F000000 		.4byte	.LASF23
+ 1006 0104 05       		.byte	0x5
+ 1007 0105 B3       		.byte	0xb3
+ 1008 0106 91000000 		.4byte	0x91
+ 1009 010a 03       		.byte	0x3
+ 1010 010b 09       		.uleb128 0x9
+ 1011 010c 9B000000 		.4byte	.LASF24
+ 1012 0110 05       		.byte	0x5
+ 1013 0111 B4       		.byte	0xb4
+ 1014 0112 91000000 		.4byte	0x91
+ 1015 0116 04       		.byte	0x4
+ 1016 0117 09       		.uleb128 0x9
+ 1017 0118 AA020000 		.4byte	.LASF25
+ 1018 011c 05       		.byte	0x5
+ 1019 011d B5       		.byte	0xb5
+ 1020 011e 91000000 		.4byte	0x91
+ 1021 0122 05       		.byte	0x5
+ 1022 0123 00       		.byte	0
+ 1023 0124 03       		.uleb128 0x3
+ 1024 0125 7C020000 		.4byte	.LASF26
+ 1025 0129 05       		.byte	0x5
+ 1026 012a B6       		.byte	0xb6
+ 1027 012b D3000000 		.4byte	0xd3
+ 1028 012f 08       		.uleb128 0x8
+ 1029 0130 06       		.byte	0x6
+ 1030 0131 05       		.byte	0x5
+ 1031 0132 BF       		.byte	0xbf
+ 1032 0133 44010000 		.4byte	0x144
+ 1033 0137 09       		.uleb128 0x9
+ 1034 0138 40020000 		.4byte	.LASF27
+ 1035 013c 05       		.byte	0x5
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 23
+
+
+ 1036 013d C0       		.byte	0xc0
+ 1037 013e 24010000 		.4byte	0x124
+ 1038 0142 00       		.byte	0
+ 1039 0143 00       		.byte	0
+ 1040 0144 03       		.uleb128 0x3
+ 1041 0145 F3000000 		.4byte	.LASF28
+ 1042 0149 05       		.byte	0x5
+ 1043 014a C1       		.byte	0xc1
+ 1044 014b 2F010000 		.4byte	0x12f
+ 1045 014f 08       		.uleb128 0x8
+ 1046 0150 09       		.byte	0x9
+ 1047 0151 05       		.byte	0x5
+ 1048 0152 E3       		.byte	0xe3
+ 1049 0153 88010000 		.4byte	0x188
+ 1050 0157 09       		.uleb128 0x9
+ 1051 0158 40020000 		.4byte	.LASF27
+ 1052 015c 05       		.byte	0x5
+ 1053 015d E4       		.byte	0xe4
+ 1054 015e 24010000 		.4byte	0x124
+ 1055 0162 00       		.byte	0
+ 1056 0163 09       		.uleb128 0x9
+ 1057 0164 D5020000 		.4byte	.LASF29
+ 1058 0168 05       		.byte	0x5
+ 1059 0169 E5       		.byte	0xe5
+ 1060 016a 91000000 		.4byte	0x91
+ 1061 016e 06       		.byte	0x6
+ 1062 016f 09       		.uleb128 0x9
+ 1063 0170 DB020000 		.4byte	.LASF30
+ 1064 0174 05       		.byte	0x5
+ 1065 0175 E6       		.byte	0xe6
+ 1066 0176 91000000 		.4byte	0x91
+ 1067 017a 07       		.byte	0x7
+ 1068 017b 09       		.uleb128 0x9
+ 1069 017c E1020000 		.4byte	.LASF31
+ 1070 0180 05       		.byte	0x5
+ 1071 0181 E7       		.byte	0xe7
+ 1072 0182 91000000 		.4byte	0x91
+ 1073 0186 08       		.byte	0x8
+ 1074 0187 00       		.byte	0
+ 1075 0188 03       		.uleb128 0x3
+ 1076 0189 FC000000 		.4byte	.LASF32
+ 1077 018d 05       		.byte	0x5
+ 1078 018e E8       		.byte	0xe8
+ 1079 018f 4F010000 		.4byte	0x14f
+ 1080 0193 06       		.uleb128 0x6
+ 1081 0194 01       		.byte	0x1
+ 1082 0195 37000000 		.4byte	0x37
+ 1083 0199 05       		.byte	0x5
+ 1084 019a FA       		.byte	0xfa
+ 1085 019b BE010000 		.4byte	0x1be
+ 1086 019f 07       		.uleb128 0x7
+ 1087 01a0 10010000 		.4byte	.LASF33
+ 1088 01a4 06       		.byte	0x6
+ 1089 01a5 07       		.uleb128 0x7
+ 1090 01a6 1A010000 		.4byte	.LASF34
+ 1091 01aa 07       		.byte	0x7
+ 1092 01ab 07       		.uleb128 0x7
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 24
+
+
+ 1093 01ac 6E010000 		.4byte	.LASF35
+ 1094 01b0 08       		.byte	0x8
+ 1095 01b1 07       		.uleb128 0x7
+ 1096 01b2 33010000 		.4byte	.LASF36
+ 1097 01b6 09       		.byte	0x9
+ 1098 01b7 07       		.uleb128 0x7
+ 1099 01b8 EE020000 		.4byte	.LASF37
+ 1100 01bc 06       		.byte	0x6
+ 1101 01bd 00       		.byte	0
+ 1102 01be 03       		.uleb128 0x3
+ 1103 01bf 7F010000 		.4byte	.LASF38
+ 1104 01c3 05       		.byte	0x5
+ 1105 01c4 FA       		.byte	0xfa
+ 1106 01c5 93010000 		.4byte	0x193
+ 1107 01c9 0A       		.uleb128 0xa
+ 1108 01ca 384C     		.2byte	0x4c38
+ 1109 01cc 06       		.byte	0x6
+ 1110 01cd 16       		.byte	0x16
+ 1111 01ce 10020000 		.4byte	0x210
+ 1112 01d2 09       		.uleb128 0x9
+ 1113 01d3 AD010000 		.4byte	.LASF39
+ 1114 01d7 06       		.byte	0x6
+ 1115 01d8 17       		.byte	0x17
+ 1116 01d9 76000000 		.4byte	0x76
+ 1117 01dd 00       		.byte	0
+ 1118 01de 09       		.uleb128 0x9
+ 1119 01df 96000000 		.4byte	.LASF40
+ 1120 01e3 06       		.byte	0x6
+ 1121 01e4 18       		.byte	0x18
+ 1122 01e5 76000000 		.4byte	0x76
+ 1123 01e9 04       		.byte	0x4
+ 1124 01ea 09       		.uleb128 0x9
+ 1125 01eb 57020000 		.4byte	.LASF41
+ 1126 01ef 06       		.byte	0x6
+ 1127 01f0 19       		.byte	0x19
+ 1128 01f1 76000000 		.4byte	0x76
+ 1129 01f5 08       		.byte	0x8
+ 1130 01f6 09       		.uleb128 0x9
+ 1131 01f7 E7020000 		.4byte	.LASF42
+ 1132 01fb 06       		.byte	0x6
+ 1133 01fc 1A       		.byte	0x1a
+ 1134 01fd 10020000 		.4byte	0x210
+ 1135 0201 0C       		.byte	0xc
+ 1136 0202 0B       		.uleb128 0xb
+ 1137 0203 95030000 		.4byte	.LASF43
+ 1138 0207 06       		.byte	0x6
+ 1139 0208 1B       		.byte	0x1b
+ 1140 0209 21020000 		.4byte	0x221
+ 1141 020d C834     		.2byte	0x34c8
+ 1142 020f 00       		.byte	0
+ 1143 0210 0C       		.uleb128 0xc
+ 1144 0211 88010000 		.4byte	0x188
+ 1145 0215 21020000 		.4byte	0x221
+ 1146 0219 0D       		.uleb128 0xd
+ 1147 021a 88000000 		.4byte	0x88
+ 1148 021e DB05     		.2byte	0x5db
+ 1149 0220 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 25
+
+
+ 1150 0221 0C       		.uleb128 0xc
+ 1151 0222 76000000 		.4byte	0x76
+ 1152 0226 32020000 		.4byte	0x232
+ 1153 022a 0D       		.uleb128 0xd
+ 1154 022b 88000000 		.4byte	0x88
+ 1155 022f DB05     		.2byte	0x5db
+ 1156 0231 00       		.byte	0
+ 1157 0232 03       		.uleb128 0x3
+ 1158 0233 8A030000 		.4byte	.LASF44
+ 1159 0237 06       		.byte	0x6
+ 1160 0238 1C       		.byte	0x1c
+ 1161 0239 C9010000 		.4byte	0x1c9
+ 1162 023d 08       		.uleb128 0x8
+ 1163 023e 58       		.byte	0x58
+ 1164 023f 06       		.byte	0x6
+ 1165 0240 1E       		.byte	0x1e
+ 1166 0241 82020000 		.4byte	0x282
+ 1167 0245 09       		.uleb128 0x9
+ 1168 0246 AD010000 		.4byte	.LASF39
+ 1169 024a 06       		.byte	0x6
+ 1170 024b 1F       		.byte	0x1f
+ 1171 024c 76000000 		.4byte	0x76
+ 1172 0250 00       		.byte	0
+ 1173 0251 09       		.uleb128 0x9
+ 1174 0252 96000000 		.4byte	.LASF40
+ 1175 0256 06       		.byte	0x6
+ 1176 0257 20       		.byte	0x20
+ 1177 0258 76000000 		.4byte	0x76
+ 1178 025c 04       		.byte	0x4
+ 1179 025d 09       		.uleb128 0x9
+ 1180 025e 57020000 		.4byte	.LASF41
+ 1181 0262 06       		.byte	0x6
+ 1182 0263 21       		.byte	0x21
+ 1183 0264 76000000 		.4byte	0x76
+ 1184 0268 08       		.byte	0x8
+ 1185 0269 09       		.uleb128 0x9
+ 1186 026a E7020000 		.4byte	.LASF42
+ 1187 026e 06       		.byte	0x6
+ 1188 026f 22       		.byte	0x22
+ 1189 0270 82020000 		.4byte	0x282
+ 1190 0274 0C       		.byte	0xc
+ 1191 0275 09       		.uleb128 0x9
+ 1192 0276 95030000 		.4byte	.LASF43
+ 1193 027a 06       		.byte	0x6
+ 1194 027b 23       		.byte	0x23
+ 1195 027c 92020000 		.4byte	0x292
+ 1196 0280 1C       		.byte	0x1c
+ 1197 0281 00       		.byte	0
+ 1198 0282 0C       		.uleb128 0xc
+ 1199 0283 91000000 		.4byte	0x91
+ 1200 0287 92020000 		.4byte	0x292
+ 1201 028b 0E       		.uleb128 0xe
+ 1202 028c 88000000 		.4byte	0x88
+ 1203 0290 0E       		.byte	0xe
+ 1204 0291 00       		.byte	0
+ 1205 0292 0C       		.uleb128 0xc
+ 1206 0293 76000000 		.4byte	0x76
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 26
+
+
+ 1207 0297 A2020000 		.4byte	0x2a2
+ 1208 029b 0E       		.uleb128 0xe
+ 1209 029c 88000000 		.4byte	0x88
+ 1210 02a0 0E       		.byte	0xe
+ 1211 02a1 00       		.byte	0
+ 1212 02a2 03       		.uleb128 0x3
+ 1213 02a3 9E020000 		.4byte	.LASF45
+ 1214 02a7 06       		.byte	0x6
+ 1215 02a8 24       		.byte	0x24
+ 1216 02a9 3D020000 		.4byte	0x23d
+ 1217 02ad 08       		.uleb128 0x8
+ 1218 02ae 0C       		.byte	0xc
+ 1219 02af 06       		.byte	0x6
+ 1220 02b0 26       		.byte	0x26
+ 1221 02b1 F2020000 		.4byte	0x2f2
+ 1222 02b5 09       		.uleb128 0x9
+ 1223 02b6 AD010000 		.4byte	.LASF39
+ 1224 02ba 06       		.byte	0x6
+ 1225 02bb 27       		.byte	0x27
+ 1226 02bc 76000000 		.4byte	0x76
+ 1227 02c0 00       		.byte	0
+ 1228 02c1 09       		.uleb128 0x9
+ 1229 02c2 96000000 		.4byte	.LASF40
+ 1230 02c6 06       		.byte	0x6
+ 1231 02c7 28       		.byte	0x28
+ 1232 02c8 76000000 		.4byte	0x76
+ 1233 02cc 04       		.byte	0x4
+ 1234 02cd 09       		.uleb128 0x9
+ 1235 02ce 57020000 		.4byte	.LASF41
+ 1236 02d2 06       		.byte	0x6
+ 1237 02d3 29       		.byte	0x29
+ 1238 02d4 76000000 		.4byte	0x76
+ 1239 02d8 08       		.byte	0x8
+ 1240 02d9 09       		.uleb128 0x9
+ 1241 02da E7020000 		.4byte	.LASF42
+ 1242 02de 06       		.byte	0x6
+ 1243 02df 2A       		.byte	0x2a
+ 1244 02e0 F2020000 		.4byte	0x2f2
+ 1245 02e4 0C       		.byte	0xc
+ 1246 02e5 09       		.uleb128 0x9
+ 1247 02e6 95030000 		.4byte	.LASF43
+ 1248 02ea 06       		.byte	0x6
+ 1249 02eb 2B       		.byte	0x2b
+ 1250 02ec 01030000 		.4byte	0x301
+ 1251 02f0 0C       		.byte	0xc
+ 1252 02f1 00       		.byte	0
+ 1253 02f2 0C       		.uleb128 0xc
+ 1254 02f3 44010000 		.4byte	0x144
+ 1255 02f7 01030000 		.4byte	0x301
+ 1256 02fb 0F       		.uleb128 0xf
+ 1257 02fc 88000000 		.4byte	0x88
+ 1258 0300 00       		.byte	0
+ 1259 0301 0C       		.uleb128 0xc
+ 1260 0302 76000000 		.4byte	0x76
+ 1261 0306 10030000 		.4byte	0x310
+ 1262 030a 0F       		.uleb128 0xf
+ 1263 030b 88000000 		.4byte	0x88
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 27
+
+
+ 1264 030f 00       		.byte	0
+ 1265 0310 03       		.uleb128 0x3
+ 1266 0311 00000000 		.4byte	.LASF46
+ 1267 0315 06       		.byte	0x6
+ 1268 0316 2C       		.byte	0x2c
+ 1269 0317 AD020000 		.4byte	0x2ad
+ 1270 031b 10       		.uleb128 0x10
+ 1271 031c B2010000 		.4byte	.LASF49
+ 1272 0320 01       		.byte	0x1
+ 1273 0321 29       		.byte	0x29
+ 1274 0322 91000000 		.4byte	0x91
+ 1275 0326 00000000 		.4byte	.LFB1
+ 1276 032a 70000000 		.4byte	.LFE1-.LFB1
+ 1277 032e 01       		.uleb128 0x1
+ 1278 032f 9C       		.byte	0x9c
+ 1279 0330 5F030000 		.4byte	0x35f
+ 1280 0334 11       		.uleb128 0x11
+ 1281 0335 78010000 		.4byte	.LASF47
+ 1282 0339 01       		.byte	0x1
+ 1283 033a 29       		.byte	0x29
+ 1284 033b 8F000000 		.4byte	0x8f
+ 1285 033f 02       		.uleb128 0x2
+ 1286 0340 91       		.byte	0x91
+ 1287 0341 6C       		.sleb128 -20
+ 1288 0342 11       		.uleb128 0x11
+ 1289 0343 5E010000 		.4byte	.LASF48
+ 1290 0347 01       		.byte	0x1
+ 1291 0348 29       		.byte	0x29
+ 1292 0349 BE010000 		.4byte	0x1be
+ 1293 034d 02       		.uleb128 0x2
+ 1294 034e 91       		.byte	0x91
+ 1295 034f 6B       		.sleb128 -21
+ 1296 0350 12       		.uleb128 0x12
+ 1297 0351 CD000000 		.4byte	.LASF51
+ 1298 0355 01       		.byte	0x1
+ 1299 0356 2B       		.byte	0x2b
+ 1300 0357 76000000 		.4byte	0x76
+ 1301 035b 02       		.uleb128 0x2
+ 1302 035c 91       		.byte	0x91
+ 1303 035d 74       		.sleb128 -12
+ 1304 035e 00       		.byte	0
+ 1305 035f 10       		.uleb128 0x10
+ 1306 0360 A9000000 		.4byte	.LASF50
+ 1307 0364 01       		.byte	0x1
+ 1308 0365 39       		.byte	0x39
+ 1309 0366 91000000 		.4byte	0x91
+ 1310 036a 00000000 		.4byte	.LFB2
+ 1311 036e 6C000000 		.4byte	.LFE2-.LFB2
+ 1312 0372 01       		.uleb128 0x1
+ 1313 0373 9C       		.byte	0x9c
+ 1314 0374 A3030000 		.4byte	0x3a3
+ 1315 0378 11       		.uleb128 0x11
+ 1316 0379 78010000 		.4byte	.LASF47
+ 1317 037d 01       		.byte	0x1
+ 1318 037e 39       		.byte	0x39
+ 1319 037f 8F000000 		.4byte	0x8f
+ 1320 0383 02       		.uleb128 0x2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 28
+
+
+ 1321 0384 91       		.byte	0x91
+ 1322 0385 6C       		.sleb128 -20
+ 1323 0386 11       		.uleb128 0x11
+ 1324 0387 5E010000 		.4byte	.LASF48
+ 1325 038b 01       		.byte	0x1
+ 1326 038c 39       		.byte	0x39
+ 1327 038d BE010000 		.4byte	0x1be
+ 1328 0391 02       		.uleb128 0x2
+ 1329 0392 91       		.byte	0x91
+ 1330 0393 6B       		.sleb128 -21
+ 1331 0394 12       		.uleb128 0x12
+ 1332 0395 CD000000 		.4byte	.LASF51
+ 1333 0399 01       		.byte	0x1
+ 1334 039a 3B       		.byte	0x3b
+ 1335 039b 76000000 		.4byte	0x76
+ 1336 039f 02       		.uleb128 0x2
+ 1337 03a0 91       		.byte	0x91
+ 1338 03a1 74       		.sleb128 -12
+ 1339 03a2 00       		.byte	0
+ 1340 03a3 10       		.uleb128 0x10
+ 1341 03a4 09020000 		.4byte	.LASF52
+ 1342 03a8 01       		.byte	0x1
+ 1343 03a9 49       		.byte	0x49
+ 1344 03aa 91000000 		.4byte	0x91
+ 1345 03ae 00000000 		.4byte	.LFB3
+ 1346 03b2 74000000 		.4byte	.LFE3-.LFB3
+ 1347 03b6 01       		.uleb128 0x1
+ 1348 03b7 9C       		.byte	0x9c
+ 1349 03b8 E7030000 		.4byte	0x3e7
+ 1350 03bc 11       		.uleb128 0x11
+ 1351 03bd 78010000 		.4byte	.LASF47
+ 1352 03c1 01       		.byte	0x1
+ 1353 03c2 49       		.byte	0x49
+ 1354 03c3 8F000000 		.4byte	0x8f
+ 1355 03c7 02       		.uleb128 0x2
+ 1356 03c8 91       		.byte	0x91
+ 1357 03c9 6C       		.sleb128 -20
+ 1358 03ca 11       		.uleb128 0x11
+ 1359 03cb 5E010000 		.4byte	.LASF48
+ 1360 03cf 01       		.byte	0x1
+ 1361 03d0 49       		.byte	0x49
+ 1362 03d1 BE010000 		.4byte	0x1be
+ 1363 03d5 02       		.uleb128 0x2
+ 1364 03d6 91       		.byte	0x91
+ 1365 03d7 6B       		.sleb128 -21
+ 1366 03d8 12       		.uleb128 0x12
+ 1367 03d9 CD000000 		.4byte	.LASF51
+ 1368 03dd 01       		.byte	0x1
+ 1369 03de 4B       		.byte	0x4b
+ 1370 03df 76000000 		.4byte	0x76
+ 1371 03e3 02       		.uleb128 0x2
+ 1372 03e4 91       		.byte	0x91
+ 1373 03e5 74       		.sleb128 -12
+ 1374 03e6 00       		.byte	0
+ 1375 03e7 10       		.uleb128 0x10
+ 1376 03e8 3D010000 		.4byte	.LASF53
+ 1377 03ec 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 29
+
+
+ 1378 03ed 59       		.byte	0x59
+ 1379 03ee 91000000 		.4byte	0x91
+ 1380 03f2 00000000 		.4byte	.LFB4
+ 1381 03f6 54000000 		.4byte	.LFE4-.LFB4
+ 1382 03fa 01       		.uleb128 0x1
+ 1383 03fb 9C       		.byte	0x9c
+ 1384 03fc 2B040000 		.4byte	0x42b
+ 1385 0400 11       		.uleb128 0x11
+ 1386 0401 78010000 		.4byte	.LASF47
+ 1387 0405 01       		.byte	0x1
+ 1388 0406 59       		.byte	0x59
+ 1389 0407 8F000000 		.4byte	0x8f
+ 1390 040b 02       		.uleb128 0x2
+ 1391 040c 91       		.byte	0x91
+ 1392 040d 74       		.sleb128 -12
+ 1393 040e 11       		.uleb128 0x11
+ 1394 040f 5E010000 		.4byte	.LASF48
+ 1395 0413 01       		.byte	0x1
+ 1396 0414 59       		.byte	0x59
+ 1397 0415 BE010000 		.4byte	0x1be
+ 1398 0419 02       		.uleb128 0x2
+ 1399 041a 91       		.byte	0x91
+ 1400 041b 73       		.sleb128 -13
+ 1401 041c 11       		.uleb128 0x11
+ 1402 041d AC030000 		.4byte	.LASF54
+ 1403 0421 01       		.byte	0x1
+ 1404 0422 59       		.byte	0x59
+ 1405 0423 C8000000 		.4byte	0xc8
+ 1406 0427 02       		.uleb128 0x2
+ 1407 0428 91       		.byte	0x91
+ 1408 0429 72       		.sleb128 -14
+ 1409 042a 00       		.byte	0
+ 1410 042b 10       		.uleb128 0x10
+ 1411 042c 24010000 		.4byte	.LASF55
+ 1412 0430 01       		.byte	0x1
+ 1413 0431 7C       		.byte	0x7c
+ 1414 0432 91000000 		.4byte	0x91
+ 1415 0436 00000000 		.4byte	.LFB5
+ 1416 043a 74000000 		.4byte	.LFE5-.LFB5
+ 1417 043e 01       		.uleb128 0x1
+ 1418 043f 9C       		.byte	0x9c
+ 1419 0440 61040000 		.4byte	0x461
+ 1420 0444 11       		.uleb128 0x11
+ 1421 0445 13000000 		.4byte	.LASF56
+ 1422 0449 01       		.byte	0x1
+ 1423 044a 7C       		.byte	0x7c
+ 1424 044b 8F000000 		.4byte	0x8f
+ 1425 044f 02       		.uleb128 0x2
+ 1426 0450 91       		.byte	0x91
+ 1427 0451 74       		.sleb128 -12
+ 1428 0452 11       		.uleb128 0x11
+ 1429 0453 5E010000 		.4byte	.LASF48
+ 1430 0457 01       		.byte	0x1
+ 1431 0458 7C       		.byte	0x7c
+ 1432 0459 61040000 		.4byte	0x461
+ 1433 045d 02       		.uleb128 0x2
+ 1434 045e 91       		.byte	0x91
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 30
+
+
+ 1435 045f 70       		.sleb128 -16
+ 1436 0460 00       		.byte	0
+ 1437 0461 13       		.uleb128 0x13
+ 1438 0462 04       		.byte	0x4
+ 1439 0463 BE010000 		.4byte	0x1be
+ 1440 0467 10       		.uleb128 0x10
+ 1441 0468 2B020000 		.4byte	.LASF57
+ 1442 046c 01       		.byte	0x1
+ 1443 046d 8D       		.byte	0x8d
+ 1444 046e 91000000 		.4byte	0x91
+ 1445 0472 00000000 		.4byte	.LFB6
+ 1446 0476 6C000000 		.4byte	.LFE6-.LFB6
+ 1447 047a 01       		.uleb128 0x1
+ 1448 047b 9C       		.byte	0x9c
+ 1449 047c 9D040000 		.4byte	0x49d
+ 1450 0480 11       		.uleb128 0x11
+ 1451 0481 13000000 		.4byte	.LASF56
+ 1452 0485 01       		.byte	0x1
+ 1453 0486 8D       		.byte	0x8d
+ 1454 0487 8F000000 		.4byte	0x8f
+ 1455 048b 02       		.uleb128 0x2
+ 1456 048c 91       		.byte	0x91
+ 1457 048d 74       		.sleb128 -12
+ 1458 048e 11       		.uleb128 0x11
+ 1459 048f 5E010000 		.4byte	.LASF48
+ 1460 0493 01       		.byte	0x1
+ 1461 0494 8D       		.byte	0x8d
+ 1462 0495 61040000 		.4byte	0x461
+ 1463 0499 02       		.uleb128 0x2
+ 1464 049a 91       		.byte	0x91
+ 1465 049b 70       		.sleb128 -16
+ 1466 049c 00       		.byte	0
+ 1467 049d 10       		.uleb128 0x10
+ 1468 049e 5C020000 		.4byte	.LASF58
+ 1469 04a2 01       		.byte	0x1
+ 1470 04a3 9E       		.byte	0x9e
+ 1471 04a4 91000000 		.4byte	0x91
+ 1472 04a8 00000000 		.4byte	.LFB7
+ 1473 04ac 74000000 		.4byte	.LFE7-.LFB7
+ 1474 04b0 01       		.uleb128 0x1
+ 1475 04b1 9C       		.byte	0x9c
+ 1476 04b2 D3040000 		.4byte	0x4d3
+ 1477 04b6 11       		.uleb128 0x11
+ 1478 04b7 13000000 		.4byte	.LASF56
+ 1479 04bb 01       		.byte	0x1
+ 1480 04bc 9E       		.byte	0x9e
+ 1481 04bd 8F000000 		.4byte	0x8f
+ 1482 04c1 02       		.uleb128 0x2
+ 1483 04c2 91       		.byte	0x91
+ 1484 04c3 74       		.sleb128 -12
+ 1485 04c4 11       		.uleb128 0x11
+ 1486 04c5 5E010000 		.4byte	.LASF48
+ 1487 04c9 01       		.byte	0x1
+ 1488 04ca 9E       		.byte	0x9e
+ 1489 04cb 61040000 		.4byte	0x461
+ 1490 04cf 02       		.uleb128 0x2
+ 1491 04d0 91       		.byte	0x91
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 31
+
+
+ 1492 04d1 70       		.sleb128 -16
+ 1493 04d2 00       		.byte	0
+ 1494 04d3 10       		.uleb128 0x10
+ 1495 04d4 EA000000 		.4byte	.LASF59
+ 1496 04d8 01       		.byte	0x1
+ 1497 04d9 AF       		.byte	0xaf
+ 1498 04da 91000000 		.4byte	0x91
+ 1499 04de 00000000 		.4byte	.LFB8
+ 1500 04e2 5E000000 		.4byte	.LFE8-.LFB8
+ 1501 04e6 01       		.uleb128 0x1
+ 1502 04e7 9C       		.byte	0x9c
+ 1503 04e8 17050000 		.4byte	0x517
+ 1504 04ec 11       		.uleb128 0x11
+ 1505 04ed 13000000 		.4byte	.LASF56
+ 1506 04f1 01       		.byte	0x1
+ 1507 04f2 AF       		.byte	0xaf
+ 1508 04f3 8F000000 		.4byte	0x8f
+ 1509 04f7 02       		.uleb128 0x2
+ 1510 04f8 91       		.byte	0x91
+ 1511 04f9 74       		.sleb128 -12
+ 1512 04fa 11       		.uleb128 0x11
+ 1513 04fb 5E010000 		.4byte	.LASF48
+ 1514 04ff 01       		.byte	0x1
+ 1515 0500 AF       		.byte	0xaf
+ 1516 0501 61040000 		.4byte	0x461
+ 1517 0505 02       		.uleb128 0x2
+ 1518 0506 91       		.byte	0x91
+ 1519 0507 70       		.sleb128 -16
+ 1520 0508 11       		.uleb128 0x11
+ 1521 0509 AC030000 		.4byte	.LASF54
+ 1522 050d 01       		.byte	0x1
+ 1523 050e AF       		.byte	0xaf
+ 1524 050f 17050000 		.4byte	0x517
+ 1525 0513 02       		.uleb128 0x2
+ 1526 0514 91       		.byte	0x91
+ 1527 0515 6C       		.sleb128 -20
+ 1528 0516 00       		.byte	0
+ 1529 0517 13       		.uleb128 0x13
+ 1530 0518 04       		.byte	0x4
+ 1531 0519 C8000000 		.4byte	0xc8
+ 1532 051d 14       		.uleb128 0x14
+ 1533 051e 89020000 		.4byte	.LASF60
+ 1534 0522 01       		.byte	0x1
+ 1535 0523 C2       		.byte	0xc2
+ 1536 0524 00000000 		.4byte	.LFB9
+ 1537 0528 24000000 		.4byte	.LFE9-.LFB9
+ 1538 052c 01       		.uleb128 0x1
+ 1539 052d 9C       		.byte	0x9c
+ 1540 052e 14       		.uleb128 0x14
+ 1541 052f 19000000 		.4byte	.LASF61
+ 1542 0533 01       		.byte	0x1
+ 1543 0534 C9       		.byte	0xc9
+ 1544 0535 00000000 		.4byte	.LFB10
+ 1545 0539 24000000 		.4byte	.LFE10-.LFB10
+ 1546 053d 01       		.uleb128 0x1
+ 1547 053e 9C       		.byte	0x9c
+ 1548 053f 14       		.uleb128 0x14
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 32
+
+
+ 1549 0540 B7020000 		.4byte	.LASF62
+ 1550 0544 01       		.byte	0x1
+ 1551 0545 CF       		.byte	0xcf
+ 1552 0546 00000000 		.4byte	.LFB11
+ 1553 054a 24000000 		.4byte	.LFE11-.LFB11
+ 1554 054e 01       		.uleb128 0x1
+ 1555 054f 9C       		.byte	0x9c
+ 1556 0550 15       		.uleb128 0x15
+ 1557 0551 4D000000 		.4byte	.LASF63
+ 1558 0555 01       		.byte	0x1
+ 1559 0556 D5       		.byte	0xd5
+ 1560 0557 00000000 		.4byte	.LFB12
+ 1561 055b 14000000 		.4byte	.LFE12-.LFB12
+ 1562 055f 01       		.uleb128 0x1
+ 1563 0560 9C       		.byte	0x9c
+ 1564 0561 0C       		.uleb128 0xc
+ 1565 0562 91000000 		.4byte	0x91
+ 1566 0566 71050000 		.4byte	0x571
+ 1567 056a 0E       		.uleb128 0xe
+ 1568 056b 88000000 		.4byte	0x88
+ 1569 056f 0C       		.byte	0xc
+ 1570 0570 00       		.byte	0
+ 1571 0571 16       		.uleb128 0x16
+ 1572 0572 50010000 		.4byte	.LASF64
+ 1573 0576 05       		.byte	0x5
+ 1574 0577 12       		.byte	0x12
+ 1575 0578 61050000 		.4byte	0x561
+ 1576 057c 05       		.uleb128 0x5
+ 1577 057d 03       		.byte	0x3
+ 1578 057e 00000000 		.4byte	sniffIDFilter
+ 1579 0582 16       		.uleb128 0x16
+ 1580 0583 05010000 		.4byte	.LASF65
+ 1581 0587 01       		.byte	0x1
+ 1582 0588 16       		.byte	0x16
+ 1583 0589 32020000 		.4byte	0x232
+ 1584 058d 05       		.uleb128 0x5
+ 1585 058e 03       		.byte	0x3
+ 1586 058f 00000000 		.4byte	streamFIFO
+ 1587 0593 16       		.uleb128 0x16
+ 1588 0594 DE000000 		.4byte	.LASF66
+ 1589 0598 01       		.byte	0x1
+ 1590 0599 18       		.byte	0x18
+ 1591 059a A2020000 		.4byte	0x2a2
+ 1592 059e 05       		.uleb128 0x5
+ 1593 059f 03       		.byte	0x3
+ 1594 05a0 00000000 		.4byte	receiveFIFO
+ 1595 05a4 16       		.uleb128 0x16
+ 1596 05a5 8B010000 		.4byte	.LASF67
+ 1597 05a9 01       		.byte	0x1
+ 1598 05aa 19       		.byte	0x19
+ 1599 05ab 10030000 		.4byte	0x310
+ 1600 05af 05       		.uleb128 0x5
+ 1601 05b0 03       		.byte	0x3
+ 1602 05b1 00000000 		.4byte	errorFIFO
+ 1603 05b5 00       		.byte	0
+ 1604              		.section	.debug_abbrev,"",%progbits
+ 1605              	.Ldebug_abbrev0:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 33
+
+
+ 1606 0000 01       		.uleb128 0x1
+ 1607 0001 11       		.uleb128 0x11
+ 1608 0002 01       		.byte	0x1
+ 1609 0003 25       		.uleb128 0x25
+ 1610 0004 0E       		.uleb128 0xe
+ 1611 0005 13       		.uleb128 0x13
+ 1612 0006 0B       		.uleb128 0xb
+ 1613 0007 03       		.uleb128 0x3
+ 1614 0008 0E       		.uleb128 0xe
+ 1615 0009 1B       		.uleb128 0x1b
+ 1616 000a 0E       		.uleb128 0xe
+ 1617 000b 55       		.uleb128 0x55
+ 1618 000c 17       		.uleb128 0x17
+ 1619 000d 11       		.uleb128 0x11
+ 1620 000e 01       		.uleb128 0x1
+ 1621 000f 10       		.uleb128 0x10
+ 1622 0010 17       		.uleb128 0x17
+ 1623 0011 00       		.byte	0
+ 1624 0012 00       		.byte	0
+ 1625 0013 02       		.uleb128 0x2
+ 1626 0014 24       		.uleb128 0x24
+ 1627 0015 00       		.byte	0
+ 1628 0016 0B       		.uleb128 0xb
+ 1629 0017 0B       		.uleb128 0xb
+ 1630 0018 3E       		.uleb128 0x3e
+ 1631 0019 0B       		.uleb128 0xb
+ 1632 001a 03       		.uleb128 0x3
+ 1633 001b 0E       		.uleb128 0xe
+ 1634 001c 00       		.byte	0
+ 1635 001d 00       		.byte	0
+ 1636 001e 03       		.uleb128 0x3
+ 1637 001f 16       		.uleb128 0x16
+ 1638 0020 00       		.byte	0
+ 1639 0021 03       		.uleb128 0x3
+ 1640 0022 0E       		.uleb128 0xe
+ 1641 0023 3A       		.uleb128 0x3a
+ 1642 0024 0B       		.uleb128 0xb
+ 1643 0025 3B       		.uleb128 0x3b
+ 1644 0026 0B       		.uleb128 0xb
+ 1645 0027 49       		.uleb128 0x49
+ 1646 0028 13       		.uleb128 0x13
+ 1647 0029 00       		.byte	0
+ 1648 002a 00       		.byte	0
+ 1649 002b 04       		.uleb128 0x4
+ 1650 002c 24       		.uleb128 0x24
+ 1651 002d 00       		.byte	0
+ 1652 002e 0B       		.uleb128 0xb
+ 1653 002f 0B       		.uleb128 0xb
+ 1654 0030 3E       		.uleb128 0x3e
+ 1655 0031 0B       		.uleb128 0xb
+ 1656 0032 03       		.uleb128 0x3
+ 1657 0033 08       		.uleb128 0x8
+ 1658 0034 00       		.byte	0
+ 1659 0035 00       		.byte	0
+ 1660 0036 05       		.uleb128 0x5
+ 1661 0037 0F       		.uleb128 0xf
+ 1662 0038 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 34
+
+
+ 1663 0039 0B       		.uleb128 0xb
+ 1664 003a 0B       		.uleb128 0xb
+ 1665 003b 00       		.byte	0
+ 1666 003c 00       		.byte	0
+ 1667 003d 06       		.uleb128 0x6
+ 1668 003e 04       		.uleb128 0x4
+ 1669 003f 01       		.byte	0x1
+ 1670 0040 0B       		.uleb128 0xb
+ 1671 0041 0B       		.uleb128 0xb
+ 1672 0042 49       		.uleb128 0x49
+ 1673 0043 13       		.uleb128 0x13
+ 1674 0044 3A       		.uleb128 0x3a
+ 1675 0045 0B       		.uleb128 0xb
+ 1676 0046 3B       		.uleb128 0x3b
+ 1677 0047 0B       		.uleb128 0xb
+ 1678 0048 01       		.uleb128 0x1
+ 1679 0049 13       		.uleb128 0x13
+ 1680 004a 00       		.byte	0
+ 1681 004b 00       		.byte	0
+ 1682 004c 07       		.uleb128 0x7
+ 1683 004d 28       		.uleb128 0x28
+ 1684 004e 00       		.byte	0
+ 1685 004f 03       		.uleb128 0x3
+ 1686 0050 0E       		.uleb128 0xe
+ 1687 0051 1C       		.uleb128 0x1c
+ 1688 0052 0B       		.uleb128 0xb
+ 1689 0053 00       		.byte	0
+ 1690 0054 00       		.byte	0
+ 1691 0055 08       		.uleb128 0x8
+ 1692 0056 13       		.uleb128 0x13
+ 1693 0057 01       		.byte	0x1
+ 1694 0058 0B       		.uleb128 0xb
+ 1695 0059 0B       		.uleb128 0xb
+ 1696 005a 3A       		.uleb128 0x3a
+ 1697 005b 0B       		.uleb128 0xb
+ 1698 005c 3B       		.uleb128 0x3b
+ 1699 005d 0B       		.uleb128 0xb
+ 1700 005e 01       		.uleb128 0x1
+ 1701 005f 13       		.uleb128 0x13
+ 1702 0060 00       		.byte	0
+ 1703 0061 00       		.byte	0
+ 1704 0062 09       		.uleb128 0x9
+ 1705 0063 0D       		.uleb128 0xd
+ 1706 0064 00       		.byte	0
+ 1707 0065 03       		.uleb128 0x3
+ 1708 0066 0E       		.uleb128 0xe
+ 1709 0067 3A       		.uleb128 0x3a
+ 1710 0068 0B       		.uleb128 0xb
+ 1711 0069 3B       		.uleb128 0x3b
+ 1712 006a 0B       		.uleb128 0xb
+ 1713 006b 49       		.uleb128 0x49
+ 1714 006c 13       		.uleb128 0x13
+ 1715 006d 38       		.uleb128 0x38
+ 1716 006e 0B       		.uleb128 0xb
+ 1717 006f 00       		.byte	0
+ 1718 0070 00       		.byte	0
+ 1719 0071 0A       		.uleb128 0xa
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 35
+
+
+ 1720 0072 13       		.uleb128 0x13
+ 1721 0073 01       		.byte	0x1
+ 1722 0074 0B       		.uleb128 0xb
+ 1723 0075 05       		.uleb128 0x5
+ 1724 0076 3A       		.uleb128 0x3a
+ 1725 0077 0B       		.uleb128 0xb
+ 1726 0078 3B       		.uleb128 0x3b
+ 1727 0079 0B       		.uleb128 0xb
+ 1728 007a 01       		.uleb128 0x1
+ 1729 007b 13       		.uleb128 0x13
+ 1730 007c 00       		.byte	0
+ 1731 007d 00       		.byte	0
+ 1732 007e 0B       		.uleb128 0xb
+ 1733 007f 0D       		.uleb128 0xd
+ 1734 0080 00       		.byte	0
+ 1735 0081 03       		.uleb128 0x3
+ 1736 0082 0E       		.uleb128 0xe
+ 1737 0083 3A       		.uleb128 0x3a
+ 1738 0084 0B       		.uleb128 0xb
+ 1739 0085 3B       		.uleb128 0x3b
+ 1740 0086 0B       		.uleb128 0xb
+ 1741 0087 49       		.uleb128 0x49
+ 1742 0088 13       		.uleb128 0x13
+ 1743 0089 38       		.uleb128 0x38
+ 1744 008a 05       		.uleb128 0x5
+ 1745 008b 00       		.byte	0
+ 1746 008c 00       		.byte	0
+ 1747 008d 0C       		.uleb128 0xc
+ 1748 008e 01       		.uleb128 0x1
+ 1749 008f 01       		.byte	0x1
+ 1750 0090 49       		.uleb128 0x49
+ 1751 0091 13       		.uleb128 0x13
+ 1752 0092 01       		.uleb128 0x1
+ 1753 0093 13       		.uleb128 0x13
+ 1754 0094 00       		.byte	0
+ 1755 0095 00       		.byte	0
+ 1756 0096 0D       		.uleb128 0xd
+ 1757 0097 21       		.uleb128 0x21
+ 1758 0098 00       		.byte	0
+ 1759 0099 49       		.uleb128 0x49
+ 1760 009a 13       		.uleb128 0x13
+ 1761 009b 2F       		.uleb128 0x2f
+ 1762 009c 05       		.uleb128 0x5
+ 1763 009d 00       		.byte	0
+ 1764 009e 00       		.byte	0
+ 1765 009f 0E       		.uleb128 0xe
+ 1766 00a0 21       		.uleb128 0x21
+ 1767 00a1 00       		.byte	0
+ 1768 00a2 49       		.uleb128 0x49
+ 1769 00a3 13       		.uleb128 0x13
+ 1770 00a4 2F       		.uleb128 0x2f
+ 1771 00a5 0B       		.uleb128 0xb
+ 1772 00a6 00       		.byte	0
+ 1773 00a7 00       		.byte	0
+ 1774 00a8 0F       		.uleb128 0xf
+ 1775 00a9 21       		.uleb128 0x21
+ 1776 00aa 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 36
+
+
+ 1777 00ab 49       		.uleb128 0x49
+ 1778 00ac 13       		.uleb128 0x13
+ 1779 00ad 00       		.byte	0
+ 1780 00ae 00       		.byte	0
+ 1781 00af 10       		.uleb128 0x10
+ 1782 00b0 2E       		.uleb128 0x2e
+ 1783 00b1 01       		.byte	0x1
+ 1784 00b2 3F       		.uleb128 0x3f
+ 1785 00b3 19       		.uleb128 0x19
+ 1786 00b4 03       		.uleb128 0x3
+ 1787 00b5 0E       		.uleb128 0xe
+ 1788 00b6 3A       		.uleb128 0x3a
+ 1789 00b7 0B       		.uleb128 0xb
+ 1790 00b8 3B       		.uleb128 0x3b
+ 1791 00b9 0B       		.uleb128 0xb
+ 1792 00ba 27       		.uleb128 0x27
+ 1793 00bb 19       		.uleb128 0x19
+ 1794 00bc 49       		.uleb128 0x49
+ 1795 00bd 13       		.uleb128 0x13
+ 1796 00be 11       		.uleb128 0x11
+ 1797 00bf 01       		.uleb128 0x1
+ 1798 00c0 12       		.uleb128 0x12
+ 1799 00c1 06       		.uleb128 0x6
+ 1800 00c2 40       		.uleb128 0x40
+ 1801 00c3 18       		.uleb128 0x18
+ 1802 00c4 9642     		.uleb128 0x2116
+ 1803 00c6 19       		.uleb128 0x19
+ 1804 00c7 01       		.uleb128 0x1
+ 1805 00c8 13       		.uleb128 0x13
+ 1806 00c9 00       		.byte	0
+ 1807 00ca 00       		.byte	0
+ 1808 00cb 11       		.uleb128 0x11
+ 1809 00cc 05       		.uleb128 0x5
+ 1810 00cd 00       		.byte	0
+ 1811 00ce 03       		.uleb128 0x3
+ 1812 00cf 0E       		.uleb128 0xe
+ 1813 00d0 3A       		.uleb128 0x3a
+ 1814 00d1 0B       		.uleb128 0xb
+ 1815 00d2 3B       		.uleb128 0x3b
+ 1816 00d3 0B       		.uleb128 0xb
+ 1817 00d4 49       		.uleb128 0x49
+ 1818 00d5 13       		.uleb128 0x13
+ 1819 00d6 02       		.uleb128 0x2
+ 1820 00d7 18       		.uleb128 0x18
+ 1821 00d8 00       		.byte	0
+ 1822 00d9 00       		.byte	0
+ 1823 00da 12       		.uleb128 0x12
+ 1824 00db 34       		.uleb128 0x34
+ 1825 00dc 00       		.byte	0
+ 1826 00dd 03       		.uleb128 0x3
+ 1827 00de 0E       		.uleb128 0xe
+ 1828 00df 3A       		.uleb128 0x3a
+ 1829 00e0 0B       		.uleb128 0xb
+ 1830 00e1 3B       		.uleb128 0x3b
+ 1831 00e2 0B       		.uleb128 0xb
+ 1832 00e3 49       		.uleb128 0x49
+ 1833 00e4 13       		.uleb128 0x13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 37
+
+
+ 1834 00e5 02       		.uleb128 0x2
+ 1835 00e6 18       		.uleb128 0x18
+ 1836 00e7 00       		.byte	0
+ 1837 00e8 00       		.byte	0
+ 1838 00e9 13       		.uleb128 0x13
+ 1839 00ea 0F       		.uleb128 0xf
+ 1840 00eb 00       		.byte	0
+ 1841 00ec 0B       		.uleb128 0xb
+ 1842 00ed 0B       		.uleb128 0xb
+ 1843 00ee 49       		.uleb128 0x49
+ 1844 00ef 13       		.uleb128 0x13
+ 1845 00f0 00       		.byte	0
+ 1846 00f1 00       		.byte	0
+ 1847 00f2 14       		.uleb128 0x14
+ 1848 00f3 2E       		.uleb128 0x2e
+ 1849 00f4 00       		.byte	0
+ 1850 00f5 3F       		.uleb128 0x3f
+ 1851 00f6 19       		.uleb128 0x19
+ 1852 00f7 03       		.uleb128 0x3
+ 1853 00f8 0E       		.uleb128 0xe
+ 1854 00f9 3A       		.uleb128 0x3a
+ 1855 00fa 0B       		.uleb128 0xb
+ 1856 00fb 3B       		.uleb128 0x3b
+ 1857 00fc 0B       		.uleb128 0xb
+ 1858 00fd 11       		.uleb128 0x11
+ 1859 00fe 01       		.uleb128 0x1
+ 1860 00ff 12       		.uleb128 0x12
+ 1861 0100 06       		.uleb128 0x6
+ 1862 0101 40       		.uleb128 0x40
+ 1863 0102 18       		.uleb128 0x18
+ 1864 0103 9742     		.uleb128 0x2117
+ 1865 0105 19       		.uleb128 0x19
+ 1866 0106 00       		.byte	0
+ 1867 0107 00       		.byte	0
+ 1868 0108 15       		.uleb128 0x15
+ 1869 0109 2E       		.uleb128 0x2e
+ 1870 010a 00       		.byte	0
+ 1871 010b 3F       		.uleb128 0x3f
+ 1872 010c 19       		.uleb128 0x19
+ 1873 010d 03       		.uleb128 0x3
+ 1874 010e 0E       		.uleb128 0xe
+ 1875 010f 3A       		.uleb128 0x3a
+ 1876 0110 0B       		.uleb128 0xb
+ 1877 0111 3B       		.uleb128 0x3b
+ 1878 0112 0B       		.uleb128 0xb
+ 1879 0113 11       		.uleb128 0x11
+ 1880 0114 01       		.uleb128 0x1
+ 1881 0115 12       		.uleb128 0x12
+ 1882 0116 06       		.uleb128 0x6
+ 1883 0117 40       		.uleb128 0x40
+ 1884 0118 18       		.uleb128 0x18
+ 1885 0119 9642     		.uleb128 0x2116
+ 1886 011b 19       		.uleb128 0x19
+ 1887 011c 00       		.byte	0
+ 1888 011d 00       		.byte	0
+ 1889 011e 16       		.uleb128 0x16
+ 1890 011f 34       		.uleb128 0x34
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 38
+
+
+ 1891 0120 00       		.byte	0
+ 1892 0121 03       		.uleb128 0x3
+ 1893 0122 0E       		.uleb128 0xe
+ 1894 0123 3A       		.uleb128 0x3a
+ 1895 0124 0B       		.uleb128 0xb
+ 1896 0125 3B       		.uleb128 0x3b
+ 1897 0126 0B       		.uleb128 0xb
+ 1898 0127 49       		.uleb128 0x49
+ 1899 0128 13       		.uleb128 0x13
+ 1900 0129 3F       		.uleb128 0x3f
+ 1901 012a 19       		.uleb128 0x19
+ 1902 012b 02       		.uleb128 0x2
+ 1903 012c 18       		.uleb128 0x18
+ 1904 012d 00       		.byte	0
+ 1905 012e 00       		.byte	0
+ 1906 012f 00       		.byte	0
+ 1907              		.section	.debug_aranges,"",%progbits
+ 1908 0000 74000000 		.4byte	0x74
+ 1909 0004 0200     		.2byte	0x2
+ 1910 0006 00000000 		.4byte	.Ldebug_info0
+ 1911 000a 04       		.byte	0x4
+ 1912 000b 00       		.byte	0
+ 1913 000c 0000     		.2byte	0
+ 1914 000e 0000     		.2byte	0
+ 1915 0010 00000000 		.4byte	.LFB1
+ 1916 0014 70000000 		.4byte	.LFE1-.LFB1
+ 1917 0018 00000000 		.4byte	.LFB2
+ 1918 001c 6C000000 		.4byte	.LFE2-.LFB2
+ 1919 0020 00000000 		.4byte	.LFB3
+ 1920 0024 74000000 		.4byte	.LFE3-.LFB3
+ 1921 0028 00000000 		.4byte	.LFB4
+ 1922 002c 54000000 		.4byte	.LFE4-.LFB4
+ 1923 0030 00000000 		.4byte	.LFB5
+ 1924 0034 74000000 		.4byte	.LFE5-.LFB5
+ 1925 0038 00000000 		.4byte	.LFB6
+ 1926 003c 6C000000 		.4byte	.LFE6-.LFB6
+ 1927 0040 00000000 		.4byte	.LFB7
+ 1928 0044 74000000 		.4byte	.LFE7-.LFB7
+ 1929 0048 00000000 		.4byte	.LFB8
+ 1930 004c 5E000000 		.4byte	.LFE8-.LFB8
+ 1931 0050 00000000 		.4byte	.LFB9
+ 1932 0054 24000000 		.4byte	.LFE9-.LFB9
+ 1933 0058 00000000 		.4byte	.LFB10
+ 1934 005c 24000000 		.4byte	.LFE10-.LFB10
+ 1935 0060 00000000 		.4byte	.LFB11
+ 1936 0064 24000000 		.4byte	.LFE11-.LFB11
+ 1937 0068 00000000 		.4byte	.LFB12
+ 1938 006c 14000000 		.4byte	.LFE12-.LFB12
+ 1939 0070 00000000 		.4byte	0
+ 1940 0074 00000000 		.4byte	0
+ 1941              		.section	.debug_ranges,"",%progbits
+ 1942              	.Ldebug_ranges0:
+ 1943 0000 00000000 		.4byte	.LFB1
+ 1944 0004 70000000 		.4byte	.LFE1
+ 1945 0008 00000000 		.4byte	.LFB2
+ 1946 000c 6C000000 		.4byte	.LFE2
+ 1947 0010 00000000 		.4byte	.LFB3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 39
+
+
+ 1948 0014 74000000 		.4byte	.LFE3
+ 1949 0018 00000000 		.4byte	.LFB4
+ 1950 001c 54000000 		.4byte	.LFE4
+ 1951 0020 00000000 		.4byte	.LFB5
+ 1952 0024 74000000 		.4byte	.LFE5
+ 1953 0028 00000000 		.4byte	.LFB6
+ 1954 002c 6C000000 		.4byte	.LFE6
+ 1955 0030 00000000 		.4byte	.LFB7
+ 1956 0034 74000000 		.4byte	.LFE7
+ 1957 0038 00000000 		.4byte	.LFB8
+ 1958 003c 5E000000 		.4byte	.LFE8
+ 1959 0040 00000000 		.4byte	.LFB9
+ 1960 0044 24000000 		.4byte	.LFE9
+ 1961 0048 00000000 		.4byte	.LFB10
+ 1962 004c 24000000 		.4byte	.LFE10
+ 1963 0050 00000000 		.4byte	.LFB11
+ 1964 0054 24000000 		.4byte	.LFE11
+ 1965 0058 00000000 		.4byte	.LFB12
+ 1966 005c 14000000 		.4byte	.LFE12
+ 1967 0060 00000000 		.4byte	0
+ 1968 0064 00000000 		.4byte	0
+ 1969              		.section	.debug_line,"",%progbits
+ 1970              	.Ldebug_line0:
+ 1971 0000 E4020000 		.section	.debug_str,"MS",%progbits,1
+ 1971      0200D201 
+ 1971      00000201 
+ 1971      FB0E0D00 
+ 1971      01010101 
+ 1972              	.LASF46:
+ 1973 0000 4572726F 		.ascii	"ErrorFIFO\000"
+ 1973      72464946 
+ 1973      4F00
+ 1974              	.LASF19:
+ 1975 000a 5072696F 		.ascii	"Priority\000"
+ 1975      72697479 
+ 1975      00
+ 1976              	.LASF56:
+ 1977 0013 70446174 		.ascii	"pData\000"
+ 1977      6100
+ 1978              	.LASF61:
+ 1979 0019 696E6974 		.ascii	"initialiseReceiveFIFO\000"
+ 1979      69616C69 
+ 1979      73655265 
+ 1979      63656976 
+ 1979      65464946 
+ 1980              	.LASF23:
+ 1981 002f 7469636B 		.ascii	"tickCountLow\000"
+ 1981      436F756E 
+ 1981      744C6F77 
+ 1981      00
+ 1982              	.LASF2:
+ 1983 003c 73686F72 		.ascii	"short int\000"
+ 1983      7420696E 
+ 1983      7400
+ 1984              	.LASF10:
+ 1985 0046 73697A65 		.ascii	"size_t\000"
+ 1985      5F7400
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 40
+
+
+ 1986              	.LASF63:
+ 1987 004d 696E6974 		.ascii	"initialiseFIFO\000"
+ 1987      69616C69 
+ 1987      73654649 
+ 1987      464F00
+ 1988              	.LASF12:
+ 1989 005c 73697A65 		.ascii	"sizetype\000"
+ 1989      74797065 
+ 1989      00
+ 1990              	.LASF18:
+ 1991 0065 4E554D42 		.ascii	"NUMBER_OF_PRIORITIES\000"
+ 1991      45525F4F 
+ 1991      465F5052 
+ 1991      494F5249 
+ 1991      54494553 
+ 1992              	.LASF21:
+ 1993 007a 696E666F 		.ascii	"informationID\000"
+ 1993      726D6174 
+ 1993      696F6E49 
+ 1993      4400
+ 1994              	.LASF6:
+ 1995 0088 6C6F6E67 		.ascii	"long long int\000"
+ 1995      206C6F6E 
+ 1995      6720696E 
+ 1995      7400
+ 1996              	.LASF40:
+ 1997 0096 72707472 		.ascii	"rptr\000"
+ 1997      00
+ 1998              	.LASF24:
+ 1999 009b 74696D65 		.ascii	"timerByteHigh\000"
+ 1999      72427974 
+ 1999      65486967 
+ 1999      6800
+ 2000              	.LASF50:
+ 2001 00a9 77726974 		.ascii	"writeReceiveFIFO\000"
+ 2001      65526563 
+ 2001      65697665 
+ 2001      4649464F 
+ 2001      00
+ 2002              	.LASF69:
+ 2003 00ba 54726163 		.ascii	"Tracer\\sniffFIFO.c\000"
+ 2003      65725C73 
+ 2003      6E696666 
+ 2003      4649464F 
+ 2003      2E6300
+ 2004              	.LASF51:
+ 2005 00cd 6E657874 		.ascii	"nextWptr\000"
+ 2005      57707472 
+ 2005      00
+ 2006              	.LASF13:
+ 2007 00d6 75696E74 		.ascii	"uint8_t\000"
+ 2007      385F7400 
+ 2008              	.LASF66:
+ 2009 00de 72656365 		.ascii	"receiveFIFO\000"
+ 2009      69766546 
+ 2009      49464F00 
+ 2010              	.LASF59:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 41
+
+
+ 2011 00ea 72656164 		.ascii	"readFIFO\000"
+ 2011      4649464F 
+ 2011      00
+ 2012              	.LASF28:
+ 2013 00f3 5061796C 		.ascii	"Payload0\000"
+ 2013      6F616430 
+ 2013      00
+ 2014              	.LASF32:
+ 2015 00fc 5061796C 		.ascii	"Payload3\000"
+ 2015      6F616433 
+ 2015      00
+ 2016              	.LASF65:
+ 2017 0105 73747265 		.ascii	"streamFIFO\000"
+ 2017      616D4649 
+ 2017      464F00
+ 2018              	.LASF33:
+ 2019 0110 5041594C 		.ascii	"PAYLOAD_0\000"
+ 2019      4F41445F 
+ 2019      3000
+ 2020              	.LASF34:
+ 2021 011a 5041594C 		.ascii	"PAYLOAD_1\000"
+ 2021      4F41445F 
+ 2021      3100
+ 2022              	.LASF55:
+ 2023 0124 72656164 		.ascii	"readStreamFIFO\000"
+ 2023      53747265 
+ 2023      616D4649 
+ 2023      464F00
+ 2024              	.LASF36:
+ 2025 0133 5041594C 		.ascii	"PAYLOAD_3\000"
+ 2025      4F41445F 
+ 2025      3300
+ 2026              	.LASF53:
+ 2027 013d 77726974 		.ascii	"writeFIFO\000"
+ 2027      65464946 
+ 2027      4F00
+ 2028              	.LASF4:
+ 2029 0147 6C6F6E67 		.ascii	"long int\000"
+ 2029      20696E74 
+ 2029      00
+ 2030              	.LASF64:
+ 2031 0150 736E6966 		.ascii	"sniffIDFilter\000"
+ 2031      66494446 
+ 2031      696C7465 
+ 2031      7200
+ 2032              	.LASF48:
+ 2033 015e 70547970 		.ascii	"pType\000"
+ 2033      6500
+ 2034              	.LASF9:
+ 2035 0164 5F5F7569 		.ascii	"__uint8_t\000"
+ 2035      6E74385F 
+ 2035      7400
+ 2036              	.LASF35:
+ 2037 016e 5041594C 		.ascii	"PAYLOAD_2\000"
+ 2037      4F41445F 
+ 2037      3200
+ 2038              	.LASF47:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 42
+
+
+ 2039 0178 696E4461 		.ascii	"inData\000"
+ 2039      746100
+ 2040              	.LASF38:
+ 2041 017f 7061796C 		.ascii	"payloadType\000"
+ 2041      6F616454 
+ 2041      79706500 
+ 2042              	.LASF67:
+ 2043 018b 6572726F 		.ascii	"errorFIFO\000"
+ 2043      72464946 
+ 2043      4F00
+ 2044              	.LASF17:
+ 2045 0195 7072696F 		.ascii	"prioRECEIVE\000"
+ 2045      52454345 
+ 2045      49564500 
+ 2046              	.LASF11:
+ 2047 01a1 6C6F6E67 		.ascii	"long double\000"
+ 2047      20646F75 
+ 2047      626C6500 
+ 2048              	.LASF39:
+ 2049 01ad 77707472 		.ascii	"wptr\000"
+ 2049      00
+ 2050              	.LASF49:
+ 2051 01b2 77726974 		.ascii	"writeStreamFIFO\000"
+ 2051      65537472 
+ 2051      65616D46 
+ 2051      49464F00 
+ 2052              	.LASF1:
+ 2053 01c2 756E7369 		.ascii	"unsigned char\000"
+ 2053      676E6564 
+ 2053      20636861 
+ 2053      7200
+ 2054              	.LASF20:
+ 2055 01d0 7061636B 		.ascii	"packetID\000"
+ 2055      65744944 
+ 2055      00
+ 2056              	.LASF0:
+ 2057 01d9 7369676E 		.ascii	"signed char\000"
+ 2057      65642063 
+ 2057      68617200 
+ 2058              	.LASF7:
+ 2059 01e5 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2059      206C6F6E 
+ 2059      6720756E 
+ 2059      7369676E 
+ 2059      65642069 
+ 2060              	.LASF8:
+ 2061 01fc 756E7369 		.ascii	"unsigned int\000"
+ 2061      676E6564 
+ 2061      20696E74 
+ 2061      00
+ 2062              	.LASF52:
+ 2063 0209 77726974 		.ascii	"writeErrorFIFO\000"
+ 2063      65457272 
+ 2063      6F724649 
+ 2063      464F00
+ 2064              	.LASF3:
+ 2065 0218 73686F72 		.ascii	"short unsigned int\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 43
+
+
+ 2065      7420756E 
+ 2065      7369676E 
+ 2065      65642069 
+ 2065      6E7400
+ 2066              	.LASF57:
+ 2067 022b 72656164 		.ascii	"readReceiveFIFO\000"
+ 2067      52656365 
+ 2067      69766546 
+ 2067      49464F00 
+ 2068              	.LASF14:
+ 2069 023b 63686172 		.ascii	"char\000"
+ 2069      00
+ 2070              	.LASF27:
+ 2071 0240 7061796C 		.ascii	"payloadHead\000"
+ 2071      6F616448 
+ 2071      65616400 
+ 2072              	.LASF16:
+ 2073 024c 7072696F 		.ascii	"prioSTREAM\000"
+ 2073      53545245 
+ 2073      414D00
+ 2074              	.LASF41:
+ 2075 0257 73697A65 		.ascii	"size\000"
+ 2075      00
+ 2076              	.LASF58:
+ 2077 025c 72656164 		.ascii	"readErrorFIFO\000"
+ 2077      4572726F 
+ 2077      72464946 
+ 2077      4F00
+ 2078              	.LASF5:
+ 2079 026a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2079      20756E73 
+ 2079      69676E65 
+ 2079      6420696E 
+ 2079      7400
+ 2080              	.LASF26:
+ 2081 027c 42617369 		.ascii	"BasicPayload\000"
+ 2081      63506179 
+ 2081      6C6F6164 
+ 2081      00
+ 2082              	.LASF60:
+ 2083 0289 696E6974 		.ascii	"initialiseStreamFIFO\000"
+ 2083      69616C69 
+ 2083      73655374 
+ 2083      7265616D 
+ 2083      4649464F 
+ 2084              	.LASF45:
+ 2085 029e 52656365 		.ascii	"ReceiveFIFO\000"
+ 2085      69766546 
+ 2085      49464F00 
+ 2086              	.LASF25:
+ 2087 02aa 74696D65 		.ascii	"timerByteLow\000"
+ 2087      72427974 
+ 2087      654C6F77 
+ 2087      00
+ 2088              	.LASF62:
+ 2089 02b7 696E6974 		.ascii	"initialiseErrorFIFO\000"
+ 2089      69616C69 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 44
+
+
+ 2089      73654572 
+ 2089      726F7246 
+ 2089      49464F00 
+ 2090              	.LASF15:
+ 2091 02cb 7072696F 		.ascii	"prioERROR\000"
+ 2091      4552524F 
+ 2091      5200
+ 2092              	.LASF29:
+ 2093 02d5 64617461 		.ascii	"data1\000"
+ 2093      3100
+ 2094              	.LASF30:
+ 2095 02db 64617461 		.ascii	"data2\000"
+ 2095      3200
+ 2096              	.LASF31:
+ 2097 02e1 64617461 		.ascii	"data3\000"
+ 2097      3300
+ 2098              	.LASF42:
+ 2099 02e7 42756666 		.ascii	"Buffer\000"
+ 2099      657200
+ 2100              	.LASF37:
+ 2101 02ee 5041594C 		.ascii	"PAYLOAD_ERROR\000"
+ 2101      4F41445F 
+ 2101      4552524F 
+ 2101      5200
+ 2102              	.LASF68:
+ 2103 02fc 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2103      43313120 
+ 2103      352E342E 
+ 2103      31203230 
+ 2103      31363036 
+ 2104 032f 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2104      20726576 
+ 2104      6973696F 
+ 2104      6E203233 
+ 2104      37373135 
+ 2105 0362 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 2105      66756E63 
+ 2105      74696F6E 
+ 2105      2D736563 
+ 2105      74696F6E 
+ 2106              	.LASF44:
+ 2107 038a 53747265 		.ascii	"StreamFIFO\000"
+ 2107      616D4649 
+ 2107      464F00
+ 2108              	.LASF43:
+ 2109 0395 44617461 		.ascii	"DataType\000"
+ 2109      54797065 
+ 2109      00
+ 2110              	.LASF22:
+ 2111 039e 7469636B 		.ascii	"tickCountHigh\000"
+ 2111      436F756E 
+ 2111      74486967 
+ 2111      6800
+ 2112              	.LASF54:
+ 2113 03ac 7072696F 		.ascii	"prio\000"
+ 2113      00
+ 2114              	.LASF70:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccz6Qz0h.s 			page 45
+
+
+ 2115 03b1 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ 2115      726F6772 
+ 2115      616D6D65 
+ 2115      5F536372 
+ 2115      69707473 
+ 2116 03e0 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 2116      5F435938 
+ 2116      434B4954 
+ 2116      5F303539 
+ 2116      2D6D6173 
+ 2117              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

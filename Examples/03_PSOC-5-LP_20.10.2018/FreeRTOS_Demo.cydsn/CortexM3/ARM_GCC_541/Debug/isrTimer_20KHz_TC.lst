@@ -1,0 +1,1967 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"isrTimer_20KHz_TC.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.isrTimer_20KHz_TC_Start,"ax",%progbits
+  20              		.align	2
+  21              		.global	isrTimer_20KHz_TC_Start
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	isrTimer_20KHz_TC_Start, %function
+  25              	isrTimer_20KHz_TC_Start:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\isrTimer_20KHz_TC.c"
+   1:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * File Name: isrTimer_20KHz_TC.c  
+   3:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Version 1.70
+   4:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+   5:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  Description:
+   6:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   API for controlling the state of an interrupt.
+   7:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+   8:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+   9:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  Note:
+  10:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+  11:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  18:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  19:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #include <cydevice_trm.h>
+  20:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #include <CyLib.h>
+  21:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #include <isrTimer_20KHz_TC.h>
+  22:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  23:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  24:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #if !defined(isrTimer_20KHz_TC__REMOVED) /* Check for removal by optimization */
+  25:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  26:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+  27:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  Place your includes, defines and code here 
+  28:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************/
+  29:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /* `#START isrTimer_20KHz_TC_intc` */
+  30:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 2
+
+
+  31:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /* `#END` */
+  32:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  33:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #ifndef CYINT_IRQ_BASE
+  34:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #define CYINT_IRQ_BASE      16
+  35:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #endif /* CYINT_IRQ_BASE */
+  36:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #ifndef CYINT_VECT_TABLE
+  37:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #define CYINT_VECT_TABLE    ((cyisraddress **) CYREG_NVIC_VECT_OFFSET)
+  38:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** #endif /* CYINT_VECT_TABLE */
+  39:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  40:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /* Declared in startup, used to set unused interrupts to. */
+  41:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** CY_ISR_PROTO(IntDefaultHandler);
+  42:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  43:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  44:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+  45:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_Start
+  46:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+  47:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+  48:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+  49:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  Set up the interrupt and enable it. This function disables the interrupt, 
+  50:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  sets the default interrupt vector, sets the priority from the value in the
+  51:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  Design Wide Resources Interrupt Editor, then enables the interrupt to the 
+  52:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  interrupt controller.
+  53:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+  54:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:  
+  55:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+  56:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+  57:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+  58:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+  59:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+  60:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+  61:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_Start(void)
+  62:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+  28              		.loc 1 62 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  63:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* For all we know the interrupt is active. */
+  64:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_Disable();
+  38              		.loc 1 64 0
+  39 0004 FFF7FEFF 		bl	isrTimer_20KHz_TC_Disable
+  65:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  66:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Set the ISR to point to the isrTimer_20KHz_TC Interrupt. */
+  67:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_SetVector(&isrTimer_20KHz_TC_Interrupt);
+  40              		.loc 1 67 0
+  41 0008 0448     		ldr	r0, .L2
+  42 000a FFF7FEFF 		bl	isrTimer_20KHz_TC_SetVector
+  68:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  69:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Set the priority. */
+  70:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_SetPriority((uint8)isrTimer_20KHz_TC_INTC_PRIOR_NUMBER);
+  43              		.loc 1 70 0
+  44 000e 0020     		movs	r0, #0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 3
+
+
+  45 0010 FFF7FEFF 		bl	isrTimer_20KHz_TC_SetPriority
+  71:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  72:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Enable it. */
+  73:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_Enable();
+  46              		.loc 1 73 0
+  47 0014 FFF7FEFF 		bl	isrTimer_20KHz_TC_Enable
+  74:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+  48              		.loc 1 74 0
+  49 0018 00BF     		nop
+  50 001a 80BD     		pop	{r7, pc}
+  51              	.L3:
+  52              		.align	2
+  53              	.L2:
+  54 001c 00000000 		.word	isrTimer_20KHz_TC_Interrupt
+  55              		.cfi_endproc
+  56              	.LFE0:
+  57              		.size	isrTimer_20KHz_TC_Start, .-isrTimer_20KHz_TC_Start
+  58              		.section	.text.isrTimer_20KHz_TC_StartEx,"ax",%progbits
+  59              		.align	2
+  60              		.global	isrTimer_20KHz_TC_StartEx
+  61              		.thumb
+  62              		.thumb_func
+  63              		.type	isrTimer_20KHz_TC_StartEx, %function
+  64              	isrTimer_20KHz_TC_StartEx:
+  65              	.LFB1:
+  75:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  76:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+  77:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+  78:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_StartEx
+  79:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+  80:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+  81:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+  82:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  Sets up the interrupt and enables it. This function disables the interrupt,
+  83:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  sets the interrupt vector based on the address passed in, sets the priority 
+  84:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  from the value in the Design Wide Resources Interrupt Editor, then enables 
+  85:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  the interrupt to the interrupt controller.
+  86:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  
+  87:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+  88:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  used to provide consistent definition across compilers:
+  89:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  
+  90:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *  Function definition example:
+  91:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   CY_ISR(MyISR)
+  92:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   {
+  93:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   }
+  94:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Function prototype example:
+  95:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   CY_ISR_PROTO(MyISR);
+  96:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+  97:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:  
+  98:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   address: Address of the ISR to set in the interrupt vector table.
+  99:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 100:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 101:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 102:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 103:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 104:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_StartEx(cyisraddress address)
+ 105:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+  66              		.loc 1 105 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 4
+
+
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 8
+  69              		@ frame_needed = 1, uses_anonymous_args = 0
+  70 0000 80B5     		push	{r7, lr}
+  71              		.cfi_def_cfa_offset 8
+  72              		.cfi_offset 7, -8
+  73              		.cfi_offset 14, -4
+  74 0002 82B0     		sub	sp, sp, #8
+  75              		.cfi_def_cfa_offset 16
+  76 0004 00AF     		add	r7, sp, #0
+  77              		.cfi_def_cfa_register 7
+  78 0006 7860     		str	r0, [r7, #4]
+ 106:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* For all we know the interrupt is active. */
+ 107:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_Disable();
+  79              		.loc 1 107 0
+  80 0008 FFF7FEFF 		bl	isrTimer_20KHz_TC_Disable
+ 108:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 109:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Set the ISR to point to the isrTimer_20KHz_TC Interrupt. */
+ 110:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_SetVector(address);
+  81              		.loc 1 110 0
+  82 000c 7868     		ldr	r0, [r7, #4]
+  83 000e FFF7FEFF 		bl	isrTimer_20KHz_TC_SetVector
+ 111:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 112:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Set the priority. */
+ 113:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_SetPriority((uint8)isrTimer_20KHz_TC_INTC_PRIOR_NUMBER);
+  84              		.loc 1 113 0
+  85 0012 0020     		movs	r0, #0
+  86 0014 FFF7FEFF 		bl	isrTimer_20KHz_TC_SetPriority
+ 114:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 115:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Enable it. */
+ 116:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_Enable();
+  87              		.loc 1 116 0
+  88 0018 FFF7FEFF 		bl	isrTimer_20KHz_TC_Enable
+ 117:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+  89              		.loc 1 117 0
+  90 001c 00BF     		nop
+  91 001e 0837     		adds	r7, r7, #8
+  92              		.cfi_def_cfa_offset 8
+  93 0020 BD46     		mov	sp, r7
+  94              		.cfi_def_cfa_register 13
+  95              		@ sp needed
+  96 0022 80BD     		pop	{r7, pc}
+  97              		.cfi_endproc
+  98              	.LFE1:
+  99              		.size	isrTimer_20KHz_TC_StartEx, .-isrTimer_20KHz_TC_StartEx
+ 100              		.section	.text.isrTimer_20KHz_TC_Stop,"ax",%progbits
+ 101              		.align	2
+ 102              		.global	isrTimer_20KHz_TC_Stop
+ 103              		.thumb
+ 104              		.thumb_func
+ 105              		.type	isrTimer_20KHz_TC_Stop, %function
+ 106              	isrTimer_20KHz_TC_Stop:
+ 107              	.LFB2:
+ 118:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 119:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 120:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 121:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_Stop
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 5
+
+
+ 122:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 123:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 124:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 125:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Disables and removes the interrupt.
+ 126:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 127:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:  
+ 128:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 129:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 130:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 131:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 132:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 133:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 134:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_Stop(void)
+ 135:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 108              		.loc 1 135 0
+ 109              		.cfi_startproc
+ 110              		@ args = 0, pretend = 0, frame = 0
+ 111              		@ frame_needed = 1, uses_anonymous_args = 0
+ 112 0000 80B5     		push	{r7, lr}
+ 113              		.cfi_def_cfa_offset 8
+ 114              		.cfi_offset 7, -8
+ 115              		.cfi_offset 14, -4
+ 116 0002 00AF     		add	r7, sp, #0
+ 117              		.cfi_def_cfa_register 7
+ 136:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Disable this interrupt. */
+ 137:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_Disable();
+ 118              		.loc 1 137 0
+ 119 0004 FFF7FEFF 		bl	isrTimer_20KHz_TC_Disable
+ 138:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 139:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Set the ISR to point to the passive one. */
+ 140:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     isrTimer_20KHz_TC_SetVector(&IntDefaultHandler);
+ 120              		.loc 1 140 0
+ 121 0008 0248     		ldr	r0, .L6
+ 122 000a FFF7FEFF 		bl	isrTimer_20KHz_TC_SetVector
+ 141:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 123              		.loc 1 141 0
+ 124 000e 00BF     		nop
+ 125 0010 80BD     		pop	{r7, pc}
+ 126              	.L7:
+ 127 0012 00BF     		.align	2
+ 128              	.L6:
+ 129 0014 00000000 		.word	IntDefaultHandler
+ 130              		.cfi_endproc
+ 131              	.LFE2:
+ 132              		.size	isrTimer_20KHz_TC_Stop, .-isrTimer_20KHz_TC_Stop
+ 133              		.section	.text.isrTimer_20KHz_TC_Interrupt,"ax",%progbits
+ 134              		.align	2
+ 135              		.global	isrTimer_20KHz_TC_Interrupt
+ 136              		.thumb
+ 137              		.thumb_func
+ 138              		.type	isrTimer_20KHz_TC_Interrupt, %function
+ 139              	isrTimer_20KHz_TC_Interrupt:
+ 140              	.LFB3:
+ 142:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 143:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 144:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 145:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_Interrupt
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 6
+
+
+ 146:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 147:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 148:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 149:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   The default Interrupt Service Routine for isrTimer_20KHz_TC.
+ 150:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 151:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Add custom code between the coments to keep the next version of this file
+ 152:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   from over writting your code.
+ 153:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 154:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:  
+ 155:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 156:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 157:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 158:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 159:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 160:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** CY_ISR(isrTimer_20KHz_TC_Interrupt)
+ 161:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 141              		.loc 1 161 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 1, uses_anonymous_args = 0
+ 145              		@ link register save eliminated.
+ 146 0000 80B4     		push	{r7}
+ 147              		.cfi_def_cfa_offset 4
+ 148              		.cfi_offset 7, -4
+ 149 0002 00AF     		add	r7, sp, #0
+ 150              		.cfi_def_cfa_register 7
+ 162:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     #ifdef isrTimer_20KHz_TC_INTERRUPT_INTERRUPT_CALLBACK
+ 163:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****         isrTimer_20KHz_TC_Interrupt_InterruptCallback();
+ 164:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     #endif /* isrTimer_20KHz_TC_INTERRUPT_INTERRUPT_CALLBACK */ 
+ 165:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 166:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /*  Place your Interrupt code here. */
+ 167:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* `#START isrTimer_20KHz_TC_Interrupt` */
+ 168:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 169:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* `#END` */
+ 170:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 151              		.loc 1 170 0
+ 152 0004 00BF     		nop
+ 153 0006 BD46     		mov	sp, r7
+ 154              		.cfi_def_cfa_register 13
+ 155              		@ sp needed
+ 156 0008 80BC     		pop	{r7}
+ 157              		.cfi_restore 7
+ 158              		.cfi_def_cfa_offset 0
+ 159 000a 7047     		bx	lr
+ 160              		.cfi_endproc
+ 161              	.LFE3:
+ 162              		.size	isrTimer_20KHz_TC_Interrupt, .-isrTimer_20KHz_TC_Interrupt
+ 163              		.section	.text.isrTimer_20KHz_TC_SetVector,"ax",%progbits
+ 164              		.align	2
+ 165              		.global	isrTimer_20KHz_TC_SetVector
+ 166              		.thumb
+ 167              		.thumb_func
+ 168              		.type	isrTimer_20KHz_TC_SetVector, %function
+ 169              	isrTimer_20KHz_TC_SetVector:
+ 170              	.LFB4:
+ 171:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 172:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 7
+
+
+ 173:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 174:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_SetVector
+ 175:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 176:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 177:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 178:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Change the ISR vector for the Interrupt. Note calling isrTimer_20KHz_TC_Start
+ 179:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   will override any effect this method would have had. To set the vector 
+ 180:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   before the component has been started use isrTimer_20KHz_TC_StartEx instead.
+ 181:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * 
+ 182:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+ 183:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   used to provide consistent definition across compilers:
+ 184:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 185:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Function definition example:
+ 186:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   CY_ISR(MyISR)
+ 187:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   {
+ 188:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   }
+ 189:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 190:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Function prototype example:
+ 191:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *     CY_ISR_PROTO(MyISR);
+ 192:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 193:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 194:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   address: Address of the ISR to set in the interrupt vector table.
+ 195:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 196:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 197:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 198:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 199:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 200:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_SetVector(cyisraddress address)
+ 201:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 171              		.loc 1 201 0
+ 172              		.cfi_startproc
+ 173              		@ args = 0, pretend = 0, frame = 16
+ 174              		@ frame_needed = 1, uses_anonymous_args = 0
+ 175              		@ link register save eliminated.
+ 176 0000 80B4     		push	{r7}
+ 177              		.cfi_def_cfa_offset 4
+ 178              		.cfi_offset 7, -4
+ 179 0002 85B0     		sub	sp, sp, #20
+ 180              		.cfi_def_cfa_offset 24
+ 181 0004 00AF     		add	r7, sp, #0
+ 182              		.cfi_def_cfa_register 7
+ 183 0006 7860     		str	r0, [r7, #4]
+ 202:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     cyisraddress * ramVectorTable;
+ 203:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 204:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
+ 184              		.loc 1 204 0
+ 185 0008 054B     		ldr	r3, .L10
+ 186 000a 1B68     		ldr	r3, [r3]
+ 187 000c FB60     		str	r3, [r7, #12]
+ 205:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 206:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     ramVectorTable[CYINT_IRQ_BASE + (uint32)isrTimer_20KHz_TC__INTC_NUMBER] = address;
+ 188              		.loc 1 206 0
+ 189 000e FB68     		ldr	r3, [r7, #12]
+ 190 0010 4C33     		adds	r3, r3, #76
+ 191 0012 7A68     		ldr	r2, [r7, #4]
+ 192 0014 1A60     		str	r2, [r3]
+ 207:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 8
+
+
+ 193              		.loc 1 207 0
+ 194 0016 00BF     		nop
+ 195 0018 1437     		adds	r7, r7, #20
+ 196              		.cfi_def_cfa_offset 4
+ 197 001a BD46     		mov	sp, r7
+ 198              		.cfi_def_cfa_register 13
+ 199              		@ sp needed
+ 200 001c 80BC     		pop	{r7}
+ 201              		.cfi_restore 7
+ 202              		.cfi_def_cfa_offset 0
+ 203 001e 7047     		bx	lr
+ 204              	.L11:
+ 205              		.align	2
+ 206              	.L10:
+ 207 0020 08ED00E0 		.word	-536810232
+ 208              		.cfi_endproc
+ 209              	.LFE4:
+ 210              		.size	isrTimer_20KHz_TC_SetVector, .-isrTimer_20KHz_TC_SetVector
+ 211              		.section	.text.isrTimer_20KHz_TC_GetVector,"ax",%progbits
+ 212              		.align	2
+ 213              		.global	isrTimer_20KHz_TC_GetVector
+ 214              		.thumb
+ 215              		.thumb_func
+ 216              		.type	isrTimer_20KHz_TC_GetVector, %function
+ 217              	isrTimer_20KHz_TC_GetVector:
+ 218              	.LFB5:
+ 208:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 209:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 210:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 211:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_GetVector
+ 212:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 213:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 214:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 215:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Gets the "address" of the current ISR vector for the Interrupt.
+ 216:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 217:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 218:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 219:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 220:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 221:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Address of the ISR in the interrupt vector table.
+ 222:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 223:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 224:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** cyisraddress isrTimer_20KHz_TC_GetVector(void)
+ 225:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 219              		.loc 1 225 0
+ 220              		.cfi_startproc
+ 221              		@ args = 0, pretend = 0, frame = 8
+ 222              		@ frame_needed = 1, uses_anonymous_args = 0
+ 223              		@ link register save eliminated.
+ 224 0000 80B4     		push	{r7}
+ 225              		.cfi_def_cfa_offset 4
+ 226              		.cfi_offset 7, -4
+ 227 0002 83B0     		sub	sp, sp, #12
+ 228              		.cfi_def_cfa_offset 16
+ 229 0004 00AF     		add	r7, sp, #0
+ 230              		.cfi_def_cfa_register 7
+ 226:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     cyisraddress * ramVectorTable;
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 9
+
+
+ 227:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 228:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
+ 231              		.loc 1 228 0
+ 232 0006 054B     		ldr	r3, .L14
+ 233 0008 1B68     		ldr	r3, [r3]
+ 234 000a 7B60     		str	r3, [r7, #4]
+ 229:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 230:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     return ramVectorTable[CYINT_IRQ_BASE + (uint32)isrTimer_20KHz_TC__INTC_NUMBER];
+ 235              		.loc 1 230 0
+ 236 000c 7B68     		ldr	r3, [r7, #4]
+ 237 000e DB6C     		ldr	r3, [r3, #76]
+ 231:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 238              		.loc 1 231 0
+ 239 0010 1846     		mov	r0, r3
+ 240 0012 0C37     		adds	r7, r7, #12
+ 241              		.cfi_def_cfa_offset 4
+ 242 0014 BD46     		mov	sp, r7
+ 243              		.cfi_def_cfa_register 13
+ 244              		@ sp needed
+ 245 0016 80BC     		pop	{r7}
+ 246              		.cfi_restore 7
+ 247              		.cfi_def_cfa_offset 0
+ 248 0018 7047     		bx	lr
+ 249              	.L15:
+ 250 001a 00BF     		.align	2
+ 251              	.L14:
+ 252 001c 08ED00E0 		.word	-536810232
+ 253              		.cfi_endproc
+ 254              	.LFE5:
+ 255              		.size	isrTimer_20KHz_TC_GetVector, .-isrTimer_20KHz_TC_GetVector
+ 256              		.section	.text.isrTimer_20KHz_TC_SetPriority,"ax",%progbits
+ 257              		.align	2
+ 258              		.global	isrTimer_20KHz_TC_SetPriority
+ 259              		.thumb
+ 260              		.thumb_func
+ 261              		.type	isrTimer_20KHz_TC_SetPriority, %function
+ 262              	isrTimer_20KHz_TC_SetPriority:
+ 263              	.LFB6:
+ 232:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 233:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 234:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 235:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_SetPriority
+ 236:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 237:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 238:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 239:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Sets the Priority of the Interrupt. 
+ 240:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 241:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Note calling isrTimer_20KHz_TC_Start or isrTimer_20KHz_TC_StartEx will 
+ 242:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   override any effect this API would have had. This API should only be called
+ 243:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   after isrTimer_20KHz_TC_Start or isrTimer_20KHz_TC_StartEx has been called. 
+ 244:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   To set the initial priority for the component, use the Design-Wide Resources
+ 245:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Interrupt Editor.
+ 246:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 247:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Note This API has no effect on Non-maskable interrupt NMI).
+ 248:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 249:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 250:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   priority: Priority of the interrupt, 0 being the highest priority
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 10
+
+
+ 251:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *             PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 252:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *             PSoC 4: Priority is from 0 to 3.
+ 253:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 254:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 255:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 256:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 257:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 258:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_SetPriority(uint8 priority)
+ 259:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 264              		.loc 1 259 0
+ 265              		.cfi_startproc
+ 266              		@ args = 0, pretend = 0, frame = 8
+ 267              		@ frame_needed = 1, uses_anonymous_args = 0
+ 268              		@ link register save eliminated.
+ 269 0000 80B4     		push	{r7}
+ 270              		.cfi_def_cfa_offset 4
+ 271              		.cfi_offset 7, -4
+ 272 0002 83B0     		sub	sp, sp, #12
+ 273              		.cfi_def_cfa_offset 16
+ 274 0004 00AF     		add	r7, sp, #0
+ 275              		.cfi_def_cfa_register 7
+ 276 0006 0346     		mov	r3, r0
+ 277 0008 FB71     		strb	r3, [r7, #7]
+ 260:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     *isrTimer_20KHz_TC_INTC_PRIOR = priority << 5;
+ 278              		.loc 1 260 0
+ 279 000a 054A     		ldr	r2, .L17
+ 280 000c FB79     		ldrb	r3, [r7, #7]
+ 281 000e 5B01     		lsls	r3, r3, #5
+ 282 0010 DBB2     		uxtb	r3, r3
+ 283 0012 1370     		strb	r3, [r2]
+ 261:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 284              		.loc 1 261 0
+ 285 0014 00BF     		nop
+ 286 0016 0C37     		adds	r7, r7, #12
+ 287              		.cfi_def_cfa_offset 4
+ 288 0018 BD46     		mov	sp, r7
+ 289              		.cfi_def_cfa_register 13
+ 290              		@ sp needed
+ 291 001a 80BC     		pop	{r7}
+ 292              		.cfi_restore 7
+ 293              		.cfi_def_cfa_offset 0
+ 294 001c 7047     		bx	lr
+ 295              	.L18:
+ 296 001e 00BF     		.align	2
+ 297              	.L17:
+ 298 0020 03E400E0 		.word	-536812541
+ 299              		.cfi_endproc
+ 300              	.LFE6:
+ 301              		.size	isrTimer_20KHz_TC_SetPriority, .-isrTimer_20KHz_TC_SetPriority
+ 302              		.section	.text.isrTimer_20KHz_TC_GetPriority,"ax",%progbits
+ 303              		.align	2
+ 304              		.global	isrTimer_20KHz_TC_GetPriority
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.type	isrTimer_20KHz_TC_GetPriority, %function
+ 308              	isrTimer_20KHz_TC_GetPriority:
+ 309              	.LFB7:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 11
+
+
+ 262:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 263:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 264:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 265:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_GetPriority
+ 266:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 267:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 268:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 269:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Gets the Priority of the Interrupt.
+ 270:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 271:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 272:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 273:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 274:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 275:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Priority of the interrupt, 0 being the highest priority
+ 276:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *    PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 277:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *    PSoC 4: Priority is from 0 to 3.
+ 278:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 279:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 280:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** uint8 isrTimer_20KHz_TC_GetPriority(void)
+ 281:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 310              		.loc 1 281 0
+ 311              		.cfi_startproc
+ 312              		@ args = 0, pretend = 0, frame = 8
+ 313              		@ frame_needed = 1, uses_anonymous_args = 0
+ 314              		@ link register save eliminated.
+ 315 0000 80B4     		push	{r7}
+ 316              		.cfi_def_cfa_offset 4
+ 317              		.cfi_offset 7, -4
+ 318 0002 83B0     		sub	sp, sp, #12
+ 319              		.cfi_def_cfa_offset 16
+ 320 0004 00AF     		add	r7, sp, #0
+ 321              		.cfi_def_cfa_register 7
+ 282:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     uint8 priority;
+ 283:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 284:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 285:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     priority = *isrTimer_20KHz_TC_INTC_PRIOR >> 5;
+ 322              		.loc 1 285 0
+ 323 0006 054B     		ldr	r3, .L21
+ 324 0008 1B78     		ldrb	r3, [r3]
+ 325 000a DBB2     		uxtb	r3, r3
+ 326 000c 5B09     		lsrs	r3, r3, #5
+ 327 000e FB71     		strb	r3, [r7, #7]
+ 286:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 287:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     return priority;
+ 328              		.loc 1 287 0
+ 329 0010 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 288:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 330              		.loc 1 288 0
+ 331 0012 1846     		mov	r0, r3
+ 332 0014 0C37     		adds	r7, r7, #12
+ 333              		.cfi_def_cfa_offset 4
+ 334 0016 BD46     		mov	sp, r7
+ 335              		.cfi_def_cfa_register 13
+ 336              		@ sp needed
+ 337 0018 80BC     		pop	{r7}
+ 338              		.cfi_restore 7
+ 339              		.cfi_def_cfa_offset 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 12
+
+
+ 340 001a 7047     		bx	lr
+ 341              	.L22:
+ 342              		.align	2
+ 343              	.L21:
+ 344 001c 03E400E0 		.word	-536812541
+ 345              		.cfi_endproc
+ 346              	.LFE7:
+ 347              		.size	isrTimer_20KHz_TC_GetPriority, .-isrTimer_20KHz_TC_GetPriority
+ 348              		.section	.text.isrTimer_20KHz_TC_Enable,"ax",%progbits
+ 349              		.align	2
+ 350              		.global	isrTimer_20KHz_TC_Enable
+ 351              		.thumb
+ 352              		.thumb_func
+ 353              		.type	isrTimer_20KHz_TC_Enable, %function
+ 354              	isrTimer_20KHz_TC_Enable:
+ 355              	.LFB8:
+ 289:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 290:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 291:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 292:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_Enable
+ 293:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 294:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 295:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 296:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Enables the interrupt to the interrupt controller. Do not call this function
+ 297:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   unless ISR_Start() has been called or the functionality of the ISR_Start() 
+ 298:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   function, which sets the vector and the priority, has been called.
+ 299:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 300:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 301:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 302:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 303:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 304:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 305:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 306:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 307:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_Enable(void)
+ 308:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 356              		.loc 1 308 0
+ 357              		.cfi_startproc
+ 358              		@ args = 0, pretend = 0, frame = 0
+ 359              		@ frame_needed = 1, uses_anonymous_args = 0
+ 360              		@ link register save eliminated.
+ 361 0000 80B4     		push	{r7}
+ 362              		.cfi_def_cfa_offset 4
+ 363              		.cfi_offset 7, -4
+ 364 0002 00AF     		add	r7, sp, #0
+ 365              		.cfi_def_cfa_register 7
+ 309:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Enable the general interrupt. */
+ 310:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     *isrTimer_20KHz_TC_INTC_SET_EN = isrTimer_20KHz_TC__INTC_MASK;
+ 366              		.loc 1 310 0
+ 367 0004 034B     		ldr	r3, .L24
+ 368 0006 0822     		movs	r2, #8
+ 369 0008 1A60     		str	r2, [r3]
+ 311:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 370              		.loc 1 311 0
+ 371 000a 00BF     		nop
+ 372 000c BD46     		mov	sp, r7
+ 373              		.cfi_def_cfa_register 13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 13
+
+
+ 374              		@ sp needed
+ 375 000e 80BC     		pop	{r7}
+ 376              		.cfi_restore 7
+ 377              		.cfi_def_cfa_offset 0
+ 378 0010 7047     		bx	lr
+ 379              	.L25:
+ 380 0012 00BF     		.align	2
+ 381              	.L24:
+ 382 0014 00E100E0 		.word	-536813312
+ 383              		.cfi_endproc
+ 384              	.LFE8:
+ 385              		.size	isrTimer_20KHz_TC_Enable, .-isrTimer_20KHz_TC_Enable
+ 386              		.section	.text.isrTimer_20KHz_TC_GetState,"ax",%progbits
+ 387              		.align	2
+ 388              		.global	isrTimer_20KHz_TC_GetState
+ 389              		.thumb
+ 390              		.thumb_func
+ 391              		.type	isrTimer_20KHz_TC_GetState, %function
+ 392              	isrTimer_20KHz_TC_GetState:
+ 393              	.LFB9:
+ 312:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 313:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 314:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 315:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_GetState
+ 316:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 317:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 318:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 319:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Gets the state (enabled, disabled) of the Interrupt.
+ 320:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 321:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 322:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 323:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 324:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 325:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   1 if enabled, 0 if disabled.
+ 326:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 327:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 328:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** uint8 isrTimer_20KHz_TC_GetState(void)
+ 329:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 394              		.loc 1 329 0
+ 395              		.cfi_startproc
+ 396              		@ args = 0, pretend = 0, frame = 0
+ 397              		@ frame_needed = 1, uses_anonymous_args = 0
+ 398              		@ link register save eliminated.
+ 399 0000 80B4     		push	{r7}
+ 400              		.cfi_def_cfa_offset 4
+ 401              		.cfi_offset 7, -4
+ 402 0002 00AF     		add	r7, sp, #0
+ 403              		.cfi_def_cfa_register 7
+ 330:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Get the state of the general interrupt. */
+ 331:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     return ((*isrTimer_20KHz_TC_INTC_SET_EN & (uint32)isrTimer_20KHz_TC__INTC_MASK) != 0u) ? 1u:0u;
+ 404              		.loc 1 331 0
+ 405 0004 064B     		ldr	r3, .L30
+ 406 0006 1B68     		ldr	r3, [r3]
+ 407 0008 03F00803 		and	r3, r3, #8
+ 408 000c 002B     		cmp	r3, #0
+ 409 000e 01D0     		beq	.L27
+ 410              		.loc 1 331 0 is_stmt 0 discriminator 1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 14
+
+
+ 411 0010 0123     		movs	r3, #1
+ 412 0012 00E0     		b	.L28
+ 413              	.L27:
+ 414              		.loc 1 331 0 discriminator 2
+ 415 0014 0023     		movs	r3, #0
+ 416              	.L28:
+ 332:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 417              		.loc 1 332 0 is_stmt 1 discriminator 4
+ 418 0016 1846     		mov	r0, r3
+ 419 0018 BD46     		mov	sp, r7
+ 420              		.cfi_def_cfa_register 13
+ 421              		@ sp needed
+ 422 001a 80BC     		pop	{r7}
+ 423              		.cfi_restore 7
+ 424              		.cfi_def_cfa_offset 0
+ 425 001c 7047     		bx	lr
+ 426              	.L31:
+ 427 001e 00BF     		.align	2
+ 428              	.L30:
+ 429 0020 00E100E0 		.word	-536813312
+ 430              		.cfi_endproc
+ 431              	.LFE9:
+ 432              		.size	isrTimer_20KHz_TC_GetState, .-isrTimer_20KHz_TC_GetState
+ 433              		.section	.text.isrTimer_20KHz_TC_Disable,"ax",%progbits
+ 434              		.align	2
+ 435              		.global	isrTimer_20KHz_TC_Disable
+ 436              		.thumb
+ 437              		.thumb_func
+ 438              		.type	isrTimer_20KHz_TC_Disable, %function
+ 439              	isrTimer_20KHz_TC_Disable:
+ 440              	.LFB10:
+ 333:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 334:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 335:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 336:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_Disable
+ 337:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 338:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 339:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 340:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Disables the Interrupt in the interrupt controller.
+ 341:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 342:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 343:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 344:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 345:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 346:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 347:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 348:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 349:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_Disable(void)
+ 350:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 441              		.loc 1 350 0
+ 442              		.cfi_startproc
+ 443              		@ args = 0, pretend = 0, frame = 0
+ 444              		@ frame_needed = 1, uses_anonymous_args = 0
+ 445              		@ link register save eliminated.
+ 446 0000 80B4     		push	{r7}
+ 447              		.cfi_def_cfa_offset 4
+ 448              		.cfi_offset 7, -4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 15
+
+
+ 449 0002 00AF     		add	r7, sp, #0
+ 450              		.cfi_def_cfa_register 7
+ 351:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     /* Disable the general interrupt. */
+ 352:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     *isrTimer_20KHz_TC_INTC_CLR_EN = isrTimer_20KHz_TC__INTC_MASK;
+ 451              		.loc 1 352 0
+ 452 0004 034B     		ldr	r3, .L33
+ 453 0006 0822     		movs	r2, #8
+ 454 0008 1A60     		str	r2, [r3]
+ 353:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 455              		.loc 1 353 0
+ 456 000a 00BF     		nop
+ 457 000c BD46     		mov	sp, r7
+ 458              		.cfi_def_cfa_register 13
+ 459              		@ sp needed
+ 460 000e 80BC     		pop	{r7}
+ 461              		.cfi_restore 7
+ 462              		.cfi_def_cfa_offset 0
+ 463 0010 7047     		bx	lr
+ 464              	.L34:
+ 465 0012 00BF     		.align	2
+ 466              	.L33:
+ 467 0014 80E100E0 		.word	-536813184
+ 468              		.cfi_endproc
+ 469              	.LFE10:
+ 470              		.size	isrTimer_20KHz_TC_Disable, .-isrTimer_20KHz_TC_Disable
+ 471              		.section	.text.isrTimer_20KHz_TC_SetPending,"ax",%progbits
+ 472              		.align	2
+ 473              		.global	isrTimer_20KHz_TC_SetPending
+ 474              		.thumb
+ 475              		.thumb_func
+ 476              		.type	isrTimer_20KHz_TC_SetPending, %function
+ 477              	isrTimer_20KHz_TC_SetPending:
+ 478              	.LFB11:
+ 354:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 355:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 356:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 357:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_SetPending
+ 358:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 359:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 360:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 361:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Causes the Interrupt to enter the pending state, a software method of
+ 362:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   generating the interrupt.
+ 363:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 364:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 365:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 366:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 367:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 368:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 369:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 370:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Side Effects:
+ 371:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   If interrupts are enabled and the interrupt is set up properly, the ISR is
+ 372:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   entered (depending on the priority of this interrupt and other pending 
+ 373:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   interrupts).
+ 374:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 375:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 376:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_SetPending(void)
+ 377:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 16
+
+
+ 479              		.loc 1 377 0
+ 480              		.cfi_startproc
+ 481              		@ args = 0, pretend = 0, frame = 0
+ 482              		@ frame_needed = 1, uses_anonymous_args = 0
+ 483              		@ link register save eliminated.
+ 484 0000 80B4     		push	{r7}
+ 485              		.cfi_def_cfa_offset 4
+ 486              		.cfi_offset 7, -4
+ 487 0002 00AF     		add	r7, sp, #0
+ 488              		.cfi_def_cfa_register 7
+ 378:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     *isrTimer_20KHz_TC_INTC_SET_PD = isrTimer_20KHz_TC__INTC_MASK;
+ 489              		.loc 1 378 0
+ 490 0004 034B     		ldr	r3, .L36
+ 491 0006 0822     		movs	r2, #8
+ 492 0008 1A60     		str	r2, [r3]
+ 379:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 493              		.loc 1 379 0
+ 494 000a 00BF     		nop
+ 495 000c BD46     		mov	sp, r7
+ 496              		.cfi_def_cfa_register 13
+ 497              		@ sp needed
+ 498 000e 80BC     		pop	{r7}
+ 499              		.cfi_restore 7
+ 500              		.cfi_def_cfa_offset 0
+ 501 0010 7047     		bx	lr
+ 502              	.L37:
+ 503 0012 00BF     		.align	2
+ 504              	.L36:
+ 505 0014 00E200E0 		.word	-536813056
+ 506              		.cfi_endproc
+ 507              	.LFE11:
+ 508              		.size	isrTimer_20KHz_TC_SetPending, .-isrTimer_20KHz_TC_SetPending
+ 509              		.section	.text.isrTimer_20KHz_TC_ClearPending,"ax",%progbits
+ 510              		.align	2
+ 511              		.global	isrTimer_20KHz_TC_ClearPending
+ 512              		.thumb
+ 513              		.thumb_func
+ 514              		.type	isrTimer_20KHz_TC_ClearPending, %function
+ 515              	isrTimer_20KHz_TC_ClearPending:
+ 516              	.LFB12:
+ 380:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 381:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** 
+ 382:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** /*******************************************************************************
+ 383:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Function Name: isrTimer_20KHz_TC_ClearPending
+ 384:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** ********************************************************************************
+ 385:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 386:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Summary:
+ 387:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Clears a pending interrupt in the interrupt controller.
+ 388:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 389:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   Note Some interrupt sources are clear-on-read and require the block 
+ 390:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   interrupt/status register to be read/cleared with the appropriate block API 
+ 391:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   (GPIO, UART, and so on). Otherwise the ISR will continue to remain in 
+ 392:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   pending state even though the interrupt itself is cleared using this API.
+ 393:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 394:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Parameters:
+ 395:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 396:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 17
+
+
+ 397:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** * Return:
+ 398:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *   None
+ 399:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *
+ 400:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** *******************************************************************************/
+ 401:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** void isrTimer_20KHz_TC_ClearPending(void)
+ 402:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** {
+ 517              		.loc 1 402 0
+ 518              		.cfi_startproc
+ 519              		@ args = 0, pretend = 0, frame = 0
+ 520              		@ frame_needed = 1, uses_anonymous_args = 0
+ 521              		@ link register save eliminated.
+ 522 0000 80B4     		push	{r7}
+ 523              		.cfi_def_cfa_offset 4
+ 524              		.cfi_offset 7, -4
+ 525 0002 00AF     		add	r7, sp, #0
+ 526              		.cfi_def_cfa_register 7
+ 403:Generated_Source\PSoC5/isrTimer_20KHz_TC.c ****     *isrTimer_20KHz_TC_INTC_CLR_PD = isrTimer_20KHz_TC__INTC_MASK;
+ 527              		.loc 1 403 0
+ 528 0004 034B     		ldr	r3, .L39
+ 529 0006 0822     		movs	r2, #8
+ 530 0008 1A60     		str	r2, [r3]
+ 404:Generated_Source\PSoC5/isrTimer_20KHz_TC.c **** }
+ 531              		.loc 1 404 0
+ 532 000a 00BF     		nop
+ 533 000c BD46     		mov	sp, r7
+ 534              		.cfi_def_cfa_register 13
+ 535              		@ sp needed
+ 536 000e 80BC     		pop	{r7}
+ 537              		.cfi_restore 7
+ 538              		.cfi_def_cfa_offset 0
+ 539 0010 7047     		bx	lr
+ 540              	.L40:
+ 541 0012 00BF     		.align	2
+ 542              	.L39:
+ 543 0014 80E200E0 		.word	-536812928
+ 544              		.cfi_endproc
+ 545              	.LFE12:
+ 546              		.size	isrTimer_20KHz_TC_ClearPending, .-isrTimer_20KHz_TC_ClearPending
+ 547              		.text
+ 548              	.Letext0:
+ 549              		.file 2 "Generated_Source\\PSoC5/cytypes.h"
+ 550              		.section	.debug_info,"",%progbits
+ 551              	.Ldebug_info0:
+ 552 0000 3D020000 		.4byte	0x23d
+ 553 0004 0400     		.2byte	0x4
+ 554 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 555 000a 04       		.byte	0x4
+ 556 000b 01       		.uleb128 0x1
+ 557 000c 06000000 		.4byte	.LASF34
+ 558 0010 0C       		.byte	0xc
+ 559 0011 C4020000 		.4byte	.LASF35
+ 560 0015 0C030000 		.4byte	.LASF36
+ 561 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 562 001d 00000000 		.4byte	0
+ 563 0021 00000000 		.4byte	.Ldebug_line0
+ 564 0025 02       		.uleb128 0x2
+ 565 0026 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 18
+
+
+ 566 0027 05       		.byte	0x5
+ 567 0028 696E7400 		.ascii	"int\000"
+ 568 002c 03       		.uleb128 0x3
+ 569 002d 04       		.byte	0x4
+ 570 002e 07       		.byte	0x7
+ 571 002f 83010000 		.4byte	.LASF0
+ 572 0033 03       		.uleb128 0x3
+ 573 0034 08       		.byte	0x8
+ 574 0035 05       		.byte	0x5
+ 575 0036 DB010000 		.4byte	.LASF1
+ 576 003a 03       		.uleb128 0x3
+ 577 003b 08       		.byte	0x8
+ 578 003c 04       		.byte	0x4
+ 579 003d 60020000 		.4byte	.LASF2
+ 580 0041 03       		.uleb128 0x3
+ 581 0042 01       		.byte	0x1
+ 582 0043 06       		.byte	0x6
+ 583 0044 6C020000 		.4byte	.LASF3
+ 584 0048 03       		.uleb128 0x3
+ 585 0049 01       		.byte	0x1
+ 586 004a 08       		.byte	0x8
+ 587 004b D2000000 		.4byte	.LASF4
+ 588 004f 03       		.uleb128 0x3
+ 589 0050 02       		.byte	0x2
+ 590 0051 05       		.byte	0x5
+ 591 0052 19020000 		.4byte	.LASF5
+ 592 0056 03       		.uleb128 0x3
+ 593 0057 02       		.byte	0x2
+ 594 0058 07       		.byte	0x7
+ 595 0059 9D000000 		.4byte	.LASF6
+ 596 005d 03       		.uleb128 0x3
+ 597 005e 04       		.byte	0x4
+ 598 005f 05       		.byte	0x5
+ 599 0060 94000000 		.4byte	.LASF7
+ 600 0064 03       		.uleb128 0x3
+ 601 0065 04       		.byte	0x4
+ 602 0066 07       		.byte	0x7
+ 603 0067 23010000 		.4byte	.LASF8
+ 604 006b 03       		.uleb128 0x3
+ 605 006c 08       		.byte	0x8
+ 606 006d 07       		.byte	0x7
+ 607 006e AE010000 		.4byte	.LASF9
+ 608 0072 03       		.uleb128 0x3
+ 609 0073 04       		.byte	0x4
+ 610 0074 07       		.byte	0x7
+ 611 0075 D2010000 		.4byte	.LASF10
+ 612 0079 03       		.uleb128 0x3
+ 613 007a 01       		.byte	0x1
+ 614 007b 08       		.byte	0x8
+ 615 007c E9010000 		.4byte	.LASF11
+ 616 0080 04       		.uleb128 0x4
+ 617 0081 04       		.byte	0x4
+ 618 0082 86000000 		.4byte	0x86
+ 619 0086 05       		.uleb128 0x5
+ 620 0087 06       		.uleb128 0x6
+ 621 0088 35010000 		.4byte	.LASF12
+ 622 008c 02       		.byte	0x2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 19
+
+
+ 623 008d 9201     		.2byte	0x192
+ 624 008f 48000000 		.4byte	0x48
+ 625 0093 06       		.uleb128 0x6
+ 626 0094 7C010000 		.4byte	.LASF13
+ 627 0098 02       		.byte	0x2
+ 628 0099 9401     		.2byte	0x194
+ 629 009b 64000000 		.4byte	0x64
+ 630 009f 03       		.uleb128 0x3
+ 631 00a0 04       		.byte	0x4
+ 632 00a1 04       		.byte	0x4
+ 633 00a2 CC000000 		.4byte	.LASF14
+ 634 00a6 03       		.uleb128 0x3
+ 635 00a7 08       		.byte	0x8
+ 636 00a8 04       		.byte	0x4
+ 637 00a9 5B010000 		.4byte	.LASF15
+ 638 00ad 06       		.uleb128 0x6
+ 639 00ae FC000000 		.4byte	.LASF16
+ 640 00b2 02       		.byte	0x2
+ 641 00b3 3C02     		.2byte	0x23c
+ 642 00b5 B9000000 		.4byte	0xb9
+ 643 00b9 07       		.uleb128 0x7
+ 644 00ba 87000000 		.4byte	0x87
+ 645 00be 06       		.uleb128 0x6
+ 646 00bf 00000000 		.4byte	.LASF17
+ 647 00c3 02       		.byte	0x2
+ 648 00c4 3E02     		.2byte	0x23e
+ 649 00c6 CA000000 		.4byte	0xca
+ 650 00ca 07       		.uleb128 0x7
+ 651 00cb 93000000 		.4byte	0x93
+ 652 00cf 06       		.uleb128 0x6
+ 653 00d0 C5010000 		.4byte	.LASF18
+ 654 00d4 02       		.byte	0x2
+ 655 00d5 4E02     		.2byte	0x24e
+ 656 00d7 80000000 		.4byte	0x80
+ 657 00db 08       		.uleb128 0x8
+ 658 00dc AC020000 		.4byte	.LASF19
+ 659 00e0 01       		.byte	0x1
+ 660 00e1 3D       		.byte	0x3d
+ 661 00e2 00000000 		.4byte	.LFB0
+ 662 00e6 20000000 		.4byte	.LFE0-.LFB0
+ 663 00ea 01       		.uleb128 0x1
+ 664 00eb 9C       		.byte	0x9c
+ 665 00ec 09       		.uleb128 0x9
+ 666 00ed 01010000 		.4byte	.LASF22
+ 667 00f1 01       		.byte	0x1
+ 668 00f2 68       		.byte	0x68
+ 669 00f3 00000000 		.4byte	.LFB1
+ 670 00f7 24000000 		.4byte	.LFE1-.LFB1
+ 671 00fb 01       		.uleb128 0x1
+ 672 00fc 9C       		.byte	0x9c
+ 673 00fd 10010000 		.4byte	0x110
+ 674 0101 0A       		.uleb128 0xa
+ 675 0102 1B010000 		.4byte	.LASF24
+ 676 0106 01       		.byte	0x1
+ 677 0107 68       		.byte	0x68
+ 678 0108 CF000000 		.4byte	0xcf
+ 679 010c 02       		.uleb128 0x2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 20
+
+
+ 680 010d 91       		.byte	0x91
+ 681 010e 74       		.sleb128 -12
+ 682 010f 00       		.byte	0
+ 683 0110 08       		.uleb128 0x8
+ 684 0111 44010000 		.4byte	.LASF20
+ 685 0115 01       		.byte	0x1
+ 686 0116 86       		.byte	0x86
+ 687 0117 00000000 		.4byte	.LFB2
+ 688 011b 18000000 		.4byte	.LFE2-.LFB2
+ 689 011f 01       		.uleb128 0x1
+ 690 0120 9C       		.byte	0x9c
+ 691 0121 0B       		.uleb128 0xb
+ 692 0122 E0000000 		.4byte	.LASF21
+ 693 0126 01       		.byte	0x1
+ 694 0127 A0       		.byte	0xa0
+ 695 0128 00000000 		.4byte	.LFB3
+ 696 012c 0C000000 		.4byte	.LFE3-.LFB3
+ 697 0130 01       		.uleb128 0x1
+ 698 0131 9C       		.byte	0x9c
+ 699 0132 0C       		.uleb128 0xc
+ 700 0133 FD010000 		.4byte	.LASF23
+ 701 0137 01       		.byte	0x1
+ 702 0138 C8       		.byte	0xc8
+ 703 0139 00000000 		.4byte	.LFB4
+ 704 013d 24000000 		.4byte	.LFE4-.LFB4
+ 705 0141 01       		.uleb128 0x1
+ 706 0142 9C       		.byte	0x9c
+ 707 0143 64010000 		.4byte	0x164
+ 708 0147 0A       		.uleb128 0xa
+ 709 0148 1B010000 		.4byte	.LASF24
+ 710 014c 01       		.byte	0x1
+ 711 014d C8       		.byte	0xc8
+ 712 014e CF000000 		.4byte	0xcf
+ 713 0152 02       		.uleb128 0x2
+ 714 0153 91       		.byte	0x91
+ 715 0154 6C       		.sleb128 -20
+ 716 0155 0D       		.uleb128 0xd
+ 717 0156 EE010000 		.4byte	.LASF25
+ 718 015a 01       		.byte	0x1
+ 719 015b CA       		.byte	0xca
+ 720 015c 64010000 		.4byte	0x164
+ 721 0160 02       		.uleb128 0x2
+ 722 0161 91       		.byte	0x91
+ 723 0162 74       		.sleb128 -12
+ 724 0163 00       		.byte	0
+ 725 0164 04       		.uleb128 0x4
+ 726 0165 04       		.byte	0x4
+ 727 0166 CF000000 		.4byte	0xcf
+ 728 016a 0E       		.uleb128 0xe
+ 729 016b B0000000 		.4byte	.LASF28
+ 730 016f 01       		.byte	0x1
+ 731 0170 E0       		.byte	0xe0
+ 732 0171 CF000000 		.4byte	0xcf
+ 733 0175 00000000 		.4byte	.LFB5
+ 734 0179 20000000 		.4byte	.LFE5-.LFB5
+ 735 017d 01       		.uleb128 0x1
+ 736 017e 9C       		.byte	0x9c
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 21
+
+
+ 737 017f 92010000 		.4byte	0x192
+ 738 0183 0D       		.uleb128 0xd
+ 739 0184 EE010000 		.4byte	.LASF25
+ 740 0188 01       		.byte	0x1
+ 741 0189 E2       		.byte	0xe2
+ 742 018a 64010000 		.4byte	0x164
+ 743 018e 02       		.uleb128 0x2
+ 744 018f 91       		.byte	0x91
+ 745 0190 74       		.sleb128 -12
+ 746 0191 00       		.byte	0
+ 747 0192 0F       		.uleb128 0xf
+ 748 0193 23020000 		.4byte	.LASF26
+ 749 0197 01       		.byte	0x1
+ 750 0198 0201     		.2byte	0x102
+ 751 019a 00000000 		.4byte	.LFB6
+ 752 019e 24000000 		.4byte	.LFE6-.LFB6
+ 753 01a2 01       		.uleb128 0x1
+ 754 01a3 9C       		.byte	0x9c
+ 755 01a4 B8010000 		.4byte	0x1b8
+ 756 01a8 10       		.uleb128 0x10
+ 757 01a9 3B010000 		.4byte	.LASF27
+ 758 01ad 01       		.byte	0x1
+ 759 01ae 0201     		.2byte	0x102
+ 760 01b0 87000000 		.4byte	0x87
+ 761 01b4 02       		.uleb128 0x2
+ 762 01b5 91       		.byte	0x91
+ 763 01b6 77       		.sleb128 -9
+ 764 01b7 00       		.byte	0
+ 765 01b8 11       		.uleb128 0x11
+ 766 01b9 90010000 		.4byte	.LASF29
+ 767 01bd 01       		.byte	0x1
+ 768 01be 1801     		.2byte	0x118
+ 769 01c0 87000000 		.4byte	0x87
+ 770 01c4 00000000 		.4byte	.LFB7
+ 771 01c8 20000000 		.4byte	.LFE7-.LFB7
+ 772 01cc 01       		.uleb128 0x1
+ 773 01cd 9C       		.byte	0x9c
+ 774 01ce E2010000 		.4byte	0x1e2
+ 775 01d2 12       		.uleb128 0x12
+ 776 01d3 3B010000 		.4byte	.LASF27
+ 777 01d7 01       		.byte	0x1
+ 778 01d8 1A01     		.2byte	0x11a
+ 779 01da 87000000 		.4byte	0x87
+ 780 01de 02       		.uleb128 0x2
+ 781 01df 91       		.byte	0x91
+ 782 01e0 77       		.sleb128 -9
+ 783 01e1 00       		.byte	0
+ 784 01e2 13       		.uleb128 0x13
+ 785 01e3 78020000 		.4byte	.LASF30
+ 786 01e7 01       		.byte	0x1
+ 787 01e8 3301     		.2byte	0x133
+ 788 01ea 00000000 		.4byte	.LFB8
+ 789 01ee 18000000 		.4byte	.LFE8-.LFB8
+ 790 01f2 01       		.uleb128 0x1
+ 791 01f3 9C       		.byte	0x9c
+ 792 01f4 14       		.uleb128 0x14
+ 793 01f5 91020000 		.4byte	.LASF37
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 22
+
+
+ 794 01f9 01       		.byte	0x1
+ 795 01fa 4801     		.2byte	0x148
+ 796 01fc 87000000 		.4byte	0x87
+ 797 0200 00000000 		.4byte	.LFB9
+ 798 0204 24000000 		.4byte	.LFE9-.LFB9
+ 799 0208 01       		.uleb128 0x1
+ 800 0209 9C       		.byte	0x9c
+ 801 020a 13       		.uleb128 0x13
+ 802 020b 62010000 		.4byte	.LASF31
+ 803 020f 01       		.byte	0x1
+ 804 0210 5D01     		.2byte	0x15d
+ 805 0212 00000000 		.4byte	.LFB10
+ 806 0216 18000000 		.4byte	.LFE10-.LFB10
+ 807 021a 01       		.uleb128 0x1
+ 808 021b 9C       		.byte	0x9c
+ 809 021c 13       		.uleb128 0x13
+ 810 021d EF020000 		.4byte	.LASF32
+ 811 0221 01       		.byte	0x1
+ 812 0222 7801     		.2byte	0x178
+ 813 0224 00000000 		.4byte	.LFB11
+ 814 0228 18000000 		.4byte	.LFE11-.LFB11
+ 815 022c 01       		.uleb128 0x1
+ 816 022d 9C       		.byte	0x9c
+ 817 022e 13       		.uleb128 0x13
+ 818 022f 41020000 		.4byte	.LASF33
+ 819 0233 01       		.byte	0x1
+ 820 0234 9101     		.2byte	0x191
+ 821 0236 00000000 		.4byte	.LFB12
+ 822 023a 18000000 		.4byte	.LFE12-.LFB12
+ 823 023e 01       		.uleb128 0x1
+ 824 023f 9C       		.byte	0x9c
+ 825 0240 00       		.byte	0
+ 826              		.section	.debug_abbrev,"",%progbits
+ 827              	.Ldebug_abbrev0:
+ 828 0000 01       		.uleb128 0x1
+ 829 0001 11       		.uleb128 0x11
+ 830 0002 01       		.byte	0x1
+ 831 0003 25       		.uleb128 0x25
+ 832 0004 0E       		.uleb128 0xe
+ 833 0005 13       		.uleb128 0x13
+ 834 0006 0B       		.uleb128 0xb
+ 835 0007 03       		.uleb128 0x3
+ 836 0008 0E       		.uleb128 0xe
+ 837 0009 1B       		.uleb128 0x1b
+ 838 000a 0E       		.uleb128 0xe
+ 839 000b 55       		.uleb128 0x55
+ 840 000c 17       		.uleb128 0x17
+ 841 000d 11       		.uleb128 0x11
+ 842 000e 01       		.uleb128 0x1
+ 843 000f 10       		.uleb128 0x10
+ 844 0010 17       		.uleb128 0x17
+ 845 0011 00       		.byte	0
+ 846 0012 00       		.byte	0
+ 847 0013 02       		.uleb128 0x2
+ 848 0014 24       		.uleb128 0x24
+ 849 0015 00       		.byte	0
+ 850 0016 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 23
+
+
+ 851 0017 0B       		.uleb128 0xb
+ 852 0018 3E       		.uleb128 0x3e
+ 853 0019 0B       		.uleb128 0xb
+ 854 001a 03       		.uleb128 0x3
+ 855 001b 08       		.uleb128 0x8
+ 856 001c 00       		.byte	0
+ 857 001d 00       		.byte	0
+ 858 001e 03       		.uleb128 0x3
+ 859 001f 24       		.uleb128 0x24
+ 860 0020 00       		.byte	0
+ 861 0021 0B       		.uleb128 0xb
+ 862 0022 0B       		.uleb128 0xb
+ 863 0023 3E       		.uleb128 0x3e
+ 864 0024 0B       		.uleb128 0xb
+ 865 0025 03       		.uleb128 0x3
+ 866 0026 0E       		.uleb128 0xe
+ 867 0027 00       		.byte	0
+ 868 0028 00       		.byte	0
+ 869 0029 04       		.uleb128 0x4
+ 870 002a 0F       		.uleb128 0xf
+ 871 002b 00       		.byte	0
+ 872 002c 0B       		.uleb128 0xb
+ 873 002d 0B       		.uleb128 0xb
+ 874 002e 49       		.uleb128 0x49
+ 875 002f 13       		.uleb128 0x13
+ 876 0030 00       		.byte	0
+ 877 0031 00       		.byte	0
+ 878 0032 05       		.uleb128 0x5
+ 879 0033 15       		.uleb128 0x15
+ 880 0034 00       		.byte	0
+ 881 0035 27       		.uleb128 0x27
+ 882 0036 19       		.uleb128 0x19
+ 883 0037 00       		.byte	0
+ 884 0038 00       		.byte	0
+ 885 0039 06       		.uleb128 0x6
+ 886 003a 16       		.uleb128 0x16
+ 887 003b 00       		.byte	0
+ 888 003c 03       		.uleb128 0x3
+ 889 003d 0E       		.uleb128 0xe
+ 890 003e 3A       		.uleb128 0x3a
+ 891 003f 0B       		.uleb128 0xb
+ 892 0040 3B       		.uleb128 0x3b
+ 893 0041 05       		.uleb128 0x5
+ 894 0042 49       		.uleb128 0x49
+ 895 0043 13       		.uleb128 0x13
+ 896 0044 00       		.byte	0
+ 897 0045 00       		.byte	0
+ 898 0046 07       		.uleb128 0x7
+ 899 0047 35       		.uleb128 0x35
+ 900 0048 00       		.byte	0
+ 901 0049 49       		.uleb128 0x49
+ 902 004a 13       		.uleb128 0x13
+ 903 004b 00       		.byte	0
+ 904 004c 00       		.byte	0
+ 905 004d 08       		.uleb128 0x8
+ 906 004e 2E       		.uleb128 0x2e
+ 907 004f 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 24
+
+
+ 908 0050 3F       		.uleb128 0x3f
+ 909 0051 19       		.uleb128 0x19
+ 910 0052 03       		.uleb128 0x3
+ 911 0053 0E       		.uleb128 0xe
+ 912 0054 3A       		.uleb128 0x3a
+ 913 0055 0B       		.uleb128 0xb
+ 914 0056 3B       		.uleb128 0x3b
+ 915 0057 0B       		.uleb128 0xb
+ 916 0058 27       		.uleb128 0x27
+ 917 0059 19       		.uleb128 0x19
+ 918 005a 11       		.uleb128 0x11
+ 919 005b 01       		.uleb128 0x1
+ 920 005c 12       		.uleb128 0x12
+ 921 005d 06       		.uleb128 0x6
+ 922 005e 40       		.uleb128 0x40
+ 923 005f 18       		.uleb128 0x18
+ 924 0060 9642     		.uleb128 0x2116
+ 925 0062 19       		.uleb128 0x19
+ 926 0063 00       		.byte	0
+ 927 0064 00       		.byte	0
+ 928 0065 09       		.uleb128 0x9
+ 929 0066 2E       		.uleb128 0x2e
+ 930 0067 01       		.byte	0x1
+ 931 0068 3F       		.uleb128 0x3f
+ 932 0069 19       		.uleb128 0x19
+ 933 006a 03       		.uleb128 0x3
+ 934 006b 0E       		.uleb128 0xe
+ 935 006c 3A       		.uleb128 0x3a
+ 936 006d 0B       		.uleb128 0xb
+ 937 006e 3B       		.uleb128 0x3b
+ 938 006f 0B       		.uleb128 0xb
+ 939 0070 27       		.uleb128 0x27
+ 940 0071 19       		.uleb128 0x19
+ 941 0072 11       		.uleb128 0x11
+ 942 0073 01       		.uleb128 0x1
+ 943 0074 12       		.uleb128 0x12
+ 944 0075 06       		.uleb128 0x6
+ 945 0076 40       		.uleb128 0x40
+ 946 0077 18       		.uleb128 0x18
+ 947 0078 9642     		.uleb128 0x2116
+ 948 007a 19       		.uleb128 0x19
+ 949 007b 01       		.uleb128 0x1
+ 950 007c 13       		.uleb128 0x13
+ 951 007d 00       		.byte	0
+ 952 007e 00       		.byte	0
+ 953 007f 0A       		.uleb128 0xa
+ 954 0080 05       		.uleb128 0x5
+ 955 0081 00       		.byte	0
+ 956 0082 03       		.uleb128 0x3
+ 957 0083 0E       		.uleb128 0xe
+ 958 0084 3A       		.uleb128 0x3a
+ 959 0085 0B       		.uleb128 0xb
+ 960 0086 3B       		.uleb128 0x3b
+ 961 0087 0B       		.uleb128 0xb
+ 962 0088 49       		.uleb128 0x49
+ 963 0089 13       		.uleb128 0x13
+ 964 008a 02       		.uleb128 0x2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 25
+
+
+ 965 008b 18       		.uleb128 0x18
+ 966 008c 00       		.byte	0
+ 967 008d 00       		.byte	0
+ 968 008e 0B       		.uleb128 0xb
+ 969 008f 2E       		.uleb128 0x2e
+ 970 0090 00       		.byte	0
+ 971 0091 3F       		.uleb128 0x3f
+ 972 0092 19       		.uleb128 0x19
+ 973 0093 03       		.uleb128 0x3
+ 974 0094 0E       		.uleb128 0xe
+ 975 0095 3A       		.uleb128 0x3a
+ 976 0096 0B       		.uleb128 0xb
+ 977 0097 3B       		.uleb128 0x3b
+ 978 0098 0B       		.uleb128 0xb
+ 979 0099 27       		.uleb128 0x27
+ 980 009a 19       		.uleb128 0x19
+ 981 009b 11       		.uleb128 0x11
+ 982 009c 01       		.uleb128 0x1
+ 983 009d 12       		.uleb128 0x12
+ 984 009e 06       		.uleb128 0x6
+ 985 009f 40       		.uleb128 0x40
+ 986 00a0 18       		.uleb128 0x18
+ 987 00a1 9742     		.uleb128 0x2117
+ 988 00a3 19       		.uleb128 0x19
+ 989 00a4 00       		.byte	0
+ 990 00a5 00       		.byte	0
+ 991 00a6 0C       		.uleb128 0xc
+ 992 00a7 2E       		.uleb128 0x2e
+ 993 00a8 01       		.byte	0x1
+ 994 00a9 3F       		.uleb128 0x3f
+ 995 00aa 19       		.uleb128 0x19
+ 996 00ab 03       		.uleb128 0x3
+ 997 00ac 0E       		.uleb128 0xe
+ 998 00ad 3A       		.uleb128 0x3a
+ 999 00ae 0B       		.uleb128 0xb
+ 1000 00af 3B       		.uleb128 0x3b
+ 1001 00b0 0B       		.uleb128 0xb
+ 1002 00b1 27       		.uleb128 0x27
+ 1003 00b2 19       		.uleb128 0x19
+ 1004 00b3 11       		.uleb128 0x11
+ 1005 00b4 01       		.uleb128 0x1
+ 1006 00b5 12       		.uleb128 0x12
+ 1007 00b6 06       		.uleb128 0x6
+ 1008 00b7 40       		.uleb128 0x40
+ 1009 00b8 18       		.uleb128 0x18
+ 1010 00b9 9742     		.uleb128 0x2117
+ 1011 00bb 19       		.uleb128 0x19
+ 1012 00bc 01       		.uleb128 0x1
+ 1013 00bd 13       		.uleb128 0x13
+ 1014 00be 00       		.byte	0
+ 1015 00bf 00       		.byte	0
+ 1016 00c0 0D       		.uleb128 0xd
+ 1017 00c1 34       		.uleb128 0x34
+ 1018 00c2 00       		.byte	0
+ 1019 00c3 03       		.uleb128 0x3
+ 1020 00c4 0E       		.uleb128 0xe
+ 1021 00c5 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 26
+
+
+ 1022 00c6 0B       		.uleb128 0xb
+ 1023 00c7 3B       		.uleb128 0x3b
+ 1024 00c8 0B       		.uleb128 0xb
+ 1025 00c9 49       		.uleb128 0x49
+ 1026 00ca 13       		.uleb128 0x13
+ 1027 00cb 02       		.uleb128 0x2
+ 1028 00cc 18       		.uleb128 0x18
+ 1029 00cd 00       		.byte	0
+ 1030 00ce 00       		.byte	0
+ 1031 00cf 0E       		.uleb128 0xe
+ 1032 00d0 2E       		.uleb128 0x2e
+ 1033 00d1 01       		.byte	0x1
+ 1034 00d2 3F       		.uleb128 0x3f
+ 1035 00d3 19       		.uleb128 0x19
+ 1036 00d4 03       		.uleb128 0x3
+ 1037 00d5 0E       		.uleb128 0xe
+ 1038 00d6 3A       		.uleb128 0x3a
+ 1039 00d7 0B       		.uleb128 0xb
+ 1040 00d8 3B       		.uleb128 0x3b
+ 1041 00d9 0B       		.uleb128 0xb
+ 1042 00da 27       		.uleb128 0x27
+ 1043 00db 19       		.uleb128 0x19
+ 1044 00dc 49       		.uleb128 0x49
+ 1045 00dd 13       		.uleb128 0x13
+ 1046 00de 11       		.uleb128 0x11
+ 1047 00df 01       		.uleb128 0x1
+ 1048 00e0 12       		.uleb128 0x12
+ 1049 00e1 06       		.uleb128 0x6
+ 1050 00e2 40       		.uleb128 0x40
+ 1051 00e3 18       		.uleb128 0x18
+ 1052 00e4 9742     		.uleb128 0x2117
+ 1053 00e6 19       		.uleb128 0x19
+ 1054 00e7 01       		.uleb128 0x1
+ 1055 00e8 13       		.uleb128 0x13
+ 1056 00e9 00       		.byte	0
+ 1057 00ea 00       		.byte	0
+ 1058 00eb 0F       		.uleb128 0xf
+ 1059 00ec 2E       		.uleb128 0x2e
+ 1060 00ed 01       		.byte	0x1
+ 1061 00ee 3F       		.uleb128 0x3f
+ 1062 00ef 19       		.uleb128 0x19
+ 1063 00f0 03       		.uleb128 0x3
+ 1064 00f1 0E       		.uleb128 0xe
+ 1065 00f2 3A       		.uleb128 0x3a
+ 1066 00f3 0B       		.uleb128 0xb
+ 1067 00f4 3B       		.uleb128 0x3b
+ 1068 00f5 05       		.uleb128 0x5
+ 1069 00f6 27       		.uleb128 0x27
+ 1070 00f7 19       		.uleb128 0x19
+ 1071 00f8 11       		.uleb128 0x11
+ 1072 00f9 01       		.uleb128 0x1
+ 1073 00fa 12       		.uleb128 0x12
+ 1074 00fb 06       		.uleb128 0x6
+ 1075 00fc 40       		.uleb128 0x40
+ 1076 00fd 18       		.uleb128 0x18
+ 1077 00fe 9742     		.uleb128 0x2117
+ 1078 0100 19       		.uleb128 0x19
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 27
+
+
+ 1079 0101 01       		.uleb128 0x1
+ 1080 0102 13       		.uleb128 0x13
+ 1081 0103 00       		.byte	0
+ 1082 0104 00       		.byte	0
+ 1083 0105 10       		.uleb128 0x10
+ 1084 0106 05       		.uleb128 0x5
+ 1085 0107 00       		.byte	0
+ 1086 0108 03       		.uleb128 0x3
+ 1087 0109 0E       		.uleb128 0xe
+ 1088 010a 3A       		.uleb128 0x3a
+ 1089 010b 0B       		.uleb128 0xb
+ 1090 010c 3B       		.uleb128 0x3b
+ 1091 010d 05       		.uleb128 0x5
+ 1092 010e 49       		.uleb128 0x49
+ 1093 010f 13       		.uleb128 0x13
+ 1094 0110 02       		.uleb128 0x2
+ 1095 0111 18       		.uleb128 0x18
+ 1096 0112 00       		.byte	0
+ 1097 0113 00       		.byte	0
+ 1098 0114 11       		.uleb128 0x11
+ 1099 0115 2E       		.uleb128 0x2e
+ 1100 0116 01       		.byte	0x1
+ 1101 0117 3F       		.uleb128 0x3f
+ 1102 0118 19       		.uleb128 0x19
+ 1103 0119 03       		.uleb128 0x3
+ 1104 011a 0E       		.uleb128 0xe
+ 1105 011b 3A       		.uleb128 0x3a
+ 1106 011c 0B       		.uleb128 0xb
+ 1107 011d 3B       		.uleb128 0x3b
+ 1108 011e 05       		.uleb128 0x5
+ 1109 011f 27       		.uleb128 0x27
+ 1110 0120 19       		.uleb128 0x19
+ 1111 0121 49       		.uleb128 0x49
+ 1112 0122 13       		.uleb128 0x13
+ 1113 0123 11       		.uleb128 0x11
+ 1114 0124 01       		.uleb128 0x1
+ 1115 0125 12       		.uleb128 0x12
+ 1116 0126 06       		.uleb128 0x6
+ 1117 0127 40       		.uleb128 0x40
+ 1118 0128 18       		.uleb128 0x18
+ 1119 0129 9742     		.uleb128 0x2117
+ 1120 012b 19       		.uleb128 0x19
+ 1121 012c 01       		.uleb128 0x1
+ 1122 012d 13       		.uleb128 0x13
+ 1123 012e 00       		.byte	0
+ 1124 012f 00       		.byte	0
+ 1125 0130 12       		.uleb128 0x12
+ 1126 0131 34       		.uleb128 0x34
+ 1127 0132 00       		.byte	0
+ 1128 0133 03       		.uleb128 0x3
+ 1129 0134 0E       		.uleb128 0xe
+ 1130 0135 3A       		.uleb128 0x3a
+ 1131 0136 0B       		.uleb128 0xb
+ 1132 0137 3B       		.uleb128 0x3b
+ 1133 0138 05       		.uleb128 0x5
+ 1134 0139 49       		.uleb128 0x49
+ 1135 013a 13       		.uleb128 0x13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 28
+
+
+ 1136 013b 02       		.uleb128 0x2
+ 1137 013c 18       		.uleb128 0x18
+ 1138 013d 00       		.byte	0
+ 1139 013e 00       		.byte	0
+ 1140 013f 13       		.uleb128 0x13
+ 1141 0140 2E       		.uleb128 0x2e
+ 1142 0141 00       		.byte	0
+ 1143 0142 3F       		.uleb128 0x3f
+ 1144 0143 19       		.uleb128 0x19
+ 1145 0144 03       		.uleb128 0x3
+ 1146 0145 0E       		.uleb128 0xe
+ 1147 0146 3A       		.uleb128 0x3a
+ 1148 0147 0B       		.uleb128 0xb
+ 1149 0148 3B       		.uleb128 0x3b
+ 1150 0149 05       		.uleb128 0x5
+ 1151 014a 27       		.uleb128 0x27
+ 1152 014b 19       		.uleb128 0x19
+ 1153 014c 11       		.uleb128 0x11
+ 1154 014d 01       		.uleb128 0x1
+ 1155 014e 12       		.uleb128 0x12
+ 1156 014f 06       		.uleb128 0x6
+ 1157 0150 40       		.uleb128 0x40
+ 1158 0151 18       		.uleb128 0x18
+ 1159 0152 9742     		.uleb128 0x2117
+ 1160 0154 19       		.uleb128 0x19
+ 1161 0155 00       		.byte	0
+ 1162 0156 00       		.byte	0
+ 1163 0157 14       		.uleb128 0x14
+ 1164 0158 2E       		.uleb128 0x2e
+ 1165 0159 00       		.byte	0
+ 1166 015a 3F       		.uleb128 0x3f
+ 1167 015b 19       		.uleb128 0x19
+ 1168 015c 03       		.uleb128 0x3
+ 1169 015d 0E       		.uleb128 0xe
+ 1170 015e 3A       		.uleb128 0x3a
+ 1171 015f 0B       		.uleb128 0xb
+ 1172 0160 3B       		.uleb128 0x3b
+ 1173 0161 05       		.uleb128 0x5
+ 1174 0162 27       		.uleb128 0x27
+ 1175 0163 19       		.uleb128 0x19
+ 1176 0164 49       		.uleb128 0x49
+ 1177 0165 13       		.uleb128 0x13
+ 1178 0166 11       		.uleb128 0x11
+ 1179 0167 01       		.uleb128 0x1
+ 1180 0168 12       		.uleb128 0x12
+ 1181 0169 06       		.uleb128 0x6
+ 1182 016a 40       		.uleb128 0x40
+ 1183 016b 18       		.uleb128 0x18
+ 1184 016c 9742     		.uleb128 0x2117
+ 1185 016e 19       		.uleb128 0x19
+ 1186 016f 00       		.byte	0
+ 1187 0170 00       		.byte	0
+ 1188 0171 00       		.byte	0
+ 1189              		.section	.debug_aranges,"",%progbits
+ 1190 0000 7C000000 		.4byte	0x7c
+ 1191 0004 0200     		.2byte	0x2
+ 1192 0006 00000000 		.4byte	.Ldebug_info0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 29
+
+
+ 1193 000a 04       		.byte	0x4
+ 1194 000b 00       		.byte	0
+ 1195 000c 0000     		.2byte	0
+ 1196 000e 0000     		.2byte	0
+ 1197 0010 00000000 		.4byte	.LFB0
+ 1198 0014 20000000 		.4byte	.LFE0-.LFB0
+ 1199 0018 00000000 		.4byte	.LFB1
+ 1200 001c 24000000 		.4byte	.LFE1-.LFB1
+ 1201 0020 00000000 		.4byte	.LFB2
+ 1202 0024 18000000 		.4byte	.LFE2-.LFB2
+ 1203 0028 00000000 		.4byte	.LFB3
+ 1204 002c 0C000000 		.4byte	.LFE3-.LFB3
+ 1205 0030 00000000 		.4byte	.LFB4
+ 1206 0034 24000000 		.4byte	.LFE4-.LFB4
+ 1207 0038 00000000 		.4byte	.LFB5
+ 1208 003c 20000000 		.4byte	.LFE5-.LFB5
+ 1209 0040 00000000 		.4byte	.LFB6
+ 1210 0044 24000000 		.4byte	.LFE6-.LFB6
+ 1211 0048 00000000 		.4byte	.LFB7
+ 1212 004c 20000000 		.4byte	.LFE7-.LFB7
+ 1213 0050 00000000 		.4byte	.LFB8
+ 1214 0054 18000000 		.4byte	.LFE8-.LFB8
+ 1215 0058 00000000 		.4byte	.LFB9
+ 1216 005c 24000000 		.4byte	.LFE9-.LFB9
+ 1217 0060 00000000 		.4byte	.LFB10
+ 1218 0064 18000000 		.4byte	.LFE10-.LFB10
+ 1219 0068 00000000 		.4byte	.LFB11
+ 1220 006c 18000000 		.4byte	.LFE11-.LFB11
+ 1221 0070 00000000 		.4byte	.LFB12
+ 1222 0074 18000000 		.4byte	.LFE12-.LFB12
+ 1223 0078 00000000 		.4byte	0
+ 1224 007c 00000000 		.4byte	0
+ 1225              		.section	.debug_ranges,"",%progbits
+ 1226              	.Ldebug_ranges0:
+ 1227 0000 00000000 		.4byte	.LFB0
+ 1228 0004 20000000 		.4byte	.LFE0
+ 1229 0008 00000000 		.4byte	.LFB1
+ 1230 000c 24000000 		.4byte	.LFE1
+ 1231 0010 00000000 		.4byte	.LFB2
+ 1232 0014 18000000 		.4byte	.LFE2
+ 1233 0018 00000000 		.4byte	.LFB3
+ 1234 001c 0C000000 		.4byte	.LFE3
+ 1235 0020 00000000 		.4byte	.LFB4
+ 1236 0024 24000000 		.4byte	.LFE4
+ 1237 0028 00000000 		.4byte	.LFB5
+ 1238 002c 20000000 		.4byte	.LFE5
+ 1239 0030 00000000 		.4byte	.LFB6
+ 1240 0034 24000000 		.4byte	.LFE6
+ 1241 0038 00000000 		.4byte	.LFB7
+ 1242 003c 20000000 		.4byte	.LFE7
+ 1243 0040 00000000 		.4byte	.LFB8
+ 1244 0044 18000000 		.4byte	.LFE8
+ 1245 0048 00000000 		.4byte	.LFB9
+ 1246 004c 24000000 		.4byte	.LFE9
+ 1247 0050 00000000 		.4byte	.LFB10
+ 1248 0054 18000000 		.4byte	.LFE10
+ 1249 0058 00000000 		.4byte	.LFB11
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 30
+
+
+ 1250 005c 18000000 		.4byte	.LFE11
+ 1251 0060 00000000 		.4byte	.LFB12
+ 1252 0064 18000000 		.4byte	.LFE12
+ 1253 0068 00000000 		.4byte	0
+ 1254 006c 00000000 		.4byte	0
+ 1255              		.section	.debug_line,"",%progbits
+ 1256              	.Ldebug_line0:
+ 1257 0000 58010000 		.section	.debug_str,"MS",%progbits,1
+ 1257      02004E00 
+ 1257      00000201 
+ 1257      FB0E0D00 
+ 1257      01010101 
+ 1258              	.LASF17:
+ 1259 0000 72656733 		.ascii	"reg32\000"
+ 1259      3200
+ 1260              	.LASF34:
+ 1261 0006 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1261      43313120 
+ 1261      352E342E 
+ 1261      31203230 
+ 1261      31363036 
+ 1262 0039 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1262      20726576 
+ 1262      6973696F 
+ 1262      6E203233 
+ 1262      37373135 
+ 1263 006c 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1263      66756E63 
+ 1263      74696F6E 
+ 1263      2D736563 
+ 1263      74696F6E 
+ 1264              	.LASF7:
+ 1265 0094 6C6F6E67 		.ascii	"long int\000"
+ 1265      20696E74 
+ 1265      00
+ 1266              	.LASF6:
+ 1267 009d 73686F72 		.ascii	"short unsigned int\000"
+ 1267      7420756E 
+ 1267      7369676E 
+ 1267      65642069 
+ 1267      6E7400
+ 1268              	.LASF28:
+ 1269 00b0 69737254 		.ascii	"isrTimer_20KHz_TC_GetVector\000"
+ 1269      696D6572 
+ 1269      5F32304B 
+ 1269      487A5F54 
+ 1269      435F4765 
+ 1270              	.LASF14:
+ 1271 00cc 666C6F61 		.ascii	"float\000"
+ 1271      7400
+ 1272              	.LASF4:
+ 1273 00d2 756E7369 		.ascii	"unsigned char\000"
+ 1273      676E6564 
+ 1273      20636861 
+ 1273      7200
+ 1274              	.LASF21:
+ 1275 00e0 69737254 		.ascii	"isrTimer_20KHz_TC_Interrupt\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 31
+
+
+ 1275      696D6572 
+ 1275      5F32304B 
+ 1275      487A5F54 
+ 1275      435F496E 
+ 1276              	.LASF16:
+ 1277 00fc 72656738 		.ascii	"reg8\000"
+ 1277      00
+ 1278              	.LASF22:
+ 1279 0101 69737254 		.ascii	"isrTimer_20KHz_TC_StartEx\000"
+ 1279      696D6572 
+ 1279      5F32304B 
+ 1279      487A5F54 
+ 1279      435F5374 
+ 1280              	.LASF24:
+ 1281 011b 61646472 		.ascii	"address\000"
+ 1281      65737300 
+ 1282              	.LASF8:
+ 1283 0123 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1283      20756E73 
+ 1283      69676E65 
+ 1283      6420696E 
+ 1283      7400
+ 1284              	.LASF12:
+ 1285 0135 75696E74 		.ascii	"uint8\000"
+ 1285      3800
+ 1286              	.LASF27:
+ 1287 013b 7072696F 		.ascii	"priority\000"
+ 1287      72697479 
+ 1287      00
+ 1288              	.LASF20:
+ 1289 0144 69737254 		.ascii	"isrTimer_20KHz_TC_Stop\000"
+ 1289      696D6572 
+ 1289      5F32304B 
+ 1289      487A5F54 
+ 1289      435F5374 
+ 1290              	.LASF15:
+ 1291 015b 646F7562 		.ascii	"double\000"
+ 1291      6C6500
+ 1292              	.LASF31:
+ 1293 0162 69737254 		.ascii	"isrTimer_20KHz_TC_Disable\000"
+ 1293      696D6572 
+ 1293      5F32304B 
+ 1293      487A5F54 
+ 1293      435F4469 
+ 1294              	.LASF13:
+ 1295 017c 75696E74 		.ascii	"uint32\000"
+ 1295      333200
+ 1296              	.LASF0:
+ 1297 0183 756E7369 		.ascii	"unsigned int\000"
+ 1297      676E6564 
+ 1297      20696E74 
+ 1297      00
+ 1298              	.LASF29:
+ 1299 0190 69737254 		.ascii	"isrTimer_20KHz_TC_GetPriority\000"
+ 1299      696D6572 
+ 1299      5F32304B 
+ 1299      487A5F54 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 32
+
+
+ 1299      435F4765 
+ 1300              	.LASF9:
+ 1301 01ae 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1301      206C6F6E 
+ 1301      6720756E 
+ 1301      7369676E 
+ 1301      65642069 
+ 1302              	.LASF18:
+ 1303 01c5 63796973 		.ascii	"cyisraddress\000"
+ 1303      72616464 
+ 1303      72657373 
+ 1303      00
+ 1304              	.LASF10:
+ 1305 01d2 73697A65 		.ascii	"sizetype\000"
+ 1305      74797065 
+ 1305      00
+ 1306              	.LASF1:
+ 1307 01db 6C6F6E67 		.ascii	"long long int\000"
+ 1307      206C6F6E 
+ 1307      6720696E 
+ 1307      7400
+ 1308              	.LASF11:
+ 1309 01e9 63686172 		.ascii	"char\000"
+ 1309      00
+ 1310              	.LASF25:
+ 1311 01ee 72616D56 		.ascii	"ramVectorTable\000"
+ 1311      6563746F 
+ 1311      72546162 
+ 1311      6C6500
+ 1312              	.LASF23:
+ 1313 01fd 69737254 		.ascii	"isrTimer_20KHz_TC_SetVector\000"
+ 1313      696D6572 
+ 1313      5F32304B 
+ 1313      487A5F54 
+ 1313      435F5365 
+ 1314              	.LASF5:
+ 1315 0219 73686F72 		.ascii	"short int\000"
+ 1315      7420696E 
+ 1315      7400
+ 1316              	.LASF26:
+ 1317 0223 69737254 		.ascii	"isrTimer_20KHz_TC_SetPriority\000"
+ 1317      696D6572 
+ 1317      5F32304B 
+ 1317      487A5F54 
+ 1317      435F5365 
+ 1318              	.LASF33:
+ 1319 0241 69737254 		.ascii	"isrTimer_20KHz_TC_ClearPending\000"
+ 1319      696D6572 
+ 1319      5F32304B 
+ 1319      487A5F54 
+ 1319      435F436C 
+ 1320              	.LASF2:
+ 1321 0260 6C6F6E67 		.ascii	"long double\000"
+ 1321      20646F75 
+ 1321      626C6500 
+ 1322              	.LASF3:
+ 1323 026c 7369676E 		.ascii	"signed char\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwDE10u.s 			page 33
+
+
+ 1323      65642063 
+ 1323      68617200 
+ 1324              	.LASF30:
+ 1325 0278 69737254 		.ascii	"isrTimer_20KHz_TC_Enable\000"
+ 1325      696D6572 
+ 1325      5F32304B 
+ 1325      487A5F54 
+ 1325      435F456E 
+ 1326              	.LASF37:
+ 1327 0291 69737254 		.ascii	"isrTimer_20KHz_TC_GetState\000"
+ 1327      696D6572 
+ 1327      5F32304B 
+ 1327      487A5F54 
+ 1327      435F4765 
+ 1328              	.LASF19:
+ 1329 02ac 69737254 		.ascii	"isrTimer_20KHz_TC_Start\000"
+ 1329      696D6572 
+ 1329      5F32304B 
+ 1329      487A5F54 
+ 1329      435F5374 
+ 1330              	.LASF35:
+ 1331 02c4 47656E65 		.ascii	"Generated_Source\\PSoC5\\isrTimer_20KHz_TC.c\000"
+ 1331      72617465 
+ 1331      645F536F 
+ 1331      75726365 
+ 1331      5C50536F 
+ 1332              	.LASF32:
+ 1333 02ef 69737254 		.ascii	"isrTimer_20KHz_TC_SetPending\000"
+ 1333      696D6572 
+ 1333      5F32304B 
+ 1333      487A5F54 
+ 1333      435F5365 
+ 1334              	.LASF36:
+ 1335 030c 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ 1335      726F6772 
+ 1335      616D6D65 
+ 1335      5F536372 
+ 1335      69707473 
+ 1336 033b 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 1336      5F435938 
+ 1336      434B4954 
+ 1336      5F303539 
+ 1336      2D6D6173 
+ 1337              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

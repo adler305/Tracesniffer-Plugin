@@ -1,0 +1,1534 @@
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"comtest.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.bss
+  19              		.align	2
+  20              	xPort:
+  21 0000 00000000 		.space	4
+  22              		.align	2
+  23              	uxBaseLED:
+  24 0004 00000000 		.space	4
+  25              		.align	2
+  26              	uxRxLoops:
+  27 0008 00000000 		.space	4
+  28              		.section	.rodata
+  29              		.align	2
+  30              	.LC0:
+  31 0000 434F4D54 		.ascii	"COMTx\000"
+  31      7800
+  32 0006 0000     		.align	2
+  33              	.LC1:
+  34 0008 434F4D52 		.ascii	"COMRx\000"
+  34      7800
+  35 000e 0000     		.section	.text.vAltStartComTestTasks,"ax",%progbits
+  36              		.align	2
+  37              		.global	vAltStartComTestTasks
+  38              		.thumb
+  39              		.thumb_func
+  40              		.type	vAltStartComTestTasks, %function
+  41              	vAltStartComTestTasks:
+  42              	.LFB68:
+  43              		.file 1 "..\\Common\\Minimal\\comtest.c"
+   1:..\Common\Minimal/comtest.c **** /*
+   2:..\Common\Minimal/comtest.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Common\Minimal/comtest.c ****     All rights reserved
+   4:..\Common\Minimal/comtest.c **** 
+   5:..\Common\Minimal/comtest.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Common\Minimal/comtest.c **** 
+   7:..\Common\Minimal/comtest.c ****     This file is part of the FreeRTOS distribution.
+   8:..\Common\Minimal/comtest.c **** 
+   9:..\Common\Minimal/comtest.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:..\Common\Minimal/comtest.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Common\Minimal/comtest.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Common\Minimal/comtest.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 2
+
+
+  13:..\Common\Minimal/comtest.c ****     ***************************************************************************
+  14:..\Common\Minimal/comtest.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Common\Minimal/comtest.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Common\Minimal/comtest.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Common\Minimal/comtest.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Common\Minimal/comtest.c ****     ***************************************************************************
+  19:..\Common\Minimal/comtest.c **** 
+  20:..\Common\Minimal/comtest.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Common\Minimal/comtest.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Common\Minimal/comtest.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:..\Common\Minimal/comtest.c ****     link: http://www.freertos.org/a00114.html
+  24:..\Common\Minimal/comtest.c **** 
+  25:..\Common\Minimal/comtest.c ****     ***************************************************************************
+  26:..\Common\Minimal/comtest.c ****      *                                                                       *
+  27:..\Common\Minimal/comtest.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Common\Minimal/comtest.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Common\Minimal/comtest.c ****      *    platform software that is more than just the market leader, it     *
+  30:..\Common\Minimal/comtest.c ****      *    is the industry's de facto standard.                               *
+  31:..\Common\Minimal/comtest.c ****      *                                                                       *
+  32:..\Common\Minimal/comtest.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Common\Minimal/comtest.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Common\Minimal/comtest.c ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Common\Minimal/comtest.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Common\Minimal/comtest.c ****      *                                                                       *
+  37:..\Common\Minimal/comtest.c ****     ***************************************************************************
+  38:..\Common\Minimal/comtest.c **** 
+  39:..\Common\Minimal/comtest.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Common\Minimal/comtest.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Common\Minimal/comtest.c ****     defined configASSERT()?
+  42:..\Common\Minimal/comtest.c **** 
+  43:..\Common\Minimal/comtest.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Common\Minimal/comtest.c ****     embedded software for free we request you assist our global community by
+  45:..\Common\Minimal/comtest.c ****     participating in the support forum.
+  46:..\Common\Minimal/comtest.c **** 
+  47:..\Common\Minimal/comtest.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:..\Common\Minimal/comtest.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Common\Minimal/comtest.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Common\Minimal/comtest.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:..\Common\Minimal/comtest.c **** 
+  52:..\Common\Minimal/comtest.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Common\Minimal/comtest.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:..\Common\Minimal/comtest.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Common\Minimal/comtest.c **** 
+  56:..\Common\Minimal/comtest.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Common\Minimal/comtest.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Common\Minimal/comtest.c **** 
+  59:..\Common\Minimal/comtest.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Common\Minimal/comtest.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Common\Minimal/comtest.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Common\Minimal/comtest.c **** 
+  63:..\Common\Minimal/comtest.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Common\Minimal/comtest.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Common\Minimal/comtest.c ****     mission critical applications that require provable dependability.
+  66:..\Common\Minimal/comtest.c **** 
+  67:..\Common\Minimal/comtest.c ****     1 tab == 4 spaces!
+  68:..\Common\Minimal/comtest.c **** */
+  69:..\Common\Minimal/comtest.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 3
+
+
+  70:..\Common\Minimal/comtest.c **** 
+  71:..\Common\Minimal/comtest.c **** /*
+  72:..\Common\Minimal/comtest.c ****  * This version of comtest. c is for use on systems that have limited stack
+  73:..\Common\Minimal/comtest.c ****  * space and no display facilities.  The complete version can be found in
+  74:..\Common\Minimal/comtest.c ****  * the Demo/Common/Full directory.
+  75:..\Common\Minimal/comtest.c ****  *
+  76:..\Common\Minimal/comtest.c ****  * Creates two tasks that operate on an interrupt driven serial port.  A
+  77:..\Common\Minimal/comtest.c ****  * loopback connector should be used so that everything that is transmitted is
+  78:..\Common\Minimal/comtest.c ****  * also received.  The serial port does not use any flow control.  On a
+  79:..\Common\Minimal/comtest.c ****  * standard 9way 'D' connector pins two and three should be connected together.
+  80:..\Common\Minimal/comtest.c ****  *
+  81:..\Common\Minimal/comtest.c ****  * The first task posts a sequence of characters to the Tx queue, toggling an
+  82:..\Common\Minimal/comtest.c ****  * LED on each successful post.  At the end of the sequence it sleeps for a
+  83:..\Common\Minimal/comtest.c ****  * pseudo-random period before resending the same sequence.
+  84:..\Common\Minimal/comtest.c ****  *
+  85:..\Common\Minimal/comtest.c ****  * The UART Tx end interrupt is enabled whenever data is available in the Tx
+  86:..\Common\Minimal/comtest.c ****  * queue.  The Tx end ISR removes a single character from the Tx queue and
+  87:..\Common\Minimal/comtest.c ****  * passes it to the UART for transmission.
+  88:..\Common\Minimal/comtest.c ****  *
+  89:..\Common\Minimal/comtest.c ****  * The second task blocks on the Rx queue waiting for a character to become
+  90:..\Common\Minimal/comtest.c ****  * available.  When the UART Rx end interrupt receives a character it places
+  91:..\Common\Minimal/comtest.c ****  * it in the Rx queue, waking the second task.  The second task checks that the
+  92:..\Common\Minimal/comtest.c ****  * characters removed from the Rx queue form the same sequence as those posted
+  93:..\Common\Minimal/comtest.c ****  * to the Tx queue, and toggles an LED for each correct character.
+  94:..\Common\Minimal/comtest.c ****  *
+  95:..\Common\Minimal/comtest.c ****  * The receiving task is spawned with a higher priority than the transmitting
+  96:..\Common\Minimal/comtest.c ****  * task.  The receiver will therefore wake every time a character is
+  97:..\Common\Minimal/comtest.c ****  * transmitted so neither the Tx or Rx queue should ever hold more than a few
+  98:..\Common\Minimal/comtest.c ****  * characters.
+  99:..\Common\Minimal/comtest.c ****  *
+ 100:..\Common\Minimal/comtest.c ****  */
+ 101:..\Common\Minimal/comtest.c **** 
+ 102:..\Common\Minimal/comtest.c **** /* Scheduler include files. */
+ 103:..\Common\Minimal/comtest.c **** #include <stdlib.h>
+ 104:..\Common\Minimal/comtest.c **** #include "FreeRTOS.h"
+ 105:..\Common\Minimal/comtest.c **** #include "task.h"
+ 106:..\Common\Minimal/comtest.c **** 
+ 107:..\Common\Minimal/comtest.c **** /* Demo program include files. */
+ 108:..\Common\Minimal/comtest.c **** #include "serial.h"
+ 109:..\Common\Minimal/comtest.c **** #include "comtest.h"
+ 110:..\Common\Minimal/comtest.c **** #include "partest.h"
+ 111:..\Common\Minimal/comtest.c **** 
+ 112:..\Common\Minimal/comtest.c **** #define comSTACK_SIZE				configMINIMAL_STACK_SIZE
+ 113:..\Common\Minimal/comtest.c **** #define comTX_LED_OFFSET			( 0 )
+ 114:..\Common\Minimal/comtest.c **** #define comRX_LED_OFFSET			( 1 )
+ 115:..\Common\Minimal/comtest.c **** #define comTOTAL_PERMISSIBLE_ERRORS ( 2 )
+ 116:..\Common\Minimal/comtest.c **** 
+ 117:..\Common\Minimal/comtest.c **** /* The Tx task will transmit the sequence of characters at a pseudo random
+ 118:..\Common\Minimal/comtest.c **** interval.  This is the maximum and minimum block time between sends. */
+ 119:..\Common\Minimal/comtest.c **** #define comTX_MAX_BLOCK_TIME		( ( TickType_t ) 0x96 )
+ 120:..\Common\Minimal/comtest.c **** #define comTX_MIN_BLOCK_TIME		( ( TickType_t ) 0x32 )
+ 121:..\Common\Minimal/comtest.c **** #define comOFFSET_TIME				( ( TickType_t ) 3 )
+ 122:..\Common\Minimal/comtest.c **** 
+ 123:..\Common\Minimal/comtest.c **** /* We should find that each character can be queued for Tx immediately and we
+ 124:..\Common\Minimal/comtest.c **** don't have to block to send. */
+ 125:..\Common\Minimal/comtest.c **** #define comNO_BLOCK					( ( TickType_t ) 0 )
+ 126:..\Common\Minimal/comtest.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 4
+
+
+ 127:..\Common\Minimal/comtest.c **** /* The Rx task will block on the Rx queue for a long period. */
+ 128:..\Common\Minimal/comtest.c **** #define comRX_BLOCK_TIME			( ( TickType_t ) 0xffff )
+ 129:..\Common\Minimal/comtest.c **** 
+ 130:..\Common\Minimal/comtest.c **** /* The sequence transmitted is from comFIRST_BYTE to and including comLAST_BYTE. */
+ 131:..\Common\Minimal/comtest.c **** #define comFIRST_BYTE				( 'A' )
+ 132:..\Common\Minimal/comtest.c **** #define comLAST_BYTE				( 'X' )
+ 133:..\Common\Minimal/comtest.c **** 
+ 134:..\Common\Minimal/comtest.c **** #define comBUFFER_LEN				( ( UBaseType_t ) ( comLAST_BYTE - comFIRST_BYTE ) + ( UBaseType_t ) 1 )
+ 135:..\Common\Minimal/comtest.c **** #define comINITIAL_RX_COUNT_VALUE	( 0 )
+ 136:..\Common\Minimal/comtest.c **** 
+ 137:..\Common\Minimal/comtest.c **** /* Handle to the com port used by both tasks. */
+ 138:..\Common\Minimal/comtest.c **** static xComPortHandle xPort = NULL;
+ 139:..\Common\Minimal/comtest.c **** 
+ 140:..\Common\Minimal/comtest.c **** /* The transmit task as described at the top of the file. */
+ 141:..\Common\Minimal/comtest.c **** static portTASK_FUNCTION_PROTO( vComTxTask, pvParameters );
+ 142:..\Common\Minimal/comtest.c **** 
+ 143:..\Common\Minimal/comtest.c **** /* The receive task as described at the top of the file. */
+ 144:..\Common\Minimal/comtest.c **** static portTASK_FUNCTION_PROTO( vComRxTask, pvParameters );
+ 145:..\Common\Minimal/comtest.c **** 
+ 146:..\Common\Minimal/comtest.c **** /* The LED that should be toggled by the Rx and Tx tasks.  The Rx task will
+ 147:..\Common\Minimal/comtest.c **** toggle LED ( uxBaseLED + comRX_LED_OFFSET).  The Tx task will toggle LED
+ 148:..\Common\Minimal/comtest.c **** ( uxBaseLED + comTX_LED_OFFSET ). */
+ 149:..\Common\Minimal/comtest.c **** static UBaseType_t uxBaseLED = 0;
+ 150:..\Common\Minimal/comtest.c **** 
+ 151:..\Common\Minimal/comtest.c **** /* Check variable used to ensure no error have occurred.  The Rx task will
+ 152:..\Common\Minimal/comtest.c **** increment this variable after every successfully received sequence.  If at any
+ 153:..\Common\Minimal/comtest.c **** time the sequence is incorrect the the variable will stop being incremented. */
+ 154:..\Common\Minimal/comtest.c **** static volatile UBaseType_t uxRxLoops = comINITIAL_RX_COUNT_VALUE;
+ 155:..\Common\Minimal/comtest.c **** 
+ 156:..\Common\Minimal/comtest.c **** /*-----------------------------------------------------------*/
+ 157:..\Common\Minimal/comtest.c **** 
+ 158:..\Common\Minimal/comtest.c **** void vAltStartComTestTasks( UBaseType_t uxPriority, uint32_t ulBaudRate, UBaseType_t uxLED )
+ 159:..\Common\Minimal/comtest.c **** {
+  44              		.loc 1 159 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 16
+  47              		@ frame_needed = 1, uses_anonymous_args = 0
+  48 0000 80B5     		push	{r7, lr}
+  49              		.cfi_def_cfa_offset 8
+  50              		.cfi_offset 7, -8
+  51              		.cfi_offset 14, -4
+  52 0002 86B0     		sub	sp, sp, #24
+  53              		.cfi_def_cfa_offset 32
+  54 0004 02AF     		add	r7, sp, #8
+  55              		.cfi_def_cfa 7, 24
+  56 0006 F860     		str	r0, [r7, #12]
+  57 0008 B960     		str	r1, [r7, #8]
+  58 000a 7A60     		str	r2, [r7, #4]
+ 160:..\Common\Minimal/comtest.c **** 	/* Initialise the com port then spawn the Rx and Tx tasks. */
+ 161:..\Common\Minimal/comtest.c **** 	uxBaseLED = uxLED;
+  59              		.loc 1 161 0
+  60 000c 0F4A     		ldr	r2, .L2
+  61 000e 7B68     		ldr	r3, [r7, #4]
+  62 0010 1360     		str	r3, [r2]
+ 162:..\Common\Minimal/comtest.c **** 	xSerialPortInitMinimal( ulBaudRate, comBUFFER_LEN );
+  63              		.loc 1 162 0
+  64 0012 B868     		ldr	r0, [r7, #8]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 5
+
+
+  65 0014 1821     		movs	r1, #24
+  66 0016 FFF7FEFF 		bl	xSerialPortInitMinimal
+ 163:..\Common\Minimal/comtest.c **** 
+ 164:..\Common\Minimal/comtest.c **** 	/* The Tx task is spawned with a lower priority than the Rx task. */
+ 165:..\Common\Minimal/comtest.c **** 	xTaskCreate( vComTxTask, "COMTx", comSTACK_SIZE, NULL, uxPriority - 1, ( TaskHandle_t * ) NULL );
+  67              		.loc 1 165 0
+  68 001a FB68     		ldr	r3, [r7, #12]
+  69 001c 013B     		subs	r3, r3, #1
+  70 001e 0093     		str	r3, [sp]
+  71 0020 0023     		movs	r3, #0
+  72 0022 0193     		str	r3, [sp, #4]
+  73 0024 0A48     		ldr	r0, .L2+4
+  74 0026 0B49     		ldr	r1, .L2+8
+  75 0028 6422     		movs	r2, #100
+  76 002a 0023     		movs	r3, #0
+  77 002c FFF7FEFF 		bl	xTaskCreate
+ 166:..\Common\Minimal/comtest.c **** 	xTaskCreate( vComRxTask, "COMRx", comSTACK_SIZE, NULL, uxPriority, ( TaskHandle_t * ) NULL );
+  78              		.loc 1 166 0
+  79 0030 FB68     		ldr	r3, [r7, #12]
+  80 0032 0093     		str	r3, [sp]
+  81 0034 0023     		movs	r3, #0
+  82 0036 0193     		str	r3, [sp, #4]
+  83 0038 0748     		ldr	r0, .L2+12
+  84 003a 0849     		ldr	r1, .L2+16
+  85 003c 6422     		movs	r2, #100
+  86 003e 0023     		movs	r3, #0
+  87 0040 FFF7FEFF 		bl	xTaskCreate
+ 167:..\Common\Minimal/comtest.c **** }
+  88              		.loc 1 167 0
+  89 0044 1037     		adds	r7, r7, #16
+  90              		.cfi_def_cfa_offset 8
+  91 0046 BD46     		mov	sp, r7
+  92              		.cfi_def_cfa_register 13
+  93              		@ sp needed
+  94 0048 80BD     		pop	{r7, pc}
+  95              	.L3:
+  96 004a 00BF     		.align	2
+  97              	.L2:
+  98 004c 04000000 		.word	uxBaseLED
+  99 0050 00000000 		.word	vComTxTask
+ 100 0054 00000000 		.word	.LC0
+ 101 0058 00000000 		.word	vComRxTask
+ 102 005c 08000000 		.word	.LC1
+ 103              		.cfi_endproc
+ 104              	.LFE68:
+ 105              		.size	vAltStartComTestTasks, .-vAltStartComTestTasks
+ 106              		.section	.text.vComTxTask,"ax",%progbits
+ 107              		.align	2
+ 108              		.thumb
+ 109              		.thumb_func
+ 110              		.type	vComTxTask, %function
+ 111              	vComTxTask:
+ 112              	.LFB69:
+ 168:..\Common\Minimal/comtest.c **** /*-----------------------------------------------------------*/
+ 169:..\Common\Minimal/comtest.c **** 
+ 170:..\Common\Minimal/comtest.c **** static portTASK_FUNCTION( vComTxTask, pvParameters )
+ 171:..\Common\Minimal/comtest.c **** {
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 6
+
+
+ 113              		.loc 1 171 0
+ 114              		.cfi_startproc
+ 115              		@ args = 0, pretend = 0, frame = 16
+ 116              		@ frame_needed = 1, uses_anonymous_args = 0
+ 117 0000 80B5     		push	{r7, lr}
+ 118              		.cfi_def_cfa_offset 8
+ 119              		.cfi_offset 7, -8
+ 120              		.cfi_offset 14, -4
+ 121 0002 84B0     		sub	sp, sp, #16
+ 122              		.cfi_def_cfa_offset 24
+ 123 0004 00AF     		add	r7, sp, #0
+ 124              		.cfi_def_cfa_register 7
+ 125 0006 7860     		str	r0, [r7, #4]
+ 126              	.L9:
+ 172:..\Common\Minimal/comtest.c **** char cByteToSend;
+ 173:..\Common\Minimal/comtest.c **** TickType_t xTimeToWait;
+ 174:..\Common\Minimal/comtest.c **** 
+ 175:..\Common\Minimal/comtest.c **** 	/* Just to stop compiler warnings. */
+ 176:..\Common\Minimal/comtest.c **** 	( void ) pvParameters;
+ 177:..\Common\Minimal/comtest.c **** 
+ 178:..\Common\Minimal/comtest.c **** 	for( ;; )
+ 179:..\Common\Minimal/comtest.c **** 	{
+ 180:..\Common\Minimal/comtest.c **** 		/* Simply transmit a sequence of characters from comFIRST_BYTE to
+ 181:..\Common\Minimal/comtest.c **** 		comLAST_BYTE. */
+ 182:..\Common\Minimal/comtest.c **** 		for( cByteToSend = comFIRST_BYTE; cByteToSend <= comLAST_BYTE; cByteToSend++ )
+ 127              		.loc 1 182 0
+ 128 0008 4123     		movs	r3, #65
+ 129 000a FB73     		strb	r3, [r7, #15]
+ 130 000c 13E0     		b	.L5
+ 131              	.L7:
+ 183:..\Common\Minimal/comtest.c **** 		{
+ 184:..\Common\Minimal/comtest.c **** 			if( xSerialPutChar( xPort, cByteToSend, comNO_BLOCK ) == pdPASS )
+ 132              		.loc 1 184 0
+ 133 000e 1A4B     		ldr	r3, .L10
+ 134 0010 1A68     		ldr	r2, [r3]
+ 135 0012 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 136 0014 5BB2     		sxtb	r3, r3
+ 137 0016 1046     		mov	r0, r2
+ 138 0018 1946     		mov	r1, r3
+ 139 001a 0022     		movs	r2, #0
+ 140 001c FFF7FEFF 		bl	xSerialPutChar
+ 141 0020 0346     		mov	r3, r0
+ 142 0022 012B     		cmp	r3, #1
+ 143 0024 04D1     		bne	.L6
+ 185:..\Common\Minimal/comtest.c **** 			{
+ 186:..\Common\Minimal/comtest.c **** 				vParTestToggleLED( uxBaseLED + comTX_LED_OFFSET );
+ 144              		.loc 1 186 0
+ 145 0026 154B     		ldr	r3, .L10+4
+ 146 0028 1B68     		ldr	r3, [r3]
+ 147 002a 1846     		mov	r0, r3
+ 148 002c FFF7FEFF 		bl	vParTestToggleLED
+ 149              	.L6:
+ 182:..\Common\Minimal/comtest.c **** 		{
+ 150              		.loc 1 182 0 discriminator 2
+ 151 0030 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 152 0032 0133     		adds	r3, r3, #1
+ 153 0034 FB73     		strb	r3, [r7, #15]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 7
+
+
+ 154              	.L5:
+ 182:..\Common\Minimal/comtest.c **** 		{
+ 155              		.loc 1 182 0 is_stmt 0 discriminator 1
+ 156 0036 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 157 0038 582B     		cmp	r3, #88
+ 158 003a E8D9     		bls	.L7
+ 187:..\Common\Minimal/comtest.c **** 			}
+ 188:..\Common\Minimal/comtest.c **** 		}
+ 189:..\Common\Minimal/comtest.c **** 
+ 190:..\Common\Minimal/comtest.c **** 		/* Turn the LED off while we are not doing anything. */
+ 191:..\Common\Minimal/comtest.c **** 		vParTestSetLED( uxBaseLED + comTX_LED_OFFSET, pdFALSE );
+ 159              		.loc 1 191 0 is_stmt 1
+ 160 003c 0F4B     		ldr	r3, .L10+4
+ 161 003e 1B68     		ldr	r3, [r3]
+ 162 0040 1846     		mov	r0, r3
+ 163 0042 0021     		movs	r1, #0
+ 164 0044 FFF7FEFF 		bl	vParTestSetLED
+ 192:..\Common\Minimal/comtest.c **** 
+ 193:..\Common\Minimal/comtest.c **** 		/* We have posted all the characters in the string - wait before
+ 194:..\Common\Minimal/comtest.c **** 		re-sending.  Wait a pseudo-random time as this will provide a better
+ 195:..\Common\Minimal/comtest.c **** 		test. */
+ 196:..\Common\Minimal/comtest.c **** 		xTimeToWait = xTaskGetTickCount() + comOFFSET_TIME;
+ 165              		.loc 1 196 0
+ 166 0048 FFF7FEFF 		bl	xTaskGetTickCount
+ 167 004c 0346     		mov	r3, r0
+ 168 004e 0333     		adds	r3, r3, #3
+ 169 0050 BB60     		str	r3, [r7, #8]
+ 197:..\Common\Minimal/comtest.c **** 
+ 198:..\Common\Minimal/comtest.c **** 		/* Make sure we don't wait too long... */
+ 199:..\Common\Minimal/comtest.c **** 		xTimeToWait %= comTX_MAX_BLOCK_TIME;
+ 170              		.loc 1 199 0
+ 171 0052 BB68     		ldr	r3, [r7, #8]
+ 172 0054 0A4A     		ldr	r2, .L10+8
+ 173 0056 A2FB0312 		umull	r1, r2, r2, r3
+ 174 005a 1209     		lsrs	r2, r2, #4
+ 175 005c 9621     		movs	r1, #150
+ 176 005e 01FB02F2 		mul	r2, r1, r2
+ 177 0062 9B1A     		subs	r3, r3, r2
+ 178 0064 BB60     		str	r3, [r7, #8]
+ 200:..\Common\Minimal/comtest.c **** 
+ 201:..\Common\Minimal/comtest.c **** 		/* ...but we do want to wait. */
+ 202:..\Common\Minimal/comtest.c **** 		if( xTimeToWait < comTX_MIN_BLOCK_TIME )
+ 179              		.loc 1 202 0
+ 180 0066 BB68     		ldr	r3, [r7, #8]
+ 181 0068 312B     		cmp	r3, #49
+ 182 006a 01D8     		bhi	.L8
+ 203:..\Common\Minimal/comtest.c **** 		{
+ 204:..\Common\Minimal/comtest.c **** 			xTimeToWait = comTX_MIN_BLOCK_TIME;
+ 183              		.loc 1 204 0
+ 184 006c 3223     		movs	r3, #50
+ 185 006e BB60     		str	r3, [r7, #8]
+ 186              	.L8:
+ 205:..\Common\Minimal/comtest.c **** 		}
+ 206:..\Common\Minimal/comtest.c **** 
+ 207:..\Common\Minimal/comtest.c **** 		vTaskDelay( xTimeToWait );
+ 187              		.loc 1 207 0
+ 188 0070 B868     		ldr	r0, [r7, #8]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 8
+
+
+ 189 0072 FFF7FEFF 		bl	vTaskDelay
+ 208:..\Common\Minimal/comtest.c **** 	}
+ 190              		.loc 1 208 0
+ 191 0076 C7E7     		b	.L9
+ 192              	.L11:
+ 193              		.align	2
+ 194              	.L10:
+ 195 0078 00000000 		.word	xPort
+ 196 007c 04000000 		.word	uxBaseLED
+ 197 0080 B5814E1B 		.word	458129845
+ 198              		.cfi_endproc
+ 199              	.LFE69:
+ 200              		.size	vComTxTask, .-vComTxTask
+ 201              		.section	.text.vComRxTask,"ax",%progbits
+ 202              		.align	2
+ 203              		.thumb
+ 204              		.thumb_func
+ 205              		.type	vComRxTask, %function
+ 206              	vComRxTask:
+ 207              	.LFB70:
+ 209:..\Common\Minimal/comtest.c **** } /*lint !e715 !e818 pvParameters is required for a task function even if it is not referenced. */
+ 210:..\Common\Minimal/comtest.c **** /*-----------------------------------------------------------*/
+ 211:..\Common\Minimal/comtest.c **** 
+ 212:..\Common\Minimal/comtest.c **** static portTASK_FUNCTION( vComRxTask, pvParameters )
+ 213:..\Common\Minimal/comtest.c **** {
+ 208              		.loc 1 213 0
+ 209              		.cfi_startproc
+ 210              		@ args = 0, pretend = 0, frame = 24
+ 211              		@ frame_needed = 1, uses_anonymous_args = 0
+ 212 0000 80B5     		push	{r7, lr}
+ 213              		.cfi_def_cfa_offset 8
+ 214              		.cfi_offset 7, -8
+ 215              		.cfi_offset 14, -4
+ 216 0002 86B0     		sub	sp, sp, #24
+ 217              		.cfi_def_cfa_offset 32
+ 218 0004 00AF     		add	r7, sp, #0
+ 219              		.cfi_def_cfa_register 7
+ 220 0006 7860     		str	r0, [r7, #4]
+ 214:..\Common\Minimal/comtest.c **** signed char cExpectedByte, cByteRxed;
+ 215:..\Common\Minimal/comtest.c **** BaseType_t xResyncRequired = pdFALSE, xErrorOccurred = pdFALSE;
+ 221              		.loc 1 215 0
+ 222 0008 0023     		movs	r3, #0
+ 223 000a 3B61     		str	r3, [r7, #16]
+ 224 000c 0023     		movs	r3, #0
+ 225 000e FB60     		str	r3, [r7, #12]
+ 226              	.L22:
+ 216:..\Common\Minimal/comtest.c **** 
+ 217:..\Common\Minimal/comtest.c **** 	/* Just to stop compiler warnings. */
+ 218:..\Common\Minimal/comtest.c **** 	( void ) pvParameters;
+ 219:..\Common\Minimal/comtest.c **** 
+ 220:..\Common\Minimal/comtest.c **** 	for( ;; )
+ 221:..\Common\Minimal/comtest.c **** 	{
+ 222:..\Common\Minimal/comtest.c **** 		/* We expect to receive the characters from comFIRST_BYTE to
+ 223:..\Common\Minimal/comtest.c **** 		comLAST_BYTE in an incrementing order.  Loop to receive each byte. */
+ 224:..\Common\Minimal/comtest.c **** 		for( cExpectedByte = comFIRST_BYTE; cExpectedByte <= comLAST_BYTE; cExpectedByte++ )
+ 227              		.loc 1 224 0
+ 228 0010 4123     		movs	r3, #65
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 9
+
+
+ 229 0012 FB75     		strb	r3, [r7, #23]
+ 230 0014 21E0     		b	.L13
+ 231              	.L17:
+ 225:..\Common\Minimal/comtest.c **** 		{
+ 226:..\Common\Minimal/comtest.c **** 			/* Block on the queue that contains received bytes until a byte is
+ 227:..\Common\Minimal/comtest.c **** 			available. */
+ 228:..\Common\Minimal/comtest.c **** 			if( xSerialGetChar( xPort, &cByteRxed, comRX_BLOCK_TIME ) )
+ 232              		.loc 1 228 0
+ 233 0016 274B     		ldr	r3, .L23
+ 234 0018 1A68     		ldr	r2, [r3]
+ 235 001a 07F10B03 		add	r3, r7, #11
+ 236 001e 1046     		mov	r0, r2
+ 237 0020 1946     		mov	r1, r3
+ 238 0022 4FF6FF72 		movw	r2, #65535
+ 239 0026 FFF7FEFF 		bl	xSerialGetChar
+ 240 002a 0346     		mov	r3, r0
+ 241 002c 002B     		cmp	r3, #0
+ 242 002e 0FD0     		beq	.L14
+ 229:..\Common\Minimal/comtest.c **** 			{
+ 230:..\Common\Minimal/comtest.c **** 				/* Was this the byte we were expecting?  If so, toggle the LED,
+ 231:..\Common\Minimal/comtest.c **** 				otherwise we are out on sync and should break out of the loop
+ 232:..\Common\Minimal/comtest.c **** 				until the expected character sequence is about to restart. */
+ 233:..\Common\Minimal/comtest.c **** 				if( cByteRxed == cExpectedByte )
+ 243              		.loc 1 233 0
+ 244 0030 FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+ 245 0032 97F91720 		ldrsb	r2, [r7, #23]
+ 246 0036 5BB2     		sxtb	r3, r3
+ 247 0038 9A42     		cmp	r2, r3
+ 248 003a 06D1     		bne	.L15
+ 234:..\Common\Minimal/comtest.c **** 				{
+ 235:..\Common\Minimal/comtest.c **** 					vParTestToggleLED( uxBaseLED + comRX_LED_OFFSET );
+ 249              		.loc 1 235 0
+ 250 003c 1E4B     		ldr	r3, .L23+4
+ 251 003e 1B68     		ldr	r3, [r3]
+ 252 0040 0133     		adds	r3, r3, #1
+ 253 0042 1846     		mov	r0, r3
+ 254 0044 FFF7FEFF 		bl	vParTestToggleLED
+ 255 0048 02E0     		b	.L14
+ 256              	.L15:
+ 236:..\Common\Minimal/comtest.c **** 				}
+ 237:..\Common\Minimal/comtest.c **** 				else
+ 238:..\Common\Minimal/comtest.c **** 				{
+ 239:..\Common\Minimal/comtest.c **** 					xResyncRequired = pdTRUE;
+ 257              		.loc 1 239 0
+ 258 004a 0123     		movs	r3, #1
+ 259 004c 3B61     		str	r3, [r7, #16]
+ 240:..\Common\Minimal/comtest.c **** 					break; /*lint !e960 Non-switch break allowed. */
+ 260              		.loc 1 240 0
+ 261 004e 08E0     		b	.L16
+ 262              	.L14:
+ 224:..\Common\Minimal/comtest.c **** 		{
+ 263              		.loc 1 224 0 discriminator 2
+ 264 0050 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 265 0052 DBB2     		uxtb	r3, r3
+ 266 0054 0133     		adds	r3, r3, #1
+ 267 0056 DBB2     		uxtb	r3, r3
+ 268 0058 FB75     		strb	r3, [r7, #23]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 10
+
+
+ 269              	.L13:
+ 224:..\Common\Minimal/comtest.c **** 		{
+ 270              		.loc 1 224 0 is_stmt 0 discriminator 1
+ 271 005a 97F91730 		ldrsb	r3, [r7, #23]
+ 272 005e 582B     		cmp	r3, #88
+ 273 0060 D9DD     		ble	.L17
+ 274              	.L16:
+ 241:..\Common\Minimal/comtest.c **** 				}
+ 242:..\Common\Minimal/comtest.c **** 			}
+ 243:..\Common\Minimal/comtest.c **** 		}
+ 244:..\Common\Minimal/comtest.c **** 
+ 245:..\Common\Minimal/comtest.c **** 		/* Turn the LED off while we are not doing anything. */
+ 246:..\Common\Minimal/comtest.c **** 		vParTestSetLED( uxBaseLED + comRX_LED_OFFSET, pdFALSE );
+ 275              		.loc 1 246 0 is_stmt 1
+ 276 0062 154B     		ldr	r3, .L23+4
+ 277 0064 1B68     		ldr	r3, [r3]
+ 278 0066 0133     		adds	r3, r3, #1
+ 279 0068 1846     		mov	r0, r3
+ 280 006a 0021     		movs	r1, #0
+ 281 006c FFF7FEFF 		bl	vParTestSetLED
+ 247:..\Common\Minimal/comtest.c **** 
+ 248:..\Common\Minimal/comtest.c **** 		/* Did we break out of the loop because the characters were received in
+ 249:..\Common\Minimal/comtest.c **** 		an unexpected order?  If so wait here until the character sequence is
+ 250:..\Common\Minimal/comtest.c **** 		about to restart. */
+ 251:..\Common\Minimal/comtest.c **** 		if( xResyncRequired == pdTRUE )
+ 282              		.loc 1 251 0
+ 283 0070 3B69     		ldr	r3, [r7, #16]
+ 284 0072 012B     		cmp	r3, #1
+ 285 0074 14D1     		bne	.L18
+ 252:..\Common\Minimal/comtest.c **** 		{
+ 253:..\Common\Minimal/comtest.c **** 			while( cByteRxed != comLAST_BYTE )
+ 286              		.loc 1 253 0
+ 287 0076 09E0     		b	.L19
+ 288              	.L20:
+ 254:..\Common\Minimal/comtest.c **** 			{
+ 255:..\Common\Minimal/comtest.c **** 				/* Block until the next char is available. */
+ 256:..\Common\Minimal/comtest.c **** 				xSerialGetChar( xPort, &cByteRxed, comRX_BLOCK_TIME );
+ 289              		.loc 1 256 0
+ 290 0078 0E4B     		ldr	r3, .L23
+ 291 007a 1A68     		ldr	r2, [r3]
+ 292 007c 07F10B03 		add	r3, r7, #11
+ 293 0080 1046     		mov	r0, r2
+ 294 0082 1946     		mov	r1, r3
+ 295 0084 4FF6FF72 		movw	r2, #65535
+ 296 0088 FFF7FEFF 		bl	xSerialGetChar
+ 297              	.L19:
+ 253:..\Common\Minimal/comtest.c **** 			{
+ 298              		.loc 1 253 0
+ 299 008c FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+ 300 008e 5BB2     		sxtb	r3, r3
+ 301 0090 582B     		cmp	r3, #88
+ 302 0092 F1D1     		bne	.L20
+ 257:..\Common\Minimal/comtest.c **** 			}
+ 258:..\Common\Minimal/comtest.c **** 
+ 259:..\Common\Minimal/comtest.c **** 			/* Note that an error occurred which caused us to have to resync.
+ 260:..\Common\Minimal/comtest.c **** 			We use this to stop incrementing the loop counter so
+ 261:..\Common\Minimal/comtest.c **** 			sAreComTestTasksStillRunning() will return false - indicating an
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 11
+
+
+ 262:..\Common\Minimal/comtest.c **** 			error. */
+ 263:..\Common\Minimal/comtest.c **** 			xErrorOccurred++;
+ 303              		.loc 1 263 0
+ 304 0094 FB68     		ldr	r3, [r7, #12]
+ 305 0096 0133     		adds	r3, r3, #1
+ 306 0098 FB60     		str	r3, [r7, #12]
+ 264:..\Common\Minimal/comtest.c **** 
+ 265:..\Common\Minimal/comtest.c **** 			/* We have now resynced with the Tx task and can continue. */
+ 266:..\Common\Minimal/comtest.c **** 			xResyncRequired = pdFALSE;
+ 307              		.loc 1 266 0
+ 308 009a 0023     		movs	r3, #0
+ 309 009c 3B61     		str	r3, [r7, #16]
+ 310 009e 07E0     		b	.L21
+ 311              	.L18:
+ 267:..\Common\Minimal/comtest.c **** 		}
+ 268:..\Common\Minimal/comtest.c **** 		else
+ 269:..\Common\Minimal/comtest.c **** 		{
+ 270:..\Common\Minimal/comtest.c **** 			if( xErrorOccurred < comTOTAL_PERMISSIBLE_ERRORS )
+ 312              		.loc 1 270 0
+ 313 00a0 FB68     		ldr	r3, [r7, #12]
+ 314 00a2 012B     		cmp	r3, #1
+ 315 00a4 04DC     		bgt	.L21
+ 271:..\Common\Minimal/comtest.c **** 			{
+ 272:..\Common\Minimal/comtest.c **** 				/* Increment the count of successful loops.  As error
+ 273:..\Common\Minimal/comtest.c **** 				occurring (i.e. an unexpected character being received) will
+ 274:..\Common\Minimal/comtest.c **** 				prevent this counter being incremented for the rest of the
+ 275:..\Common\Minimal/comtest.c **** 				execution.   Don't worry about mutual exclusion on this
+ 276:..\Common\Minimal/comtest.c **** 				variable - it doesn't really matter as we just want it
+ 277:..\Common\Minimal/comtest.c **** 				to change. */
+ 278:..\Common\Minimal/comtest.c **** 				uxRxLoops++;
+ 316              		.loc 1 278 0
+ 317 00a6 054B     		ldr	r3, .L23+8
+ 318 00a8 1B68     		ldr	r3, [r3]
+ 319 00aa 0133     		adds	r3, r3, #1
+ 320 00ac 034A     		ldr	r2, .L23+8
+ 321 00ae 1360     		str	r3, [r2]
+ 322              	.L21:
+ 279:..\Common\Minimal/comtest.c **** 			}
+ 280:..\Common\Minimal/comtest.c **** 		}
+ 281:..\Common\Minimal/comtest.c **** 	}
+ 323              		.loc 1 281 0
+ 324 00b0 AEE7     		b	.L22
+ 325              	.L24:
+ 326 00b2 00BF     		.align	2
+ 327              	.L23:
+ 328 00b4 00000000 		.word	xPort
+ 329 00b8 04000000 		.word	uxBaseLED
+ 330 00bc 08000000 		.word	uxRxLoops
+ 331              		.cfi_endproc
+ 332              	.LFE70:
+ 333              		.size	vComRxTask, .-vComRxTask
+ 334              		.section	.text.xAreComTestTasksStillRunning,"ax",%progbits
+ 335              		.align	2
+ 336              		.global	xAreComTestTasksStillRunning
+ 337              		.thumb
+ 338              		.thumb_func
+ 339              		.type	xAreComTestTasksStillRunning, %function
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 12
+
+
+ 340              	xAreComTestTasksStillRunning:
+ 341              	.LFB71:
+ 282:..\Common\Minimal/comtest.c **** } /*lint !e715 !e818 pvParameters is required for a task function even if it is not referenced. */
+ 283:..\Common\Minimal/comtest.c **** /*-----------------------------------------------------------*/
+ 284:..\Common\Minimal/comtest.c **** 
+ 285:..\Common\Minimal/comtest.c **** BaseType_t xAreComTestTasksStillRunning( void )
+ 286:..\Common\Minimal/comtest.c **** {
+ 342              		.loc 1 286 0
+ 343              		.cfi_startproc
+ 344              		@ args = 0, pretend = 0, frame = 8
+ 345              		@ frame_needed = 1, uses_anonymous_args = 0
+ 346              		@ link register save eliminated.
+ 347 0000 80B4     		push	{r7}
+ 348              		.cfi_def_cfa_offset 4
+ 349              		.cfi_offset 7, -4
+ 350 0002 83B0     		sub	sp, sp, #12
+ 351              		.cfi_def_cfa_offset 16
+ 352 0004 00AF     		add	r7, sp, #0
+ 353              		.cfi_def_cfa_register 7
+ 287:..\Common\Minimal/comtest.c **** BaseType_t xReturn;
+ 288:..\Common\Minimal/comtest.c **** 
+ 289:..\Common\Minimal/comtest.c **** 	/* If the count of successful reception loops has not changed than at
+ 290:..\Common\Minimal/comtest.c **** 	some time an error occurred (i.e. a character was received out of sequence)
+ 291:..\Common\Minimal/comtest.c **** 	and we will return false. */
+ 292:..\Common\Minimal/comtest.c **** 	if( uxRxLoops == comINITIAL_RX_COUNT_VALUE )
+ 354              		.loc 1 292 0
+ 355 0006 094B     		ldr	r3, .L29
+ 356 0008 1B68     		ldr	r3, [r3]
+ 357 000a 002B     		cmp	r3, #0
+ 358 000c 02D1     		bne	.L26
+ 293:..\Common\Minimal/comtest.c **** 	{
+ 294:..\Common\Minimal/comtest.c **** 		xReturn = pdFALSE;
+ 359              		.loc 1 294 0
+ 360 000e 0023     		movs	r3, #0
+ 361 0010 7B60     		str	r3, [r7, #4]
+ 362 0012 01E0     		b	.L27
+ 363              	.L26:
+ 295:..\Common\Minimal/comtest.c **** 	}
+ 296:..\Common\Minimal/comtest.c **** 	else
+ 297:..\Common\Minimal/comtest.c **** 	{
+ 298:..\Common\Minimal/comtest.c **** 		xReturn = pdTRUE;
+ 364              		.loc 1 298 0
+ 365 0014 0123     		movs	r3, #1
+ 366 0016 7B60     		str	r3, [r7, #4]
+ 367              	.L27:
+ 299:..\Common\Minimal/comtest.c **** 	}
+ 300:..\Common\Minimal/comtest.c **** 
+ 301:..\Common\Minimal/comtest.c **** 	/* Reset the count of successful Rx loops.  When this function is called
+ 302:..\Common\Minimal/comtest.c **** 	again we expect this to have been incremented. */
+ 303:..\Common\Minimal/comtest.c **** 	uxRxLoops = comINITIAL_RX_COUNT_VALUE;
+ 368              		.loc 1 303 0
+ 369 0018 044B     		ldr	r3, .L29
+ 370 001a 0022     		movs	r2, #0
+ 371 001c 1A60     		str	r2, [r3]
+ 304:..\Common\Minimal/comtest.c **** 
+ 305:..\Common\Minimal/comtest.c **** 	return xReturn;
+ 372              		.loc 1 305 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 13
+
+
+ 373 001e 7B68     		ldr	r3, [r7, #4]
+ 306:..\Common\Minimal/comtest.c **** }
+ 374              		.loc 1 306 0
+ 375 0020 1846     		mov	r0, r3
+ 376 0022 0C37     		adds	r7, r7, #12
+ 377              		.cfi_def_cfa_offset 4
+ 378 0024 BD46     		mov	sp, r7
+ 379              		.cfi_def_cfa_register 13
+ 380              		@ sp needed
+ 381 0026 5DF8047B 		ldr	r7, [sp], #4
+ 382              		.cfi_restore 7
+ 383              		.cfi_def_cfa_offset 0
+ 384 002a 7047     		bx	lr
+ 385              	.L30:
+ 386              		.align	2
+ 387              	.L29:
+ 388 002c 08000000 		.word	uxRxLoops
+ 389              		.cfi_endproc
+ 390              	.LFE71:
+ 391              		.size	xAreComTestTasksStillRunning, .-xAreComTestTasksStillRunning
+ 392              		.text
+ 393              	.Letext0:
+ 394              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 395              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 396              		.file 4 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 397              		.file 5 "..\\Source\\include/task.h"
+ 398              		.file 6 "..\\Common\\include/serial.h"
+ 399              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 400              		.section	.debug_info,"",%progbits
+ 401              	.Ldebug_info0:
+ 402 0000 38020000 		.4byte	0x238
+ 403 0004 0400     		.2byte	0x4
+ 404 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 405 000a 04       		.byte	0x4
+ 406 000b 01       		.uleb128 0x1
+ 407 000c 46000000 		.4byte	.LASF38
+ 408 0010 01       		.byte	0x1
+ 409 0011 11000000 		.4byte	.LASF39
+ 410 0015 9D020000 		.4byte	.LASF40
+ 411 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 412 001d 00000000 		.4byte	0
+ 413 0021 00000000 		.4byte	.Ldebug_line0
+ 414 0025 02       		.uleb128 0x2
+ 415 0026 04       		.byte	0x4
+ 416 0027 07       		.byte	0x7
+ 417 0028 A4010000 		.4byte	.LASF0
+ 418 002c 03       		.uleb128 0x3
+ 419 002d 04       		.byte	0x4
+ 420 002e 05       		.byte	0x5
+ 421 002f 696E7400 		.ascii	"int\000"
+ 422 0033 02       		.uleb128 0x2
+ 423 0034 01       		.byte	0x1
+ 424 0035 06       		.byte	0x6
+ 425 0036 7A020000 		.4byte	.LASF1
+ 426 003a 02       		.uleb128 0x2
+ 427 003b 01       		.byte	0x1
+ 428 003c 08       		.byte	0x8
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 14
+
+
+ 429 003d F2000000 		.4byte	.LASF2
+ 430 0041 02       		.uleb128 0x2
+ 431 0042 02       		.byte	0x2
+ 432 0043 05       		.byte	0x5
+ 433 0044 3B020000 		.4byte	.LASF3
+ 434 0048 02       		.uleb128 0x2
+ 435 0049 02       		.byte	0x2
+ 436 004a 07       		.byte	0x7
+ 437 004b 1C010000 		.4byte	.LASF4
+ 438 004f 04       		.uleb128 0x4
+ 439 0050 3C000000 		.4byte	.LASF6
+ 440 0054 02       		.byte	0x2
+ 441 0055 3F       		.byte	0x3f
+ 442 0056 5A000000 		.4byte	0x5a
+ 443 005a 02       		.uleb128 0x2
+ 444 005b 04       		.byte	0x4
+ 445 005c 05       		.byte	0x5
+ 446 005d 66020000 		.4byte	.LASF5
+ 447 0061 04       		.uleb128 0x4
+ 448 0062 6A010000 		.4byte	.LASF7
+ 449 0066 02       		.byte	0x2
+ 450 0067 41       		.byte	0x41
+ 451 0068 6C000000 		.4byte	0x6c
+ 452 006c 02       		.uleb128 0x2
+ 453 006d 04       		.byte	0x4
+ 454 006e 07       		.byte	0x7
+ 455 006f 0A010000 		.4byte	.LASF8
+ 456 0073 02       		.uleb128 0x2
+ 457 0074 08       		.byte	0x8
+ 458 0075 05       		.byte	0x5
+ 459 0076 11020000 		.4byte	.LASF9
+ 460 007a 02       		.uleb128 0x2
+ 461 007b 08       		.byte	0x8
+ 462 007c 07       		.byte	0x7
+ 463 007d B1010000 		.4byte	.LASF10
+ 464 0081 02       		.uleb128 0x2
+ 465 0082 04       		.byte	0x4
+ 466 0083 07       		.byte	0x7
+ 467 0084 08020000 		.4byte	.LASF11
+ 468 0088 05       		.uleb128 0x5
+ 469 0089 04       		.byte	0x4
+ 470 008a 02       		.uleb128 0x2
+ 471 008b 01       		.byte	0x1
+ 472 008c 08       		.byte	0x8
+ 473 008d 1F020000 		.4byte	.LASF12
+ 474 0091 04       		.uleb128 0x4
+ 475 0092 00020000 		.4byte	.LASF13
+ 476 0096 03       		.byte	0x3
+ 477 0097 2C       		.byte	0x2c
+ 478 0098 4F000000 		.4byte	0x4f
+ 479 009c 04       		.uleb128 0x4
+ 480 009d 5D020000 		.4byte	.LASF14
+ 481 00a1 03       		.byte	0x3
+ 482 00a2 2D       		.byte	0x2d
+ 483 00a3 61000000 		.4byte	0x61
+ 484 00a7 02       		.uleb128 0x2
+ 485 00a8 04       		.byte	0x4
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 15
+
+
+ 486 00a9 04       		.byte	0x4
+ 487 00aa DE000000 		.4byte	.LASF15
+ 488 00ae 02       		.uleb128 0x2
+ 489 00af 08       		.byte	0x8
+ 490 00b0 04       		.byte	0x4
+ 491 00b1 4C010000 		.4byte	.LASF16
+ 492 00b5 04       		.uleb128 0x4
+ 493 00b6 92020000 		.4byte	.LASF17
+ 494 00ba 04       		.byte	0x4
+ 495 00bb 62       		.byte	0x62
+ 496 00bc 5A000000 		.4byte	0x5a
+ 497 00c0 04       		.uleb128 0x4
+ 498 00c1 86020000 		.4byte	.LASF18
+ 499 00c5 04       		.byte	0x4
+ 500 00c6 63       		.byte	0x63
+ 501 00c7 6C000000 		.4byte	0x6c
+ 502 00cb 04       		.uleb128 0x4
+ 503 00cc 00000000 		.4byte	.LASF19
+ 504 00d0 04       		.byte	0x4
+ 505 00d1 69       		.byte	0x69
+ 506 00d2 9C000000 		.4byte	0x9c
+ 507 00d6 04       		.uleb128 0x4
+ 508 00d7 50020000 		.4byte	.LASF20
+ 509 00db 05       		.byte	0x5
+ 510 00dc 67       		.byte	0x67
+ 511 00dd 88000000 		.4byte	0x88
+ 512 00e1 04       		.uleb128 0x4
+ 513 00e2 2D000000 		.4byte	.LASF21
+ 514 00e6 06       		.byte	0x6
+ 515 00e7 49       		.byte	0x49
+ 516 00e8 88000000 		.4byte	0x88
+ 517 00ec 06       		.uleb128 0x6
+ 518 00ed 75010000 		.4byte	.LASF41
+ 519 00f1 01       		.byte	0x1
+ 520 00f2 9E       		.byte	0x9e
+ 521 00f3 00000000 		.4byte	.LFB68
+ 522 00f7 60000000 		.4byte	.LFE68-.LFB68
+ 523 00fb 01       		.uleb128 0x1
+ 524 00fc 9C       		.byte	0x9c
+ 525 00fd 2C010000 		.4byte	0x12c
+ 526 0101 07       		.uleb128 0x7
+ 527 0102 99010000 		.4byte	.LASF22
+ 528 0106 01       		.byte	0x1
+ 529 0107 9E       		.byte	0x9e
+ 530 0108 C0000000 		.4byte	0xc0
+ 531 010c 02       		.uleb128 0x2
+ 532 010d 91       		.byte	0x91
+ 533 010e 74       		.sleb128 -12
+ 534 010f 07       		.uleb128 0x7
+ 535 0110 45020000 		.4byte	.LASF23
+ 536 0114 01       		.byte	0x1
+ 537 0115 9E       		.byte	0x9e
+ 538 0116 9C000000 		.4byte	0x9c
+ 539 011a 02       		.uleb128 0x2
+ 540 011b 91       		.byte	0x91
+ 541 011c 70       		.sleb128 -16
+ 542 011d 07       		.uleb128 0x7
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 16
+
+
+ 543 011e 0B000000 		.4byte	.LASF24
+ 544 0122 01       		.byte	0x1
+ 545 0123 9E       		.byte	0x9e
+ 546 0124 C0000000 		.4byte	0xc0
+ 547 0128 02       		.uleb128 0x2
+ 548 0129 91       		.byte	0x91
+ 549 012a 6C       		.sleb128 -20
+ 550 012b 00       		.byte	0
+ 551 012c 08       		.uleb128 0x8
+ 552 012d 53010000 		.4byte	.LASF28
+ 553 0131 01       		.byte	0x1
+ 554 0132 AA       		.byte	0xaa
+ 555 0133 00000000 		.4byte	.LFB69
+ 556 0137 84000000 		.4byte	.LFE69-.LFB69
+ 557 013b 01       		.uleb128 0x1
+ 558 013c 9C       		.byte	0x9c
+ 559 013d 6C010000 		.4byte	0x16c
+ 560 0141 07       		.uleb128 0x7
+ 561 0142 24020000 		.4byte	.LASF25
+ 562 0146 01       		.byte	0x1
+ 563 0147 AA       		.byte	0xaa
+ 564 0148 88000000 		.4byte	0x88
+ 565 014c 02       		.uleb128 0x2
+ 566 014d 91       		.byte	0x91
+ 567 014e 6C       		.sleb128 -20
+ 568 014f 09       		.uleb128 0x9
+ 569 0150 C8010000 		.4byte	.LASF26
+ 570 0154 01       		.byte	0x1
+ 571 0155 AC       		.byte	0xac
+ 572 0156 8A000000 		.4byte	0x8a
+ 573 015a 02       		.uleb128 0x2
+ 574 015b 91       		.byte	0x91
+ 575 015c 77       		.sleb128 -9
+ 576 015d 09       		.uleb128 0x9
+ 577 015e 5E010000 		.4byte	.LASF27
+ 578 0162 01       		.byte	0x1
+ 579 0163 AD       		.byte	0xad
+ 580 0164 CB000000 		.4byte	0xcb
+ 581 0168 02       		.uleb128 0x2
+ 582 0169 91       		.byte	0x91
+ 583 016a 70       		.sleb128 -16
+ 584 016b 00       		.byte	0
+ 585 016c 08       		.uleb128 0x8
+ 586 016d 6F020000 		.4byte	.LASF29
+ 587 0171 01       		.byte	0x1
+ 588 0172 D4       		.byte	0xd4
+ 589 0173 00000000 		.4byte	.LFB70
+ 590 0177 C0000000 		.4byte	.LFE70-.LFB70
+ 591 017b 01       		.uleb128 0x1
+ 592 017c 9C       		.byte	0x9c
+ 593 017d C8010000 		.4byte	0x1c8
+ 594 0181 07       		.uleb128 0x7
+ 595 0182 24020000 		.4byte	.LASF25
+ 596 0186 01       		.byte	0x1
+ 597 0187 D4       		.byte	0xd4
+ 598 0188 88000000 		.4byte	0x88
+ 599 018c 02       		.uleb128 0x2
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 17
+
+
+ 600 018d 91       		.byte	0x91
+ 601 018e 64       		.sleb128 -28
+ 602 018f 09       		.uleb128 0x9
+ 603 0190 E4000000 		.4byte	.LASF30
+ 604 0194 01       		.byte	0x1
+ 605 0195 D6       		.byte	0xd6
+ 606 0196 33000000 		.4byte	0x33
+ 607 019a 02       		.uleb128 0x2
+ 608 019b 91       		.byte	0x91
+ 609 019c 77       		.sleb128 -9
+ 610 019d 09       		.uleb128 0x9
+ 611 019e 00010000 		.4byte	.LASF31
+ 612 01a2 01       		.byte	0x1
+ 613 01a3 D6       		.byte	0xd6
+ 614 01a4 33000000 		.4byte	0x33
+ 615 01a8 02       		.uleb128 0x2
+ 616 01a9 91       		.byte	0x91
+ 617 01aa 6B       		.sleb128 -21
+ 618 01ab 09       		.uleb128 0x9
+ 619 01ac 3C010000 		.4byte	.LASF32
+ 620 01b0 01       		.byte	0x1
+ 621 01b1 D7       		.byte	0xd7
+ 622 01b2 B5000000 		.4byte	0xb5
+ 623 01b6 02       		.uleb128 0x2
+ 624 01b7 91       		.byte	0x91
+ 625 01b8 70       		.sleb128 -16
+ 626 01b9 09       		.uleb128 0x9
+ 627 01ba D4010000 		.4byte	.LASF33
+ 628 01be 01       		.byte	0x1
+ 629 01bf D7       		.byte	0xd7
+ 630 01c0 B5000000 		.4byte	0xb5
+ 631 01c4 02       		.uleb128 0x2
+ 632 01c5 91       		.byte	0x91
+ 633 01c6 6C       		.sleb128 -20
+ 634 01c7 00       		.byte	0
+ 635 01c8 0A       		.uleb128 0xa
+ 636 01c9 E3010000 		.4byte	.LASF42
+ 637 01cd 01       		.byte	0x1
+ 638 01ce 1D01     		.2byte	0x11d
+ 639 01d0 B5000000 		.4byte	0xb5
+ 640 01d4 00000000 		.4byte	.LFB71
+ 641 01d8 30000000 		.4byte	.LFE71-.LFB71
+ 642 01dc 01       		.uleb128 0x1
+ 643 01dd 9C       		.byte	0x9c
+ 644 01de F2010000 		.4byte	0x1f2
+ 645 01e2 0B       		.uleb128 0xb
+ 646 01e3 8B010000 		.4byte	.LASF34
+ 647 01e7 01       		.byte	0x1
+ 648 01e8 1F01     		.2byte	0x11f
+ 649 01ea B5000000 		.4byte	0xb5
+ 650 01ee 02       		.uleb128 0x2
+ 651 01ef 91       		.byte	0x91
+ 652 01f0 74       		.sleb128 -12
+ 653 01f1 00       		.byte	0
+ 654 01f2 09       		.uleb128 0x9
+ 655 01f3 93010000 		.4byte	.LASF35
+ 656 01f7 01       		.byte	0x1
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 18
+
+
+ 657 01f8 8A       		.byte	0x8a
+ 658 01f9 E1000000 		.4byte	0xe1
+ 659 01fd 05       		.uleb128 0x5
+ 660 01fe 03       		.byte	0x3
+ 661 01ff 00000000 		.4byte	xPort
+ 662 0203 09       		.uleb128 0x9
+ 663 0204 31020000 		.4byte	.LASF36
+ 664 0208 01       		.byte	0x1
+ 665 0209 95       		.byte	0x95
+ 666 020a C0000000 		.4byte	0xc0
+ 667 020e 05       		.uleb128 0x5
+ 668 020f 03       		.byte	0x3
+ 669 0210 04000000 		.4byte	uxBaseLED
+ 670 0214 09       		.uleb128 0x9
+ 671 0215 D4000000 		.4byte	.LASF37
+ 672 0219 01       		.byte	0x1
+ 673 021a 9A       		.byte	0x9a
+ 674 021b 25020000 		.4byte	0x225
+ 675 021f 05       		.uleb128 0x5
+ 676 0220 03       		.byte	0x3
+ 677 0221 08000000 		.4byte	uxRxLoops
+ 678 0225 0C       		.uleb128 0xc
+ 679 0226 C0000000 		.4byte	0xc0
+ 680 022a 0D       		.uleb128 0xd
+ 681 022b 2F010000 		.4byte	.LASF43
+ 682 022f 07       		.byte	0x7
+ 683 0230 9606     		.2byte	0x696
+ 684 0232 36020000 		.4byte	0x236
+ 685 0236 0C       		.uleb128 0xc
+ 686 0237 91000000 		.4byte	0x91
+ 687 023b 00       		.byte	0
+ 688              		.section	.debug_abbrev,"",%progbits
+ 689              	.Ldebug_abbrev0:
+ 690 0000 01       		.uleb128 0x1
+ 691 0001 11       		.uleb128 0x11
+ 692 0002 01       		.byte	0x1
+ 693 0003 25       		.uleb128 0x25
+ 694 0004 0E       		.uleb128 0xe
+ 695 0005 13       		.uleb128 0x13
+ 696 0006 0B       		.uleb128 0xb
+ 697 0007 03       		.uleb128 0x3
+ 698 0008 0E       		.uleb128 0xe
+ 699 0009 1B       		.uleb128 0x1b
+ 700 000a 0E       		.uleb128 0xe
+ 701 000b 55       		.uleb128 0x55
+ 702 000c 17       		.uleb128 0x17
+ 703 000d 11       		.uleb128 0x11
+ 704 000e 01       		.uleb128 0x1
+ 705 000f 10       		.uleb128 0x10
+ 706 0010 17       		.uleb128 0x17
+ 707 0011 00       		.byte	0
+ 708 0012 00       		.byte	0
+ 709 0013 02       		.uleb128 0x2
+ 710 0014 24       		.uleb128 0x24
+ 711 0015 00       		.byte	0
+ 712 0016 0B       		.uleb128 0xb
+ 713 0017 0B       		.uleb128 0xb
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 19
+
+
+ 714 0018 3E       		.uleb128 0x3e
+ 715 0019 0B       		.uleb128 0xb
+ 716 001a 03       		.uleb128 0x3
+ 717 001b 0E       		.uleb128 0xe
+ 718 001c 00       		.byte	0
+ 719 001d 00       		.byte	0
+ 720 001e 03       		.uleb128 0x3
+ 721 001f 24       		.uleb128 0x24
+ 722 0020 00       		.byte	0
+ 723 0021 0B       		.uleb128 0xb
+ 724 0022 0B       		.uleb128 0xb
+ 725 0023 3E       		.uleb128 0x3e
+ 726 0024 0B       		.uleb128 0xb
+ 727 0025 03       		.uleb128 0x3
+ 728 0026 08       		.uleb128 0x8
+ 729 0027 00       		.byte	0
+ 730 0028 00       		.byte	0
+ 731 0029 04       		.uleb128 0x4
+ 732 002a 16       		.uleb128 0x16
+ 733 002b 00       		.byte	0
+ 734 002c 03       		.uleb128 0x3
+ 735 002d 0E       		.uleb128 0xe
+ 736 002e 3A       		.uleb128 0x3a
+ 737 002f 0B       		.uleb128 0xb
+ 738 0030 3B       		.uleb128 0x3b
+ 739 0031 0B       		.uleb128 0xb
+ 740 0032 49       		.uleb128 0x49
+ 741 0033 13       		.uleb128 0x13
+ 742 0034 00       		.byte	0
+ 743 0035 00       		.byte	0
+ 744 0036 05       		.uleb128 0x5
+ 745 0037 0F       		.uleb128 0xf
+ 746 0038 00       		.byte	0
+ 747 0039 0B       		.uleb128 0xb
+ 748 003a 0B       		.uleb128 0xb
+ 749 003b 00       		.byte	0
+ 750 003c 00       		.byte	0
+ 751 003d 06       		.uleb128 0x6
+ 752 003e 2E       		.uleb128 0x2e
+ 753 003f 01       		.byte	0x1
+ 754 0040 3F       		.uleb128 0x3f
+ 755 0041 19       		.uleb128 0x19
+ 756 0042 03       		.uleb128 0x3
+ 757 0043 0E       		.uleb128 0xe
+ 758 0044 3A       		.uleb128 0x3a
+ 759 0045 0B       		.uleb128 0xb
+ 760 0046 3B       		.uleb128 0x3b
+ 761 0047 0B       		.uleb128 0xb
+ 762 0048 27       		.uleb128 0x27
+ 763 0049 19       		.uleb128 0x19
+ 764 004a 11       		.uleb128 0x11
+ 765 004b 01       		.uleb128 0x1
+ 766 004c 12       		.uleb128 0x12
+ 767 004d 06       		.uleb128 0x6
+ 768 004e 40       		.uleb128 0x40
+ 769 004f 18       		.uleb128 0x18
+ 770 0050 9642     		.uleb128 0x2116
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 20
+
+
+ 771 0052 19       		.uleb128 0x19
+ 772 0053 01       		.uleb128 0x1
+ 773 0054 13       		.uleb128 0x13
+ 774 0055 00       		.byte	0
+ 775 0056 00       		.byte	0
+ 776 0057 07       		.uleb128 0x7
+ 777 0058 05       		.uleb128 0x5
+ 778 0059 00       		.byte	0
+ 779 005a 03       		.uleb128 0x3
+ 780 005b 0E       		.uleb128 0xe
+ 781 005c 3A       		.uleb128 0x3a
+ 782 005d 0B       		.uleb128 0xb
+ 783 005e 3B       		.uleb128 0x3b
+ 784 005f 0B       		.uleb128 0xb
+ 785 0060 49       		.uleb128 0x49
+ 786 0061 13       		.uleb128 0x13
+ 787 0062 02       		.uleb128 0x2
+ 788 0063 18       		.uleb128 0x18
+ 789 0064 00       		.byte	0
+ 790 0065 00       		.byte	0
+ 791 0066 08       		.uleb128 0x8
+ 792 0067 2E       		.uleb128 0x2e
+ 793 0068 01       		.byte	0x1
+ 794 0069 03       		.uleb128 0x3
+ 795 006a 0E       		.uleb128 0xe
+ 796 006b 3A       		.uleb128 0x3a
+ 797 006c 0B       		.uleb128 0xb
+ 798 006d 3B       		.uleb128 0x3b
+ 799 006e 0B       		.uleb128 0xb
+ 800 006f 27       		.uleb128 0x27
+ 801 0070 19       		.uleb128 0x19
+ 802 0071 11       		.uleb128 0x11
+ 803 0072 01       		.uleb128 0x1
+ 804 0073 12       		.uleb128 0x12
+ 805 0074 06       		.uleb128 0x6
+ 806 0075 40       		.uleb128 0x40
+ 807 0076 18       		.uleb128 0x18
+ 808 0077 9642     		.uleb128 0x2116
+ 809 0079 19       		.uleb128 0x19
+ 810 007a 01       		.uleb128 0x1
+ 811 007b 13       		.uleb128 0x13
+ 812 007c 00       		.byte	0
+ 813 007d 00       		.byte	0
+ 814 007e 09       		.uleb128 0x9
+ 815 007f 34       		.uleb128 0x34
+ 816 0080 00       		.byte	0
+ 817 0081 03       		.uleb128 0x3
+ 818 0082 0E       		.uleb128 0xe
+ 819 0083 3A       		.uleb128 0x3a
+ 820 0084 0B       		.uleb128 0xb
+ 821 0085 3B       		.uleb128 0x3b
+ 822 0086 0B       		.uleb128 0xb
+ 823 0087 49       		.uleb128 0x49
+ 824 0088 13       		.uleb128 0x13
+ 825 0089 02       		.uleb128 0x2
+ 826 008a 18       		.uleb128 0x18
+ 827 008b 00       		.byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 21
+
+
+ 828 008c 00       		.byte	0
+ 829 008d 0A       		.uleb128 0xa
+ 830 008e 2E       		.uleb128 0x2e
+ 831 008f 01       		.byte	0x1
+ 832 0090 3F       		.uleb128 0x3f
+ 833 0091 19       		.uleb128 0x19
+ 834 0092 03       		.uleb128 0x3
+ 835 0093 0E       		.uleb128 0xe
+ 836 0094 3A       		.uleb128 0x3a
+ 837 0095 0B       		.uleb128 0xb
+ 838 0096 3B       		.uleb128 0x3b
+ 839 0097 05       		.uleb128 0x5
+ 840 0098 27       		.uleb128 0x27
+ 841 0099 19       		.uleb128 0x19
+ 842 009a 49       		.uleb128 0x49
+ 843 009b 13       		.uleb128 0x13
+ 844 009c 11       		.uleb128 0x11
+ 845 009d 01       		.uleb128 0x1
+ 846 009e 12       		.uleb128 0x12
+ 847 009f 06       		.uleb128 0x6
+ 848 00a0 40       		.uleb128 0x40
+ 849 00a1 18       		.uleb128 0x18
+ 850 00a2 9742     		.uleb128 0x2117
+ 851 00a4 19       		.uleb128 0x19
+ 852 00a5 01       		.uleb128 0x1
+ 853 00a6 13       		.uleb128 0x13
+ 854 00a7 00       		.byte	0
+ 855 00a8 00       		.byte	0
+ 856 00a9 0B       		.uleb128 0xb
+ 857 00aa 34       		.uleb128 0x34
+ 858 00ab 00       		.byte	0
+ 859 00ac 03       		.uleb128 0x3
+ 860 00ad 0E       		.uleb128 0xe
+ 861 00ae 3A       		.uleb128 0x3a
+ 862 00af 0B       		.uleb128 0xb
+ 863 00b0 3B       		.uleb128 0x3b
+ 864 00b1 05       		.uleb128 0x5
+ 865 00b2 49       		.uleb128 0x49
+ 866 00b3 13       		.uleb128 0x13
+ 867 00b4 02       		.uleb128 0x2
+ 868 00b5 18       		.uleb128 0x18
+ 869 00b6 00       		.byte	0
+ 870 00b7 00       		.byte	0
+ 871 00b8 0C       		.uleb128 0xc
+ 872 00b9 35       		.uleb128 0x35
+ 873 00ba 00       		.byte	0
+ 874 00bb 49       		.uleb128 0x49
+ 875 00bc 13       		.uleb128 0x13
+ 876 00bd 00       		.byte	0
+ 877 00be 00       		.byte	0
+ 878 00bf 0D       		.uleb128 0xd
+ 879 00c0 34       		.uleb128 0x34
+ 880 00c1 00       		.byte	0
+ 881 00c2 03       		.uleb128 0x3
+ 882 00c3 0E       		.uleb128 0xe
+ 883 00c4 3A       		.uleb128 0x3a
+ 884 00c5 0B       		.uleb128 0xb
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 22
+
+
+ 885 00c6 3B       		.uleb128 0x3b
+ 886 00c7 05       		.uleb128 0x5
+ 887 00c8 49       		.uleb128 0x49
+ 888 00c9 13       		.uleb128 0x13
+ 889 00ca 3F       		.uleb128 0x3f
+ 890 00cb 19       		.uleb128 0x19
+ 891 00cc 3C       		.uleb128 0x3c
+ 892 00cd 19       		.uleb128 0x19
+ 893 00ce 00       		.byte	0
+ 894 00cf 00       		.byte	0
+ 895 00d0 00       		.byte	0
+ 896              		.section	.debug_aranges,"",%progbits
+ 897 0000 34000000 		.4byte	0x34
+ 898 0004 0200     		.2byte	0x2
+ 899 0006 00000000 		.4byte	.Ldebug_info0
+ 900 000a 04       		.byte	0x4
+ 901 000b 00       		.byte	0
+ 902 000c 0000     		.2byte	0
+ 903 000e 0000     		.2byte	0
+ 904 0010 00000000 		.4byte	.LFB68
+ 905 0014 60000000 		.4byte	.LFE68-.LFB68
+ 906 0018 00000000 		.4byte	.LFB69
+ 907 001c 84000000 		.4byte	.LFE69-.LFB69
+ 908 0020 00000000 		.4byte	.LFB70
+ 909 0024 C0000000 		.4byte	.LFE70-.LFB70
+ 910 0028 00000000 		.4byte	.LFB71
+ 911 002c 30000000 		.4byte	.LFE71-.LFB71
+ 912 0030 00000000 		.4byte	0
+ 913 0034 00000000 		.4byte	0
+ 914              		.section	.debug_ranges,"",%progbits
+ 915              	.Ldebug_ranges0:
+ 916 0000 00000000 		.4byte	.LFB68
+ 917 0004 60000000 		.4byte	.LFE68
+ 918 0008 00000000 		.4byte	.LFB69
+ 919 000c 84000000 		.4byte	.LFE69
+ 920 0010 00000000 		.4byte	.LFB70
+ 921 0014 C0000000 		.4byte	.LFE70
+ 922 0018 00000000 		.4byte	.LFB71
+ 923 001c 30000000 		.4byte	.LFE71
+ 924 0020 00000000 		.4byte	0
+ 925 0024 00000000 		.4byte	0
+ 926              		.section	.debug_line,"",%progbits
+ 927              	.Ldebug_line0:
+ 928 0000 47020000 		.section	.debug_str,"MS",%progbits,1
+ 928      0200B701 
+ 928      00000201 
+ 928      FB0E0D00 
+ 928      01010101 
+ 929              	.LASF19:
+ 930 0000 5469636B 		.ascii	"TickType_t\000"
+ 930      54797065 
+ 930      5F7400
+ 931              	.LASF24:
+ 932 000b 75784C45 		.ascii	"uxLED\000"
+ 932      4400
+ 933              	.LASF39:
+ 934 0011 2E2E5C43 		.ascii	"..\\Common\\Minimal\\comtest.c\000"
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 23
+
+
+ 934      6F6D6D6F 
+ 934      6E5C4D69 
+ 934      6E696D61 
+ 934      6C5C636F 
+ 935              	.LASF21:
+ 936 002d 78436F6D 		.ascii	"xComPortHandle\000"
+ 936      506F7274 
+ 936      48616E64 
+ 936      6C6500
+ 937              	.LASF6:
+ 938 003c 5F5F696E 		.ascii	"__int32_t\000"
+ 938      7433325F 
+ 938      7400
+ 939              	.LASF38:
+ 940 0046 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 940      4320342E 
+ 940      392E3320 
+ 940      32303135 
+ 940      30333033 
+ 941 0079 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 941      20726576 
+ 941      6973696F 
+ 941      6E203232 
+ 941      31323230 
+ 942 00ac 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 942      66756E63 
+ 942      74696F6E 
+ 942      2D736563 
+ 942      74696F6E 
+ 943              	.LASF37:
+ 944 00d4 75785278 		.ascii	"uxRxLoops\000"
+ 944      4C6F6F70 
+ 944      7300
+ 945              	.LASF15:
+ 946 00de 666C6F61 		.ascii	"float\000"
+ 946      7400
+ 947              	.LASF30:
+ 948 00e4 63457870 		.ascii	"cExpectedByte\000"
+ 948      65637465 
+ 948      64427974 
+ 948      6500
+ 949              	.LASF2:
+ 950 00f2 756E7369 		.ascii	"unsigned char\000"
+ 950      676E6564 
+ 950      20636861 
+ 950      7200
+ 951              	.LASF31:
+ 952 0100 63427974 		.ascii	"cByteRxed\000"
+ 952      65527865 
+ 952      6400
+ 953              	.LASF8:
+ 954 010a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 954      20756E73 
+ 954      69676E65 
+ 954      6420696E 
+ 954      7400
+ 955              	.LASF4:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 24
+
+
+ 956 011c 73686F72 		.ascii	"short unsigned int\000"
+ 956      7420756E 
+ 956      7369676E 
+ 956      65642069 
+ 956      6E7400
+ 957              	.LASF43:
+ 958 012f 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 958      52784275 
+ 958      66666572 
+ 958      00
+ 959              	.LASF32:
+ 960 013c 78526573 		.ascii	"xResyncRequired\000"
+ 960      796E6352 
+ 960      65717569 
+ 960      72656400 
+ 961              	.LASF16:
+ 962 014c 646F7562 		.ascii	"double\000"
+ 962      6C6500
+ 963              	.LASF28:
+ 964 0153 76436F6D 		.ascii	"vComTxTask\000"
+ 964      54785461 
+ 964      736B00
+ 965              	.LASF27:
+ 966 015e 7854696D 		.ascii	"xTimeToWait\000"
+ 966      65546F57 
+ 966      61697400 
+ 967              	.LASF7:
+ 968 016a 5F5F7569 		.ascii	"__uint32_t\000"
+ 968      6E743332 
+ 968      5F7400
+ 969              	.LASF41:
+ 970 0175 76416C74 		.ascii	"vAltStartComTestTasks\000"
+ 970      53746172 
+ 970      74436F6D 
+ 970      54657374 
+ 970      5461736B 
+ 971              	.LASF34:
+ 972 018b 78526574 		.ascii	"xReturn\000"
+ 972      75726E00 
+ 973              	.LASF35:
+ 974 0193 78506F72 		.ascii	"xPort\000"
+ 974      7400
+ 975              	.LASF22:
+ 976 0199 75785072 		.ascii	"uxPriority\000"
+ 976      696F7269 
+ 976      747900
+ 977              	.LASF0:
+ 978 01a4 756E7369 		.ascii	"unsigned int\000"
+ 978      676E6564 
+ 978      20696E74 
+ 978      00
+ 979              	.LASF10:
+ 980 01b1 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 980      206C6F6E 
+ 980      6720756E 
+ 980      7369676E 
+ 980      65642069 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 25
+
+
+ 981              	.LASF26:
+ 982 01c8 63427974 		.ascii	"cByteToSend\000"
+ 982      65546F53 
+ 982      656E6400 
+ 983              	.LASF33:
+ 984 01d4 78457272 		.ascii	"xErrorOccurred\000"
+ 984      6F724F63 
+ 984      63757272 
+ 984      656400
+ 985              	.LASF42:
+ 986 01e3 78417265 		.ascii	"xAreComTestTasksStillRunning\000"
+ 986      436F6D54 
+ 986      65737454 
+ 986      61736B73 
+ 986      5374696C 
+ 987              	.LASF13:
+ 988 0200 696E7433 		.ascii	"int32_t\000"
+ 988      325F7400 
+ 989              	.LASF11:
+ 990 0208 73697A65 		.ascii	"sizetype\000"
+ 990      74797065 
+ 990      00
+ 991              	.LASF9:
+ 992 0211 6C6F6E67 		.ascii	"long long int\000"
+ 992      206C6F6E 
+ 992      6720696E 
+ 992      7400
+ 993              	.LASF12:
+ 994 021f 63686172 		.ascii	"char\000"
+ 994      00
+ 995              	.LASF25:
+ 996 0224 70765061 		.ascii	"pvParameters\000"
+ 996      72616D65 
+ 996      74657273 
+ 996      00
+ 997              	.LASF36:
+ 998 0231 75784261 		.ascii	"uxBaseLED\000"
+ 998      73654C45 
+ 998      4400
+ 999              	.LASF3:
+ 1000 023b 73686F72 		.ascii	"short int\000"
+ 1000      7420696E 
+ 1000      7400
+ 1001              	.LASF23:
+ 1002 0245 756C4261 		.ascii	"ulBaudRate\000"
+ 1002      75645261 
+ 1002      746500
+ 1003              	.LASF20:
+ 1004 0250 5461736B 		.ascii	"TaskHandle_t\000"
+ 1004      48616E64 
+ 1004      6C655F74 
+ 1004      00
+ 1005              	.LASF14:
+ 1006 025d 75696E74 		.ascii	"uint32_t\000"
+ 1006      33325F74 
+ 1006      00
+ 1007              	.LASF5:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccDN9D5h.s 			page 26
+
+
+ 1008 0266 6C6F6E67 		.ascii	"long int\000"
+ 1008      20696E74 
+ 1008      00
+ 1009              	.LASF29:
+ 1010 026f 76436F6D 		.ascii	"vComRxTask\000"
+ 1010      52785461 
+ 1010      736B00
+ 1011              	.LASF1:
+ 1012 027a 7369676E 		.ascii	"signed char\000"
+ 1012      65642063 
+ 1012      68617200 
+ 1013              	.LASF18:
+ 1014 0286 55426173 		.ascii	"UBaseType_t\000"
+ 1014      65547970 
+ 1014      655F7400 
+ 1015              	.LASF17:
+ 1016 0292 42617365 		.ascii	"BaseType_t\000"
+ 1016      54797065 
+ 1016      5F7400
+ 1017              	.LASF40:
+ 1018 029d 433A5C55 		.ascii	"C:\\Users\\bmt\\Documents\\GitHub\\FreeRTOS_CY8CKIT"
+ 1018      73657273 
+ 1018      5C626D74 
+ 1018      5C446F63 
+ 1018      756D656E 
+ 1019 02cb 5F303539 		.ascii	"_059\\FreeRTOS_Demo.cydsn\000"
+ 1019      5C467265 
+ 1019      6552544F 
+ 1019      535F4465 
+ 1019      6D6F2E63 
+ 1020              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

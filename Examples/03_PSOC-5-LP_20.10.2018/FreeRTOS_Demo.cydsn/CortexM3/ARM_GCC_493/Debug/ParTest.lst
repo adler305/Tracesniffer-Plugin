@@ -1,0 +1,944 @@
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"ParTest.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.bss
+  19              		.align	2
+  20              	cLedOutput:
+  21 0000 00000000 		.space	4
+  22              		.section	.text.vParTestInitialise,"ax",%progbits
+  23              		.align	2
+  24              		.global	vParTestInitialise
+  25              		.thumb
+  26              		.thumb_func
+  27              		.type	vParTestInitialise, %function
+  28              	vParTestInitialise:
+  29              	.LFB68:
+  30              		.file 1 "ParTest.c"
+   1:ParTest.c     **** /*
+   2:ParTest.c     ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:ParTest.c     ****     All rights reserved
+   4:ParTest.c     **** 
+   5:ParTest.c     ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:ParTest.c     **** 
+   7:ParTest.c     ****     This file is part of the FreeRTOS distribution.
+   8:ParTest.c     **** 
+   9:ParTest.c     ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:ParTest.c     ****     the terms of the GNU General Public License (version 2) as published by the
+  11:ParTest.c     ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:ParTest.c     **** 
+  13:ParTest.c     ****     ***************************************************************************
+  14:ParTest.c     ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:ParTest.c     ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:ParTest.c     ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:ParTest.c     ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:ParTest.c     ****     ***************************************************************************
+  19:ParTest.c     **** 
+  20:ParTest.c     ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:ParTest.c     ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:ParTest.c     ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:ParTest.c     ****     link: http://www.freertos.org/a00114.html
+  24:ParTest.c     **** 
+  25:ParTest.c     ****     ***************************************************************************
+  26:ParTest.c     ****      *                                                                       *
+  27:ParTest.c     ****      *    FreeRTOS provides completely free yet professionally developed,    *
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 2
+
+
+  28:ParTest.c     ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:ParTest.c     ****      *    platform software that is more than just the market leader, it     *
+  30:ParTest.c     ****      *    is the industry's de facto standard.                               *
+  31:ParTest.c     ****      *                                                                       *
+  32:ParTest.c     ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:ParTest.c     ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:ParTest.c     ****      *    tutorial book, reference manual, or both:                          *
+  35:ParTest.c     ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:ParTest.c     ****      *                                                                       *
+  37:ParTest.c     ****     ***************************************************************************
+  38:ParTest.c     **** 
+  39:ParTest.c     ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:ParTest.c     ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:ParTest.c     ****     defined configASSERT()?
+  42:ParTest.c     **** 
+  43:ParTest.c     ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:ParTest.c     ****     embedded software for free we request you assist our global community by
+  45:ParTest.c     ****     participating in the support forum.
+  46:ParTest.c     **** 
+  47:ParTest.c     ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:ParTest.c     ****     be as productive as possible as early as possible.  Now you can receive
+  49:ParTest.c     ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:ParTest.c     ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:ParTest.c     **** 
+  52:ParTest.c     ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:ParTest.c     ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:ParTest.c     ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:ParTest.c     **** 
+  56:ParTest.c     ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:ParTest.c     ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:ParTest.c     **** 
+  59:ParTest.c     ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:ParTest.c     ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:ParTest.c     ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:ParTest.c     **** 
+  63:ParTest.c     ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:ParTest.c     ****     engineered and independently SIL3 certified version for use in safety and
+  65:ParTest.c     ****     mission critical applications that require provable dependability.
+  66:ParTest.c     **** 
+  67:ParTest.c     ****     1 tab == 4 spaces!
+  68:ParTest.c     **** */
+  69:ParTest.c     **** 
+  70:ParTest.c     **** #include <device.h>
+  71:ParTest.c     **** 
+  72:ParTest.c     **** #include "FreeRTOS.h"
+  73:ParTest.c     **** #include "task.h"
+  74:ParTest.c     **** #include "partest.h"
+  75:ParTest.c     **** /*---------------------------------------------------------------------------*/
+  76:ParTest.c     **** 
+  77:ParTest.c     **** #define partstMAX_LED			( 4 )
+  78:ParTest.c     **** /*---------------------------------------------------------------------------*/
+  79:ParTest.c     **** 
+  80:ParTest.c     **** static volatile char cLedOutput[ partstMAX_LED ];
+  81:ParTest.c     **** /*---------------------------------------------------------------------------*/
+  82:ParTest.c     **** 
+  83:ParTest.c     **** void vParTestInitialise( void )
+  84:ParTest.c     **** {
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 3
+
+
+  31              		.loc 1 84 0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 8
+  34              		@ frame_needed = 1, uses_anonymous_args = 0
+  35              		@ link register save eliminated.
+  36 0000 80B4     		push	{r7}
+  37              		.cfi_def_cfa_offset 4
+  38              		.cfi_offset 7, -4
+  39 0002 83B0     		sub	sp, sp, #12
+  40              		.cfi_def_cfa_offset 16
+  41 0004 00AF     		add	r7, sp, #0
+  42              		.cfi_def_cfa_register 7
+  85:ParTest.c     **** long lIndex;
+  86:ParTest.c     **** 
+  87:ParTest.c     **** 	for( lIndex = 0; lIndex < partstMAX_LED; lIndex++ )
+  43              		.loc 1 87 0
+  44 0006 0023     		movs	r3, #0
+  45 0008 7B60     		str	r3, [r7, #4]
+  46 000a 07E0     		b	.L2
+  47              	.L3:
+  88:ParTest.c     **** 	{
+  89:ParTest.c     **** 		cLedOutput[ lIndex ] = 0;
+  48              		.loc 1 89 0 discriminator 3
+  49 000c 074A     		ldr	r2, .L4
+  50 000e 7B68     		ldr	r3, [r7, #4]
+  51 0010 1344     		add	r3, r3, r2
+  52 0012 0022     		movs	r2, #0
+  53 0014 1A70     		strb	r2, [r3]
+  87:ParTest.c     **** 	{
+  54              		.loc 1 87 0 discriminator 3
+  55 0016 7B68     		ldr	r3, [r7, #4]
+  56 0018 0133     		adds	r3, r3, #1
+  57 001a 7B60     		str	r3, [r7, #4]
+  58              	.L2:
+  87:ParTest.c     **** 	{
+  59              		.loc 1 87 0 is_stmt 0 discriminator 1
+  60 001c 7B68     		ldr	r3, [r7, #4]
+  61 001e 032B     		cmp	r3, #3
+  62 0020 F4DD     		ble	.L3
+  90:ParTest.c     **** 	}
+  91:ParTest.c     **** }
+  63              		.loc 1 91 0 is_stmt 1
+  64 0022 0C37     		adds	r7, r7, #12
+  65              		.cfi_def_cfa_offset 4
+  66 0024 BD46     		mov	sp, r7
+  67              		.cfi_def_cfa_register 13
+  68              		@ sp needed
+  69 0026 5DF8047B 		ldr	r7, [sp], #4
+  70              		.cfi_restore 7
+  71              		.cfi_def_cfa_offset 0
+  72 002a 7047     		bx	lr
+  73              	.L5:
+  74              		.align	2
+  75              	.L4:
+  76 002c 00000000 		.word	cLedOutput
+  77              		.cfi_endproc
+  78              	.LFE68:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 4
+
+
+  79              		.size	vParTestInitialise, .-vParTestInitialise
+  80              		.section	.text.vParTestSetLED,"ax",%progbits
+  81              		.align	2
+  82              		.global	vParTestSetLED
+  83              		.thumb
+  84              		.thumb_func
+  85              		.type	vParTestSetLED, %function
+  86              	vParTestSetLED:
+  87              	.LFB69:
+  92:ParTest.c     **** /*---------------------------------------------------------------------------*/
+  93:ParTest.c     **** 
+  94:ParTest.c     **** void vParTestSetLED( unsigned portBASE_TYPE uxLED, signed portBASE_TYPE xValue )
+  95:ParTest.c     **** {
+  88              		.loc 1 95 0
+  89              		.cfi_startproc
+  90              		@ args = 0, pretend = 0, frame = 8
+  91              		@ frame_needed = 1, uses_anonymous_args = 0
+  92 0000 80B5     		push	{r7, lr}
+  93              		.cfi_def_cfa_offset 8
+  94              		.cfi_offset 7, -8
+  95              		.cfi_offset 14, -4
+  96 0002 82B0     		sub	sp, sp, #8
+  97              		.cfi_def_cfa_offset 16
+  98 0004 00AF     		add	r7, sp, #0
+  99              		.cfi_def_cfa_register 7
+ 100 0006 7860     		str	r0, [r7, #4]
+ 101 0008 3960     		str	r1, [r7]
+  96:ParTest.c     **** 	taskENTER_CRITICAL();
+ 102              		.loc 1 96 0
+ 103 000a FFF7FEFF 		bl	vPortEnterCritical
+  97:ParTest.c     **** 	{
+  98:ParTest.c     **** 		switch( uxLED )
+ 104              		.loc 1 98 0
+ 105 000e 7B68     		ldr	r3, [r7, #4]
+ 106 0010 032B     		cmp	r3, #3
+ 107 0012 2FD8     		bhi	.L15
+ 108 0014 01A2     		adr	r2, .L9
+ 109 0016 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 110 001a 00BF     		.p2align 2
+ 111              	.L9:
+ 112 001c 2D000000 		.word	.L8+1
+ 113 0020 3F000000 		.word	.L10+1
+ 114 0024 51000000 		.word	.L11+1
+ 115 0028 63000000 		.word	.L12+1
+ 116              		.p2align 1
+ 117              	.L8:
+  99:ParTest.c     **** 		{
+ 100:ParTest.c     **** 			case 0:
+ 101:ParTest.c     **** 				Pin_LED_0_Write( xValue & 0x1 );
+ 118              		.loc 1 101 0
+ 119 002c 3B68     		ldr	r3, [r7]
+ 120 002e DBB2     		uxtb	r3, r3
+ 121 0030 03F00103 		and	r3, r3, #1
+ 122 0034 DBB2     		uxtb	r3, r3
+ 123 0036 1846     		mov	r0, r3
+ 124 0038 FFF7FEFF 		bl	Pin_LED_0_Write
+ 102:ParTest.c     **** 				break;
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 5
+
+
+ 125              		.loc 1 102 0
+ 126 003c 1BE0     		b	.L13
+ 127              	.L10:
+ 103:ParTest.c     **** 			case 1:
+ 104:ParTest.c     **** 				Pin_LED_1_Write( xValue & 0x1 );
+ 128              		.loc 1 104 0
+ 129 003e 3B68     		ldr	r3, [r7]
+ 130 0040 DBB2     		uxtb	r3, r3
+ 131 0042 03F00103 		and	r3, r3, #1
+ 132 0046 DBB2     		uxtb	r3, r3
+ 133 0048 1846     		mov	r0, r3
+ 134 004a FFF7FEFF 		bl	Pin_LED_1_Write
+ 105:ParTest.c     **** 				break;
+ 135              		.loc 1 105 0
+ 136 004e 12E0     		b	.L13
+ 137              	.L11:
+ 106:ParTest.c     **** 			case 2:
+ 107:ParTest.c     **** 				Pin_LED_2_Write( xValue & 0x1 );
+ 138              		.loc 1 107 0
+ 139 0050 3B68     		ldr	r3, [r7]
+ 140 0052 DBB2     		uxtb	r3, r3
+ 141 0054 03F00103 		and	r3, r3, #1
+ 142 0058 DBB2     		uxtb	r3, r3
+ 143 005a 1846     		mov	r0, r3
+ 144 005c FFF7FEFF 		bl	Pin_LED_2_Write
+ 108:ParTest.c     **** 				break;
+ 145              		.loc 1 108 0
+ 146 0060 09E0     		b	.L13
+ 147              	.L12:
+ 109:ParTest.c     **** 			case 3:
+ 110:ParTest.c     **** 				Pin_LED_3_Write( xValue & 0x1 );
+ 148              		.loc 1 110 0
+ 149 0062 3B68     		ldr	r3, [r7]
+ 150 0064 DBB2     		uxtb	r3, r3
+ 151 0066 03F00103 		and	r3, r3, #1
+ 152 006a DBB2     		uxtb	r3, r3
+ 153 006c 1846     		mov	r0, r3
+ 154 006e FFF7FEFF 		bl	Pin_LED_3_Write
+ 111:ParTest.c     **** 				break;
+ 155              		.loc 1 111 0
+ 156 0072 00E0     		b	.L13
+ 157              	.L15:
+ 112:ParTest.c     **** 			default:
+ 113:ParTest.c     **** 				/* Do nothing. */
+ 114:ParTest.c     **** 				break;
+ 158              		.loc 1 114 0
+ 159 0074 00BF     		nop
+ 160              	.L13:
+ 115:ParTest.c     **** 		}
+ 116:ParTest.c     **** 	}
+ 117:ParTest.c     **** 	taskEXIT_CRITICAL();
+ 161              		.loc 1 117 0
+ 162 0076 FFF7FEFF 		bl	vPortExitCritical
+ 118:ParTest.c     **** 	
+ 119:ParTest.c     **** 	/* Record the output for the sake of toggling. */
+ 120:ParTest.c     **** 	if( uxLED < partstMAX_LED )
+ 163              		.loc 1 120 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 6
+
+
+ 164 007a 7B68     		ldr	r3, [r7, #4]
+ 165 007c 032B     		cmp	r3, #3
+ 166 007e 09D8     		bhi	.L6
+ 121:ParTest.c     **** 	{
+ 122:ParTest.c     **** 		cLedOutput[ uxLED ] = ( xValue & 0x1 );
+ 167              		.loc 1 122 0
+ 168 0080 3B68     		ldr	r3, [r7]
+ 169 0082 DBB2     		uxtb	r3, r3
+ 170 0084 03F00103 		and	r3, r3, #1
+ 171 0088 D9B2     		uxtb	r1, r3
+ 172 008a 044A     		ldr	r2, .L16
+ 173 008c 7B68     		ldr	r3, [r7, #4]
+ 174 008e 1344     		add	r3, r3, r2
+ 175 0090 0A46     		mov	r2, r1
+ 176 0092 1A70     		strb	r2, [r3]
+ 177              	.L6:
+ 123:ParTest.c     **** 	}
+ 124:ParTest.c     **** }
+ 178              		.loc 1 124 0
+ 179 0094 0837     		adds	r7, r7, #8
+ 180              		.cfi_def_cfa_offset 8
+ 181 0096 BD46     		mov	sp, r7
+ 182              		.cfi_def_cfa_register 13
+ 183              		@ sp needed
+ 184 0098 80BD     		pop	{r7, pc}
+ 185              	.L17:
+ 186 009a 00BF     		.align	2
+ 187              	.L16:
+ 188 009c 00000000 		.word	cLedOutput
+ 189              		.cfi_endproc
+ 190              	.LFE69:
+ 191              		.size	vParTestSetLED, .-vParTestSetLED
+ 192              		.section	.text.vParTestToggleLED,"ax",%progbits
+ 193              		.align	2
+ 194              		.global	vParTestToggleLED
+ 195              		.thumb
+ 196              		.thumb_func
+ 197              		.type	vParTestToggleLED, %function
+ 198              	vParTestToggleLED:
+ 199              	.LFB70:
+ 125:ParTest.c     **** /*---------------------------------------------------------------------------*/
+ 126:ParTest.c     **** 
+ 127:ParTest.c     **** void vParTestToggleLED( unsigned portBASE_TYPE uxLED )
+ 128:ParTest.c     **** {
+ 200              		.loc 1 128 0
+ 201              		.cfi_startproc
+ 202              		@ args = 0, pretend = 0, frame = 8
+ 203              		@ frame_needed = 1, uses_anonymous_args = 0
+ 204 0000 80B5     		push	{r7, lr}
+ 205              		.cfi_def_cfa_offset 8
+ 206              		.cfi_offset 7, -8
+ 207              		.cfi_offset 14, -4
+ 208 0002 82B0     		sub	sp, sp, #8
+ 209              		.cfi_def_cfa_offset 16
+ 210 0004 00AF     		add	r7, sp, #0
+ 211              		.cfi_def_cfa_register 7
+ 212 0006 7860     		str	r0, [r7, #4]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 7
+
+
+ 129:ParTest.c     **** 	if( uxLED < partstMAX_LED )
+ 213              		.loc 1 129 0
+ 214 0008 7B68     		ldr	r3, [r7, #4]
+ 215 000a 032B     		cmp	r3, #3
+ 216 000c 0DD8     		bhi	.L18
+ 130:ParTest.c     **** 	{
+ 131:ParTest.c     **** 		vParTestSetLED( uxLED, !cLedOutput[ uxLED ] );
+ 217              		.loc 1 131 0
+ 218 000e 084A     		ldr	r2, .L20
+ 219 0010 7B68     		ldr	r3, [r7, #4]
+ 220 0012 1344     		add	r3, r3, r2
+ 221 0014 1B78     		ldrb	r3, [r3]
+ 222 0016 DBB2     		uxtb	r3, r3
+ 223 0018 002B     		cmp	r3, #0
+ 224 001a 0CBF     		ite	eq
+ 225 001c 0123     		moveq	r3, #1
+ 226 001e 0023     		movne	r3, #0
+ 227 0020 DBB2     		uxtb	r3, r3
+ 228 0022 7868     		ldr	r0, [r7, #4]
+ 229 0024 1946     		mov	r1, r3
+ 230 0026 FFF7FEFF 		bl	vParTestSetLED
+ 231              	.L18:
+ 132:ParTest.c     **** 	}
+ 133:ParTest.c     **** }
+ 232              		.loc 1 133 0
+ 233 002a 0837     		adds	r7, r7, #8
+ 234              		.cfi_def_cfa_offset 8
+ 235 002c BD46     		mov	sp, r7
+ 236              		.cfi_def_cfa_register 13
+ 237              		@ sp needed
+ 238 002e 80BD     		pop	{r7, pc}
+ 239              	.L21:
+ 240              		.align	2
+ 241              	.L20:
+ 242 0030 00000000 		.word	cLedOutput
+ 243              		.cfi_endproc
+ 244              	.LFE70:
+ 245              		.size	vParTestToggleLED, .-vParTestToggleLED
+ 246              		.text
+ 247              	.Letext0:
+ 248              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 249              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 250              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+ 251              		.section	.debug_info,"",%progbits
+ 252              	.Ldebug_info0:
+ 253 0000 4B010000 		.4byte	0x14b
+ 254 0004 0400     		.2byte	0x4
+ 255 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 256 000a 04       		.byte	0x4
+ 257 000b 01       		.uleb128 0x1
+ 258 000c B2000000 		.4byte	.LASF22
+ 259 0010 01       		.byte	0x1
+ 260 0011 5A010000 		.4byte	.LASF23
+ 261 0015 A9010000 		.4byte	.LASF24
+ 262 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 263 001d 00000000 		.4byte	0
+ 264 0021 00000000 		.4byte	.Ldebug_line0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 8
+
+
+ 265 0025 02       		.uleb128 0x2
+ 266 0026 01       		.byte	0x1
+ 267 0027 06       		.byte	0x6
+ 268 0028 7A010000 		.4byte	.LASF0
+ 269 002c 02       		.uleb128 0x2
+ 270 002d 01       		.byte	0x1
+ 271 002e 08       		.byte	0x8
+ 272 002f 8B000000 		.4byte	.LASF1
+ 273 0033 02       		.uleb128 0x2
+ 274 0034 02       		.byte	0x2
+ 275 0035 05       		.byte	0x5
+ 276 0036 40010000 		.4byte	.LASF2
+ 277 003a 02       		.uleb128 0x2
+ 278 003b 02       		.byte	0x2
+ 279 003c 07       		.byte	0x7
+ 280 003d 0E000000 		.4byte	.LASF3
+ 281 0041 03       		.uleb128 0x3
+ 282 0042 86010000 		.4byte	.LASF9
+ 283 0046 02       		.byte	0x2
+ 284 0047 3F       		.byte	0x3f
+ 285 0048 4C000000 		.4byte	0x4c
+ 286 004c 02       		.uleb128 0x2
+ 287 004d 04       		.byte	0x4
+ 288 004e 05       		.byte	0x5
+ 289 004f 51010000 		.4byte	.LASF4
+ 290 0053 02       		.uleb128 0x2
+ 291 0054 04       		.byte	0x4
+ 292 0055 07       		.byte	0x7
+ 293 0056 39000000 		.4byte	.LASF5
+ 294 005a 02       		.uleb128 0x2
+ 295 005b 08       		.byte	0x8
+ 296 005c 05       		.byte	0x5
+ 297 005d 00000000 		.4byte	.LASF6
+ 298 0061 02       		.uleb128 0x2
+ 299 0062 08       		.byte	0x8
+ 300 0063 07       		.byte	0x7
+ 301 0064 4B000000 		.4byte	.LASF7
+ 302 0068 04       		.uleb128 0x4
+ 303 0069 04       		.byte	0x4
+ 304 006a 05       		.byte	0x5
+ 305 006b 696E7400 		.ascii	"int\000"
+ 306 006f 02       		.uleb128 0x2
+ 307 0070 04       		.byte	0x4
+ 308 0071 07       		.byte	0x7
+ 309 0072 21000000 		.4byte	.LASF8
+ 310 0076 03       		.uleb128 0x3
+ 311 0077 9C010000 		.4byte	.LASF10
+ 312 007b 03       		.byte	0x3
+ 313 007c 2C       		.byte	0x2c
+ 314 007d 41000000 		.4byte	0x41
+ 315 0081 02       		.uleb128 0x2
+ 316 0082 04       		.byte	0x4
+ 317 0083 04       		.byte	0x4
+ 318 0084 90010000 		.4byte	.LASF11
+ 319 0088 02       		.uleb128 0x2
+ 320 0089 08       		.byte	0x8
+ 321 008a 04       		.byte	0x4
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 9
+
+
+ 322 008b 4A010000 		.4byte	.LASF12
+ 323 008f 02       		.uleb128 0x2
+ 324 0090 01       		.byte	0x1
+ 325 0091 08       		.byte	0x8
+ 326 0092 A4010000 		.4byte	.LASF13
+ 327 0096 02       		.uleb128 0x2
+ 328 0097 04       		.byte	0x4
+ 329 0098 07       		.byte	0x7
+ 330 0099 64010000 		.4byte	.LASF14
+ 331 009d 05       		.uleb128 0x5
+ 332 009e 71000000 		.4byte	.LASF15
+ 333 00a2 01       		.byte	0x1
+ 334 00a3 53       		.byte	0x53
+ 335 00a4 00000000 		.4byte	.LFB68
+ 336 00a8 30000000 		.4byte	.LFE68-.LFB68
+ 337 00ac 01       		.uleb128 0x1
+ 338 00ad 9C       		.byte	0x9c
+ 339 00ae C1000000 		.4byte	0xc1
+ 340 00b2 06       		.uleb128 0x6
+ 341 00b3 99000000 		.4byte	.LASF20
+ 342 00b7 01       		.byte	0x1
+ 343 00b8 55       		.byte	0x55
+ 344 00b9 4C000000 		.4byte	0x4c
+ 345 00bd 02       		.uleb128 0x2
+ 346 00be 91       		.byte	0x91
+ 347 00bf 74       		.sleb128 -12
+ 348 00c0 00       		.byte	0
+ 349 00c1 07       		.uleb128 0x7
+ 350 00c2 62000000 		.4byte	.LASF16
+ 351 00c6 01       		.byte	0x1
+ 352 00c7 5E       		.byte	0x5e
+ 353 00c8 00000000 		.4byte	.LFB69
+ 354 00cc A0000000 		.4byte	.LFE69-.LFB69
+ 355 00d0 01       		.uleb128 0x1
+ 356 00d1 9C       		.byte	0x9c
+ 357 00d2 F3000000 		.4byte	0xf3
+ 358 00d6 08       		.uleb128 0x8
+ 359 00d7 96010000 		.4byte	.LASF17
+ 360 00db 01       		.byte	0x1
+ 361 00dc 5E       		.byte	0x5e
+ 362 00dd 53000000 		.4byte	0x53
+ 363 00e1 02       		.uleb128 0x2
+ 364 00e2 91       		.byte	0x91
+ 365 00e3 74       		.sleb128 -12
+ 366 00e4 08       		.uleb128 0x8
+ 367 00e5 84000000 		.4byte	.LASF18
+ 368 00e9 01       		.byte	0x1
+ 369 00ea 5E       		.byte	0x5e
+ 370 00eb 4C000000 		.4byte	0x4c
+ 371 00ef 02       		.uleb128 0x2
+ 372 00f0 91       		.byte	0x91
+ 373 00f1 70       		.sleb128 -16
+ 374 00f2 00       		.byte	0
+ 375 00f3 07       		.uleb128 0x7
+ 376 00f4 A0000000 		.4byte	.LASF19
+ 377 00f8 01       		.byte	0x1
+ 378 00f9 7F       		.byte	0x7f
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 10
+
+
+ 379 00fa 00000000 		.4byte	.LFB70
+ 380 00fe 34000000 		.4byte	.LFE70-.LFB70
+ 381 0102 01       		.uleb128 0x1
+ 382 0103 9C       		.byte	0x9c
+ 383 0104 17010000 		.4byte	0x117
+ 384 0108 08       		.uleb128 0x8
+ 385 0109 96010000 		.4byte	.LASF17
+ 386 010d 01       		.byte	0x1
+ 387 010e 7F       		.byte	0x7f
+ 388 010f 53000000 		.4byte	0x53
+ 389 0113 02       		.uleb128 0x2
+ 390 0114 91       		.byte	0x91
+ 391 0115 74       		.sleb128 -12
+ 392 0116 00       		.byte	0
+ 393 0117 09       		.uleb128 0x9
+ 394 0118 8F000000 		.4byte	0x8f
+ 395 011c 27010000 		.4byte	0x127
+ 396 0120 0A       		.uleb128 0xa
+ 397 0121 96000000 		.4byte	0x96
+ 398 0125 03       		.byte	0x3
+ 399 0126 00       		.byte	0
+ 400 0127 06       		.uleb128 0x6
+ 401 0128 2E000000 		.4byte	.LASF21
+ 402 012c 01       		.byte	0x1
+ 403 012d 50       		.byte	0x50
+ 404 012e 38010000 		.4byte	0x138
+ 405 0132 05       		.uleb128 0x5
+ 406 0133 03       		.byte	0x3
+ 407 0134 00000000 		.4byte	cLedOutput
+ 408 0138 0B       		.uleb128 0xb
+ 409 0139 17010000 		.4byte	0x117
+ 410 013d 0C       		.uleb128 0xc
+ 411 013e 6D010000 		.4byte	.LASF25
+ 412 0142 04       		.byte	0x4
+ 413 0143 9606     		.2byte	0x696
+ 414 0145 49010000 		.4byte	0x149
+ 415 0149 0B       		.uleb128 0xb
+ 416 014a 76000000 		.4byte	0x76
+ 417 014e 00       		.byte	0
+ 418              		.section	.debug_abbrev,"",%progbits
+ 419              	.Ldebug_abbrev0:
+ 420 0000 01       		.uleb128 0x1
+ 421 0001 11       		.uleb128 0x11
+ 422 0002 01       		.byte	0x1
+ 423 0003 25       		.uleb128 0x25
+ 424 0004 0E       		.uleb128 0xe
+ 425 0005 13       		.uleb128 0x13
+ 426 0006 0B       		.uleb128 0xb
+ 427 0007 03       		.uleb128 0x3
+ 428 0008 0E       		.uleb128 0xe
+ 429 0009 1B       		.uleb128 0x1b
+ 430 000a 0E       		.uleb128 0xe
+ 431 000b 55       		.uleb128 0x55
+ 432 000c 17       		.uleb128 0x17
+ 433 000d 11       		.uleb128 0x11
+ 434 000e 01       		.uleb128 0x1
+ 435 000f 10       		.uleb128 0x10
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 11
+
+
+ 436 0010 17       		.uleb128 0x17
+ 437 0011 00       		.byte	0
+ 438 0012 00       		.byte	0
+ 439 0013 02       		.uleb128 0x2
+ 440 0014 24       		.uleb128 0x24
+ 441 0015 00       		.byte	0
+ 442 0016 0B       		.uleb128 0xb
+ 443 0017 0B       		.uleb128 0xb
+ 444 0018 3E       		.uleb128 0x3e
+ 445 0019 0B       		.uleb128 0xb
+ 446 001a 03       		.uleb128 0x3
+ 447 001b 0E       		.uleb128 0xe
+ 448 001c 00       		.byte	0
+ 449 001d 00       		.byte	0
+ 450 001e 03       		.uleb128 0x3
+ 451 001f 16       		.uleb128 0x16
+ 452 0020 00       		.byte	0
+ 453 0021 03       		.uleb128 0x3
+ 454 0022 0E       		.uleb128 0xe
+ 455 0023 3A       		.uleb128 0x3a
+ 456 0024 0B       		.uleb128 0xb
+ 457 0025 3B       		.uleb128 0x3b
+ 458 0026 0B       		.uleb128 0xb
+ 459 0027 49       		.uleb128 0x49
+ 460 0028 13       		.uleb128 0x13
+ 461 0029 00       		.byte	0
+ 462 002a 00       		.byte	0
+ 463 002b 04       		.uleb128 0x4
+ 464 002c 24       		.uleb128 0x24
+ 465 002d 00       		.byte	0
+ 466 002e 0B       		.uleb128 0xb
+ 467 002f 0B       		.uleb128 0xb
+ 468 0030 3E       		.uleb128 0x3e
+ 469 0031 0B       		.uleb128 0xb
+ 470 0032 03       		.uleb128 0x3
+ 471 0033 08       		.uleb128 0x8
+ 472 0034 00       		.byte	0
+ 473 0035 00       		.byte	0
+ 474 0036 05       		.uleb128 0x5
+ 475 0037 2E       		.uleb128 0x2e
+ 476 0038 01       		.byte	0x1
+ 477 0039 3F       		.uleb128 0x3f
+ 478 003a 19       		.uleb128 0x19
+ 479 003b 03       		.uleb128 0x3
+ 480 003c 0E       		.uleb128 0xe
+ 481 003d 3A       		.uleb128 0x3a
+ 482 003e 0B       		.uleb128 0xb
+ 483 003f 3B       		.uleb128 0x3b
+ 484 0040 0B       		.uleb128 0xb
+ 485 0041 27       		.uleb128 0x27
+ 486 0042 19       		.uleb128 0x19
+ 487 0043 11       		.uleb128 0x11
+ 488 0044 01       		.uleb128 0x1
+ 489 0045 12       		.uleb128 0x12
+ 490 0046 06       		.uleb128 0x6
+ 491 0047 40       		.uleb128 0x40
+ 492 0048 18       		.uleb128 0x18
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 12
+
+
+ 493 0049 9742     		.uleb128 0x2117
+ 494 004b 19       		.uleb128 0x19
+ 495 004c 01       		.uleb128 0x1
+ 496 004d 13       		.uleb128 0x13
+ 497 004e 00       		.byte	0
+ 498 004f 00       		.byte	0
+ 499 0050 06       		.uleb128 0x6
+ 500 0051 34       		.uleb128 0x34
+ 501 0052 00       		.byte	0
+ 502 0053 03       		.uleb128 0x3
+ 503 0054 0E       		.uleb128 0xe
+ 504 0055 3A       		.uleb128 0x3a
+ 505 0056 0B       		.uleb128 0xb
+ 506 0057 3B       		.uleb128 0x3b
+ 507 0058 0B       		.uleb128 0xb
+ 508 0059 49       		.uleb128 0x49
+ 509 005a 13       		.uleb128 0x13
+ 510 005b 02       		.uleb128 0x2
+ 511 005c 18       		.uleb128 0x18
+ 512 005d 00       		.byte	0
+ 513 005e 00       		.byte	0
+ 514 005f 07       		.uleb128 0x7
+ 515 0060 2E       		.uleb128 0x2e
+ 516 0061 01       		.byte	0x1
+ 517 0062 3F       		.uleb128 0x3f
+ 518 0063 19       		.uleb128 0x19
+ 519 0064 03       		.uleb128 0x3
+ 520 0065 0E       		.uleb128 0xe
+ 521 0066 3A       		.uleb128 0x3a
+ 522 0067 0B       		.uleb128 0xb
+ 523 0068 3B       		.uleb128 0x3b
+ 524 0069 0B       		.uleb128 0xb
+ 525 006a 27       		.uleb128 0x27
+ 526 006b 19       		.uleb128 0x19
+ 527 006c 11       		.uleb128 0x11
+ 528 006d 01       		.uleb128 0x1
+ 529 006e 12       		.uleb128 0x12
+ 530 006f 06       		.uleb128 0x6
+ 531 0070 40       		.uleb128 0x40
+ 532 0071 18       		.uleb128 0x18
+ 533 0072 9642     		.uleb128 0x2116
+ 534 0074 19       		.uleb128 0x19
+ 535 0075 01       		.uleb128 0x1
+ 536 0076 13       		.uleb128 0x13
+ 537 0077 00       		.byte	0
+ 538 0078 00       		.byte	0
+ 539 0079 08       		.uleb128 0x8
+ 540 007a 05       		.uleb128 0x5
+ 541 007b 00       		.byte	0
+ 542 007c 03       		.uleb128 0x3
+ 543 007d 0E       		.uleb128 0xe
+ 544 007e 3A       		.uleb128 0x3a
+ 545 007f 0B       		.uleb128 0xb
+ 546 0080 3B       		.uleb128 0x3b
+ 547 0081 0B       		.uleb128 0xb
+ 548 0082 49       		.uleb128 0x49
+ 549 0083 13       		.uleb128 0x13
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 13
+
+
+ 550 0084 02       		.uleb128 0x2
+ 551 0085 18       		.uleb128 0x18
+ 552 0086 00       		.byte	0
+ 553 0087 00       		.byte	0
+ 554 0088 09       		.uleb128 0x9
+ 555 0089 01       		.uleb128 0x1
+ 556 008a 01       		.byte	0x1
+ 557 008b 49       		.uleb128 0x49
+ 558 008c 13       		.uleb128 0x13
+ 559 008d 01       		.uleb128 0x1
+ 560 008e 13       		.uleb128 0x13
+ 561 008f 00       		.byte	0
+ 562 0090 00       		.byte	0
+ 563 0091 0A       		.uleb128 0xa
+ 564 0092 21       		.uleb128 0x21
+ 565 0093 00       		.byte	0
+ 566 0094 49       		.uleb128 0x49
+ 567 0095 13       		.uleb128 0x13
+ 568 0096 2F       		.uleb128 0x2f
+ 569 0097 0B       		.uleb128 0xb
+ 570 0098 00       		.byte	0
+ 571 0099 00       		.byte	0
+ 572 009a 0B       		.uleb128 0xb
+ 573 009b 35       		.uleb128 0x35
+ 574 009c 00       		.byte	0
+ 575 009d 49       		.uleb128 0x49
+ 576 009e 13       		.uleb128 0x13
+ 577 009f 00       		.byte	0
+ 578 00a0 00       		.byte	0
+ 579 00a1 0C       		.uleb128 0xc
+ 580 00a2 34       		.uleb128 0x34
+ 581 00a3 00       		.byte	0
+ 582 00a4 03       		.uleb128 0x3
+ 583 00a5 0E       		.uleb128 0xe
+ 584 00a6 3A       		.uleb128 0x3a
+ 585 00a7 0B       		.uleb128 0xb
+ 586 00a8 3B       		.uleb128 0x3b
+ 587 00a9 05       		.uleb128 0x5
+ 588 00aa 49       		.uleb128 0x49
+ 589 00ab 13       		.uleb128 0x13
+ 590 00ac 3F       		.uleb128 0x3f
+ 591 00ad 19       		.uleb128 0x19
+ 592 00ae 3C       		.uleb128 0x3c
+ 593 00af 19       		.uleb128 0x19
+ 594 00b0 00       		.byte	0
+ 595 00b1 00       		.byte	0
+ 596 00b2 00       		.byte	0
+ 597              		.section	.debug_aranges,"",%progbits
+ 598 0000 2C000000 		.4byte	0x2c
+ 599 0004 0200     		.2byte	0x2
+ 600 0006 00000000 		.4byte	.Ldebug_info0
+ 601 000a 04       		.byte	0x4
+ 602 000b 00       		.byte	0
+ 603 000c 0000     		.2byte	0
+ 604 000e 0000     		.2byte	0
+ 605 0010 00000000 		.4byte	.LFB68
+ 606 0014 30000000 		.4byte	.LFE68-.LFB68
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 14
+
+
+ 607 0018 00000000 		.4byte	.LFB69
+ 608 001c A0000000 		.4byte	.LFE69-.LFB69
+ 609 0020 00000000 		.4byte	.LFB70
+ 610 0024 34000000 		.4byte	.LFE70-.LFB70
+ 611 0028 00000000 		.4byte	0
+ 612 002c 00000000 		.4byte	0
+ 613              		.section	.debug_ranges,"",%progbits
+ 614              	.Ldebug_ranges0:
+ 615 0000 00000000 		.4byte	.LFB68
+ 616 0004 30000000 		.4byte	.LFE68
+ 617 0008 00000000 		.4byte	.LFB69
+ 618 000c A0000000 		.4byte	.LFE69
+ 619 0010 00000000 		.4byte	.LFB70
+ 620 0014 34000000 		.4byte	.LFE70
+ 621 0018 00000000 		.4byte	0
+ 622 001c 00000000 		.4byte	0
+ 623              		.section	.debug_line,"",%progbits
+ 624              	.Ldebug_line0:
+ 625 0000 98010000 		.section	.debug_str,"MS",%progbits,1
+ 625      02003D01 
+ 625      00000201 
+ 625      FB0E0D00 
+ 625      01010101 
+ 626              	.LASF6:
+ 627 0000 6C6F6E67 		.ascii	"long long int\000"
+ 627      206C6F6E 
+ 627      6720696E 
+ 627      7400
+ 628              	.LASF3:
+ 629 000e 73686F72 		.ascii	"short unsigned int\000"
+ 629      7420756E 
+ 629      7369676E 
+ 629      65642069 
+ 629      6E7400
+ 630              	.LASF8:
+ 631 0021 756E7369 		.ascii	"unsigned int\000"
+ 631      676E6564 
+ 631      20696E74 
+ 631      00
+ 632              	.LASF21:
+ 633 002e 634C6564 		.ascii	"cLedOutput\000"
+ 633      4F757470 
+ 633      757400
+ 634              	.LASF5:
+ 635 0039 6C6F6E67 		.ascii	"long unsigned int\000"
+ 635      20756E73 
+ 635      69676E65 
+ 635      6420696E 
+ 635      7400
+ 636              	.LASF7:
+ 637 004b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 637      206C6F6E 
+ 637      6720756E 
+ 637      7369676E 
+ 637      65642069 
+ 638              	.LASF16:
+ 639 0062 76506172 		.ascii	"vParTestSetLED\000"
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 15
+
+
+ 639      54657374 
+ 639      5365744C 
+ 639      454400
+ 640              	.LASF15:
+ 641 0071 76506172 		.ascii	"vParTestInitialise\000"
+ 641      54657374 
+ 641      496E6974 
+ 641      69616C69 
+ 641      736500
+ 642              	.LASF18:
+ 643 0084 7856616C 		.ascii	"xValue\000"
+ 643      756500
+ 644              	.LASF1:
+ 645 008b 756E7369 		.ascii	"unsigned char\000"
+ 645      676E6564 
+ 645      20636861 
+ 645      7200
+ 646              	.LASF20:
+ 647 0099 6C496E64 		.ascii	"lIndex\000"
+ 647      657800
+ 648              	.LASF19:
+ 649 00a0 76506172 		.ascii	"vParTestToggleLED\000"
+ 649      54657374 
+ 649      546F6767 
+ 649      6C654C45 
+ 649      4400
+ 650              	.LASF22:
+ 651 00b2 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 651      4320342E 
+ 651      392E3320 
+ 651      32303135 
+ 651      30333033 
+ 652 00e5 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 652      20726576 
+ 652      6973696F 
+ 652      6E203232 
+ 652      31323230 
+ 653 0118 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 653      66756E63 
+ 653      74696F6E 
+ 653      2D736563 
+ 653      74696F6E 
+ 654              	.LASF2:
+ 655 0140 73686F72 		.ascii	"short int\000"
+ 655      7420696E 
+ 655      7400
+ 656              	.LASF12:
+ 657 014a 646F7562 		.ascii	"double\000"
+ 657      6C6500
+ 658              	.LASF4:
+ 659 0151 6C6F6E67 		.ascii	"long int\000"
+ 659      20696E74 
+ 659      00
+ 660              	.LASF23:
+ 661 015a 50617254 		.ascii	"ParTest.c\000"
+ 661      6573742E 
+ 661      6300
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc20rSAl.s 			page 16
+
+
+ 662              	.LASF14:
+ 663 0164 73697A65 		.ascii	"sizetype\000"
+ 663      74797065 
+ 663      00
+ 664              	.LASF25:
+ 665 016d 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 665      52784275 
+ 665      66666572 
+ 665      00
+ 666              	.LASF0:
+ 667 017a 7369676E 		.ascii	"signed char\000"
+ 667      65642063 
+ 667      68617200 
+ 668              	.LASF9:
+ 669 0186 5F5F696E 		.ascii	"__int32_t\000"
+ 669      7433325F 
+ 669      7400
+ 670              	.LASF11:
+ 671 0190 666C6F61 		.ascii	"float\000"
+ 671      7400
+ 672              	.LASF17:
+ 673 0196 75784C45 		.ascii	"uxLED\000"
+ 673      4400
+ 674              	.LASF10:
+ 675 019c 696E7433 		.ascii	"int32_t\000"
+ 675      325F7400 
+ 676              	.LASF13:
+ 677 01a4 63686172 		.ascii	"char\000"
+ 677      00
+ 678              	.LASF24:
+ 679 01a9 433A5C55 		.ascii	"C:\\Users\\bmt\\Documents\\GitHub\\FreeRTOS_CY8CKIT"
+ 679      73657273 
+ 679      5C626D74 
+ 679      5C446F63 
+ 679      756D656E 
+ 680 01d7 5F303539 		.ascii	"_059\\FreeRTOS_Demo.cydsn\000"
+ 680      5C467265 
+ 680      6552544F 
+ 680      535F4465 
+ 680      6D6F2E63 
+ 681              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

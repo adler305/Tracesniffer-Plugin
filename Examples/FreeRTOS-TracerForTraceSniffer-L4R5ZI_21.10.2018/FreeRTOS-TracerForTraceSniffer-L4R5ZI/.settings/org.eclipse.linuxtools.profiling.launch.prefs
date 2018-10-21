@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+providermemory=org.eclipse.linuxtools.profiling.provider.valgrind.massif
+use_projectcoverage=true
+use_projectmemory=true

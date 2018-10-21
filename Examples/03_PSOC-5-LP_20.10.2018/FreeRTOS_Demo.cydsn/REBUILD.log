@@ -1,0 +1,427 @@
+--------------- Rebuild Started: 08/07/2018 01:13:35 Project: main.c, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I..\Source\include -I..\Source\portable\GCC\ARM_CM3 -I..\Common\include -I.\Tracer -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/main.lst -g -Wall -ffunction-sections -ffat-lto-objects -O0 -c main.c -o .\CortexM3\ARM_GCC_541\Debug\main.o
+In file included from main.c:99:0:
+.\Tracer/sniffImport.h:12:0: warning: "configUSE_TRACE_FACILITY" redefined
+ #define configUSE_TRACE_FACILITY  1
+ ^
+In file included from ..\Source\include/FreeRTOS.h:98:0,
+                 from main.c:73:
+./FreeRTOSConfig.h:94:0: note: this is the location of the previous definition
+ #define configUSE_TRACE_FACILITY 0
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:39:0: warning: "traceTASK_SWITCHED_IN" redefined
+ #define traceTASK_SWITCHED_IN() {packPayload1(ID_TASK_SWITCHED_IN,pxCurrentTCB->uxTaskNumber);}/**< Traces if a task gets switched in and sends the task number.*/
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:349:0: note: this is the location of the previous definition
+  #define traceTASK_SWITCHED_IN()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:42:0: warning: "traceINCREASE_TICK_COUNT" redefined
+ #define traceINCREASE_TICK_COUNT( x ) {packPayload1(ID_INCREASE_TICK_COUNT,x);} /**< Traces the tick amount increase after a tickless idle sleep.*/
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:355:0: note: this is the location of the previous definition
+  #define traceINCREASE_TICK_COUNT( x )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:45:0: warning: "traceLOW_POWER_IDLE_BEGIN" redefined
+ #define traceLOW_POWER_IDLE_BEGIN() {packPayload0(ID_LOW_POWER_IDLE_BEGIN);} /**< Traces the begin of an idle sleep.*/
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:360:0: note: this is the location of the previous definition
+  #define traceLOW_POWER_IDLE_BEGIN()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:48:0: warning: "traceLOW_POWER_IDLE_END" redefined
+ #define traceLOW_POWER_IDLE_END() /**< Traces the end of an idle sleep.*/ {packPayload0(ID_LOW_POWER_IDLE_END);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:365:0: note: this is the location of the previous definition
+  #define traceLOW_POWER_IDLE_END()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:52:0: warning: "traceTASK_SWITCHED_OUT" redefined
+ #define traceTASK_SWITCHED_OUT() {packPayload1(ID_TASK_SWITCHED_OUT,pxCurrentTCB->uxTaskNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:371:0: note: this is the location of the previous definition
+  #define traceTASK_SWITCHED_OUT()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:58:0: warning: "traceTASK_PRIORITY_INHERIT" redefined
+ #define traceTASK_PRIORITY_INHERIT( pxTCBOfMutexHolder, uxInheritedPriority ) {packPayload2(ID_TASK_PRIORITY_INHERIT,pxTCBOfMutexHolder->uxTaskNumber,uxInheritedPriority);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:380:0: note: this is the location of the previous definition
+  #define traceTASK_PRIORITY_INHERIT( pxTCBOfMutexHolder, uxInheritedPriority )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:64:0: warning: "traceTASK_PRIORITY_DISINHERIT" redefined
+ #define traceTASK_PRIORITY_DISINHERIT( pxTCBOfMutexHolder, uxOriginalPriority ) {packPayload2(ID_TASK_PRIORITY_DISINHERIT,pxTCBOfMutexHolder->uxTaskNumber,uxOriginalPriority);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:388:0: note: this is the location of the previous definition
+  #define traceTASK_PRIORITY_DISINHERIT( pxTCBOfMutexHolder, uxOriginalPriority )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:70:0: warning: "traceBLOCKING_ON_QUEUE_RECEIVE" redefined
+ #define traceBLOCKING_ON_QUEUE_RECEIVE( pxQueue ) {packPayload2(ID_BLOCKING_ON_QUEUE_RECEIVE,(int)pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:396:0: note: this is the location of the previous definition
+  #define traceBLOCKING_ON_QUEUE_RECEIVE( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:75:0: warning: "traceBLOCKING_ON_QUEUE_SEND" redefined
+ #define traceBLOCKING_ON_QUEUE_SEND( pxQueue ) {packPayload2(ID_BLOCKING_ON_QUEUE_SEND,(int)pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:404:0: note: this is the location of the previous definition
+  #define traceBLOCKING_ON_QUEUE_SEND( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:77:0: warning: "configCHECK_FOR_STACK_OVERFLOW" redefined
+ #define configCHECK_FOR_STACK_OVERFLOW 0
+ ^
+In file included from ..\Source\include/FreeRTOS.h:98:0,
+                 from main.c:73:
+./FreeRTOSConfig.h:104:0: note: this is the location of the previous definition
+ #define configCHECK_FOR_STACK_OVERFLOW 2
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:81:0: warning: "traceMOVED_TASK_TO_READY_STATE" redefined
+ #define traceMOVED_TASK_TO_READY_STATE( pxTCB ) {packPayload1(ID_MOVED_TASK_TO_READY_STATE,pxTCB->uxTaskNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:414:0: note: this is the location of the previous definition
+  #define traceMOVED_TASK_TO_READY_STATE( pxTCB )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:83:0: warning: "tracePOST_MOVED_TASK_TO_READY_STATE" redefined
+ #define tracePOST_MOVED_TASK_TO_READY_STATE( pxTCB ) {packPayload1(ID_POST_MOVED_TASK_TO_READY_STATE,pxTCB->uxTaskNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:418:0: note: this is the location of the previous definition
+  #define tracePOST_MOVED_TASK_TO_READY_STATE( pxTCB )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:85:0: warning: "traceQUEUE_CREATE" redefined
+ #define traceQUEUE_CREATE( pxNewQueue ) {pxNewQueue->uxQueueNumber = updateObjectList(pxNewQueue->ucQueueType,"Queue"); packPayload1(ID_QUEUE_CREATE,pxNewQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:422:0: note: this is the location of the previous definition
+  #define traceQUEUE_CREATE( pxNewQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:87:0: warning: "traceQUEUE_CREATE_FAILED" redefined
+ #define traceQUEUE_CREATE_FAILED( ucQueueType ) {packPayload1(ID_QUEUE_CREATE_FAILED,ucQueueType);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:426:0: note: this is the location of the previous definition
+  #define traceQUEUE_CREATE_FAILED( ucQueueType )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:89:0: warning: "traceCREATE_MUTEX" redefined
+ #define traceCREATE_MUTEX( pxNewQueue ) {packPayload1(ID_CREATE_MUTEX,pxNewQueue->uxQueueNumber);}//ObjectListUpdate gets called in the nested QUEUE_CREATE
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:430:0: note: this is the location of the previous definition
+  #define traceCREATE_MUTEX( pxNewQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:91:0: warning: "traceCREATE_MUTEX_FAILED" redefined
+ #define traceCREATE_MUTEX_FAILED() {packPayload0(ID_CREATE_MUTEX_FAILED);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:434:0: note: this is the location of the previous definition
+  #define traceCREATE_MUTEX_FAILED()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:93:0: warning: "traceGIVE_MUTEX_RECURSIVE" redefined
+ #define traceGIVE_MUTEX_RECURSIVE( pxMutex ) {packPayload2(ID_GIVE_MUTEX_RECURSIVE,(int)pxMutex->ucQueueType,pxMutex->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:438:0: note: this is the location of the previous definition
+  #define traceGIVE_MUTEX_RECURSIVE( pxMutex )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:95:0: warning: "traceGIVE_MUTEX_RECURSIVE_FAILED" redefined
+ #define traceGIVE_MUTEX_RECURSIVE_FAILED( pxMutex ) {packPayload2(ID_GIVE_MUTEX_RECURSIVE_FAILED,(int)pxMutex->ucQueueType,pxMutex->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:442:0: note: this is the location of the previous definition
+  #define traceGIVE_MUTEX_RECURSIVE_FAILED( pxMutex )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:97:0: warning: "traceTAKE_MUTEX_RECURSIVE" redefined
+ #define traceTAKE_MUTEX_RECURSIVE( pxMutex ) {packPayload2(ID_TAKE_MUTEX_RECURSIVE,(int)pxMutex->ucQueueType,pxMutex->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:446:0: note: this is the location of the previous definition
+  #define traceTAKE_MUTEX_RECURSIVE( pxMutex )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:99:0: warning: "traceTAKE_MUTEX_RECURSIVE_FAILED" redefined
+ #define traceTAKE_MUTEX_RECURSIVE_FAILED( pxMutex ) {packPayload2(ID_TAKE_MUTEX_RECURSIVE_FAILED,(int)pxMutex->ucQueueType,pxMutex->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:450:0: note: this is the location of the previous definition
+  #define traceTAKE_MUTEX_RECURSIVE_FAILED( pxMutex )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:101:0: warning: "traceCREATE_COUNTING_SEMAPHORE" redefined
+ #define traceCREATE_COUNTING_SEMAPHORE() {packPayload0(ID_CREATE_COUNTING_SEMAPHORE);} //ObjectListUpdate gets called in the nested QUEUE_CREATE
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:454:0: note: this is the location of the previous definition
+  #define traceCREATE_COUNTING_SEMAPHORE()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:103:0: warning: "traceCREATE_COUNTING_SEMAPHORE_FAILED" redefined
+ #define traceCREATE_COUNTING_SEMAPHORE_FAILED() {packPayload0(ID_CREATE_COUNTING_SEMAPHORE_FAILED);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:458:0: note: this is the location of the previous definition
+  #define traceCREATE_COUNTING_SEMAPHORE_FAILED()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:105:0: warning: "traceQUEUE_SEND" redefined
+ #define traceQUEUE_SEND( pxQueue ) {packPayload2(ID_QUEUE_SEND,(int)pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:462:0: note: this is the location of the previous definition
+  #define traceQUEUE_SEND( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:107:0: warning: "traceQUEUE_SEND_FAILED" redefined
+ #define traceQUEUE_SEND_FAILED( pxQueue ) {packPayload2(ID_QUEUE_SEND_FAILED,(int)pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:466:0: note: this is the location of the previous definition
+  #define traceQUEUE_SEND_FAILED( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:109:0: warning: "traceQUEUE_RECEIVE" redefined
+ #define traceQUEUE_RECEIVE( pxQueue ) {packPayload2(ID_QUEUE_RECEIVE,pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:470:0: note: this is the location of the previous definition
+  #define traceQUEUE_RECEIVE( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:111:0: warning: "traceQUEUE_PEEK" redefined
+ #define traceQUEUE_PEEK( pxQueue ) {packPayload2(ID_QUEUE_PEEK,(int)pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:474:0: note: this is the location of the previous definition
+  #define traceQUEUE_PEEK( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:113:0: warning: "traceQUEUE_PEEK_FROM_ISR" redefined
+ #define traceQUEUE_PEEK_FROM_ISR( pxQueue ) {packPayload2(ID_QUEUE_PEEK_FROM_ISR,pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:478:0: note: this is the location of the previous definition
+  #define traceQUEUE_PEEK_FROM_ISR( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:115:0: warning: "traceQUEUE_RECEIVE_FAILED" redefined
+ #define traceQUEUE_RECEIVE_FAILED( pxQueue ) {packPayload2(ID_QUEUE_RECEIVE_FAILED,pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:482:0: note: this is the location of the previous definition
+  #define traceQUEUE_RECEIVE_FAILED( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:117:0: warning: "traceQUEUE_SEND_FROM_ISR" redefined
+ #define traceQUEUE_SEND_FROM_ISR( pxQueue ) {packPayload2(ID_QUEUE_SEND_FROM_ISR,pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:486:0: note: this is the location of the previous definition
+  #define traceQUEUE_SEND_FROM_ISR( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:119:0: warning: "traceQUEUE_SEND_FROM_ISR_FAILED" redefined
+ #define traceQUEUE_SEND_FROM_ISR_FAILED( pxQueue ) {packPayload2(ID_QUEUE_SEND_FROM_ISR_FAILED,pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:490:0: note: this is the location of the previous definition
+  #define traceQUEUE_SEND_FROM_ISR_FAILED( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:121:0: warning: "traceQUEUE_RECEIVE_FROM_ISR" redefined
+ #define traceQUEUE_RECEIVE_FROM_ISR( pxQueue ) {packPayload2(ID_QUEUE_RECEIVE_FROM_ISR,pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:494:0: note: this is the location of the previous definition
+  #define traceQUEUE_RECEIVE_FROM_ISR( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:123:0: warning: "traceQUEUE_RECEIVE_FROM_ISR_FAILED" redefined
+ #define traceQUEUE_RECEIVE_FROM_ISR_FAILED( pxQueue ) {packPayload2(ID_QUEUE_RECEIVE_FROM_ISR_FAILED,pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:498:0: note: this is the location of the previous definition
+  #define traceQUEUE_RECEIVE_FROM_ISR_FAILED( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:125:0: warning: "traceQUEUE_PEEK_FROM_ISR_FAILED" redefined
+ #define traceQUEUE_PEEK_FROM_ISR_FAILED( pxQueue ) {packPayload2(ID_QUEUE_PEEK_FROM_ISR_FAILED,pxQueue->ucQueueType,pxQueue->uxQueueNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:502:0: note: this is the location of the previous definition
+  #define traceQUEUE_PEEK_FROM_ISR_FAILED( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:127:0: warning: "traceQUEUE_DELETE" redefined
+ #define traceQUEUE_DELETE( pxQueue )  {objectList[pxQueue->ucQueueType].objectArray[pxQueue->uxQueueNumber].objectNumber = 0; packPayload0(ID_QUEUE_DELETE);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:506:0: note: this is the location of the previous definition
+  #define traceQUEUE_DELETE( pxQueue )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:129:0: warning: "traceTASK_CREATE" redefined
+ #define traceTASK_CREATE( pxNewTCB ) {pxNewTCB->uxTaskNumber = updateObjectList(TASK,pxNewTCB->pcTaskName); packPayload1(ID_TASK_CREATE,pxNewTCB->uxTaskNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:510:0: note: this is the location of the previous definition
+  #define traceTASK_CREATE( pxNewTCB )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:131:0: warning: "traceTASK_CREATE_FAILED" redefined
+ #define traceTASK_CREATE_FAILED() {packPayload0(ID_TASK_CREATE_FAILED);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:514:0: note: this is the location of the previous definition
+  #define traceTASK_CREATE_FAILED()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:133:0: warning: "traceTASK_DELETE" redefined
+ #define traceTASK_DELETE( pxTaskToDelete ) {objectList[TASK].objectArray[pxTaskToDelete->uxTaskNumber].objectNumber = 0;packPayload1(ID_TASK_DELETE,pxTaskToDelete->uxTaskNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:518:0: note: this is the location of the previous definition
+  #define traceTASK_DELETE( pxTaskToDelete )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:135:0: warning: "traceTASK_DELAY_UNTIL" redefined
+ #define traceTASK_DELAY_UNTIL( x ) {packPayload3(ID_TASK_DELAY_UNTIL,pxCurrentTCB->uxTaskNumber,xTimeIncrement>>8,xTimeIncrement);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:522:0: note: this is the location of the previous definition
+  #define traceTASK_DELAY_UNTIL( x )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:137:0: warning: "traceTASK_DELAY" redefined
+ #define traceTASK_DELAY() {packPayload3(ID_TASK_DELAY,pxCurrentTCB->uxTaskNumber,xTicksToDelay>>8,xTicksToDelay);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:526:0: note: this is the location of the previous definition
+  #define traceTASK_DELAY()
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:139:0: warning: "traceTASK_PRIORITY_SET" redefined
+ #define traceTASK_PRIORITY_SET( pxTask, uxNewPriority ) {packPayload2(ID_TASK_PRIORITY_SET,pxTask->uxTaskNumber,uxNewPriority);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:530:0: note: this is the location of the previous definition
+  #define traceTASK_PRIORITY_SET( pxTask, uxNewPriority )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:141:0: warning: "traceTASK_SUSPEND" redefined
+ #define traceTASK_SUSPEND( pxTaskToSuspend ) {packPayload1(ID_TASK_SUSPEND,pxTaskToSuspend->uxTaskNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:534:0: note: this is the location of the previous definition
+  #define traceTASK_SUSPEND( pxTaskToSuspend )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:143:0: warning: "traceTASK_RESUME" redefined
+ #define traceTASK_RESUME( pxTaskToResume ) {packPayload1(ID_TASK_RESUME,pxTaskToResume->uxTaskNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:538:0: note: this is the location of the previous definition
+  #define traceTASK_RESUME( pxTaskToResume )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:145:0: warning: "traceTASK_RESUME_FROM_ISR" redefined
+ #define traceTASK_RESUME_FROM_ISR( pxTaskToResume ) {packPayload1(ID_TASK_RESUME_FROM_ISR,pxTaskToResume->uxTaskNumber);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:542:0: note: this is the location of the previous definition
+  #define traceTASK_RESUME_FROM_ISR( pxTaskToResume )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:147:0: warning: "traceTASK_INCREMENT_TICK" redefined
+ #define traceTASK_INCREMENT_TICK( xTickCount ) {packPayload0(ID_TASK_INCREMENT_TICK);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:546:0: note: this is the location of the previous definition
+  #define traceTASK_INCREMENT_TICK( xTickCount )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:149:0: warning: "traceMALLOC" redefined
+ #define traceMALLOC( pvAddress, uiSize ) {packPayload2(ID_MALLOC,uiSize>>8,uiSize);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:570:0: note: this is the location of the previous definition
+     #define traceMALLOC( pvAddress, uiSize )
+ ^
+In file included from .\Tracer/sniffImport.h:14:0,
+                 from main.c:99:
+.\Tracer/sniffHooks.h:151:0: warning: "traceFREE" redefined
+ #define traceFREE( pvAddress, uiSize ) {packPayload2(ID_FREE,uiSize>>8,uiSize);}
+ ^
+In file included from main.c:73:0:
+..\Source\include/FreeRTOS.h:574:0: note: this is the location of the previous definition
+     #define traceFREE( pvAddress, uiSize )
+ ^
+--------------- Rebuild Succeeded: 08/07/2018 01:13:36 ---------------

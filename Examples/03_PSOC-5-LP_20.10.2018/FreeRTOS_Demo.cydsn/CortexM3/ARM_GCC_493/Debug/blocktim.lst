@@ -1,0 +1,2721 @@
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"blocktim.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.bss
+  19              		.align	2
+  20              	xTestQueue:
+  21 0000 00000000 		.space	4
+  22              		.align	2
+  23              	xSecondary:
+  24 0004 00000000 		.space	4
+  25              		.align	2
+  26              	xPrimaryCycles:
+  27 0008 00000000 		.space	4
+  28              		.align	2
+  29              	xSecondaryCycles:
+  30 000c 00000000 		.space	4
+  31              		.align	2
+  32              	xErrorOccurred:
+  33 0010 00000000 		.space	4
+  34              		.align	2
+  35              	xRunIndicator:
+  36 0014 00000000 		.space	4
+  37              		.section	.rodata
+  38              		.align	2
+  39              	.LC0:
+  40 0000 426C6F63 		.ascii	"Block_Time_Queue\000"
+  40      6B5F5469 
+  40      6D655F51 
+  40      75657565 
+  40      00
+  41 0011 000000   		.align	2
+  42              	.LC1:
+  43 0014 42546573 		.ascii	"BTest1\000"
+  43      743100
+  44 001b 00       		.align	2
+  45              	.LC2:
+  46 001c 42546573 		.ascii	"BTest2\000"
+  46      743200
+  47 0023 00       		.section	.text.vCreateBlockTimeTasks,"ax",%progbits
+  48              		.align	2
+  49              		.global	vCreateBlockTimeTasks
+  50              		.thumb
+  51              		.thumb_func
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 2
+
+
+  52              		.type	vCreateBlockTimeTasks, %function
+  53              	vCreateBlockTimeTasks:
+  54              	.LFB68:
+  55              		.file 1 "..\\Common\\Minimal\\blocktim.c"
+   1:..\Common\Minimal/blocktim.c **** /*
+   2:..\Common\Minimal/blocktim.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Common\Minimal/blocktim.c ****     All rights reserved
+   4:..\Common\Minimal/blocktim.c **** 
+   5:..\Common\Minimal/blocktim.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Common\Minimal/blocktim.c **** 
+   7:..\Common\Minimal/blocktim.c ****     This file is part of the FreeRTOS distribution.
+   8:..\Common\Minimal/blocktim.c **** 
+   9:..\Common\Minimal/blocktim.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:..\Common\Minimal/blocktim.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Common\Minimal/blocktim.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Common\Minimal/blocktim.c **** 
+  13:..\Common\Minimal/blocktim.c ****     ***************************************************************************
+  14:..\Common\Minimal/blocktim.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Common\Minimal/blocktim.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Common\Minimal/blocktim.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Common\Minimal/blocktim.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Common\Minimal/blocktim.c ****     ***************************************************************************
+  19:..\Common\Minimal/blocktim.c **** 
+  20:..\Common\Minimal/blocktim.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Common\Minimal/blocktim.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Common\Minimal/blocktim.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:..\Common\Minimal/blocktim.c ****     link: http://www.freertos.org/a00114.html
+  24:..\Common\Minimal/blocktim.c **** 
+  25:..\Common\Minimal/blocktim.c ****     ***************************************************************************
+  26:..\Common\Minimal/blocktim.c ****      *                                                                       *
+  27:..\Common\Minimal/blocktim.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Common\Minimal/blocktim.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Common\Minimal/blocktim.c ****      *    platform software that is more than just the market leader, it     *
+  30:..\Common\Minimal/blocktim.c ****      *    is the industry's de facto standard.                               *
+  31:..\Common\Minimal/blocktim.c ****      *                                                                       *
+  32:..\Common\Minimal/blocktim.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Common\Minimal/blocktim.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Common\Minimal/blocktim.c ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Common\Minimal/blocktim.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Common\Minimal/blocktim.c ****      *                                                                       *
+  37:..\Common\Minimal/blocktim.c ****     ***************************************************************************
+  38:..\Common\Minimal/blocktim.c **** 
+  39:..\Common\Minimal/blocktim.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Common\Minimal/blocktim.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Common\Minimal/blocktim.c ****     defined configASSERT()?
+  42:..\Common\Minimal/blocktim.c **** 
+  43:..\Common\Minimal/blocktim.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Common\Minimal/blocktim.c ****     embedded software for free we request you assist our global community by
+  45:..\Common\Minimal/blocktim.c ****     participating in the support forum.
+  46:..\Common\Minimal/blocktim.c **** 
+  47:..\Common\Minimal/blocktim.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:..\Common\Minimal/blocktim.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Common\Minimal/blocktim.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Common\Minimal/blocktim.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:..\Common\Minimal/blocktim.c **** 
+  52:..\Common\Minimal/blocktim.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Common\Minimal/blocktim.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 3
+
+
+  54:..\Common\Minimal/blocktim.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Common\Minimal/blocktim.c **** 
+  56:..\Common\Minimal/blocktim.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Common\Minimal/blocktim.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Common\Minimal/blocktim.c **** 
+  59:..\Common\Minimal/blocktim.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Common\Minimal/blocktim.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Common\Minimal/blocktim.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Common\Minimal/blocktim.c **** 
+  63:..\Common\Minimal/blocktim.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Common\Minimal/blocktim.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Common\Minimal/blocktim.c ****     mission critical applications that require provable dependability.
+  66:..\Common\Minimal/blocktim.c **** 
+  67:..\Common\Minimal/blocktim.c ****     1 tab == 4 spaces!
+  68:..\Common\Minimal/blocktim.c **** */
+  69:..\Common\Minimal/blocktim.c **** 
+  70:..\Common\Minimal/blocktim.c **** /*
+  71:..\Common\Minimal/blocktim.c ****  * This file contains some test scenarios that ensure tasks do not exit queue
+  72:..\Common\Minimal/blocktim.c ****  * send or receive functions prematurely.  A description of the tests is
+  73:..\Common\Minimal/blocktim.c ****  * included within the code.
+  74:..\Common\Minimal/blocktim.c ****  */
+  75:..\Common\Minimal/blocktim.c **** 
+  76:..\Common\Minimal/blocktim.c **** /* Kernel includes. */
+  77:..\Common\Minimal/blocktim.c **** #include "FreeRTOS.h"
+  78:..\Common\Minimal/blocktim.c **** #include "task.h"
+  79:..\Common\Minimal/blocktim.c **** #include "queue.h"
+  80:..\Common\Minimal/blocktim.c **** 
+  81:..\Common\Minimal/blocktim.c **** /* Demo includes. */
+  82:..\Common\Minimal/blocktim.c **** #include "blocktim.h"
+  83:..\Common\Minimal/blocktim.c **** 
+  84:..\Common\Minimal/blocktim.c **** /* Task priorities.  Allow these to be overridden. */
+  85:..\Common\Minimal/blocktim.c **** #ifndef bktPRIMARY_PRIORITY
+  86:..\Common\Minimal/blocktim.c **** 	#define bktPRIMARY_PRIORITY		( configMAX_PRIORITIES - 3 )
+  87:..\Common\Minimal/blocktim.c **** #endif
+  88:..\Common\Minimal/blocktim.c **** 
+  89:..\Common\Minimal/blocktim.c **** #ifndef bktSECONDARY_PRIORITY
+  90:..\Common\Minimal/blocktim.c **** 	#define bktSECONDARY_PRIORITY	( configMAX_PRIORITIES - 4 )
+  91:..\Common\Minimal/blocktim.c **** #endif
+  92:..\Common\Minimal/blocktim.c **** 
+  93:..\Common\Minimal/blocktim.c **** /* Task behaviour. */
+  94:..\Common\Minimal/blocktim.c **** #define bktQUEUE_LENGTH				( 5 )
+  95:..\Common\Minimal/blocktim.c **** #define bktSHORT_WAIT				pdMS_TO_TICKS( ( TickType_t ) 20 )
+  96:..\Common\Minimal/blocktim.c **** #define bktPRIMARY_BLOCK_TIME		( 10 )
+  97:..\Common\Minimal/blocktim.c **** #define bktALLOWABLE_MARGIN			( 15 )
+  98:..\Common\Minimal/blocktim.c **** #define bktTIME_TO_BLOCK			( 175 )
+  99:..\Common\Minimal/blocktim.c **** #define bktDONT_BLOCK				( ( TickType_t ) 0 )
+ 100:..\Common\Minimal/blocktim.c **** #define bktRUN_INDICATOR			( ( UBaseType_t ) 0x55 )
+ 101:..\Common\Minimal/blocktim.c **** 
+ 102:..\Common\Minimal/blocktim.c **** /* In case the demo does not have software timers enabled, as this file uses
+ 103:..\Common\Minimal/blocktim.c **** the configTIMER_TASK_PRIORITY setting. */
+ 104:..\Common\Minimal/blocktim.c **** #ifndef configTIMER_TASK_PRIORITY
+ 105:..\Common\Minimal/blocktim.c **** 	#define configTIMER_TASK_PRIORITY ( configMAX_PRIORITIES - 1 )
+ 106:..\Common\Minimal/blocktim.c **** #endif
+ 107:..\Common\Minimal/blocktim.c **** 
+ 108:..\Common\Minimal/blocktim.c **** /*-----------------------------------------------------------*/
+ 109:..\Common\Minimal/blocktim.c **** 
+ 110:..\Common\Minimal/blocktim.c **** /*
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 4
+
+
+ 111:..\Common\Minimal/blocktim.c ****  * The two test tasks.  Their behaviour is commented within the functions.
+ 112:..\Common\Minimal/blocktim.c ****  */
+ 113:..\Common\Minimal/blocktim.c **** static void vPrimaryBlockTimeTestTask( void *pvParameters );
+ 114:..\Common\Minimal/blocktim.c **** static void vSecondaryBlockTimeTestTask( void *pvParameters );
+ 115:..\Common\Minimal/blocktim.c **** 
+ 116:..\Common\Minimal/blocktim.c **** /*
+ 117:..\Common\Minimal/blocktim.c ****  * Very basic tests to verify the block times are as expected.
+ 118:..\Common\Minimal/blocktim.c ****  */
+ 119:..\Common\Minimal/blocktim.c **** static void prvBasicDelayTests( void );
+ 120:..\Common\Minimal/blocktim.c **** 
+ 121:..\Common\Minimal/blocktim.c **** /*-----------------------------------------------------------*/
+ 122:..\Common\Minimal/blocktim.c **** 
+ 123:..\Common\Minimal/blocktim.c **** /* The queue on which the tasks block. */
+ 124:..\Common\Minimal/blocktim.c **** static QueueHandle_t xTestQueue;
+ 125:..\Common\Minimal/blocktim.c **** 
+ 126:..\Common\Minimal/blocktim.c **** /* Handle to the secondary task is required by the primary task for calls
+ 127:..\Common\Minimal/blocktim.c **** to vTaskSuspend/Resume(). */
+ 128:..\Common\Minimal/blocktim.c **** static TaskHandle_t xSecondary;
+ 129:..\Common\Minimal/blocktim.c **** 
+ 130:..\Common\Minimal/blocktim.c **** /* Used to ensure that tasks are still executing without error. */
+ 131:..\Common\Minimal/blocktim.c **** static volatile BaseType_t xPrimaryCycles = 0, xSecondaryCycles = 0;
+ 132:..\Common\Minimal/blocktim.c **** static volatile BaseType_t xErrorOccurred = pdFALSE;
+ 133:..\Common\Minimal/blocktim.c **** 
+ 134:..\Common\Minimal/blocktim.c **** /* Provides a simple mechanism for the primary task to know when the
+ 135:..\Common\Minimal/blocktim.c **** secondary task has executed. */
+ 136:..\Common\Minimal/blocktim.c **** static volatile UBaseType_t xRunIndicator;
+ 137:..\Common\Minimal/blocktim.c **** 
+ 138:..\Common\Minimal/blocktim.c **** /*-----------------------------------------------------------*/
+ 139:..\Common\Minimal/blocktim.c **** 
+ 140:..\Common\Minimal/blocktim.c **** void vCreateBlockTimeTasks( void )
+ 141:..\Common\Minimal/blocktim.c **** {
+  56              		.loc 1 141 0
+  57              		.cfi_startproc
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 1, uses_anonymous_args = 0
+  60 0000 80B5     		push	{r7, lr}
+  61              		.cfi_def_cfa_offset 8
+  62              		.cfi_offset 7, -8
+  63              		.cfi_offset 14, -4
+  64 0002 82B0     		sub	sp, sp, #8
+  65              		.cfi_def_cfa_offset 16
+  66 0004 02AF     		add	r7, sp, #8
+  67              		.cfi_def_cfa 7, 8
+ 142:..\Common\Minimal/blocktim.c **** 	/* Create the queue on which the two tasks block. */
+ 143:..\Common\Minimal/blocktim.c **** 	xTestQueue = xQueueCreate( bktQUEUE_LENGTH, sizeof( BaseType_t ) );
+  68              		.loc 1 143 0
+  69 0006 0520     		movs	r0, #5
+  70 0008 0421     		movs	r1, #4
+  71 000a 0022     		movs	r2, #0
+  72 000c FFF7FEFF 		bl	xQueueGenericCreate
+  73 0010 0246     		mov	r2, r0
+  74 0012 114B     		ldr	r3, .L3
+  75 0014 1A60     		str	r2, [r3]
+ 144:..\Common\Minimal/blocktim.c **** 
+ 145:..\Common\Minimal/blocktim.c **** 	if( xTestQueue != NULL )
+  76              		.loc 1 145 0
+  77 0016 104B     		ldr	r3, .L3
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 5
+
+
+  78 0018 1B68     		ldr	r3, [r3]
+  79 001a 002B     		cmp	r3, #0
+  80 001c 19D0     		beq	.L1
+ 146:..\Common\Minimal/blocktim.c **** 	{
+ 147:..\Common\Minimal/blocktim.c **** 		/* vQueueAddToRegistry() adds the queue to the queue registry, if one
+ 148:..\Common\Minimal/blocktim.c **** 		is in use.  The queue registry is provided as a means for kernel aware
+ 149:..\Common\Minimal/blocktim.c **** 		debuggers to locate queues and has no purpose if a kernel aware
+ 150:..\Common\Minimal/blocktim.c **** 		debugger is not being used.  The call to vQueueAddToRegistry() will be
+ 151:..\Common\Minimal/blocktim.c **** 		removed by the pre-processor if configQUEUE_REGISTRY_SIZE is not
+ 152:..\Common\Minimal/blocktim.c **** 		defined or is defined to be less than 1. */
+ 153:..\Common\Minimal/blocktim.c **** 		vQueueAddToRegistry( xTestQueue, "Block_Time_Queue" );
+  81              		.loc 1 153 0
+  82 001e 0E4B     		ldr	r3, .L3
+  83 0020 1B68     		ldr	r3, [r3]
+  84 0022 1846     		mov	r0, r3
+  85 0024 0D49     		ldr	r1, .L3+4
+  86 0026 FFF7FEFF 		bl	vQueueAddToRegistry
+ 154:..\Common\Minimal/blocktim.c **** 
+ 155:..\Common\Minimal/blocktim.c **** 		/* Create the two test tasks. */
+ 156:..\Common\Minimal/blocktim.c **** 		xTaskCreate( vPrimaryBlockTimeTestTask, "BTest1", configMINIMAL_STACK_SIZE, NULL, bktPRIMARY_PRIO
+  87              		.loc 1 156 0
+  88 002a 0223     		movs	r3, #2
+  89 002c 0093     		str	r3, [sp]
+  90 002e 0023     		movs	r3, #0
+  91 0030 0193     		str	r3, [sp, #4]
+  92 0032 0B48     		ldr	r0, .L3+8
+  93 0034 0B49     		ldr	r1, .L3+12
+  94 0036 6422     		movs	r2, #100
+  95 0038 0023     		movs	r3, #0
+  96 003a FFF7FEFF 		bl	xTaskCreate
+ 157:..\Common\Minimal/blocktim.c **** 		xTaskCreate( vSecondaryBlockTimeTestTask, "BTest2", configMINIMAL_STACK_SIZE, NULL, bktSECONDARY_
+  97              		.loc 1 157 0
+  98 003e 0123     		movs	r3, #1
+  99 0040 0093     		str	r3, [sp]
+ 100 0042 094B     		ldr	r3, .L3+16
+ 101 0044 0193     		str	r3, [sp, #4]
+ 102 0046 0948     		ldr	r0, .L3+20
+ 103 0048 0949     		ldr	r1, .L3+24
+ 104 004a 6422     		movs	r2, #100
+ 105 004c 0023     		movs	r3, #0
+ 106 004e FFF7FEFF 		bl	xTaskCreate
+ 107              	.L1:
+ 158:..\Common\Minimal/blocktim.c **** 	}
+ 159:..\Common\Minimal/blocktim.c **** }
+ 108              		.loc 1 159 0
+ 109 0052 BD46     		mov	sp, r7
+ 110              		.cfi_def_cfa_register 13
+ 111              		@ sp needed
+ 112 0054 80BD     		pop	{r7, pc}
+ 113              	.L4:
+ 114 0056 00BF     		.align	2
+ 115              	.L3:
+ 116 0058 00000000 		.word	xTestQueue
+ 117 005c 00000000 		.word	.LC0
+ 118 0060 00000000 		.word	vPrimaryBlockTimeTestTask
+ 119 0064 14000000 		.word	.LC1
+ 120 0068 04000000 		.word	xSecondary
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 6
+
+
+ 121 006c 00000000 		.word	vSecondaryBlockTimeTestTask
+ 122 0070 1C000000 		.word	.LC2
+ 123              		.cfi_endproc
+ 124              	.LFE68:
+ 125              		.size	vCreateBlockTimeTasks, .-vCreateBlockTimeTasks
+ 126              		.section	.text.vPrimaryBlockTimeTestTask,"ax",%progbits
+ 127              		.align	2
+ 128              		.thumb
+ 129              		.thumb_func
+ 130              		.type	vPrimaryBlockTimeTestTask, %function
+ 131              	vPrimaryBlockTimeTestTask:
+ 132              	.LFB69:
+ 160:..\Common\Minimal/blocktim.c **** /*-----------------------------------------------------------*/
+ 161:..\Common\Minimal/blocktim.c **** 
+ 162:..\Common\Minimal/blocktim.c **** static void vPrimaryBlockTimeTestTask( void *pvParameters )
+ 163:..\Common\Minimal/blocktim.c **** {
+ 133              		.loc 1 163 0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 32
+ 136              		@ frame_needed = 1, uses_anonymous_args = 0
+ 137 0000 80B5     		push	{r7, lr}
+ 138              		.cfi_def_cfa_offset 8
+ 139              		.cfi_offset 7, -8
+ 140              		.cfi_offset 14, -4
+ 141 0002 88B0     		sub	sp, sp, #32
+ 142              		.cfi_def_cfa_offset 40
+ 143 0004 00AF     		add	r7, sp, #0
+ 144              		.cfi_def_cfa_register 7
+ 145 0006 7860     		str	r0, [r7, #4]
+ 146              	.L42:
+ 164:..\Common\Minimal/blocktim.c **** BaseType_t xItem, xData;
+ 165:..\Common\Minimal/blocktim.c **** TickType_t xTimeWhenBlocking;
+ 166:..\Common\Minimal/blocktim.c **** TickType_t xTimeToBlock, xBlockedTime;
+ 167:..\Common\Minimal/blocktim.c **** 
+ 168:..\Common\Minimal/blocktim.c **** 	( void ) pvParameters;
+ 169:..\Common\Minimal/blocktim.c **** 
+ 170:..\Common\Minimal/blocktim.c **** 	for( ;; )
+ 171:..\Common\Minimal/blocktim.c **** 	{
+ 172:..\Common\Minimal/blocktim.c **** 		/*********************************************************************
+ 173:..\Common\Minimal/blocktim.c **** 		Test 0
+ 174:..\Common\Minimal/blocktim.c **** 
+ 175:..\Common\Minimal/blocktim.c **** 		Basic vTaskDelay() and vTaskDelayUntil() tests. */
+ 176:..\Common\Minimal/blocktim.c **** 		prvBasicDelayTests();
+ 147              		.loc 1 176 0
+ 148 0008 FFF7FEFF 		bl	prvBasicDelayTests
+ 177:..\Common\Minimal/blocktim.c **** 
+ 178:..\Common\Minimal/blocktim.c **** 
+ 179:..\Common\Minimal/blocktim.c **** 		/*********************************************************************
+ 180:..\Common\Minimal/blocktim.c **** 		Test 1
+ 181:..\Common\Minimal/blocktim.c **** 
+ 182:..\Common\Minimal/blocktim.c **** 		Simple block time wakeup test on queue receives. */
+ 183:..\Common\Minimal/blocktim.c **** 		for( xItem = 0; xItem < bktQUEUE_LENGTH; xItem++ )
+ 149              		.loc 1 183 0
+ 150 000c 0023     		movs	r3, #0
+ 151 000e 3B61     		str	r3, [r7, #16]
+ 152 0010 30E0     		b	.L6
+ 153              	.L10:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 7
+
+
+ 184:..\Common\Minimal/blocktim.c **** 		{
+ 185:..\Common\Minimal/blocktim.c **** 			/* The queue is empty. Attempt to read from the queue using a block
+ 186:..\Common\Minimal/blocktim.c **** 			time.  When we wake, ensure the delta in time is as expected. */
+ 187:..\Common\Minimal/blocktim.c **** 			xTimeToBlock = ( TickType_t ) ( bktPRIMARY_BLOCK_TIME << xItem );
+ 154              		.loc 1 187 0
+ 155 0012 3B69     		ldr	r3, [r7, #16]
+ 156 0014 0A22     		movs	r2, #10
+ 157 0016 02FA03F3 		lsl	r3, r2, r3
+ 158 001a FB61     		str	r3, [r7, #28]
+ 188:..\Common\Minimal/blocktim.c **** 
+ 189:..\Common\Minimal/blocktim.c **** 			xTimeWhenBlocking = xTaskGetTickCount();
+ 159              		.loc 1 189 0
+ 160 001c FFF7FEFF 		bl	xTaskGetTickCount
+ 161 0020 B861     		str	r0, [r7, #24]
+ 190:..\Common\Minimal/blocktim.c **** 
+ 191:..\Common\Minimal/blocktim.c **** 			/* We should unblock after xTimeToBlock having not received
+ 192:..\Common\Minimal/blocktim.c **** 			anything on the queue. */
+ 193:..\Common\Minimal/blocktim.c **** 			if( xQueueReceive( xTestQueue, &xData, xTimeToBlock ) != errQUEUE_EMPTY )
+ 162              		.loc 1 193 0
+ 163 0022 A94B     		ldr	r3, .L43
+ 164 0024 1A68     		ldr	r2, [r3]
+ 165 0026 07F10C03 		add	r3, r7, #12
+ 166 002a 1046     		mov	r0, r2
+ 167 002c 1946     		mov	r1, r3
+ 168 002e FA69     		ldr	r2, [r7, #28]
+ 169 0030 0023     		movs	r3, #0
+ 170 0032 FFF7FEFF 		bl	xQueueGenericReceive
+ 171 0036 0346     		mov	r3, r0
+ 172 0038 002B     		cmp	r3, #0
+ 173 003a 02D0     		beq	.L7
+ 194:..\Common\Minimal/blocktim.c **** 			{
+ 195:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 174              		.loc 1 195 0
+ 175 003c A34B     		ldr	r3, .L43+4
+ 176 003e 0122     		movs	r2, #1
+ 177 0040 1A60     		str	r2, [r3]
+ 178              	.L7:
+ 196:..\Common\Minimal/blocktim.c **** 			}
+ 197:..\Common\Minimal/blocktim.c **** 
+ 198:..\Common\Minimal/blocktim.c **** 			/* How long were we blocked for? */
+ 199:..\Common\Minimal/blocktim.c **** 			xBlockedTime = xTaskGetTickCount() - xTimeWhenBlocking;
+ 179              		.loc 1 199 0
+ 180 0042 FFF7FEFF 		bl	xTaskGetTickCount
+ 181 0046 0246     		mov	r2, r0
+ 182 0048 BB69     		ldr	r3, [r7, #24]
+ 183 004a D31A     		subs	r3, r2, r3
+ 184 004c 7B61     		str	r3, [r7, #20]
+ 200:..\Common\Minimal/blocktim.c **** 
+ 201:..\Common\Minimal/blocktim.c **** 			if( xBlockedTime < xTimeToBlock )
+ 185              		.loc 1 201 0
+ 186 004e 7A69     		ldr	r2, [r7, #20]
+ 187 0050 FB69     		ldr	r3, [r7, #28]
+ 188 0052 9A42     		cmp	r2, r3
+ 189 0054 02D2     		bcs	.L8
+ 202:..\Common\Minimal/blocktim.c **** 			{
+ 203:..\Common\Minimal/blocktim.c **** 				/* Should not have blocked for less than we requested. */
+ 204:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 8
+
+
+ 190              		.loc 1 204 0
+ 191 0056 9D4B     		ldr	r3, .L43+4
+ 192 0058 0122     		movs	r2, #1
+ 193 005a 1A60     		str	r2, [r3]
+ 194              	.L8:
+ 205:..\Common\Minimal/blocktim.c **** 			}
+ 206:..\Common\Minimal/blocktim.c **** 
+ 207:..\Common\Minimal/blocktim.c **** 			if( xBlockedTime > ( xTimeToBlock + bktALLOWABLE_MARGIN ) )
+ 195              		.loc 1 207 0
+ 196 005c FB69     		ldr	r3, [r7, #28]
+ 197 005e 03F10F02 		add	r2, r3, #15
+ 198 0062 7B69     		ldr	r3, [r7, #20]
+ 199 0064 9A42     		cmp	r2, r3
+ 200 0066 02D2     		bcs	.L9
+ 208:..\Common\Minimal/blocktim.c **** 			{
+ 209:..\Common\Minimal/blocktim.c **** 				/* Should not have blocked for longer than we requested,
+ 210:..\Common\Minimal/blocktim.c **** 				although we would not necessarily run as soon as we were
+ 211:..\Common\Minimal/blocktim.c **** 				unblocked so a margin is allowed. */
+ 212:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 201              		.loc 1 212 0
+ 202 0068 984B     		ldr	r3, .L43+4
+ 203 006a 0122     		movs	r2, #1
+ 204 006c 1A60     		str	r2, [r3]
+ 205              	.L9:
+ 183:..\Common\Minimal/blocktim.c **** 		{
+ 206              		.loc 1 183 0 discriminator 2
+ 207 006e 3B69     		ldr	r3, [r7, #16]
+ 208 0070 0133     		adds	r3, r3, #1
+ 209 0072 3B61     		str	r3, [r7, #16]
+ 210              	.L6:
+ 183:..\Common\Minimal/blocktim.c **** 		{
+ 211              		.loc 1 183 0 is_stmt 0 discriminator 1
+ 212 0074 3B69     		ldr	r3, [r7, #16]
+ 213 0076 042B     		cmp	r3, #4
+ 214 0078 CBDD     		ble	.L10
+ 213:..\Common\Minimal/blocktim.c **** 			}
+ 214:..\Common\Minimal/blocktim.c **** 		}
+ 215:..\Common\Minimal/blocktim.c **** 
+ 216:..\Common\Minimal/blocktim.c **** 		/*********************************************************************
+ 217:..\Common\Minimal/blocktim.c **** 		Test 2
+ 218:..\Common\Minimal/blocktim.c **** 
+ 219:..\Common\Minimal/blocktim.c **** 		Simple block time wakeup test on queue sends.
+ 220:..\Common\Minimal/blocktim.c **** 
+ 221:..\Common\Minimal/blocktim.c **** 		First fill the queue.  It should be empty so all sends should pass. */
+ 222:..\Common\Minimal/blocktim.c **** 		for( xItem = 0; xItem < bktQUEUE_LENGTH; xItem++ )
+ 215              		.loc 1 222 0 is_stmt 1
+ 216 007a 0023     		movs	r3, #0
+ 217 007c 3B61     		str	r3, [r7, #16]
+ 218 007e 12E0     		b	.L11
+ 219              	.L13:
+ 223:..\Common\Minimal/blocktim.c **** 		{
+ 224:..\Common\Minimal/blocktim.c **** 			if( xQueueSend( xTestQueue, &xItem, bktDONT_BLOCK ) != pdPASS )
+ 220              		.loc 1 224 0
+ 221 0080 914B     		ldr	r3, .L43
+ 222 0082 1A68     		ldr	r2, [r3]
+ 223 0084 07F11003 		add	r3, r7, #16
+ 224 0088 1046     		mov	r0, r2
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 9
+
+
+ 225 008a 1946     		mov	r1, r3
+ 226 008c 0022     		movs	r2, #0
+ 227 008e 0023     		movs	r3, #0
+ 228 0090 FFF7FEFF 		bl	xQueueGenericSend
+ 229 0094 0346     		mov	r3, r0
+ 230 0096 012B     		cmp	r3, #1
+ 231 0098 02D0     		beq	.L12
+ 225:..\Common\Minimal/blocktim.c **** 			{
+ 226:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 232              		.loc 1 226 0
+ 233 009a 8C4B     		ldr	r3, .L43+4
+ 234 009c 0122     		movs	r2, #1
+ 235 009e 1A60     		str	r2, [r3]
+ 236              	.L12:
+ 222:..\Common\Minimal/blocktim.c **** 		{
+ 237              		.loc 1 222 0 discriminator 2
+ 238 00a0 3B69     		ldr	r3, [r7, #16]
+ 239 00a2 0133     		adds	r3, r3, #1
+ 240 00a4 3B61     		str	r3, [r7, #16]
+ 241              	.L11:
+ 222:..\Common\Minimal/blocktim.c **** 		{
+ 242              		.loc 1 222 0 is_stmt 0 discriminator 1
+ 243 00a6 3B69     		ldr	r3, [r7, #16]
+ 244 00a8 042B     		cmp	r3, #4
+ 245 00aa E9DD     		ble	.L13
+ 227:..\Common\Minimal/blocktim.c **** 			}
+ 228:..\Common\Minimal/blocktim.c **** 
+ 229:..\Common\Minimal/blocktim.c **** 			#if configUSE_PREEMPTION == 0
+ 230:..\Common\Minimal/blocktim.c **** 				taskYIELD();
+ 231:..\Common\Minimal/blocktim.c **** 			#endif
+ 232:..\Common\Minimal/blocktim.c **** 		}
+ 233:..\Common\Minimal/blocktim.c **** 
+ 234:..\Common\Minimal/blocktim.c **** 		for( xItem = 0; xItem < bktQUEUE_LENGTH; xItem++ )
+ 246              		.loc 1 234 0 is_stmt 1
+ 247 00ac 0023     		movs	r3, #0
+ 248 00ae 3B61     		str	r3, [r7, #16]
+ 249 00b0 30E0     		b	.L14
+ 250              	.L18:
+ 235:..\Common\Minimal/blocktim.c **** 		{
+ 236:..\Common\Minimal/blocktim.c **** 			/* The queue is full. Attempt to write to the queue using a block
+ 237:..\Common\Minimal/blocktim.c **** 			time.  When we wake, ensure the delta in time is as expected. */
+ 238:..\Common\Minimal/blocktim.c **** 			xTimeToBlock = ( TickType_t ) ( bktPRIMARY_BLOCK_TIME << xItem );
+ 251              		.loc 1 238 0
+ 252 00b2 3B69     		ldr	r3, [r7, #16]
+ 253 00b4 0A22     		movs	r2, #10
+ 254 00b6 02FA03F3 		lsl	r3, r2, r3
+ 255 00ba FB61     		str	r3, [r7, #28]
+ 239:..\Common\Minimal/blocktim.c **** 
+ 240:..\Common\Minimal/blocktim.c **** 			xTimeWhenBlocking = xTaskGetTickCount();
+ 256              		.loc 1 240 0
+ 257 00bc FFF7FEFF 		bl	xTaskGetTickCount
+ 258 00c0 B861     		str	r0, [r7, #24]
+ 241:..\Common\Minimal/blocktim.c **** 
+ 242:..\Common\Minimal/blocktim.c **** 			/* We should unblock after xTimeToBlock having not received
+ 243:..\Common\Minimal/blocktim.c **** 			anything on the queue. */
+ 244:..\Common\Minimal/blocktim.c **** 			if( xQueueSend( xTestQueue, &xItem, xTimeToBlock ) != errQUEUE_FULL )
+ 259              		.loc 1 244 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 10
+
+
+ 260 00c2 814B     		ldr	r3, .L43
+ 261 00c4 1A68     		ldr	r2, [r3]
+ 262 00c6 07F11003 		add	r3, r7, #16
+ 263 00ca 1046     		mov	r0, r2
+ 264 00cc 1946     		mov	r1, r3
+ 265 00ce FA69     		ldr	r2, [r7, #28]
+ 266 00d0 0023     		movs	r3, #0
+ 267 00d2 FFF7FEFF 		bl	xQueueGenericSend
+ 268 00d6 0346     		mov	r3, r0
+ 269 00d8 002B     		cmp	r3, #0
+ 270 00da 02D0     		beq	.L15
+ 245:..\Common\Minimal/blocktim.c **** 			{
+ 246:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 271              		.loc 1 246 0
+ 272 00dc 7B4B     		ldr	r3, .L43+4
+ 273 00de 0122     		movs	r2, #1
+ 274 00e0 1A60     		str	r2, [r3]
+ 275              	.L15:
+ 247:..\Common\Minimal/blocktim.c **** 			}
+ 248:..\Common\Minimal/blocktim.c **** 
+ 249:..\Common\Minimal/blocktim.c **** 			/* How long were we blocked for? */
+ 250:..\Common\Minimal/blocktim.c **** 			xBlockedTime = xTaskGetTickCount() - xTimeWhenBlocking;
+ 276              		.loc 1 250 0
+ 277 00e2 FFF7FEFF 		bl	xTaskGetTickCount
+ 278 00e6 0246     		mov	r2, r0
+ 279 00e8 BB69     		ldr	r3, [r7, #24]
+ 280 00ea D31A     		subs	r3, r2, r3
+ 281 00ec 7B61     		str	r3, [r7, #20]
+ 251:..\Common\Minimal/blocktim.c **** 
+ 252:..\Common\Minimal/blocktim.c **** 			if( xBlockedTime < xTimeToBlock )
+ 282              		.loc 1 252 0
+ 283 00ee 7A69     		ldr	r2, [r7, #20]
+ 284 00f0 FB69     		ldr	r3, [r7, #28]
+ 285 00f2 9A42     		cmp	r2, r3
+ 286 00f4 02D2     		bcs	.L16
+ 253:..\Common\Minimal/blocktim.c **** 			{
+ 254:..\Common\Minimal/blocktim.c **** 				/* Should not have blocked for less than we requested. */
+ 255:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 287              		.loc 1 255 0
+ 288 00f6 754B     		ldr	r3, .L43+4
+ 289 00f8 0122     		movs	r2, #1
+ 290 00fa 1A60     		str	r2, [r3]
+ 291              	.L16:
+ 256:..\Common\Minimal/blocktim.c **** 			}
+ 257:..\Common\Minimal/blocktim.c **** 
+ 258:..\Common\Minimal/blocktim.c **** 			if( xBlockedTime > ( xTimeToBlock + bktALLOWABLE_MARGIN ) )
+ 292              		.loc 1 258 0
+ 293 00fc FB69     		ldr	r3, [r7, #28]
+ 294 00fe 03F10F02 		add	r2, r3, #15
+ 295 0102 7B69     		ldr	r3, [r7, #20]
+ 296 0104 9A42     		cmp	r2, r3
+ 297 0106 02D2     		bcs	.L17
+ 259:..\Common\Minimal/blocktim.c **** 			{
+ 260:..\Common\Minimal/blocktim.c **** 				/* Should not have blocked for longer than we requested,
+ 261:..\Common\Minimal/blocktim.c **** 				although we would not necessarily run as soon as we were
+ 262:..\Common\Minimal/blocktim.c **** 				unblocked so a margin is allowed. */
+ 263:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 11
+
+
+ 298              		.loc 1 263 0
+ 299 0108 704B     		ldr	r3, .L43+4
+ 300 010a 0122     		movs	r2, #1
+ 301 010c 1A60     		str	r2, [r3]
+ 302              	.L17:
+ 234:..\Common\Minimal/blocktim.c **** 		{
+ 303              		.loc 1 234 0 discriminator 2
+ 304 010e 3B69     		ldr	r3, [r7, #16]
+ 305 0110 0133     		adds	r3, r3, #1
+ 306 0112 3B61     		str	r3, [r7, #16]
+ 307              	.L14:
+ 234:..\Common\Minimal/blocktim.c **** 		{
+ 308              		.loc 1 234 0 is_stmt 0 discriminator 1
+ 309 0114 3B69     		ldr	r3, [r7, #16]
+ 310 0116 042B     		cmp	r3, #4
+ 311 0118 CBDD     		ble	.L18
+ 264:..\Common\Minimal/blocktim.c **** 			}
+ 265:..\Common\Minimal/blocktim.c **** 		}
+ 266:..\Common\Minimal/blocktim.c **** 
+ 267:..\Common\Minimal/blocktim.c **** 		/*********************************************************************
+ 268:..\Common\Minimal/blocktim.c **** 		Test 3
+ 269:..\Common\Minimal/blocktim.c **** 
+ 270:..\Common\Minimal/blocktim.c **** 		Wake the other task, it will block attempting to post to the queue.
+ 271:..\Common\Minimal/blocktim.c **** 		When we read from the queue the other task will wake, but before it
+ 272:..\Common\Minimal/blocktim.c **** 		can run we will post to the queue again.  When the other task runs it
+ 273:..\Common\Minimal/blocktim.c **** 		will find the queue still full, even though it was woken.  It should
+ 274:..\Common\Minimal/blocktim.c **** 		recognise that its block time has not expired and return to block for
+ 275:..\Common\Minimal/blocktim.c **** 		the remains of its block time.
+ 276:..\Common\Minimal/blocktim.c **** 
+ 277:..\Common\Minimal/blocktim.c **** 		Wake the other task so it blocks attempting to post to the already
+ 278:..\Common\Minimal/blocktim.c **** 		full queue. */
+ 279:..\Common\Minimal/blocktim.c **** 		xRunIndicator = 0;
+ 312              		.loc 1 279 0 is_stmt 1
+ 313 011a 6D4B     		ldr	r3, .L43+8
+ 314 011c 0022     		movs	r2, #0
+ 315 011e 1A60     		str	r2, [r3]
+ 280:..\Common\Minimal/blocktim.c **** 		vTaskResume( xSecondary );
+ 316              		.loc 1 280 0
+ 317 0120 6C4B     		ldr	r3, .L43+12
+ 318 0122 1B68     		ldr	r3, [r3]
+ 319 0124 1846     		mov	r0, r3
+ 320 0126 FFF7FEFF 		bl	vTaskResume
+ 281:..\Common\Minimal/blocktim.c **** 
+ 282:..\Common\Minimal/blocktim.c **** 		/* We need to wait a little to ensure the other task executes. */
+ 283:..\Common\Minimal/blocktim.c **** 		while( xRunIndicator != bktRUN_INDICATOR )
+ 321              		.loc 1 283 0
+ 322 012a 02E0     		b	.L19
+ 323              	.L20:
+ 284:..\Common\Minimal/blocktim.c **** 		{
+ 285:..\Common\Minimal/blocktim.c **** 			/* The other task has not yet executed. */
+ 286:..\Common\Minimal/blocktim.c **** 			vTaskDelay( bktSHORT_WAIT );
+ 324              		.loc 1 286 0
+ 325 012c 1420     		movs	r0, #20
+ 326 012e FFF7FEFF 		bl	vTaskDelay
+ 327              	.L19:
+ 283:..\Common\Minimal/blocktim.c **** 		{
+ 328              		.loc 1 283 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 12
+
+
+ 329 0132 674B     		ldr	r3, .L43+8
+ 330 0134 1B68     		ldr	r3, [r3]
+ 331 0136 552B     		cmp	r3, #85
+ 332 0138 F8D1     		bne	.L20
+ 287:..\Common\Minimal/blocktim.c **** 		}
+ 288:..\Common\Minimal/blocktim.c **** 		/* Make sure the other task is blocked on the queue. */
+ 289:..\Common\Minimal/blocktim.c **** 		vTaskDelay( bktSHORT_WAIT );
+ 333              		.loc 1 289 0
+ 334 013a 1420     		movs	r0, #20
+ 335 013c FFF7FEFF 		bl	vTaskDelay
+ 290:..\Common\Minimal/blocktim.c **** 		xRunIndicator = 0;
+ 336              		.loc 1 290 0
+ 337 0140 634B     		ldr	r3, .L43+8
+ 338 0142 0022     		movs	r2, #0
+ 339 0144 1A60     		str	r2, [r3]
+ 291:..\Common\Minimal/blocktim.c **** 
+ 292:..\Common\Minimal/blocktim.c **** 		for( xItem = 0; xItem < bktQUEUE_LENGTH; xItem++ )
+ 340              		.loc 1 292 0
+ 341 0146 0023     		movs	r3, #0
+ 342 0148 3B61     		str	r3, [r7, #16]
+ 343 014a 3CE0     		b	.L21
+ 344              	.L26:
+ 293:..\Common\Minimal/blocktim.c **** 		{
+ 294:..\Common\Minimal/blocktim.c **** 			/* Now when we make space on the queue the other task should wake
+ 295:..\Common\Minimal/blocktim.c **** 			but not execute as this task has higher priority. */
+ 296:..\Common\Minimal/blocktim.c **** 			if( xQueueReceive( xTestQueue, &xData, bktDONT_BLOCK ) != pdPASS )
+ 345              		.loc 1 296 0
+ 346 014c 5E4B     		ldr	r3, .L43
+ 347 014e 1A68     		ldr	r2, [r3]
+ 348 0150 07F10C03 		add	r3, r7, #12
+ 349 0154 1046     		mov	r0, r2
+ 350 0156 1946     		mov	r1, r3
+ 351 0158 0022     		movs	r2, #0
+ 352 015a 0023     		movs	r3, #0
+ 353 015c FFF7FEFF 		bl	xQueueGenericReceive
+ 354 0160 0346     		mov	r3, r0
+ 355 0162 012B     		cmp	r3, #1
+ 356 0164 02D0     		beq	.L22
+ 297:..\Common\Minimal/blocktim.c **** 			{
+ 298:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 357              		.loc 1 298 0
+ 358 0166 594B     		ldr	r3, .L43+4
+ 359 0168 0122     		movs	r2, #1
+ 360 016a 1A60     		str	r2, [r3]
+ 361              	.L22:
+ 299:..\Common\Minimal/blocktim.c **** 			}
+ 300:..\Common\Minimal/blocktim.c **** 
+ 301:..\Common\Minimal/blocktim.c **** 			/* Now fill the queue again before the other task gets a chance to
+ 302:..\Common\Minimal/blocktim.c **** 			execute.  If the other task had executed we would find the queue
+ 303:..\Common\Minimal/blocktim.c **** 			full ourselves, and the other task have set xRunIndicator. */
+ 304:..\Common\Minimal/blocktim.c **** 			if( xQueueSend( xTestQueue, &xItem, bktDONT_BLOCK ) != pdPASS )
+ 362              		.loc 1 304 0
+ 363 016c 564B     		ldr	r3, .L43
+ 364 016e 1A68     		ldr	r2, [r3]
+ 365 0170 07F11003 		add	r3, r7, #16
+ 366 0174 1046     		mov	r0, r2
+ 367 0176 1946     		mov	r1, r3
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 13
+
+
+ 368 0178 0022     		movs	r2, #0
+ 369 017a 0023     		movs	r3, #0
+ 370 017c FFF7FEFF 		bl	xQueueGenericSend
+ 371 0180 0346     		mov	r3, r0
+ 372 0182 012B     		cmp	r3, #1
+ 373 0184 02D0     		beq	.L23
+ 305:..\Common\Minimal/blocktim.c **** 			{
+ 306:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 374              		.loc 1 306 0
+ 375 0186 514B     		ldr	r3, .L43+4
+ 376 0188 0122     		movs	r2, #1
+ 377 018a 1A60     		str	r2, [r3]
+ 378              	.L23:
+ 307:..\Common\Minimal/blocktim.c **** 			}
+ 308:..\Common\Minimal/blocktim.c **** 
+ 309:..\Common\Minimal/blocktim.c **** 			if( xRunIndicator == bktRUN_INDICATOR )
+ 379              		.loc 1 309 0
+ 380 018c 504B     		ldr	r3, .L43+8
+ 381 018e 1B68     		ldr	r3, [r3]
+ 382 0190 552B     		cmp	r3, #85
+ 383 0192 02D1     		bne	.L24
+ 310:..\Common\Minimal/blocktim.c **** 			{
+ 311:..\Common\Minimal/blocktim.c **** 				/* The other task should not have executed. */
+ 312:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 384              		.loc 1 312 0
+ 385 0194 4D4B     		ldr	r3, .L43+4
+ 386 0196 0122     		movs	r2, #1
+ 387 0198 1A60     		str	r2, [r3]
+ 388              	.L24:
+ 313:..\Common\Minimal/blocktim.c **** 			}
+ 314:..\Common\Minimal/blocktim.c **** 
+ 315:..\Common\Minimal/blocktim.c **** 			/* Raise the priority of the other task so it executes and blocks
+ 316:..\Common\Minimal/blocktim.c **** 			on the queue again. */
+ 317:..\Common\Minimal/blocktim.c **** 			vTaskPrioritySet( xSecondary, bktPRIMARY_PRIORITY + 2 );
+ 389              		.loc 1 317 0
+ 390 019a 4E4B     		ldr	r3, .L43+12
+ 391 019c 1B68     		ldr	r3, [r3]
+ 392 019e 1846     		mov	r0, r3
+ 393 01a0 0421     		movs	r1, #4
+ 394 01a2 FFF7FEFF 		bl	vTaskPrioritySet
+ 318:..\Common\Minimal/blocktim.c **** 
+ 319:..\Common\Minimal/blocktim.c **** 			/* The other task should now have re-blocked without exiting the
+ 320:..\Common\Minimal/blocktim.c **** 			queue function. */
+ 321:..\Common\Minimal/blocktim.c **** 			if( xRunIndicator == bktRUN_INDICATOR )
+ 395              		.loc 1 321 0
+ 396 01a6 4A4B     		ldr	r3, .L43+8
+ 397 01a8 1B68     		ldr	r3, [r3]
+ 398 01aa 552B     		cmp	r3, #85
+ 399 01ac 02D1     		bne	.L25
+ 322:..\Common\Minimal/blocktim.c **** 			{
+ 323:..\Common\Minimal/blocktim.c **** 				/* The other task should not have executed outside of the
+ 324:..\Common\Minimal/blocktim.c **** 				queue function. */
+ 325:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 400              		.loc 1 325 0
+ 401 01ae 474B     		ldr	r3, .L43+4
+ 402 01b0 0122     		movs	r2, #1
+ 403 01b2 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 14
+
+
+ 404              	.L25:
+ 326:..\Common\Minimal/blocktim.c **** 			}
+ 327:..\Common\Minimal/blocktim.c **** 
+ 328:..\Common\Minimal/blocktim.c **** 			/* Set the priority back down. */
+ 329:..\Common\Minimal/blocktim.c **** 			vTaskPrioritySet( xSecondary, bktSECONDARY_PRIORITY );
+ 405              		.loc 1 329 0 discriminator 2
+ 406 01b4 474B     		ldr	r3, .L43+12
+ 407 01b6 1B68     		ldr	r3, [r3]
+ 408 01b8 1846     		mov	r0, r3
+ 409 01ba 0121     		movs	r1, #1
+ 410 01bc FFF7FEFF 		bl	vTaskPrioritySet
+ 292:..\Common\Minimal/blocktim.c **** 		{
+ 411              		.loc 1 292 0 discriminator 2
+ 412 01c0 3B69     		ldr	r3, [r7, #16]
+ 413 01c2 0133     		adds	r3, r3, #1
+ 414 01c4 3B61     		str	r3, [r7, #16]
+ 415              	.L21:
+ 292:..\Common\Minimal/blocktim.c **** 		{
+ 416              		.loc 1 292 0 is_stmt 0 discriminator 1
+ 417 01c6 3B69     		ldr	r3, [r7, #16]
+ 418 01c8 042B     		cmp	r3, #4
+ 419 01ca BFDD     		ble	.L26
+ 330:..\Common\Minimal/blocktim.c **** 		}
+ 331:..\Common\Minimal/blocktim.c **** 
+ 332:..\Common\Minimal/blocktim.c **** 		/* Let the other task timeout.  When it unblockes it will check that it
+ 333:..\Common\Minimal/blocktim.c **** 		unblocked at the correct time, then suspend itself. */
+ 334:..\Common\Minimal/blocktim.c **** 		while( xRunIndicator != bktRUN_INDICATOR )
+ 420              		.loc 1 334 0 is_stmt 1
+ 421 01cc 02E0     		b	.L27
+ 422              	.L28:
+ 335:..\Common\Minimal/blocktim.c **** 		{
+ 336:..\Common\Minimal/blocktim.c **** 			vTaskDelay( bktSHORT_WAIT );
+ 423              		.loc 1 336 0
+ 424 01ce 1420     		movs	r0, #20
+ 425 01d0 FFF7FEFF 		bl	vTaskDelay
+ 426              	.L27:
+ 334:..\Common\Minimal/blocktim.c **** 		{
+ 427              		.loc 1 334 0
+ 428 01d4 3E4B     		ldr	r3, .L43+8
+ 429 01d6 1B68     		ldr	r3, [r3]
+ 430 01d8 552B     		cmp	r3, #85
+ 431 01da F8D1     		bne	.L28
+ 337:..\Common\Minimal/blocktim.c **** 		}
+ 338:..\Common\Minimal/blocktim.c **** 		vTaskDelay( bktSHORT_WAIT );
+ 432              		.loc 1 338 0
+ 433 01dc 1420     		movs	r0, #20
+ 434 01de FFF7FEFF 		bl	vTaskDelay
+ 339:..\Common\Minimal/blocktim.c **** 		xRunIndicator = 0;
+ 435              		.loc 1 339 0
+ 436 01e2 3B4B     		ldr	r3, .L43+8
+ 437 01e4 0022     		movs	r2, #0
+ 438 01e6 1A60     		str	r2, [r3]
+ 340:..\Common\Minimal/blocktim.c **** 
+ 341:..\Common\Minimal/blocktim.c **** 
+ 342:..\Common\Minimal/blocktim.c **** 		/*********************************************************************
+ 343:..\Common\Minimal/blocktim.c **** 		Test 4
+ 344:..\Common\Minimal/blocktim.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 15
+
+
+ 345:..\Common\Minimal/blocktim.c **** 		As per test 3 - but with the send and receive the other way around.
+ 346:..\Common\Minimal/blocktim.c **** 		The other task blocks attempting to read from the queue.
+ 347:..\Common\Minimal/blocktim.c **** 
+ 348:..\Common\Minimal/blocktim.c **** 		Empty the queue.  We should find that it is full. */
+ 349:..\Common\Minimal/blocktim.c **** 		for( xItem = 0; xItem < bktQUEUE_LENGTH; xItem++ )
+ 439              		.loc 1 349 0
+ 440 01e8 0023     		movs	r3, #0
+ 441 01ea 3B61     		str	r3, [r7, #16]
+ 442 01ec 12E0     		b	.L29
+ 443              	.L31:
+ 350:..\Common\Minimal/blocktim.c **** 		{
+ 351:..\Common\Minimal/blocktim.c **** 			if( xQueueReceive( xTestQueue, &xData, bktDONT_BLOCK ) != pdPASS )
+ 444              		.loc 1 351 0
+ 445 01ee 364B     		ldr	r3, .L43
+ 446 01f0 1A68     		ldr	r2, [r3]
+ 447 01f2 07F10C03 		add	r3, r7, #12
+ 448 01f6 1046     		mov	r0, r2
+ 449 01f8 1946     		mov	r1, r3
+ 450 01fa 0022     		movs	r2, #0
+ 451 01fc 0023     		movs	r3, #0
+ 452 01fe FFF7FEFF 		bl	xQueueGenericReceive
+ 453 0202 0346     		mov	r3, r0
+ 454 0204 012B     		cmp	r3, #1
+ 455 0206 02D0     		beq	.L30
+ 352:..\Common\Minimal/blocktim.c **** 			{
+ 353:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 456              		.loc 1 353 0
+ 457 0208 304B     		ldr	r3, .L43+4
+ 458 020a 0122     		movs	r2, #1
+ 459 020c 1A60     		str	r2, [r3]
+ 460              	.L30:
+ 349:..\Common\Minimal/blocktim.c **** 		{
+ 461              		.loc 1 349 0 discriminator 2
+ 462 020e 3B69     		ldr	r3, [r7, #16]
+ 463 0210 0133     		adds	r3, r3, #1
+ 464 0212 3B61     		str	r3, [r7, #16]
+ 465              	.L29:
+ 349:..\Common\Minimal/blocktim.c **** 		{
+ 466              		.loc 1 349 0 is_stmt 0 discriminator 1
+ 467 0214 3B69     		ldr	r3, [r7, #16]
+ 468 0216 042B     		cmp	r3, #4
+ 469 0218 E9DD     		ble	.L31
+ 354:..\Common\Minimal/blocktim.c **** 			}
+ 355:..\Common\Minimal/blocktim.c **** 		}
+ 356:..\Common\Minimal/blocktim.c **** 
+ 357:..\Common\Minimal/blocktim.c **** 		/* Wake the other task so it blocks attempting to read from  the
+ 358:..\Common\Minimal/blocktim.c **** 		already	empty queue. */
+ 359:..\Common\Minimal/blocktim.c **** 		vTaskResume( xSecondary );
+ 470              		.loc 1 359 0 is_stmt 1
+ 471 021a 2E4B     		ldr	r3, .L43+12
+ 472 021c 1B68     		ldr	r3, [r3]
+ 473 021e 1846     		mov	r0, r3
+ 474 0220 FFF7FEFF 		bl	vTaskResume
+ 360:..\Common\Minimal/blocktim.c **** 
+ 361:..\Common\Minimal/blocktim.c **** 		/* We need to wait a little to ensure the other task executes. */
+ 362:..\Common\Minimal/blocktim.c **** 		while( xRunIndicator != bktRUN_INDICATOR )
+ 475              		.loc 1 362 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 16
+
+
+ 476 0224 02E0     		b	.L32
+ 477              	.L33:
+ 363:..\Common\Minimal/blocktim.c **** 		{
+ 364:..\Common\Minimal/blocktim.c **** 			vTaskDelay( bktSHORT_WAIT );
+ 478              		.loc 1 364 0
+ 479 0226 1420     		movs	r0, #20
+ 480 0228 FFF7FEFF 		bl	vTaskDelay
+ 481              	.L32:
+ 362:..\Common\Minimal/blocktim.c **** 		{
+ 482              		.loc 1 362 0
+ 483 022c 284B     		ldr	r3, .L43+8
+ 484 022e 1B68     		ldr	r3, [r3]
+ 485 0230 552B     		cmp	r3, #85
+ 486 0232 F8D1     		bne	.L33
+ 365:..\Common\Minimal/blocktim.c **** 		}
+ 366:..\Common\Minimal/blocktim.c **** 		vTaskDelay( bktSHORT_WAIT );
+ 487              		.loc 1 366 0
+ 488 0234 1420     		movs	r0, #20
+ 489 0236 FFF7FEFF 		bl	vTaskDelay
+ 367:..\Common\Minimal/blocktim.c **** 		xRunIndicator = 0;
+ 490              		.loc 1 367 0
+ 491 023a 254B     		ldr	r3, .L43+8
+ 492 023c 0022     		movs	r2, #0
+ 493 023e 1A60     		str	r2, [r3]
+ 368:..\Common\Minimal/blocktim.c **** 
+ 369:..\Common\Minimal/blocktim.c **** 		for( xItem = 0; xItem < bktQUEUE_LENGTH; xItem++ )
+ 494              		.loc 1 369 0
+ 495 0240 0023     		movs	r3, #0
+ 496 0242 3B61     		str	r3, [r7, #16]
+ 497 0244 3CE0     		b	.L34
+ 498              	.L39:
+ 370:..\Common\Minimal/blocktim.c **** 		{
+ 371:..\Common\Minimal/blocktim.c **** 			/* Now when we place an item on the queue the other task should
+ 372:..\Common\Minimal/blocktim.c **** 			wake but not execute as this task has higher priority. */
+ 373:..\Common\Minimal/blocktim.c **** 			if( xQueueSend( xTestQueue, &xItem, bktDONT_BLOCK ) != pdPASS )
+ 499              		.loc 1 373 0
+ 500 0246 204B     		ldr	r3, .L43
+ 501 0248 1A68     		ldr	r2, [r3]
+ 502 024a 07F11003 		add	r3, r7, #16
+ 503 024e 1046     		mov	r0, r2
+ 504 0250 1946     		mov	r1, r3
+ 505 0252 0022     		movs	r2, #0
+ 506 0254 0023     		movs	r3, #0
+ 507 0256 FFF7FEFF 		bl	xQueueGenericSend
+ 508 025a 0346     		mov	r3, r0
+ 509 025c 012B     		cmp	r3, #1
+ 510 025e 02D0     		beq	.L35
+ 374:..\Common\Minimal/blocktim.c **** 			{
+ 375:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 511              		.loc 1 375 0
+ 512 0260 1A4B     		ldr	r3, .L43+4
+ 513 0262 0122     		movs	r2, #1
+ 514 0264 1A60     		str	r2, [r3]
+ 515              	.L35:
+ 376:..\Common\Minimal/blocktim.c **** 			}
+ 377:..\Common\Minimal/blocktim.c **** 
+ 378:..\Common\Minimal/blocktim.c **** 			/* Now empty the queue again before the other task gets a chance to
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 17
+
+
+ 379:..\Common\Minimal/blocktim.c **** 			execute.  If the other task had executed we would find the queue
+ 380:..\Common\Minimal/blocktim.c **** 			empty ourselves, and the other task would be suspended. */
+ 381:..\Common\Minimal/blocktim.c **** 			if( xQueueReceive( xTestQueue, &xData, bktDONT_BLOCK ) != pdPASS )
+ 516              		.loc 1 381 0
+ 517 0266 184B     		ldr	r3, .L43
+ 518 0268 1A68     		ldr	r2, [r3]
+ 519 026a 07F10C03 		add	r3, r7, #12
+ 520 026e 1046     		mov	r0, r2
+ 521 0270 1946     		mov	r1, r3
+ 522 0272 0022     		movs	r2, #0
+ 523 0274 0023     		movs	r3, #0
+ 524 0276 FFF7FEFF 		bl	xQueueGenericReceive
+ 525 027a 0346     		mov	r3, r0
+ 526 027c 012B     		cmp	r3, #1
+ 527 027e 02D0     		beq	.L36
+ 382:..\Common\Minimal/blocktim.c **** 			{
+ 383:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 528              		.loc 1 383 0
+ 529 0280 124B     		ldr	r3, .L43+4
+ 530 0282 0122     		movs	r2, #1
+ 531 0284 1A60     		str	r2, [r3]
+ 532              	.L36:
+ 384:..\Common\Minimal/blocktim.c **** 			}
+ 385:..\Common\Minimal/blocktim.c **** 
+ 386:..\Common\Minimal/blocktim.c **** 			if( xRunIndicator == bktRUN_INDICATOR )
+ 533              		.loc 1 386 0
+ 534 0286 124B     		ldr	r3, .L43+8
+ 535 0288 1B68     		ldr	r3, [r3]
+ 536 028a 552B     		cmp	r3, #85
+ 537 028c 02D1     		bne	.L37
+ 387:..\Common\Minimal/blocktim.c **** 			{
+ 388:..\Common\Minimal/blocktim.c **** 				/* The other task should not have executed. */
+ 389:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 538              		.loc 1 389 0
+ 539 028e 0F4B     		ldr	r3, .L43+4
+ 540 0290 0122     		movs	r2, #1
+ 541 0292 1A60     		str	r2, [r3]
+ 542              	.L37:
+ 390:..\Common\Minimal/blocktim.c **** 			}
+ 391:..\Common\Minimal/blocktim.c **** 
+ 392:..\Common\Minimal/blocktim.c **** 			/* Raise the priority of the other task so it executes and blocks
+ 393:..\Common\Minimal/blocktim.c **** 			on the queue again. */
+ 394:..\Common\Minimal/blocktim.c **** 			vTaskPrioritySet( xSecondary, bktPRIMARY_PRIORITY + 2 );
+ 543              		.loc 1 394 0
+ 544 0294 0F4B     		ldr	r3, .L43+12
+ 545 0296 1B68     		ldr	r3, [r3]
+ 546 0298 1846     		mov	r0, r3
+ 547 029a 0421     		movs	r1, #4
+ 548 029c FFF7FEFF 		bl	vTaskPrioritySet
+ 395:..\Common\Minimal/blocktim.c **** 
+ 396:..\Common\Minimal/blocktim.c **** 			/* The other task should now have re-blocked without exiting the
+ 397:..\Common\Minimal/blocktim.c **** 			queue function. */
+ 398:..\Common\Minimal/blocktim.c **** 			if( xRunIndicator == bktRUN_INDICATOR )
+ 549              		.loc 1 398 0
+ 550 02a0 0B4B     		ldr	r3, .L43+8
+ 551 02a2 1B68     		ldr	r3, [r3]
+ 552 02a4 552B     		cmp	r3, #85
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 18
+
+
+ 553 02a6 02D1     		bne	.L38
+ 399:..\Common\Minimal/blocktim.c **** 			{
+ 400:..\Common\Minimal/blocktim.c **** 				/* The other task should not have executed outside of the
+ 401:..\Common\Minimal/blocktim.c **** 				queue function. */
+ 402:..\Common\Minimal/blocktim.c **** 				xErrorOccurred = pdTRUE;
+ 554              		.loc 1 402 0
+ 555 02a8 084B     		ldr	r3, .L43+4
+ 556 02aa 0122     		movs	r2, #1
+ 557 02ac 1A60     		str	r2, [r3]
+ 558              	.L38:
+ 403:..\Common\Minimal/blocktim.c **** 			}
+ 404:..\Common\Minimal/blocktim.c **** 			vTaskPrioritySet( xSecondary, bktSECONDARY_PRIORITY );
+ 559              		.loc 1 404 0 discriminator 2
+ 560 02ae 094B     		ldr	r3, .L43+12
+ 561 02b0 1B68     		ldr	r3, [r3]
+ 562 02b2 1846     		mov	r0, r3
+ 563 02b4 0121     		movs	r1, #1
+ 564 02b6 FFF7FEFF 		bl	vTaskPrioritySet
+ 369:..\Common\Minimal/blocktim.c **** 		{
+ 565              		.loc 1 369 0 discriminator 2
+ 566 02ba 3B69     		ldr	r3, [r7, #16]
+ 567 02bc 0133     		adds	r3, r3, #1
+ 568 02be 3B61     		str	r3, [r7, #16]
+ 569              	.L34:
+ 369:..\Common\Minimal/blocktim.c **** 		{
+ 570              		.loc 1 369 0 is_stmt 0 discriminator 1
+ 571 02c0 3B69     		ldr	r3, [r7, #16]
+ 572 02c2 042B     		cmp	r3, #4
+ 573 02c4 BFDD     		ble	.L39
+ 405:..\Common\Minimal/blocktim.c **** 		}
+ 406:..\Common\Minimal/blocktim.c **** 
+ 407:..\Common\Minimal/blocktim.c **** 		/* Let the other task timeout.  When it unblockes it will check that it
+ 408:..\Common\Minimal/blocktim.c **** 		unblocked at the correct time, then suspend itself. */
+ 409:..\Common\Minimal/blocktim.c **** 		while( xRunIndicator != bktRUN_INDICATOR )
+ 574              		.loc 1 409 0 is_stmt 1
+ 575 02c6 0AE0     		b	.L40
+ 576              	.L44:
+ 577              		.align	2
+ 578              	.L43:
+ 579 02c8 00000000 		.word	xTestQueue
+ 580 02cc 10000000 		.word	xErrorOccurred
+ 581 02d0 14000000 		.word	xRunIndicator
+ 582 02d4 04000000 		.word	xSecondary
+ 583              	.L41:
+ 410:..\Common\Minimal/blocktim.c **** 		{
+ 411:..\Common\Minimal/blocktim.c **** 			vTaskDelay( bktSHORT_WAIT );
+ 584              		.loc 1 411 0
+ 585 02d8 1420     		movs	r0, #20
+ 586 02da FFF7FEFF 		bl	vTaskDelay
+ 587              	.L40:
+ 409:..\Common\Minimal/blocktim.c **** 		{
+ 588              		.loc 1 409 0
+ 589 02de 064B     		ldr	r3, .L45
+ 590 02e0 1B68     		ldr	r3, [r3]
+ 591 02e2 552B     		cmp	r3, #85
+ 592 02e4 F8D1     		bne	.L41
+ 412:..\Common\Minimal/blocktim.c **** 		}
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 19
+
+
+ 413:..\Common\Minimal/blocktim.c **** 		vTaskDelay( bktSHORT_WAIT );
+ 593              		.loc 1 413 0
+ 594 02e6 1420     		movs	r0, #20
+ 595 02e8 FFF7FEFF 		bl	vTaskDelay
+ 414:..\Common\Minimal/blocktim.c **** 
+ 415:..\Common\Minimal/blocktim.c **** 		xPrimaryCycles++;
+ 596              		.loc 1 415 0
+ 597 02ec 034B     		ldr	r3, .L45+4
+ 598 02ee 1B68     		ldr	r3, [r3]
+ 599 02f0 0133     		adds	r3, r3, #1
+ 600 02f2 024A     		ldr	r2, .L45+4
+ 601 02f4 1360     		str	r3, [r2]
+ 416:..\Common\Minimal/blocktim.c **** 	}
+ 602              		.loc 1 416 0
+ 603 02f6 87E6     		b	.L42
+ 604              	.L46:
+ 605              		.align	2
+ 606              	.L45:
+ 607 02f8 14000000 		.word	xRunIndicator
+ 608 02fc 08000000 		.word	xPrimaryCycles
+ 609              		.cfi_endproc
+ 610              	.LFE69:
+ 611              		.size	vPrimaryBlockTimeTestTask, .-vPrimaryBlockTimeTestTask
+ 612              		.section	.text.vSecondaryBlockTimeTestTask,"ax",%progbits
+ 613              		.align	2
+ 614              		.thumb
+ 615              		.thumb_func
+ 616              		.type	vSecondaryBlockTimeTestTask, %function
+ 617              	vSecondaryBlockTimeTestTask:
+ 618              	.LFB70:
+ 417:..\Common\Minimal/blocktim.c **** }
+ 418:..\Common\Minimal/blocktim.c **** /*-----------------------------------------------------------*/
+ 419:..\Common\Minimal/blocktim.c **** 
+ 420:..\Common\Minimal/blocktim.c **** static void vSecondaryBlockTimeTestTask( void *pvParameters )
+ 421:..\Common\Minimal/blocktim.c **** {
+ 619              		.loc 1 421 0
+ 620              		.cfi_startproc
+ 621              		@ args = 0, pretend = 0, frame = 24
+ 622              		@ frame_needed = 1, uses_anonymous_args = 0
+ 623 0000 80B5     		push	{r7, lr}
+ 624              		.cfi_def_cfa_offset 8
+ 625              		.cfi_offset 7, -8
+ 626              		.cfi_offset 14, -4
+ 627 0002 86B0     		sub	sp, sp, #24
+ 628              		.cfi_def_cfa_offset 32
+ 629 0004 00AF     		add	r7, sp, #0
+ 630              		.cfi_def_cfa_register 7
+ 631 0006 7860     		str	r0, [r7, #4]
+ 632              	.L54:
+ 422:..\Common\Minimal/blocktim.c **** TickType_t xTimeWhenBlocking, xBlockedTime;
+ 423:..\Common\Minimal/blocktim.c **** BaseType_t xData;
+ 424:..\Common\Minimal/blocktim.c **** 
+ 425:..\Common\Minimal/blocktim.c **** 	( void ) pvParameters;
+ 426:..\Common\Minimal/blocktim.c **** 
+ 427:..\Common\Minimal/blocktim.c **** 	for( ;; )
+ 428:..\Common\Minimal/blocktim.c **** 	{
+ 429:..\Common\Minimal/blocktim.c **** 		/*********************************************************************
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 20
+
+
+ 430:..\Common\Minimal/blocktim.c **** 		Test 0, 1 and 2
+ 431:..\Common\Minimal/blocktim.c **** 
+ 432:..\Common\Minimal/blocktim.c **** 		This task does not participate in these tests. */
+ 433:..\Common\Minimal/blocktim.c **** 		vTaskSuspend( NULL );
+ 633              		.loc 1 433 0
+ 634 0008 0020     		movs	r0, #0
+ 635 000a FFF7FEFF 		bl	vTaskSuspend
+ 434:..\Common\Minimal/blocktim.c **** 
+ 435:..\Common\Minimal/blocktim.c **** 		/*********************************************************************
+ 436:..\Common\Minimal/blocktim.c **** 		Test 3
+ 437:..\Common\Minimal/blocktim.c **** 
+ 438:..\Common\Minimal/blocktim.c **** 		The first thing we do is attempt to read from the queue.  It should be
+ 439:..\Common\Minimal/blocktim.c **** 		full so we block.  Note the time before we block so we can check the
+ 440:..\Common\Minimal/blocktim.c **** 		wake time is as per that expected. */
+ 441:..\Common\Minimal/blocktim.c **** 		xTimeWhenBlocking = xTaskGetTickCount();
+ 636              		.loc 1 441 0
+ 637 000e FFF7FEFF 		bl	xTaskGetTickCount
+ 638 0012 7861     		str	r0, [r7, #20]
+ 442:..\Common\Minimal/blocktim.c **** 
+ 443:..\Common\Minimal/blocktim.c **** 		/* We should unblock after bktTIME_TO_BLOCK having not sent anything to
+ 444:..\Common\Minimal/blocktim.c **** 		the queue. */
+ 445:..\Common\Minimal/blocktim.c **** 		xData = 0;
+ 639              		.loc 1 445 0
+ 640 0014 0023     		movs	r3, #0
+ 641 0016 FB60     		str	r3, [r7, #12]
+ 446:..\Common\Minimal/blocktim.c **** 		xRunIndicator = bktRUN_INDICATOR;
+ 642              		.loc 1 446 0
+ 643 0018 2D4B     		ldr	r3, .L55
+ 644 001a 5522     		movs	r2, #85
+ 645 001c 1A60     		str	r2, [r3]
+ 447:..\Common\Minimal/blocktim.c **** 		if( xQueueSend( xTestQueue, &xData, bktTIME_TO_BLOCK ) != errQUEUE_FULL )
+ 646              		.loc 1 447 0
+ 647 001e 2D4B     		ldr	r3, .L55+4
+ 648 0020 1A68     		ldr	r2, [r3]
+ 649 0022 07F10C03 		add	r3, r7, #12
+ 650 0026 1046     		mov	r0, r2
+ 651 0028 1946     		mov	r1, r3
+ 652 002a AF22     		movs	r2, #175
+ 653 002c 0023     		movs	r3, #0
+ 654 002e FFF7FEFF 		bl	xQueueGenericSend
+ 655 0032 0346     		mov	r3, r0
+ 656 0034 002B     		cmp	r3, #0
+ 657 0036 02D0     		beq	.L48
+ 448:..\Common\Minimal/blocktim.c **** 		{
+ 449:..\Common\Minimal/blocktim.c **** 			xErrorOccurred = pdTRUE;
+ 658              		.loc 1 449 0
+ 659 0038 274B     		ldr	r3, .L55+8
+ 660 003a 0122     		movs	r2, #1
+ 661 003c 1A60     		str	r2, [r3]
+ 662              	.L48:
+ 450:..\Common\Minimal/blocktim.c **** 		}
+ 451:..\Common\Minimal/blocktim.c **** 
+ 452:..\Common\Minimal/blocktim.c **** 		/* How long were we inside the send function? */
+ 453:..\Common\Minimal/blocktim.c **** 		xBlockedTime = xTaskGetTickCount() - xTimeWhenBlocking;
+ 663              		.loc 1 453 0
+ 664 003e FFF7FEFF 		bl	xTaskGetTickCount
+ 665 0042 0246     		mov	r2, r0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 21
+
+
+ 666 0044 7B69     		ldr	r3, [r7, #20]
+ 667 0046 D31A     		subs	r3, r2, r3
+ 668 0048 3B61     		str	r3, [r7, #16]
+ 454:..\Common\Minimal/blocktim.c **** 
+ 455:..\Common\Minimal/blocktim.c **** 		/* We should not have blocked for less time than bktTIME_TO_BLOCK. */
+ 456:..\Common\Minimal/blocktim.c **** 		if( xBlockedTime < bktTIME_TO_BLOCK )
+ 669              		.loc 1 456 0
+ 670 004a 3B69     		ldr	r3, [r7, #16]
+ 671 004c AE2B     		cmp	r3, #174
+ 672 004e 02D8     		bhi	.L49
+ 457:..\Common\Minimal/blocktim.c **** 		{
+ 458:..\Common\Minimal/blocktim.c **** 			xErrorOccurred = pdTRUE;
+ 673              		.loc 1 458 0
+ 674 0050 214B     		ldr	r3, .L55+8
+ 675 0052 0122     		movs	r2, #1
+ 676 0054 1A60     		str	r2, [r3]
+ 677              	.L49:
+ 459:..\Common\Minimal/blocktim.c **** 		}
+ 460:..\Common\Minimal/blocktim.c **** 
+ 461:..\Common\Minimal/blocktim.c **** 		/* We should of not blocked for much longer than bktALLOWABLE_MARGIN
+ 462:..\Common\Minimal/blocktim.c **** 		either.  A margin is permitted as we would not necessarily run as
+ 463:..\Common\Minimal/blocktim.c **** 		soon as we unblocked. */
+ 464:..\Common\Minimal/blocktim.c **** 		if( xBlockedTime > ( bktTIME_TO_BLOCK + bktALLOWABLE_MARGIN ) )
+ 678              		.loc 1 464 0
+ 679 0056 3B69     		ldr	r3, [r7, #16]
+ 680 0058 BE2B     		cmp	r3, #190
+ 681 005a 02D9     		bls	.L50
+ 465:..\Common\Minimal/blocktim.c **** 		{
+ 466:..\Common\Minimal/blocktim.c **** 			xErrorOccurred = pdTRUE;
+ 682              		.loc 1 466 0
+ 683 005c 1E4B     		ldr	r3, .L55+8
+ 684 005e 0122     		movs	r2, #1
+ 685 0060 1A60     		str	r2, [r3]
+ 686              	.L50:
+ 467:..\Common\Minimal/blocktim.c **** 		}
+ 468:..\Common\Minimal/blocktim.c **** 
+ 469:..\Common\Minimal/blocktim.c **** 		/* Suspend ready for test 3. */
+ 470:..\Common\Minimal/blocktim.c **** 		xRunIndicator = bktRUN_INDICATOR;
+ 687              		.loc 1 470 0
+ 688 0062 1B4B     		ldr	r3, .L55
+ 689 0064 5522     		movs	r2, #85
+ 690 0066 1A60     		str	r2, [r3]
+ 471:..\Common\Minimal/blocktim.c **** 		vTaskSuspend( NULL );
+ 691              		.loc 1 471 0
+ 692 0068 0020     		movs	r0, #0
+ 693 006a FFF7FEFF 		bl	vTaskSuspend
+ 472:..\Common\Minimal/blocktim.c **** 
+ 473:..\Common\Minimal/blocktim.c **** 		/*********************************************************************
+ 474:..\Common\Minimal/blocktim.c ****         Test 4
+ 475:..\Common\Minimal/blocktim.c **** 
+ 476:..\Common\Minimal/blocktim.c **** 		As per test three, but with the send and receive reversed. */
+ 477:..\Common\Minimal/blocktim.c **** 		xTimeWhenBlocking = xTaskGetTickCount();
+ 694              		.loc 1 477 0
+ 695 006e FFF7FEFF 		bl	xTaskGetTickCount
+ 696 0072 7861     		str	r0, [r7, #20]
+ 478:..\Common\Minimal/blocktim.c **** 
+ 479:..\Common\Minimal/blocktim.c **** 		/* We should unblock after bktTIME_TO_BLOCK having not received
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 22
+
+
+ 480:..\Common\Minimal/blocktim.c **** 		anything on the queue. */
+ 481:..\Common\Minimal/blocktim.c **** 		xRunIndicator = bktRUN_INDICATOR;
+ 697              		.loc 1 481 0
+ 698 0074 164B     		ldr	r3, .L55
+ 699 0076 5522     		movs	r2, #85
+ 700 0078 1A60     		str	r2, [r3]
+ 482:..\Common\Minimal/blocktim.c **** 		if( xQueueReceive( xTestQueue, &xData, bktTIME_TO_BLOCK ) != errQUEUE_EMPTY )
+ 701              		.loc 1 482 0
+ 702 007a 164B     		ldr	r3, .L55+4
+ 703 007c 1A68     		ldr	r2, [r3]
+ 704 007e 07F10C03 		add	r3, r7, #12
+ 705 0082 1046     		mov	r0, r2
+ 706 0084 1946     		mov	r1, r3
+ 707 0086 AF22     		movs	r2, #175
+ 708 0088 0023     		movs	r3, #0
+ 709 008a FFF7FEFF 		bl	xQueueGenericReceive
+ 710 008e 0346     		mov	r3, r0
+ 711 0090 002B     		cmp	r3, #0
+ 712 0092 02D0     		beq	.L51
+ 483:..\Common\Minimal/blocktim.c **** 		{
+ 484:..\Common\Minimal/blocktim.c **** 			xErrorOccurred = pdTRUE;
+ 713              		.loc 1 484 0
+ 714 0094 104B     		ldr	r3, .L55+8
+ 715 0096 0122     		movs	r2, #1
+ 716 0098 1A60     		str	r2, [r3]
+ 717              	.L51:
+ 485:..\Common\Minimal/blocktim.c **** 		}
+ 486:..\Common\Minimal/blocktim.c **** 
+ 487:..\Common\Minimal/blocktim.c **** 		xBlockedTime = xTaskGetTickCount() - xTimeWhenBlocking;
+ 718              		.loc 1 487 0
+ 719 009a FFF7FEFF 		bl	xTaskGetTickCount
+ 720 009e 0246     		mov	r2, r0
+ 721 00a0 7B69     		ldr	r3, [r7, #20]
+ 722 00a2 D31A     		subs	r3, r2, r3
+ 723 00a4 3B61     		str	r3, [r7, #16]
+ 488:..\Common\Minimal/blocktim.c **** 
+ 489:..\Common\Minimal/blocktim.c **** 		/* We should not have blocked for less time than bktTIME_TO_BLOCK. */
+ 490:..\Common\Minimal/blocktim.c **** 		if( xBlockedTime < bktTIME_TO_BLOCK )
+ 724              		.loc 1 490 0
+ 725 00a6 3B69     		ldr	r3, [r7, #16]
+ 726 00a8 AE2B     		cmp	r3, #174
+ 727 00aa 02D8     		bhi	.L52
+ 491:..\Common\Minimal/blocktim.c **** 		{
+ 492:..\Common\Minimal/blocktim.c **** 			xErrorOccurred = pdTRUE;
+ 728              		.loc 1 492 0
+ 729 00ac 0A4B     		ldr	r3, .L55+8
+ 730 00ae 0122     		movs	r2, #1
+ 731 00b0 1A60     		str	r2, [r3]
+ 732              	.L52:
+ 493:..\Common\Minimal/blocktim.c **** 		}
+ 494:..\Common\Minimal/blocktim.c **** 
+ 495:..\Common\Minimal/blocktim.c **** 		/* We should of not blocked for much longer than bktALLOWABLE_MARGIN
+ 496:..\Common\Minimal/blocktim.c **** 		either.  A margin is permitted as we would not necessarily run as soon
+ 497:..\Common\Minimal/blocktim.c **** 		as we unblocked. */
+ 498:..\Common\Minimal/blocktim.c **** 		if( xBlockedTime > ( bktTIME_TO_BLOCK + bktALLOWABLE_MARGIN ) )
+ 733              		.loc 1 498 0
+ 734 00b2 3B69     		ldr	r3, [r7, #16]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 23
+
+
+ 735 00b4 BE2B     		cmp	r3, #190
+ 736 00b6 02D9     		bls	.L53
+ 499:..\Common\Minimal/blocktim.c **** 		{
+ 500:..\Common\Minimal/blocktim.c **** 			xErrorOccurred = pdTRUE;
+ 737              		.loc 1 500 0
+ 738 00b8 074B     		ldr	r3, .L55+8
+ 739 00ba 0122     		movs	r2, #1
+ 740 00bc 1A60     		str	r2, [r3]
+ 741              	.L53:
+ 501:..\Common\Minimal/blocktim.c **** 		}
+ 502:..\Common\Minimal/blocktim.c **** 
+ 503:..\Common\Minimal/blocktim.c **** 		xRunIndicator = bktRUN_INDICATOR;
+ 742              		.loc 1 503 0
+ 743 00be 044B     		ldr	r3, .L55
+ 744 00c0 5522     		movs	r2, #85
+ 745 00c2 1A60     		str	r2, [r3]
+ 504:..\Common\Minimal/blocktim.c **** 
+ 505:..\Common\Minimal/blocktim.c **** 		xSecondaryCycles++;
+ 746              		.loc 1 505 0
+ 747 00c4 054B     		ldr	r3, .L55+12
+ 748 00c6 1B68     		ldr	r3, [r3]
+ 749 00c8 0133     		adds	r3, r3, #1
+ 750 00ca 044A     		ldr	r2, .L55+12
+ 751 00cc 1360     		str	r3, [r2]
+ 506:..\Common\Minimal/blocktim.c **** 	}
+ 752              		.loc 1 506 0
+ 753 00ce 9BE7     		b	.L54
+ 754              	.L56:
+ 755              		.align	2
+ 756              	.L55:
+ 757 00d0 14000000 		.word	xRunIndicator
+ 758 00d4 00000000 		.word	xTestQueue
+ 759 00d8 10000000 		.word	xErrorOccurred
+ 760 00dc 0C000000 		.word	xSecondaryCycles
+ 761              		.cfi_endproc
+ 762              	.LFE70:
+ 763              		.size	vSecondaryBlockTimeTestTask, .-vSecondaryBlockTimeTestTask
+ 764              		.section	.text.prvBasicDelayTests,"ax",%progbits
+ 765              		.align	2
+ 766              		.thumb
+ 767              		.thumb_func
+ 768              		.type	prvBasicDelayTests, %function
+ 769              	prvBasicDelayTests:
+ 770              	.LFB71:
+ 507:..\Common\Minimal/blocktim.c **** }
+ 508:..\Common\Minimal/blocktim.c **** /*-----------------------------------------------------------*/
+ 509:..\Common\Minimal/blocktim.c **** 
+ 510:..\Common\Minimal/blocktim.c **** static void prvBasicDelayTests( void )
+ 511:..\Common\Minimal/blocktim.c **** {
+ 771              		.loc 1 511 0
+ 772              		.cfi_startproc
+ 773              		@ args = 0, pretend = 0, frame = 32
+ 774              		@ frame_needed = 1, uses_anonymous_args = 0
+ 775 0000 80B5     		push	{r7, lr}
+ 776              		.cfi_def_cfa_offset 8
+ 777              		.cfi_offset 7, -8
+ 778              		.cfi_offset 14, -4
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 24
+
+
+ 779 0002 88B0     		sub	sp, sp, #32
+ 780              		.cfi_def_cfa_offset 40
+ 781 0004 00AF     		add	r7, sp, #0
+ 782              		.cfi_def_cfa_register 7
+ 512:..\Common\Minimal/blocktim.c **** TickType_t xPreTime, xPostTime, x, xLastUnblockTime, xExpectedUnblockTime;
+ 513:..\Common\Minimal/blocktim.c **** const TickType_t xPeriod = 75, xCycles = 5, xAllowableMargin = ( bktALLOWABLE_MARGIN >> 1 );
+ 783              		.loc 1 513 0
+ 784 0006 4B23     		movs	r3, #75
+ 785 0008 BB61     		str	r3, [r7, #24]
+ 786 000a 0523     		movs	r3, #5
+ 787 000c 7B61     		str	r3, [r7, #20]
+ 788 000e 0723     		movs	r3, #7
+ 789 0010 3B61     		str	r3, [r7, #16]
+ 514:..\Common\Minimal/blocktim.c **** 
+ 515:..\Common\Minimal/blocktim.c **** 	/* Temporarily increase priority so the timing is more accurate, but not so
+ 516:..\Common\Minimal/blocktim.c **** 	high as to disrupt the timer tests. */
+ 517:..\Common\Minimal/blocktim.c **** 	vTaskPrioritySet( NULL, configTIMER_TASK_PRIORITY - 1 );
+ 790              		.loc 1 517 0
+ 791 0012 0020     		movs	r0, #0
+ 792 0014 0321     		movs	r1, #3
+ 793 0016 FFF7FEFF 		bl	vTaskPrioritySet
+ 518:..\Common\Minimal/blocktim.c **** 
+ 519:..\Common\Minimal/blocktim.c **** 	/* Crude check to too that vTaskDelay() blocks for the expected period. */
+ 520:..\Common\Minimal/blocktim.c **** 	xPreTime = xTaskGetTickCount();
+ 794              		.loc 1 520 0
+ 795 001a FFF7FEFF 		bl	xTaskGetTickCount
+ 796 001e F860     		str	r0, [r7, #12]
+ 521:..\Common\Minimal/blocktim.c **** 	vTaskDelay( bktTIME_TO_BLOCK );
+ 797              		.loc 1 521 0
+ 798 0020 AF20     		movs	r0, #175
+ 799 0022 FFF7FEFF 		bl	vTaskDelay
+ 522:..\Common\Minimal/blocktim.c **** 	xPostTime = xTaskGetTickCount();
+ 800              		.loc 1 522 0
+ 801 0026 FFF7FEFF 		bl	xTaskGetTickCount
+ 802 002a B860     		str	r0, [r7, #8]
+ 523:..\Common\Minimal/blocktim.c **** 
+ 524:..\Common\Minimal/blocktim.c **** 	/* The priority is higher, so the allowable margin is halved when compared
+ 525:..\Common\Minimal/blocktim.c **** 	to the other tests in this file. */
+ 526:..\Common\Minimal/blocktim.c **** 	if( ( xPostTime - xPreTime ) > ( bktTIME_TO_BLOCK + xAllowableMargin ) )
+ 803              		.loc 1 526 0
+ 804 002c BA68     		ldr	r2, [r7, #8]
+ 805 002e FB68     		ldr	r3, [r7, #12]
+ 806 0030 D21A     		subs	r2, r2, r3
+ 807 0032 3B69     		ldr	r3, [r7, #16]
+ 808 0034 AF33     		adds	r3, r3, #175
+ 809 0036 9A42     		cmp	r2, r3
+ 810 0038 02D9     		bls	.L58
+ 527:..\Common\Minimal/blocktim.c **** 	{
+ 528:..\Common\Minimal/blocktim.c **** 		xErrorOccurred = pdTRUE;
+ 811              		.loc 1 528 0
+ 812 003a 1B4B     		ldr	r3, .L62
+ 813 003c 0122     		movs	r2, #1
+ 814 003e 1A60     		str	r2, [r3]
+ 815              	.L58:
+ 529:..\Common\Minimal/blocktim.c **** 	}
+ 530:..\Common\Minimal/blocktim.c **** 
+ 531:..\Common\Minimal/blocktim.c **** 	/* Now crude tests to check the vTaskDelayUntil() functionality. */
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 25
+
+
+ 532:..\Common\Minimal/blocktim.c **** 	xPostTime = xTaskGetTickCount();
+ 816              		.loc 1 532 0
+ 817 0040 FFF7FEFF 		bl	xTaskGetTickCount
+ 818 0044 B860     		str	r0, [r7, #8]
+ 533:..\Common\Minimal/blocktim.c **** 	xLastUnblockTime = xPostTime;
+ 819              		.loc 1 533 0
+ 820 0046 BB68     		ldr	r3, [r7, #8]
+ 821 0048 3B60     		str	r3, [r7]
+ 534:..\Common\Minimal/blocktim.c **** 
+ 535:..\Common\Minimal/blocktim.c **** 	for( x = 0; x < xCycles; x++ )
+ 822              		.loc 1 535 0
+ 823 004a 0023     		movs	r3, #0
+ 824 004c FB61     		str	r3, [r7, #28]
+ 825 004e 1FE0     		b	.L59
+ 826              	.L61:
+ 536:..\Common\Minimal/blocktim.c **** 	{
+ 537:..\Common\Minimal/blocktim.c **** 		/* Calculate the next expected unblock time from the time taken before
+ 538:..\Common\Minimal/blocktim.c **** 		this loop was entered. */
+ 539:..\Common\Minimal/blocktim.c **** 		xExpectedUnblockTime = xPostTime + ( x * xPeriod );
+ 827              		.loc 1 539 0
+ 828 0050 FB69     		ldr	r3, [r7, #28]
+ 829 0052 BA69     		ldr	r2, [r7, #24]
+ 830 0054 02FB03F2 		mul	r2, r2, r3
+ 831 0058 BB68     		ldr	r3, [r7, #8]
+ 832 005a 1344     		add	r3, r3, r2
+ 833 005c 7B60     		str	r3, [r7, #4]
+ 540:..\Common\Minimal/blocktim.c **** 
+ 541:..\Common\Minimal/blocktim.c **** 		vTaskDelayUntil( &xLastUnblockTime, xPeriod );
+ 834              		.loc 1 541 0
+ 835 005e 3B46     		mov	r3, r7
+ 836 0060 1846     		mov	r0, r3
+ 837 0062 B969     		ldr	r1, [r7, #24]
+ 838 0064 FFF7FEFF 		bl	vTaskDelayUntil
+ 542:..\Common\Minimal/blocktim.c **** 
+ 543:..\Common\Minimal/blocktim.c **** 		if( ( xTaskGetTickCount() - xExpectedUnblockTime ) > ( bktTIME_TO_BLOCK + xAllowableMargin ) )
+ 839              		.loc 1 543 0
+ 840 0068 FFF7FEFF 		bl	xTaskGetTickCount
+ 841 006c 0246     		mov	r2, r0
+ 842 006e 7B68     		ldr	r3, [r7, #4]
+ 843 0070 D21A     		subs	r2, r2, r3
+ 844 0072 3B69     		ldr	r3, [r7, #16]
+ 845 0074 AF33     		adds	r3, r3, #175
+ 846 0076 9A42     		cmp	r2, r3
+ 847 0078 02D9     		bls	.L60
+ 544:..\Common\Minimal/blocktim.c **** 		{
+ 545:..\Common\Minimal/blocktim.c **** 			xErrorOccurred = pdTRUE;
+ 848              		.loc 1 545 0
+ 849 007a 0B4B     		ldr	r3, .L62
+ 850 007c 0122     		movs	r2, #1
+ 851 007e 1A60     		str	r2, [r3]
+ 852              	.L60:
+ 546:..\Common\Minimal/blocktim.c **** 		}
+ 547:..\Common\Minimal/blocktim.c **** 
+ 548:..\Common\Minimal/blocktim.c **** 		xPrimaryCycles++;
+ 853              		.loc 1 548 0 discriminator 2
+ 854 0080 0A4B     		ldr	r3, .L62+4
+ 855 0082 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 26
+
+
+ 856 0084 0133     		adds	r3, r3, #1
+ 857 0086 094A     		ldr	r2, .L62+4
+ 858 0088 1360     		str	r3, [r2]
+ 535:..\Common\Minimal/blocktim.c **** 	{
+ 859              		.loc 1 535 0 discriminator 2
+ 860 008a FB69     		ldr	r3, [r7, #28]
+ 861 008c 0133     		adds	r3, r3, #1
+ 862 008e FB61     		str	r3, [r7, #28]
+ 863              	.L59:
+ 535:..\Common\Minimal/blocktim.c **** 	{
+ 864              		.loc 1 535 0 is_stmt 0 discriminator 1
+ 865 0090 FA69     		ldr	r2, [r7, #28]
+ 866 0092 7B69     		ldr	r3, [r7, #20]
+ 867 0094 9A42     		cmp	r2, r3
+ 868 0096 DBD3     		bcc	.L61
+ 549:..\Common\Minimal/blocktim.c **** 	}
+ 550:..\Common\Minimal/blocktim.c **** 
+ 551:..\Common\Minimal/blocktim.c **** 	/* Reset to the original task priority ready for the other tests. */
+ 552:..\Common\Minimal/blocktim.c **** 	vTaskPrioritySet( NULL, bktPRIMARY_PRIORITY );
+ 869              		.loc 1 552 0 is_stmt 1
+ 870 0098 0020     		movs	r0, #0
+ 871 009a 0221     		movs	r1, #2
+ 872 009c FFF7FEFF 		bl	vTaskPrioritySet
+ 553:..\Common\Minimal/blocktim.c **** }
+ 873              		.loc 1 553 0
+ 874 00a0 2037     		adds	r7, r7, #32
+ 875              		.cfi_def_cfa_offset 8
+ 876 00a2 BD46     		mov	sp, r7
+ 877              		.cfi_def_cfa_register 13
+ 878              		@ sp needed
+ 879 00a4 80BD     		pop	{r7, pc}
+ 880              	.L63:
+ 881 00a6 00BF     		.align	2
+ 882              	.L62:
+ 883 00a8 10000000 		.word	xErrorOccurred
+ 884 00ac 08000000 		.word	xPrimaryCycles
+ 885              		.cfi_endproc
+ 886              	.LFE71:
+ 887              		.size	prvBasicDelayTests, .-prvBasicDelayTests
+ 888              		.section	.text.xAreBlockTimeTestTasksStillRunning,"ax",%progbits
+ 889              		.align	2
+ 890              		.global	xAreBlockTimeTestTasksStillRunning
+ 891              		.thumb
+ 892              		.thumb_func
+ 893              		.type	xAreBlockTimeTestTasksStillRunning, %function
+ 894              	xAreBlockTimeTestTasksStillRunning:
+ 895              	.LFB72:
+ 554:..\Common\Minimal/blocktim.c **** /*-----------------------------------------------------------*/
+ 555:..\Common\Minimal/blocktim.c **** 
+ 556:..\Common\Minimal/blocktim.c **** BaseType_t xAreBlockTimeTestTasksStillRunning( void )
+ 557:..\Common\Minimal/blocktim.c **** {
+ 896              		.loc 1 557 0
+ 897              		.cfi_startproc
+ 898              		@ args = 0, pretend = 0, frame = 8
+ 899              		@ frame_needed = 1, uses_anonymous_args = 0
+ 900              		@ link register save eliminated.
+ 901 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 27
+
+
+ 902              		.cfi_def_cfa_offset 4
+ 903              		.cfi_offset 7, -4
+ 904 0002 83B0     		sub	sp, sp, #12
+ 905              		.cfi_def_cfa_offset 16
+ 906 0004 00AF     		add	r7, sp, #0
+ 907              		.cfi_def_cfa_register 7
+ 558:..\Common\Minimal/blocktim.c **** static BaseType_t xLastPrimaryCycleCount = 0, xLastSecondaryCycleCount = 0;
+ 559:..\Common\Minimal/blocktim.c **** BaseType_t xReturn = pdPASS;
+ 908              		.loc 1 559 0
+ 909 0006 0123     		movs	r3, #1
+ 910 0008 7B60     		str	r3, [r7, #4]
+ 560:..\Common\Minimal/blocktim.c **** 
+ 561:..\Common\Minimal/blocktim.c **** 	/* Have both tasks performed at least one cycle since this function was
+ 562:..\Common\Minimal/blocktim.c **** 	last called? */
+ 563:..\Common\Minimal/blocktim.c **** 	if( xPrimaryCycles == xLastPrimaryCycleCount )
+ 911              		.loc 1 563 0
+ 912 000a 124B     		ldr	r3, .L69
+ 913 000c 1A68     		ldr	r2, [r3]
+ 914 000e 124B     		ldr	r3, .L69+4
+ 915 0010 1B68     		ldr	r3, [r3]
+ 916 0012 9A42     		cmp	r2, r3
+ 917 0014 01D1     		bne	.L65
+ 564:..\Common\Minimal/blocktim.c **** 	{
+ 565:..\Common\Minimal/blocktim.c **** 		xReturn = pdFAIL;
+ 918              		.loc 1 565 0
+ 919 0016 0023     		movs	r3, #0
+ 920 0018 7B60     		str	r3, [r7, #4]
+ 921              	.L65:
+ 566:..\Common\Minimal/blocktim.c **** 	}
+ 567:..\Common\Minimal/blocktim.c **** 
+ 568:..\Common\Minimal/blocktim.c **** 	if( xSecondaryCycles == xLastSecondaryCycleCount )
+ 922              		.loc 1 568 0
+ 923 001a 104B     		ldr	r3, .L69+8
+ 924 001c 1A68     		ldr	r2, [r3]
+ 925 001e 104B     		ldr	r3, .L69+12
+ 926 0020 1B68     		ldr	r3, [r3]
+ 927 0022 9A42     		cmp	r2, r3
+ 928 0024 01D1     		bne	.L66
+ 569:..\Common\Minimal/blocktim.c **** 	{
+ 570:..\Common\Minimal/blocktim.c **** 		xReturn = pdFAIL;
+ 929              		.loc 1 570 0
+ 930 0026 0023     		movs	r3, #0
+ 931 0028 7B60     		str	r3, [r7, #4]
+ 932              	.L66:
+ 571:..\Common\Minimal/blocktim.c **** 	}
+ 572:..\Common\Minimal/blocktim.c **** 
+ 573:..\Common\Minimal/blocktim.c **** 	if( xErrorOccurred == pdTRUE )
+ 933              		.loc 1 573 0
+ 934 002a 0E4B     		ldr	r3, .L69+16
+ 935 002c 1B68     		ldr	r3, [r3]
+ 936 002e 012B     		cmp	r3, #1
+ 937 0030 01D1     		bne	.L67
+ 574:..\Common\Minimal/blocktim.c **** 	{
+ 575:..\Common\Minimal/blocktim.c **** 		xReturn = pdFAIL;
+ 938              		.loc 1 575 0
+ 939 0032 0023     		movs	r3, #0
+ 940 0034 7B60     		str	r3, [r7, #4]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 28
+
+
+ 941              	.L67:
+ 576:..\Common\Minimal/blocktim.c **** 	}
+ 577:..\Common\Minimal/blocktim.c **** 
+ 578:..\Common\Minimal/blocktim.c **** 	xLastSecondaryCycleCount = xSecondaryCycles;
+ 942              		.loc 1 578 0
+ 943 0036 094B     		ldr	r3, .L69+8
+ 944 0038 1B68     		ldr	r3, [r3]
+ 945 003a 094A     		ldr	r2, .L69+12
+ 946 003c 1360     		str	r3, [r2]
+ 579:..\Common\Minimal/blocktim.c **** 	xLastPrimaryCycleCount = xPrimaryCycles;
+ 947              		.loc 1 579 0
+ 948 003e 054B     		ldr	r3, .L69
+ 949 0040 1B68     		ldr	r3, [r3]
+ 950 0042 054A     		ldr	r2, .L69+4
+ 951 0044 1360     		str	r3, [r2]
+ 580:..\Common\Minimal/blocktim.c **** 
+ 581:..\Common\Minimal/blocktim.c **** 	return xReturn;
+ 952              		.loc 1 581 0
+ 953 0046 7B68     		ldr	r3, [r7, #4]
+ 582:..\Common\Minimal/blocktim.c **** }
+ 954              		.loc 1 582 0
+ 955 0048 1846     		mov	r0, r3
+ 956 004a 0C37     		adds	r7, r7, #12
+ 957              		.cfi_def_cfa_offset 4
+ 958 004c BD46     		mov	sp, r7
+ 959              		.cfi_def_cfa_register 13
+ 960              		@ sp needed
+ 961 004e 5DF8047B 		ldr	r7, [sp], #4
+ 962              		.cfi_restore 7
+ 963              		.cfi_def_cfa_offset 0
+ 964 0052 7047     		bx	lr
+ 965              	.L70:
+ 966              		.align	2
+ 967              	.L69:
+ 968 0054 08000000 		.word	xPrimaryCycles
+ 969 0058 18000000 		.word	xLastPrimaryCycleCount.6710
+ 970 005c 0C000000 		.word	xSecondaryCycles
+ 971 0060 1C000000 		.word	xLastSecondaryCycleCount.6711
+ 972 0064 10000000 		.word	xErrorOccurred
+ 973              		.cfi_endproc
+ 974              	.LFE72:
+ 975              		.size	xAreBlockTimeTestTasksStillRunning, .-xAreBlockTimeTestTasksStillRunning
+ 976              		.bss
+ 977              		.align	2
+ 978              	xLastPrimaryCycleCount.6710:
+ 979 0018 00000000 		.space	4
+ 980              		.align	2
+ 981              	xLastSecondaryCycleCount.6711:
+ 982 001c 00000000 		.space	4
+ 983              		.text
+ 984              	.Letext0:
+ 985              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 986              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 987              		.file 4 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 988              		.file 5 "..\\Source\\include/task.h"
+ 989              		.file 6 "..\\Source\\include/queue.h"
+ 990              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 29
+
+
+ 991              		.section	.debug_info,"",%progbits
+ 992              	.Ldebug_info0:
+ 993 0000 2E030000 		.4byte	0x32e
+ 994 0004 0400     		.2byte	0x4
+ 995 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 996 000a 04       		.byte	0x4
+ 997 000b 01       		.uleb128 0x1
+ 998 000c 32000000 		.4byte	.LASF49
+ 999 0010 01       		.byte	0x1
+ 1000 0011 E0020000 		.4byte	.LASF50
+ 1001 0015 78030000 		.4byte	.LASF51
+ 1002 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1003 001d 00000000 		.4byte	0
+ 1004 0021 00000000 		.4byte	.Ldebug_line0
+ 1005 0025 02       		.uleb128 0x2
+ 1006 0026 04       		.byte	0x4
+ 1007 0027 05       		.byte	0x5
+ 1008 0028 696E7400 		.ascii	"int\000"
+ 1009 002c 03       		.uleb128 0x3
+ 1010 002d 04       		.byte	0x4
+ 1011 002e 07       		.byte	0x7
+ 1012 002f F9010000 		.4byte	.LASF0
+ 1013 0033 03       		.uleb128 0x3
+ 1014 0034 01       		.byte	0x1
+ 1015 0035 06       		.byte	0x6
+ 1016 0036 2B030000 		.4byte	.LASF1
+ 1017 003a 04       		.uleb128 0x4
+ 1018 003b 1E000000 		.4byte	.LASF5
+ 1019 003f 02       		.byte	0x2
+ 1020 0040 1D       		.byte	0x1d
+ 1021 0041 45000000 		.4byte	0x45
+ 1022 0045 03       		.uleb128 0x3
+ 1023 0046 01       		.byte	0x1
+ 1024 0047 08       		.byte	0x8
+ 1025 0048 97010000 		.4byte	.LASF2
+ 1026 004c 03       		.uleb128 0x3
+ 1027 004d 02       		.byte	0x2
+ 1028 004e 05       		.byte	0x5
+ 1029 004f D6020000 		.4byte	.LASF3
+ 1030 0053 03       		.uleb128 0x3
+ 1031 0054 02       		.byte	0x2
+ 1032 0055 07       		.byte	0x7
+ 1033 0056 77010000 		.4byte	.LASF4
+ 1034 005a 04       		.uleb128 0x4
+ 1035 005b 28000000 		.4byte	.LASF6
+ 1036 005f 02       		.byte	0x2
+ 1037 0060 3F       		.byte	0x3f
+ 1038 0061 65000000 		.4byte	0x65
+ 1039 0065 03       		.uleb128 0x3
+ 1040 0066 04       		.byte	0x4
+ 1041 0067 05       		.byte	0x5
+ 1042 0068 13030000 		.4byte	.LASF7
+ 1043 006c 04       		.uleb128 0x4
+ 1044 006d C2010000 		.4byte	.LASF8
+ 1045 0071 02       		.byte	0x2
+ 1046 0072 41       		.byte	0x41
+ 1047 0073 77000000 		.4byte	0x77
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 30
+
+
+ 1048 0077 03       		.uleb128 0x3
+ 1049 0078 04       		.byte	0x4
+ 1050 0079 07       		.byte	0x7
+ 1051 007a A5010000 		.4byte	.LASF9
+ 1052 007e 03       		.uleb128 0x3
+ 1053 007f 08       		.byte	0x8
+ 1054 0080 05       		.byte	0x5
+ 1055 0081 A7020000 		.4byte	.LASF10
+ 1056 0085 03       		.uleb128 0x3
+ 1057 0086 08       		.byte	0x8
+ 1058 0087 07       		.byte	0x7
+ 1059 0088 0E020000 		.4byte	.LASF11
+ 1060 008c 04       		.uleb128 0x4
+ 1061 008d 25020000 		.4byte	.LASF12
+ 1062 0091 03       		.byte	0x3
+ 1063 0092 15       		.byte	0x15
+ 1064 0093 3A000000 		.4byte	0x3a
+ 1065 0097 04       		.uleb128 0x4
+ 1066 0098 96020000 		.4byte	.LASF13
+ 1067 009c 03       		.byte	0x3
+ 1068 009d 2C       		.byte	0x2c
+ 1069 009e 5A000000 		.4byte	0x5a
+ 1070 00a2 04       		.uleb128 0x4
+ 1071 00a3 0A030000 		.4byte	.LASF14
+ 1072 00a7 03       		.byte	0x3
+ 1073 00a8 2D       		.byte	0x2d
+ 1074 00a9 6C000000 		.4byte	0x6c
+ 1075 00ad 03       		.uleb128 0x3
+ 1076 00ae 04       		.byte	0x4
+ 1077 00af 04       		.byte	0x4
+ 1078 00b0 10010000 		.4byte	.LASF15
+ 1079 00b4 03       		.uleb128 0x3
+ 1080 00b5 08       		.byte	0x8
+ 1081 00b6 04       		.byte	0x4
+ 1082 00b7 E3000000 		.4byte	.LASF16
+ 1083 00bb 03       		.uleb128 0x3
+ 1084 00bc 01       		.byte	0x1
+ 1085 00bd 08       		.byte	0x8
+ 1086 00be B5020000 		.4byte	.LASF17
+ 1087 00c2 03       		.uleb128 0x3
+ 1088 00c3 04       		.byte	0x4
+ 1089 00c4 07       		.byte	0x7
+ 1090 00c5 9E020000 		.4byte	.LASF18
+ 1091 00c9 05       		.uleb128 0x5
+ 1092 00ca 04       		.byte	0x4
+ 1093 00cb 04       		.uleb128 0x4
+ 1094 00cc 5B030000 		.4byte	.LASF19
+ 1095 00d0 04       		.byte	0x4
+ 1096 00d1 62       		.byte	0x62
+ 1097 00d2 65000000 		.4byte	0x65
+ 1098 00d6 04       		.uleb128 0x4
+ 1099 00d7 62020000 		.4byte	.LASF20
+ 1100 00db 04       		.byte	0x4
+ 1101 00dc 63       		.byte	0x63
+ 1102 00dd 77000000 		.4byte	0x77
+ 1103 00e1 04       		.uleb128 0x4
+ 1104 00e2 13000000 		.4byte	.LASF21
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 31
+
+
+ 1105 00e6 04       		.byte	0x4
+ 1106 00e7 69       		.byte	0x69
+ 1107 00e8 A2000000 		.4byte	0xa2
+ 1108 00ec 04       		.uleb128 0x4
+ 1109 00ed FD020000 		.4byte	.LASF22
+ 1110 00f1 05       		.byte	0x5
+ 1111 00f2 67       		.byte	0x67
+ 1112 00f3 C9000000 		.4byte	0xc9
+ 1113 00f7 04       		.uleb128 0x4
+ 1114 00f8 C0000000 		.4byte	.LASF23
+ 1115 00fc 06       		.byte	0x6
+ 1116 00fd 58       		.byte	0x58
+ 1117 00fe C9000000 		.4byte	0xc9
+ 1118 0102 06       		.uleb128 0x6
+ 1119 0103 37030000 		.4byte	.LASF52
+ 1120 0107 01       		.byte	0x1
+ 1121 0108 8C       		.byte	0x8c
+ 1122 0109 00000000 		.4byte	.LFB68
+ 1123 010d 74000000 		.4byte	.LFE68-.LFB68
+ 1124 0111 01       		.uleb128 0x1
+ 1125 0112 9C       		.byte	0x9c
+ 1126 0113 07       		.uleb128 0x7
+ 1127 0114 39010000 		.4byte	.LASF29
+ 1128 0118 01       		.byte	0x1
+ 1129 0119 A2       		.byte	0xa2
+ 1130 011a 00000000 		.4byte	.LFB69
+ 1131 011e 00030000 		.4byte	.LFE69-.LFB69
+ 1132 0122 01       		.uleb128 0x1
+ 1133 0123 9C       		.byte	0x9c
+ 1134 0124 7D010000 		.4byte	0x17d
+ 1135 0128 08       		.uleb128 0x8
+ 1136 0129 BA020000 		.4byte	.LASF31
+ 1137 012d 01       		.byte	0x1
+ 1138 012e A2       		.byte	0xa2
+ 1139 012f C9000000 		.4byte	0xc9
+ 1140 0133 02       		.uleb128 0x2
+ 1141 0134 91       		.byte	0x91
+ 1142 0135 5C       		.sleb128 -36
+ 1143 0136 09       		.uleb128 0x9
+ 1144 0137 1C030000 		.4byte	.LASF24
+ 1145 013b 01       		.byte	0x1
+ 1146 013c A4       		.byte	0xa4
+ 1147 013d CB000000 		.4byte	0xcb
+ 1148 0141 02       		.uleb128 0x2
+ 1149 0142 91       		.byte	0x91
+ 1150 0143 68       		.sleb128 -24
+ 1151 0144 09       		.uleb128 0x9
+ 1152 0145 00000000 		.4byte	.LASF25
+ 1153 0149 01       		.byte	0x1
+ 1154 014a A4       		.byte	0xa4
+ 1155 014b CB000000 		.4byte	0xcb
+ 1156 014f 02       		.uleb128 0x2
+ 1157 0150 91       		.byte	0x91
+ 1158 0151 64       		.sleb128 -28
+ 1159 0152 09       		.uleb128 0x9
+ 1160 0153 66030000 		.4byte	.LASF26
+ 1161 0157 01       		.byte	0x1
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 32
+
+
+ 1162 0158 A5       		.byte	0xa5
+ 1163 0159 E1000000 		.4byte	0xe1
+ 1164 015d 02       		.uleb128 0x2
+ 1165 015e 91       		.byte	0x91
+ 1166 015f 70       		.sleb128 -16
+ 1167 0160 09       		.uleb128 0x9
+ 1168 0161 06000000 		.4byte	.LASF27
+ 1169 0165 01       		.byte	0x1
+ 1170 0166 A6       		.byte	0xa6
+ 1171 0167 E1000000 		.4byte	0xe1
+ 1172 016b 02       		.uleb128 0x2
+ 1173 016c 91       		.byte	0x91
+ 1174 016d 74       		.sleb128 -12
+ 1175 016e 09       		.uleb128 0x9
+ 1176 016f EC010000 		.4byte	.LASF28
+ 1177 0173 01       		.byte	0x1
+ 1178 0174 A6       		.byte	0xa6
+ 1179 0175 E1000000 		.4byte	0xe1
+ 1180 0179 02       		.uleb128 0x2
+ 1181 017a 91       		.byte	0x91
+ 1182 017b 6C       		.sleb128 -20
+ 1183 017c 00       		.byte	0
+ 1184 017d 0A       		.uleb128 0xa
+ 1185 017e 46020000 		.4byte	.LASF30
+ 1186 0182 01       		.byte	0x1
+ 1187 0183 A401     		.2byte	0x1a4
+ 1188 0185 00000000 		.4byte	.LFB70
+ 1189 0189 E0000000 		.4byte	.LFE70-.LFB70
+ 1190 018d 01       		.uleb128 0x1
+ 1191 018e 9C       		.byte	0x9c
+ 1192 018f D0010000 		.4byte	0x1d0
+ 1193 0193 0B       		.uleb128 0xb
+ 1194 0194 BA020000 		.4byte	.LASF31
+ 1195 0198 01       		.byte	0x1
+ 1196 0199 A401     		.2byte	0x1a4
+ 1197 019b C9000000 		.4byte	0xc9
+ 1198 019f 02       		.uleb128 0x2
+ 1199 01a0 91       		.byte	0x91
+ 1200 01a1 64       		.sleb128 -28
+ 1201 01a2 0C       		.uleb128 0xc
+ 1202 01a3 66030000 		.4byte	.LASF26
+ 1203 01a7 01       		.byte	0x1
+ 1204 01a8 A601     		.2byte	0x1a6
+ 1205 01aa E1000000 		.4byte	0xe1
+ 1206 01ae 02       		.uleb128 0x2
+ 1207 01af 91       		.byte	0x91
+ 1208 01b0 74       		.sleb128 -12
+ 1209 01b1 0C       		.uleb128 0xc
+ 1210 01b2 EC010000 		.4byte	.LASF28
+ 1211 01b6 01       		.byte	0x1
+ 1212 01b7 A601     		.2byte	0x1a6
+ 1213 01b9 E1000000 		.4byte	0xe1
+ 1214 01bd 02       		.uleb128 0x2
+ 1215 01be 91       		.byte	0x91
+ 1216 01bf 70       		.sleb128 -16
+ 1217 01c0 0C       		.uleb128 0xc
+ 1218 01c1 00000000 		.4byte	.LASF25
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 33
+
+
+ 1219 01c5 01       		.byte	0x1
+ 1220 01c6 A701     		.2byte	0x1a7
+ 1221 01c8 CB000000 		.4byte	0xcb
+ 1222 01cc 02       		.uleb128 0x2
+ 1223 01cd 91       		.byte	0x91
+ 1224 01ce 6C       		.sleb128 -20
+ 1225 01cf 00       		.byte	0
+ 1226 01d0 0A       		.uleb128 0xa
+ 1227 01d1 53010000 		.4byte	.LASF32
+ 1228 01d5 01       		.byte	0x1
+ 1229 01d6 FE01     		.2byte	0x1fe
+ 1230 01d8 00000000 		.4byte	.LFB71
+ 1231 01dc B0000000 		.4byte	.LFE71-.LFB71
+ 1232 01e0 01       		.uleb128 0x1
+ 1233 01e1 9C       		.byte	0x9c
+ 1234 01e2 5D020000 		.4byte	0x25d
+ 1235 01e6 0C       		.uleb128 0xc
+ 1236 01e7 22030000 		.4byte	.LASF33
+ 1237 01eb 01       		.byte	0x1
+ 1238 01ec 0002     		.2byte	0x200
+ 1239 01ee E1000000 		.4byte	0xe1
+ 1240 01f2 02       		.uleb128 0x2
+ 1241 01f3 91       		.byte	0x91
+ 1242 01f4 64       		.sleb128 -28
+ 1243 01f5 0C       		.uleb128 0xc
+ 1244 01f6 FB000000 		.4byte	.LASF34
+ 1245 01fa 01       		.byte	0x1
+ 1246 01fb 0002     		.2byte	0x200
+ 1247 01fd E1000000 		.4byte	0xe1
+ 1248 0201 02       		.uleb128 0x2
+ 1249 0202 91       		.byte	0x91
+ 1250 0203 60       		.sleb128 -32
+ 1251 0204 0D       		.uleb128 0xd
+ 1252 0205 7800     		.ascii	"x\000"
+ 1253 0207 01       		.byte	0x1
+ 1254 0208 0002     		.2byte	0x200
+ 1255 020a E1000000 		.4byte	0xe1
+ 1256 020e 02       		.uleb128 0x2
+ 1257 020f 91       		.byte	0x91
+ 1258 0210 74       		.sleb128 -12
+ 1259 0211 0C       		.uleb128 0xc
+ 1260 0212 85020000 		.4byte	.LASF35
+ 1261 0216 01       		.byte	0x1
+ 1262 0217 0002     		.2byte	0x200
+ 1263 0219 E1000000 		.4byte	0xe1
+ 1264 021d 02       		.uleb128 0x2
+ 1265 021e 91       		.byte	0x91
+ 1266 021f 58       		.sleb128 -40
+ 1267 0220 0C       		.uleb128 0xc
+ 1268 0221 CE000000 		.4byte	.LASF36
+ 1269 0225 01       		.byte	0x1
+ 1270 0226 0002     		.2byte	0x200
+ 1271 0228 E1000000 		.4byte	0xe1
+ 1272 022c 02       		.uleb128 0x2
+ 1273 022d 91       		.byte	0x91
+ 1274 022e 5C       		.sleb128 -36
+ 1275 022f 0C       		.uleb128 0xc
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 34
+
+
+ 1276 0230 06020000 		.4byte	.LASF37
+ 1277 0234 01       		.byte	0x1
+ 1278 0235 0102     		.2byte	0x201
+ 1279 0237 5D020000 		.4byte	0x25d
+ 1280 023b 02       		.uleb128 0x2
+ 1281 023c 91       		.byte	0x91
+ 1282 023d 70       		.sleb128 -16
+ 1283 023e 0C       		.uleb128 0xc
+ 1284 023f DC010000 		.4byte	.LASF38
+ 1285 0243 01       		.byte	0x1
+ 1286 0244 0102     		.2byte	0x201
+ 1287 0246 5D020000 		.4byte	0x25d
+ 1288 024a 02       		.uleb128 0x2
+ 1289 024b 91       		.byte	0x91
+ 1290 024c 6C       		.sleb128 -20
+ 1291 024d 0C       		.uleb128 0xc
+ 1292 024e 66010000 		.4byte	.LASF39
+ 1293 0252 01       		.byte	0x1
+ 1294 0253 0102     		.2byte	0x201
+ 1295 0255 5D020000 		.4byte	0x25d
+ 1296 0259 02       		.uleb128 0x2
+ 1297 025a 91       		.byte	0x91
+ 1298 025b 68       		.sleb128 -24
+ 1299 025c 00       		.byte	0
+ 1300 025d 0E       		.uleb128 0xe
+ 1301 025e E1000000 		.4byte	0xe1
+ 1302 0262 0F       		.uleb128 0xf
+ 1303 0263 16010000 		.4byte	.LASF53
+ 1304 0267 01       		.byte	0x1
+ 1305 0268 2C02     		.2byte	0x22c
+ 1306 026a CB000000 		.4byte	0xcb
+ 1307 026e 00000000 		.4byte	.LFB72
+ 1308 0272 68000000 		.4byte	.LFE72-.LFB72
+ 1309 0276 01       		.uleb128 0x1
+ 1310 0277 9C       		.byte	0x9c
+ 1311 0278 B0020000 		.4byte	0x2b0
+ 1312 027c 0C       		.uleb128 0xc
+ 1313 027d 6E020000 		.4byte	.LASF40
+ 1314 0281 01       		.byte	0x1
+ 1315 0282 2E02     		.2byte	0x22e
+ 1316 0284 CB000000 		.4byte	0xcb
+ 1317 0288 05       		.uleb128 0x5
+ 1318 0289 03       		.byte	0x3
+ 1319 028a 18000000 		.4byte	xLastPrimaryCycleCount.6710
+ 1320 028e 0C       		.uleb128 0xc
+ 1321 028f 2D020000 		.4byte	.LASF41
+ 1322 0293 01       		.byte	0x1
+ 1323 0294 2E02     		.2byte	0x22e
+ 1324 0296 CB000000 		.4byte	0xcb
+ 1325 029a 05       		.uleb128 0x5
+ 1326 029b 03       		.byte	0x3
+ 1327 029c 1C000000 		.4byte	xLastSecondaryCycleCount.6711
+ 1328 02a0 0C       		.uleb128 0xc
+ 1329 02a1 E4010000 		.4byte	.LASF42
+ 1330 02a5 01       		.byte	0x1
+ 1331 02a6 2F02     		.2byte	0x22f
+ 1332 02a8 CB000000 		.4byte	0xcb
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 35
+
+
+ 1333 02ac 02       		.uleb128 0x2
+ 1334 02ad 91       		.byte	0x91
+ 1335 02ae 74       		.sleb128 -12
+ 1336 02af 00       		.byte	0
+ 1337 02b0 09       		.uleb128 0x9
+ 1338 02b1 05010000 		.4byte	.LASF43
+ 1339 02b5 01       		.byte	0x1
+ 1340 02b6 7C       		.byte	0x7c
+ 1341 02b7 F7000000 		.4byte	0xf7
+ 1342 02bb 05       		.uleb128 0x5
+ 1343 02bc 03       		.byte	0x3
+ 1344 02bd 00000000 		.4byte	xTestQueue
+ 1345 02c1 09       		.uleb128 0x9
+ 1346 02c2 B7010000 		.4byte	.LASF44
+ 1347 02c6 01       		.byte	0x1
+ 1348 02c7 80       		.byte	0x80
+ 1349 02c8 EC000000 		.4byte	0xec
+ 1350 02cc 05       		.uleb128 0x5
+ 1351 02cd 03       		.byte	0x3
+ 1352 02ce 04000000 		.4byte	xSecondary
+ 1353 02d2 09       		.uleb128 0x9
+ 1354 02d3 CD010000 		.4byte	.LASF45
+ 1355 02d7 01       		.byte	0x1
+ 1356 02d8 83       		.byte	0x83
+ 1357 02d9 E3020000 		.4byte	0x2e3
+ 1358 02dd 05       		.uleb128 0x5
+ 1359 02de 03       		.byte	0x3
+ 1360 02df 08000000 		.4byte	xPrimaryCycles
+ 1361 02e3 10       		.uleb128 0x10
+ 1362 02e4 CB000000 		.4byte	0xcb
+ 1363 02e8 09       		.uleb128 0x9
+ 1364 02e9 EA000000 		.4byte	.LASF46
+ 1365 02ed 01       		.byte	0x1
+ 1366 02ee 83       		.byte	0x83
+ 1367 02ef E3020000 		.4byte	0x2e3
+ 1368 02f3 05       		.uleb128 0x5
+ 1369 02f4 03       		.byte	0x3
+ 1370 02f5 0C000000 		.4byte	xSecondaryCycles
+ 1371 02f9 09       		.uleb128 0x9
+ 1372 02fa C7020000 		.4byte	.LASF47
+ 1373 02fe 01       		.byte	0x1
+ 1374 02ff 84       		.byte	0x84
+ 1375 0300 E3020000 		.4byte	0x2e3
+ 1376 0304 05       		.uleb128 0x5
+ 1377 0305 03       		.byte	0x3
+ 1378 0306 10000000 		.4byte	xErrorOccurred
+ 1379 030a 09       		.uleb128 0x9
+ 1380 030b 4D030000 		.4byte	.LASF48
+ 1381 030f 01       		.byte	0x1
+ 1382 0310 88       		.byte	0x88
+ 1383 0311 1B030000 		.4byte	0x31b
+ 1384 0315 05       		.uleb128 0x5
+ 1385 0316 03       		.byte	0x3
+ 1386 0317 14000000 		.4byte	xRunIndicator
+ 1387 031b 10       		.uleb128 0x10
+ 1388 031c D6000000 		.4byte	0xd6
+ 1389 0320 11       		.uleb128 0x11
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 36
+
+
+ 1390 0321 8A010000 		.4byte	.LASF54
+ 1391 0325 07       		.byte	0x7
+ 1392 0326 9606     		.2byte	0x696
+ 1393 0328 2C030000 		.4byte	0x32c
+ 1394 032c 10       		.uleb128 0x10
+ 1395 032d 97000000 		.4byte	0x97
+ 1396 0331 00       		.byte	0
+ 1397              		.section	.debug_abbrev,"",%progbits
+ 1398              	.Ldebug_abbrev0:
+ 1399 0000 01       		.uleb128 0x1
+ 1400 0001 11       		.uleb128 0x11
+ 1401 0002 01       		.byte	0x1
+ 1402 0003 25       		.uleb128 0x25
+ 1403 0004 0E       		.uleb128 0xe
+ 1404 0005 13       		.uleb128 0x13
+ 1405 0006 0B       		.uleb128 0xb
+ 1406 0007 03       		.uleb128 0x3
+ 1407 0008 0E       		.uleb128 0xe
+ 1408 0009 1B       		.uleb128 0x1b
+ 1409 000a 0E       		.uleb128 0xe
+ 1410 000b 55       		.uleb128 0x55
+ 1411 000c 17       		.uleb128 0x17
+ 1412 000d 11       		.uleb128 0x11
+ 1413 000e 01       		.uleb128 0x1
+ 1414 000f 10       		.uleb128 0x10
+ 1415 0010 17       		.uleb128 0x17
+ 1416 0011 00       		.byte	0
+ 1417 0012 00       		.byte	0
+ 1418 0013 02       		.uleb128 0x2
+ 1419 0014 24       		.uleb128 0x24
+ 1420 0015 00       		.byte	0
+ 1421 0016 0B       		.uleb128 0xb
+ 1422 0017 0B       		.uleb128 0xb
+ 1423 0018 3E       		.uleb128 0x3e
+ 1424 0019 0B       		.uleb128 0xb
+ 1425 001a 03       		.uleb128 0x3
+ 1426 001b 08       		.uleb128 0x8
+ 1427 001c 00       		.byte	0
+ 1428 001d 00       		.byte	0
+ 1429 001e 03       		.uleb128 0x3
+ 1430 001f 24       		.uleb128 0x24
+ 1431 0020 00       		.byte	0
+ 1432 0021 0B       		.uleb128 0xb
+ 1433 0022 0B       		.uleb128 0xb
+ 1434 0023 3E       		.uleb128 0x3e
+ 1435 0024 0B       		.uleb128 0xb
+ 1436 0025 03       		.uleb128 0x3
+ 1437 0026 0E       		.uleb128 0xe
+ 1438 0027 00       		.byte	0
+ 1439 0028 00       		.byte	0
+ 1440 0029 04       		.uleb128 0x4
+ 1441 002a 16       		.uleb128 0x16
+ 1442 002b 00       		.byte	0
+ 1443 002c 03       		.uleb128 0x3
+ 1444 002d 0E       		.uleb128 0xe
+ 1445 002e 3A       		.uleb128 0x3a
+ 1446 002f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 37
+
+
+ 1447 0030 3B       		.uleb128 0x3b
+ 1448 0031 0B       		.uleb128 0xb
+ 1449 0032 49       		.uleb128 0x49
+ 1450 0033 13       		.uleb128 0x13
+ 1451 0034 00       		.byte	0
+ 1452 0035 00       		.byte	0
+ 1453 0036 05       		.uleb128 0x5
+ 1454 0037 0F       		.uleb128 0xf
+ 1455 0038 00       		.byte	0
+ 1456 0039 0B       		.uleb128 0xb
+ 1457 003a 0B       		.uleb128 0xb
+ 1458 003b 00       		.byte	0
+ 1459 003c 00       		.byte	0
+ 1460 003d 06       		.uleb128 0x6
+ 1461 003e 2E       		.uleb128 0x2e
+ 1462 003f 00       		.byte	0
+ 1463 0040 3F       		.uleb128 0x3f
+ 1464 0041 19       		.uleb128 0x19
+ 1465 0042 03       		.uleb128 0x3
+ 1466 0043 0E       		.uleb128 0xe
+ 1467 0044 3A       		.uleb128 0x3a
+ 1468 0045 0B       		.uleb128 0xb
+ 1469 0046 3B       		.uleb128 0x3b
+ 1470 0047 0B       		.uleb128 0xb
+ 1471 0048 27       		.uleb128 0x27
+ 1472 0049 19       		.uleb128 0x19
+ 1473 004a 11       		.uleb128 0x11
+ 1474 004b 01       		.uleb128 0x1
+ 1475 004c 12       		.uleb128 0x12
+ 1476 004d 06       		.uleb128 0x6
+ 1477 004e 40       		.uleb128 0x40
+ 1478 004f 18       		.uleb128 0x18
+ 1479 0050 9642     		.uleb128 0x2116
+ 1480 0052 19       		.uleb128 0x19
+ 1481 0053 00       		.byte	0
+ 1482 0054 00       		.byte	0
+ 1483 0055 07       		.uleb128 0x7
+ 1484 0056 2E       		.uleb128 0x2e
+ 1485 0057 01       		.byte	0x1
+ 1486 0058 03       		.uleb128 0x3
+ 1487 0059 0E       		.uleb128 0xe
+ 1488 005a 3A       		.uleb128 0x3a
+ 1489 005b 0B       		.uleb128 0xb
+ 1490 005c 3B       		.uleb128 0x3b
+ 1491 005d 0B       		.uleb128 0xb
+ 1492 005e 27       		.uleb128 0x27
+ 1493 005f 19       		.uleb128 0x19
+ 1494 0060 11       		.uleb128 0x11
+ 1495 0061 01       		.uleb128 0x1
+ 1496 0062 12       		.uleb128 0x12
+ 1497 0063 06       		.uleb128 0x6
+ 1498 0064 40       		.uleb128 0x40
+ 1499 0065 18       		.uleb128 0x18
+ 1500 0066 9642     		.uleb128 0x2116
+ 1501 0068 19       		.uleb128 0x19
+ 1502 0069 01       		.uleb128 0x1
+ 1503 006a 13       		.uleb128 0x13
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 38
+
+
+ 1504 006b 00       		.byte	0
+ 1505 006c 00       		.byte	0
+ 1506 006d 08       		.uleb128 0x8
+ 1507 006e 05       		.uleb128 0x5
+ 1508 006f 00       		.byte	0
+ 1509 0070 03       		.uleb128 0x3
+ 1510 0071 0E       		.uleb128 0xe
+ 1511 0072 3A       		.uleb128 0x3a
+ 1512 0073 0B       		.uleb128 0xb
+ 1513 0074 3B       		.uleb128 0x3b
+ 1514 0075 0B       		.uleb128 0xb
+ 1515 0076 49       		.uleb128 0x49
+ 1516 0077 13       		.uleb128 0x13
+ 1517 0078 02       		.uleb128 0x2
+ 1518 0079 18       		.uleb128 0x18
+ 1519 007a 00       		.byte	0
+ 1520 007b 00       		.byte	0
+ 1521 007c 09       		.uleb128 0x9
+ 1522 007d 34       		.uleb128 0x34
+ 1523 007e 00       		.byte	0
+ 1524 007f 03       		.uleb128 0x3
+ 1525 0080 0E       		.uleb128 0xe
+ 1526 0081 3A       		.uleb128 0x3a
+ 1527 0082 0B       		.uleb128 0xb
+ 1528 0083 3B       		.uleb128 0x3b
+ 1529 0084 0B       		.uleb128 0xb
+ 1530 0085 49       		.uleb128 0x49
+ 1531 0086 13       		.uleb128 0x13
+ 1532 0087 02       		.uleb128 0x2
+ 1533 0088 18       		.uleb128 0x18
+ 1534 0089 00       		.byte	0
+ 1535 008a 00       		.byte	0
+ 1536 008b 0A       		.uleb128 0xa
+ 1537 008c 2E       		.uleb128 0x2e
+ 1538 008d 01       		.byte	0x1
+ 1539 008e 03       		.uleb128 0x3
+ 1540 008f 0E       		.uleb128 0xe
+ 1541 0090 3A       		.uleb128 0x3a
+ 1542 0091 0B       		.uleb128 0xb
+ 1543 0092 3B       		.uleb128 0x3b
+ 1544 0093 05       		.uleb128 0x5
+ 1545 0094 27       		.uleb128 0x27
+ 1546 0095 19       		.uleb128 0x19
+ 1547 0096 11       		.uleb128 0x11
+ 1548 0097 01       		.uleb128 0x1
+ 1549 0098 12       		.uleb128 0x12
+ 1550 0099 06       		.uleb128 0x6
+ 1551 009a 40       		.uleb128 0x40
+ 1552 009b 18       		.uleb128 0x18
+ 1553 009c 9642     		.uleb128 0x2116
+ 1554 009e 19       		.uleb128 0x19
+ 1555 009f 01       		.uleb128 0x1
+ 1556 00a0 13       		.uleb128 0x13
+ 1557 00a1 00       		.byte	0
+ 1558 00a2 00       		.byte	0
+ 1559 00a3 0B       		.uleb128 0xb
+ 1560 00a4 05       		.uleb128 0x5
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 39
+
+
+ 1561 00a5 00       		.byte	0
+ 1562 00a6 03       		.uleb128 0x3
+ 1563 00a7 0E       		.uleb128 0xe
+ 1564 00a8 3A       		.uleb128 0x3a
+ 1565 00a9 0B       		.uleb128 0xb
+ 1566 00aa 3B       		.uleb128 0x3b
+ 1567 00ab 05       		.uleb128 0x5
+ 1568 00ac 49       		.uleb128 0x49
+ 1569 00ad 13       		.uleb128 0x13
+ 1570 00ae 02       		.uleb128 0x2
+ 1571 00af 18       		.uleb128 0x18
+ 1572 00b0 00       		.byte	0
+ 1573 00b1 00       		.byte	0
+ 1574 00b2 0C       		.uleb128 0xc
+ 1575 00b3 34       		.uleb128 0x34
+ 1576 00b4 00       		.byte	0
+ 1577 00b5 03       		.uleb128 0x3
+ 1578 00b6 0E       		.uleb128 0xe
+ 1579 00b7 3A       		.uleb128 0x3a
+ 1580 00b8 0B       		.uleb128 0xb
+ 1581 00b9 3B       		.uleb128 0x3b
+ 1582 00ba 05       		.uleb128 0x5
+ 1583 00bb 49       		.uleb128 0x49
+ 1584 00bc 13       		.uleb128 0x13
+ 1585 00bd 02       		.uleb128 0x2
+ 1586 00be 18       		.uleb128 0x18
+ 1587 00bf 00       		.byte	0
+ 1588 00c0 00       		.byte	0
+ 1589 00c1 0D       		.uleb128 0xd
+ 1590 00c2 34       		.uleb128 0x34
+ 1591 00c3 00       		.byte	0
+ 1592 00c4 03       		.uleb128 0x3
+ 1593 00c5 08       		.uleb128 0x8
+ 1594 00c6 3A       		.uleb128 0x3a
+ 1595 00c7 0B       		.uleb128 0xb
+ 1596 00c8 3B       		.uleb128 0x3b
+ 1597 00c9 05       		.uleb128 0x5
+ 1598 00ca 49       		.uleb128 0x49
+ 1599 00cb 13       		.uleb128 0x13
+ 1600 00cc 02       		.uleb128 0x2
+ 1601 00cd 18       		.uleb128 0x18
+ 1602 00ce 00       		.byte	0
+ 1603 00cf 00       		.byte	0
+ 1604 00d0 0E       		.uleb128 0xe
+ 1605 00d1 26       		.uleb128 0x26
+ 1606 00d2 00       		.byte	0
+ 1607 00d3 49       		.uleb128 0x49
+ 1608 00d4 13       		.uleb128 0x13
+ 1609 00d5 00       		.byte	0
+ 1610 00d6 00       		.byte	0
+ 1611 00d7 0F       		.uleb128 0xf
+ 1612 00d8 2E       		.uleb128 0x2e
+ 1613 00d9 01       		.byte	0x1
+ 1614 00da 3F       		.uleb128 0x3f
+ 1615 00db 19       		.uleb128 0x19
+ 1616 00dc 03       		.uleb128 0x3
+ 1617 00dd 0E       		.uleb128 0xe
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 40
+
+
+ 1618 00de 3A       		.uleb128 0x3a
+ 1619 00df 0B       		.uleb128 0xb
+ 1620 00e0 3B       		.uleb128 0x3b
+ 1621 00e1 05       		.uleb128 0x5
+ 1622 00e2 27       		.uleb128 0x27
+ 1623 00e3 19       		.uleb128 0x19
+ 1624 00e4 49       		.uleb128 0x49
+ 1625 00e5 13       		.uleb128 0x13
+ 1626 00e6 11       		.uleb128 0x11
+ 1627 00e7 01       		.uleb128 0x1
+ 1628 00e8 12       		.uleb128 0x12
+ 1629 00e9 06       		.uleb128 0x6
+ 1630 00ea 40       		.uleb128 0x40
+ 1631 00eb 18       		.uleb128 0x18
+ 1632 00ec 9742     		.uleb128 0x2117
+ 1633 00ee 19       		.uleb128 0x19
+ 1634 00ef 01       		.uleb128 0x1
+ 1635 00f0 13       		.uleb128 0x13
+ 1636 00f1 00       		.byte	0
+ 1637 00f2 00       		.byte	0
+ 1638 00f3 10       		.uleb128 0x10
+ 1639 00f4 35       		.uleb128 0x35
+ 1640 00f5 00       		.byte	0
+ 1641 00f6 49       		.uleb128 0x49
+ 1642 00f7 13       		.uleb128 0x13
+ 1643 00f8 00       		.byte	0
+ 1644 00f9 00       		.byte	0
+ 1645 00fa 11       		.uleb128 0x11
+ 1646 00fb 34       		.uleb128 0x34
+ 1647 00fc 00       		.byte	0
+ 1648 00fd 03       		.uleb128 0x3
+ 1649 00fe 0E       		.uleb128 0xe
+ 1650 00ff 3A       		.uleb128 0x3a
+ 1651 0100 0B       		.uleb128 0xb
+ 1652 0101 3B       		.uleb128 0x3b
+ 1653 0102 05       		.uleb128 0x5
+ 1654 0103 49       		.uleb128 0x49
+ 1655 0104 13       		.uleb128 0x13
+ 1656 0105 3F       		.uleb128 0x3f
+ 1657 0106 19       		.uleb128 0x19
+ 1658 0107 3C       		.uleb128 0x3c
+ 1659 0108 19       		.uleb128 0x19
+ 1660 0109 00       		.byte	0
+ 1661 010a 00       		.byte	0
+ 1662 010b 00       		.byte	0
+ 1663              		.section	.debug_aranges,"",%progbits
+ 1664 0000 3C000000 		.4byte	0x3c
+ 1665 0004 0200     		.2byte	0x2
+ 1666 0006 00000000 		.4byte	.Ldebug_info0
+ 1667 000a 04       		.byte	0x4
+ 1668 000b 00       		.byte	0
+ 1669 000c 0000     		.2byte	0
+ 1670 000e 0000     		.2byte	0
+ 1671 0010 00000000 		.4byte	.LFB68
+ 1672 0014 74000000 		.4byte	.LFE68-.LFB68
+ 1673 0018 00000000 		.4byte	.LFB69
+ 1674 001c 00030000 		.4byte	.LFE69-.LFB69
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 41
+
+
+ 1675 0020 00000000 		.4byte	.LFB70
+ 1676 0024 E0000000 		.4byte	.LFE70-.LFB70
+ 1677 0028 00000000 		.4byte	.LFB71
+ 1678 002c B0000000 		.4byte	.LFE71-.LFB71
+ 1679 0030 00000000 		.4byte	.LFB72
+ 1680 0034 68000000 		.4byte	.LFE72-.LFB72
+ 1681 0038 00000000 		.4byte	0
+ 1682 003c 00000000 		.4byte	0
+ 1683              		.section	.debug_ranges,"",%progbits
+ 1684              	.Ldebug_ranges0:
+ 1685 0000 00000000 		.4byte	.LFB68
+ 1686 0004 74000000 		.4byte	.LFE68
+ 1687 0008 00000000 		.4byte	.LFB69
+ 1688 000c 00030000 		.4byte	.LFE69
+ 1689 0010 00000000 		.4byte	.LFB70
+ 1690 0014 E0000000 		.4byte	.LFE70
+ 1691 0018 00000000 		.4byte	.LFB71
+ 1692 001c B0000000 		.4byte	.LFE71
+ 1693 0020 00000000 		.4byte	.LFB72
+ 1694 0024 68000000 		.4byte	.LFE72
+ 1695 0028 00000000 		.4byte	0
+ 1696 002c 00000000 		.4byte	0
+ 1697              		.section	.debug_line,"",%progbits
+ 1698              	.Ldebug_line0:
+ 1699 0000 FC020000 		.section	.debug_str,"MS",%progbits,1
+ 1699      0200A501 
+ 1699      00000201 
+ 1699      FB0E0D00 
+ 1699      01010101 
+ 1700              	.LASF25:
+ 1701 0000 78446174 		.ascii	"xData\000"
+ 1701      6100
+ 1702              	.LASF27:
+ 1703 0006 7854696D 		.ascii	"xTimeToBlock\000"
+ 1703      65546F42 
+ 1703      6C6F636B 
+ 1703      00
+ 1704              	.LASF21:
+ 1705 0013 5469636B 		.ascii	"TickType_t\000"
+ 1705      54797065 
+ 1705      5F7400
+ 1706              	.LASF5:
+ 1707 001e 5F5F7569 		.ascii	"__uint8_t\000"
+ 1707      6E74385F 
+ 1707      7400
+ 1708              	.LASF6:
+ 1709 0028 5F5F696E 		.ascii	"__int32_t\000"
+ 1709      7433325F 
+ 1709      7400
+ 1710              	.LASF49:
+ 1711 0032 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1711      4320342E 
+ 1711      392E3320 
+ 1711      32303135 
+ 1711      30333033 
+ 1712 0065 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1712      20726576 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 42
+
+
+ 1712      6973696F 
+ 1712      6E203232 
+ 1712      31323230 
+ 1713 0098 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1713      66756E63 
+ 1713      74696F6E 
+ 1713      2D736563 
+ 1713      74696F6E 
+ 1714              	.LASF23:
+ 1715 00c0 51756575 		.ascii	"QueueHandle_t\000"
+ 1715      6548616E 
+ 1715      646C655F 
+ 1715      7400
+ 1716              	.LASF36:
+ 1717 00ce 78457870 		.ascii	"xExpectedUnblockTime\000"
+ 1717      65637465 
+ 1717      64556E62 
+ 1717      6C6F636B 
+ 1717      54696D65 
+ 1718              	.LASF16:
+ 1719 00e3 646F7562 		.ascii	"double\000"
+ 1719      6C6500
+ 1720              	.LASF46:
+ 1721 00ea 78536563 		.ascii	"xSecondaryCycles\000"
+ 1721      6F6E6461 
+ 1721      72794379 
+ 1721      636C6573 
+ 1721      00
+ 1722              	.LASF34:
+ 1723 00fb 78506F73 		.ascii	"xPostTime\000"
+ 1723      7454696D 
+ 1723      6500
+ 1724              	.LASF43:
+ 1725 0105 78546573 		.ascii	"xTestQueue\000"
+ 1725      74517565 
+ 1725      756500
+ 1726              	.LASF15:
+ 1727 0110 666C6F61 		.ascii	"float\000"
+ 1727      7400
+ 1728              	.LASF53:
+ 1729 0116 78417265 		.ascii	"xAreBlockTimeTestTasksStillRunning\000"
+ 1729      426C6F63 
+ 1729      6B54696D 
+ 1729      65546573 
+ 1729      74546173 
+ 1730              	.LASF29:
+ 1731 0139 76507269 		.ascii	"vPrimaryBlockTimeTestTask\000"
+ 1731      6D617279 
+ 1731      426C6F63 
+ 1731      6B54696D 
+ 1731      65546573 
+ 1732              	.LASF32:
+ 1733 0153 70727642 		.ascii	"prvBasicDelayTests\000"
+ 1733      61736963 
+ 1733      44656C61 
+ 1733      79546573 
+ 1733      747300
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 43
+
+
+ 1734              	.LASF39:
+ 1735 0166 78416C6C 		.ascii	"xAllowableMargin\000"
+ 1735      6F776162 
+ 1735      6C654D61 
+ 1735      7267696E 
+ 1735      00
+ 1736              	.LASF4:
+ 1737 0177 73686F72 		.ascii	"short unsigned int\000"
+ 1737      7420756E 
+ 1737      7369676E 
+ 1737      65642069 
+ 1737      6E7400
+ 1738              	.LASF54:
+ 1739 018a 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1739      52784275 
+ 1739      66666572 
+ 1739      00
+ 1740              	.LASF2:
+ 1741 0197 756E7369 		.ascii	"unsigned char\000"
+ 1741      676E6564 
+ 1741      20636861 
+ 1741      7200
+ 1742              	.LASF9:
+ 1743 01a5 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1743      20756E73 
+ 1743      69676E65 
+ 1743      6420696E 
+ 1743      7400
+ 1744              	.LASF44:
+ 1745 01b7 78536563 		.ascii	"xSecondary\000"
+ 1745      6F6E6461 
+ 1745      727900
+ 1746              	.LASF8:
+ 1747 01c2 5F5F7569 		.ascii	"__uint32_t\000"
+ 1747      6E743332 
+ 1747      5F7400
+ 1748              	.LASF45:
+ 1749 01cd 78507269 		.ascii	"xPrimaryCycles\000"
+ 1749      6D617279 
+ 1749      4379636C 
+ 1749      657300
+ 1750              	.LASF38:
+ 1751 01dc 78437963 		.ascii	"xCycles\000"
+ 1751      6C657300 
+ 1752              	.LASF42:
+ 1753 01e4 78526574 		.ascii	"xReturn\000"
+ 1753      75726E00 
+ 1754              	.LASF28:
+ 1755 01ec 78426C6F 		.ascii	"xBlockedTime\000"
+ 1755      636B6564 
+ 1755      54696D65 
+ 1755      00
+ 1756              	.LASF0:
+ 1757 01f9 756E7369 		.ascii	"unsigned int\000"
+ 1757      676E6564 
+ 1757      20696E74 
+ 1757      00
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 44
+
+
+ 1758              	.LASF37:
+ 1759 0206 78506572 		.ascii	"xPeriod\000"
+ 1759      696F6400 
+ 1760              	.LASF11:
+ 1761 020e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1761      206C6F6E 
+ 1761      6720756E 
+ 1761      7369676E 
+ 1761      65642069 
+ 1762              	.LASF12:
+ 1763 0225 75696E74 		.ascii	"uint8_t\000"
+ 1763      385F7400 
+ 1764              	.LASF41:
+ 1765 022d 784C6173 		.ascii	"xLastSecondaryCycleCount\000"
+ 1765      74536563 
+ 1765      6F6E6461 
+ 1765      72794379 
+ 1765      636C6543 
+ 1766              	.LASF30:
+ 1767 0246 76536563 		.ascii	"vSecondaryBlockTimeTestTask\000"
+ 1767      6F6E6461 
+ 1767      7279426C 
+ 1767      6F636B54 
+ 1767      696D6554 
+ 1768              	.LASF20:
+ 1769 0262 55426173 		.ascii	"UBaseType_t\000"
+ 1769      65547970 
+ 1769      655F7400 
+ 1770              	.LASF40:
+ 1771 026e 784C6173 		.ascii	"xLastPrimaryCycleCount\000"
+ 1771      74507269 
+ 1771      6D617279 
+ 1771      4379636C 
+ 1771      65436F75 
+ 1772              	.LASF35:
+ 1773 0285 784C6173 		.ascii	"xLastUnblockTime\000"
+ 1773      74556E62 
+ 1773      6C6F636B 
+ 1773      54696D65 
+ 1773      00
+ 1774              	.LASF13:
+ 1775 0296 696E7433 		.ascii	"int32_t\000"
+ 1775      325F7400 
+ 1776              	.LASF18:
+ 1777 029e 73697A65 		.ascii	"sizetype\000"
+ 1777      74797065 
+ 1777      00
+ 1778              	.LASF10:
+ 1779 02a7 6C6F6E67 		.ascii	"long long int\000"
+ 1779      206C6F6E 
+ 1779      6720696E 
+ 1779      7400
+ 1780              	.LASF17:
+ 1781 02b5 63686172 		.ascii	"char\000"
+ 1781      00
+ 1782              	.LASF31:
+ 1783 02ba 70765061 		.ascii	"pvParameters\000"
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 45
+
+
+ 1783      72616D65 
+ 1783      74657273 
+ 1783      00
+ 1784              	.LASF47:
+ 1785 02c7 78457272 		.ascii	"xErrorOccurred\000"
+ 1785      6F724F63 
+ 1785      63757272 
+ 1785      656400
+ 1786              	.LASF3:
+ 1787 02d6 73686F72 		.ascii	"short int\000"
+ 1787      7420696E 
+ 1787      7400
+ 1788              	.LASF50:
+ 1789 02e0 2E2E5C43 		.ascii	"..\\Common\\Minimal\\blocktim.c\000"
+ 1789      6F6D6D6F 
+ 1789      6E5C4D69 
+ 1789      6E696D61 
+ 1789      6C5C626C 
+ 1790              	.LASF22:
+ 1791 02fd 5461736B 		.ascii	"TaskHandle_t\000"
+ 1791      48616E64 
+ 1791      6C655F74 
+ 1791      00
+ 1792              	.LASF14:
+ 1793 030a 75696E74 		.ascii	"uint32_t\000"
+ 1793      33325F74 
+ 1793      00
+ 1794              	.LASF7:
+ 1795 0313 6C6F6E67 		.ascii	"long int\000"
+ 1795      20696E74 
+ 1795      00
+ 1796              	.LASF24:
+ 1797 031c 78497465 		.ascii	"xItem\000"
+ 1797      6D00
+ 1798              	.LASF33:
+ 1799 0322 78507265 		.ascii	"xPreTime\000"
+ 1799      54696D65 
+ 1799      00
+ 1800              	.LASF1:
+ 1801 032b 7369676E 		.ascii	"signed char\000"
+ 1801      65642063 
+ 1801      68617200 
+ 1802              	.LASF52:
+ 1803 0337 76437265 		.ascii	"vCreateBlockTimeTasks\000"
+ 1803      61746542 
+ 1803      6C6F636B 
+ 1803      54696D65 
+ 1803      5461736B 
+ 1804              	.LASF48:
+ 1805 034d 7852756E 		.ascii	"xRunIndicator\000"
+ 1805      496E6469 
+ 1805      6361746F 
+ 1805      7200
+ 1806              	.LASF19:
+ 1807 035b 42617365 		.ascii	"BaseType_t\000"
+ 1807      54797065 
+ 1807      5F7400
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc1xnsc0.s 			page 46
+
+
+ 1808              	.LASF26:
+ 1809 0366 7854696D 		.ascii	"xTimeWhenBlocking\000"
+ 1809      65576865 
+ 1809      6E426C6F 
+ 1809      636B696E 
+ 1809      6700
+ 1810              	.LASF51:
+ 1811 0378 433A5C55 		.ascii	"C:\\Users\\bmt\\Documents\\GitHub\\FreeRTOS_CY8CKIT"
+ 1811      73657273 
+ 1811      5C626D74 
+ 1811      5C446F63 
+ 1811      756D656E 
+ 1812 03a6 5F303539 		.ascii	"_059\\FreeRTOS_Demo.cydsn\000"
+ 1812      5C467265 
+ 1812      6552544F 
+ 1812      535F4465 
+ 1812      6D6F2E63 
+ 1813              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

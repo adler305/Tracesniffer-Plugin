@@ -1,0 +1,8 @@
+F:\Programme_Scripts\PSOC Creator\FreeRTOS\FreeRTOS_CY8CKIT_059-master\FreeRTOS_Demo.cydsn\FreeRTOS_Demo.cyprj|f436046b-b46a-4e6a-a8f9-c67a893246c3
+C:\Users\thunderbolt\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|e4ed1f5f-c040-4cda-a2db-c92dfb6510c2
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|4310769c-5091-42c6-a602-c21b1420a031
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|d46d6e8e-ccef-4db7-87f4-32d805d2a482
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|e360d243-ba58-44e9-8e59-234fab0006ff
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|8076ca06-2a1c-4161-9f76-589407fda06c
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\dev\psoc3\AnalogDevice\PSoC35AnalogDevice.cylib\PSoC35AnalogDevice.cyprj|70c64193-55c9-497b-aa04-ac51dcdcf41e
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|d5aadd3b-20a4-452a-822f-d67be0a65acd

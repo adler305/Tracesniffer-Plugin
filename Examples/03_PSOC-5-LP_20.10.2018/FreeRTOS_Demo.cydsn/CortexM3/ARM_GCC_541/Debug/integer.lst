@@ -1,0 +1,1661 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"integer.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.comm	sniffIDFilter,13,4
+  20              		.comm	buffer,4098,4
+  21              		.comm	objectList,1704,4
+  22              		.bss
+  23              		.align	2
+  24              	xTaskCheck:
+  25 0000 00000000 		.space	4
+  26              		.section	.rodata
+  27              		.align	2
+  28              	.LC0:
+  29 0000 496E744D 		.ascii	"IntMath\000"
+  29      61746800 
+  30              		.section	.text.vStartIntegerMathTasks,"ax",%progbits
+  31              		.align	2
+  32              		.global	vStartIntegerMathTasks
+  33              		.thumb
+  34              		.thumb_func
+  35              		.type	vStartIntegerMathTasks, %function
+  36              	vStartIntegerMathTasks:
+  37              	.LFB68:
+  38              		.file 1 "..\\Common\\Minimal\\integer.c"
+   1:..\Common\Minimal/integer.c **** /*
+   2:..\Common\Minimal/integer.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Common\Minimal/integer.c ****     All rights reserved
+   4:..\Common\Minimal/integer.c **** 
+   5:..\Common\Minimal/integer.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Common\Minimal/integer.c **** 
+   7:..\Common\Minimal/integer.c ****     This file is part of the FreeRTOS distribution.
+   8:..\Common\Minimal/integer.c **** 
+   9:..\Common\Minimal/integer.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:..\Common\Minimal/integer.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Common\Minimal/integer.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Common\Minimal/integer.c **** 
+  13:..\Common\Minimal/integer.c ****     ***************************************************************************
+  14:..\Common\Minimal/integer.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Common\Minimal/integer.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Common\Minimal/integer.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Common\Minimal/integer.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Common\Minimal/integer.c ****     ***************************************************************************
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 2
+
+
+  19:..\Common\Minimal/integer.c **** 
+  20:..\Common\Minimal/integer.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Common\Minimal/integer.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Common\Minimal/integer.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:..\Common\Minimal/integer.c ****     link: http://www.freertos.org/a00114.html
+  24:..\Common\Minimal/integer.c **** 
+  25:..\Common\Minimal/integer.c ****     ***************************************************************************
+  26:..\Common\Minimal/integer.c ****      *                                                                       *
+  27:..\Common\Minimal/integer.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Common\Minimal/integer.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Common\Minimal/integer.c ****      *    platform software that is more than just the market leader, it     *
+  30:..\Common\Minimal/integer.c ****      *    is the industry's de facto standard.                               *
+  31:..\Common\Minimal/integer.c ****      *                                                                       *
+  32:..\Common\Minimal/integer.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Common\Minimal/integer.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Common\Minimal/integer.c ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Common\Minimal/integer.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Common\Minimal/integer.c ****      *                                                                       *
+  37:..\Common\Minimal/integer.c ****     ***************************************************************************
+  38:..\Common\Minimal/integer.c **** 
+  39:..\Common\Minimal/integer.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Common\Minimal/integer.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Common\Minimal/integer.c ****     defined configASSERT()?
+  42:..\Common\Minimal/integer.c **** 
+  43:..\Common\Minimal/integer.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Common\Minimal/integer.c ****     embedded software for free we request you assist our global community by
+  45:..\Common\Minimal/integer.c ****     participating in the support forum.
+  46:..\Common\Minimal/integer.c **** 
+  47:..\Common\Minimal/integer.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:..\Common\Minimal/integer.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Common\Minimal/integer.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Common\Minimal/integer.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:..\Common\Minimal/integer.c **** 
+  52:..\Common\Minimal/integer.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Common\Minimal/integer.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:..\Common\Minimal/integer.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Common\Minimal/integer.c **** 
+  56:..\Common\Minimal/integer.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Common\Minimal/integer.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Common\Minimal/integer.c **** 
+  59:..\Common\Minimal/integer.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Common\Minimal/integer.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Common\Minimal/integer.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Common\Minimal/integer.c **** 
+  63:..\Common\Minimal/integer.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Common\Minimal/integer.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Common\Minimal/integer.c ****     mission critical applications that require provable dependability.
+  66:..\Common\Minimal/integer.c **** 
+  67:..\Common\Minimal/integer.c ****     1 tab == 4 spaces!
+  68:..\Common\Minimal/integer.c **** */
+  69:..\Common\Minimal/integer.c **** 
+  70:..\Common\Minimal/integer.c **** /*
+  71:..\Common\Minimal/integer.c ****  * Creates one or more tasks that repeatedly perform a set of integer
+  72:..\Common\Minimal/integer.c ****  * calculations.  The result of each run-time calculation is compared to the 
+  73:..\Common\Minimal/integer.c ****  * known expected result - with a mismatch being indicative of an error in the
+  74:..\Common\Minimal/integer.c ****  * context switch mechanism.
+  75:..\Common\Minimal/integer.c ****  */
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 3
+
+
+  76:..\Common\Minimal/integer.c **** 
+  77:..\Common\Minimal/integer.c **** #include <stdlib.h>
+  78:..\Common\Minimal/integer.c **** 
+  79:..\Common\Minimal/integer.c **** /* Scheduler include files. */
+  80:..\Common\Minimal/integer.c **** #include "FreeRTOS.h"
+  81:..\Common\Minimal/integer.c **** #include "task.h"
+  82:..\Common\Minimal/integer.c **** 
+  83:..\Common\Minimal/integer.c **** /* Demo program include files. */
+  84:..\Common\Minimal/integer.c **** #include "integer.h"
+  85:..\Common\Minimal/integer.c **** 
+  86:..\Common\Minimal/integer.c **** /* The constants used in the calculation. */
+  87:..\Common\Minimal/integer.c **** #define intgCONST1				( ( long ) 123 )
+  88:..\Common\Minimal/integer.c **** #define intgCONST2				( ( long ) 234567 )
+  89:..\Common\Minimal/integer.c **** #define intgCONST3				( ( long ) -3 )
+  90:..\Common\Minimal/integer.c **** #define intgCONST4				( ( long ) 7 )
+  91:..\Common\Minimal/integer.c **** #define intgEXPECTED_ANSWER		( ( ( intgCONST1 + intgCONST2 ) * intgCONST3 ) / intgCONST4 )
+  92:..\Common\Minimal/integer.c **** 
+  93:..\Common\Minimal/integer.c **** #define intgSTACK_SIZE			configMINIMAL_STACK_SIZE
+  94:..\Common\Minimal/integer.c **** 
+  95:..\Common\Minimal/integer.c **** /* As this is the minimal version, we will only create one task. */
+  96:..\Common\Minimal/integer.c **** #define intgNUMBER_OF_TASKS		( 1 )
+  97:..\Common\Minimal/integer.c **** 
+  98:..\Common\Minimal/integer.c **** /* The task function.  Repeatedly performs a 32 bit calculation, checking the
+  99:..\Common\Minimal/integer.c **** result against the expected result.  If the result is incorrect then the
+ 100:..\Common\Minimal/integer.c **** context switch must have caused some corruption. */
+ 101:..\Common\Minimal/integer.c **** static portTASK_FUNCTION_PROTO( vCompeteingIntMathTask, pvParameters );
+ 102:..\Common\Minimal/integer.c **** 
+ 103:..\Common\Minimal/integer.c **** /* Variables that are set to true within the calculation task to indicate
+ 104:..\Common\Minimal/integer.c **** that the task is still executing.  The check task sets the variable back to
+ 105:..\Common\Minimal/integer.c **** false, flagging an error if the variable is still false the next time it
+ 106:..\Common\Minimal/integer.c **** is called. */
+ 107:..\Common\Minimal/integer.c **** static volatile BaseType_t xTaskCheck[ intgNUMBER_OF_TASKS ] = { ( BaseType_t ) pdFALSE };
+ 108:..\Common\Minimal/integer.c **** 
+ 109:..\Common\Minimal/integer.c **** /*-----------------------------------------------------------*/
+ 110:..\Common\Minimal/integer.c **** 
+ 111:..\Common\Minimal/integer.c **** void vStartIntegerMathTasks( UBaseType_t uxPriority )
+ 112:..\Common\Minimal/integer.c **** {
+  39              		.loc 1 112 0
+  40              		.cfi_startproc
+  41              		@ args = 0, pretend = 0, frame = 16
+  42              		@ frame_needed = 1, uses_anonymous_args = 0
+  43 0000 80B5     		push	{r7, lr}
+  44              		.cfi_def_cfa_offset 8
+  45              		.cfi_offset 7, -8
+  46              		.cfi_offset 14, -4
+  47 0002 86B0     		sub	sp, sp, #24
+  48              		.cfi_def_cfa_offset 32
+  49 0004 02AF     		add	r7, sp, #8
+  50              		.cfi_def_cfa 7, 24
+  51 0006 7860     		str	r0, [r7, #4]
+ 113:..\Common\Minimal/integer.c **** short sTask;
+ 114:..\Common\Minimal/integer.c **** 
+ 115:..\Common\Minimal/integer.c **** 	for( sTask = 0; sTask < intgNUMBER_OF_TASKS; sTask++ )
+  52              		.loc 1 115 0
+  53 0008 0023     		movs	r3, #0
+  54 000a FB81     		strh	r3, [r7, #14]	@ movhi
+  55 000c 14E0     		b	.L2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 4
+
+
+  56              	.L3:
+ 116:..\Common\Minimal/integer.c **** 	{
+ 117:..\Common\Minimal/integer.c **** 		xTaskCreate( vCompeteingIntMathTask, "IntMath", intgSTACK_SIZE, ( void * ) &( xTaskCheck[ sTask ]
+  57              		.loc 1 117 0 discriminator 3
+  58 000e B7F90E30 		ldrsh	r3, [r7, #14]
+  59 0012 9B00     		lsls	r3, r3, #2
+  60 0014 0C4A     		ldr	r2, .L4
+  61 0016 1A44     		add	r2, r2, r3
+  62 0018 0023     		movs	r3, #0
+  63 001a 0193     		str	r3, [sp, #4]
+  64 001c 7B68     		ldr	r3, [r7, #4]
+  65 001e 0093     		str	r3, [sp]
+  66 0020 1346     		mov	r3, r2
+  67 0022 6422     		movs	r2, #100
+  68 0024 0949     		ldr	r1, .L4+4
+  69 0026 0A48     		ldr	r0, .L4+8
+  70 0028 FFF7FEFF 		bl	xTaskCreate
+ 115:..\Common\Minimal/integer.c **** 	{
+  71              		.loc 1 115 0 discriminator 3
+  72 002c B7F90E30 		ldrsh	r3, [r7, #14]
+  73 0030 9BB2     		uxth	r3, r3
+  74 0032 0133     		adds	r3, r3, #1
+  75 0034 9BB2     		uxth	r3, r3
+  76 0036 FB81     		strh	r3, [r7, #14]	@ movhi
+  77              	.L2:
+ 115:..\Common\Minimal/integer.c **** 	{
+  78              		.loc 1 115 0 is_stmt 0 discriminator 1
+  79 0038 B7F90E30 		ldrsh	r3, [r7, #14]
+  80 003c 002B     		cmp	r3, #0
+  81 003e E6DD     		ble	.L3
+ 118:..\Common\Minimal/integer.c **** 	}
+ 119:..\Common\Minimal/integer.c **** }
+  82              		.loc 1 119 0 is_stmt 1
+  83 0040 00BF     		nop
+  84 0042 1037     		adds	r7, r7, #16
+  85              		.cfi_def_cfa_offset 8
+  86 0044 BD46     		mov	sp, r7
+  87              		.cfi_def_cfa_register 13
+  88              		@ sp needed
+  89 0046 80BD     		pop	{r7, pc}
+  90              	.L5:
+  91              		.align	2
+  92              	.L4:
+  93 0048 00000000 		.word	xTaskCheck
+  94 004c 00000000 		.word	.LC0
+  95 0050 00000000 		.word	vCompeteingIntMathTask
+  96              		.cfi_endproc
+  97              	.LFE68:
+  98              		.size	vStartIntegerMathTasks, .-vStartIntegerMathTasks
+  99              		.section	.text.vCompeteingIntMathTask,"ax",%progbits
+ 100              		.align	2
+ 101              		.thumb
+ 102              		.thumb_func
+ 103              		.type	vCompeteingIntMathTask, %function
+ 104              	vCompeteingIntMathTask:
+ 105              	.LFB69:
+ 120:..\Common\Minimal/integer.c **** /*-----------------------------------------------------------*/
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 5
+
+
+ 121:..\Common\Minimal/integer.c **** 
+ 122:..\Common\Minimal/integer.c **** static portTASK_FUNCTION( vCompeteingIntMathTask, pvParameters )
+ 123:..\Common\Minimal/integer.c **** {
+ 106              		.loc 1 123 0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 24
+ 109              		@ frame_needed = 1, uses_anonymous_args = 0
+ 110 0000 80B5     		push	{r7, lr}
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 7, -8
+ 113              		.cfi_offset 14, -4
+ 114 0002 86B0     		sub	sp, sp, #24
+ 115              		.cfi_def_cfa_offset 32
+ 116 0004 00AF     		add	r7, sp, #0
+ 117              		.cfi_def_cfa_register 7
+ 118 0006 7860     		str	r0, [r7, #4]
+ 124:..\Common\Minimal/integer.c **** /* These variables are all effectively set to constants so they are volatile to
+ 125:..\Common\Minimal/integer.c **** ensure the compiler does not just get rid of them. */
+ 126:..\Common\Minimal/integer.c **** volatile long lValue;
+ 127:..\Common\Minimal/integer.c **** short sError = pdFALSE;
+ 119              		.loc 1 127 0
+ 120 0008 0023     		movs	r3, #0
+ 121 000a FB82     		strh	r3, [r7, #22]	@ movhi
+ 128:..\Common\Minimal/integer.c **** volatile BaseType_t *pxTaskHasExecuted;
+ 129:..\Common\Minimal/integer.c **** 
+ 130:..\Common\Minimal/integer.c **** 	/* Set a pointer to the variable we are going to set to true each
+ 131:..\Common\Minimal/integer.c **** 	iteration.  This is also a good test of the parameter passing mechanism
+ 132:..\Common\Minimal/integer.c **** 	within each port. */
+ 133:..\Common\Minimal/integer.c **** 	pxTaskHasExecuted = ( volatile BaseType_t * ) pvParameters;
+ 122              		.loc 1 133 0
+ 123 000c 7B68     		ldr	r3, [r7, #4]
+ 124 000e 3B61     		str	r3, [r7, #16]
+ 125              	.L9:
+ 134:..\Common\Minimal/integer.c **** 
+ 135:..\Common\Minimal/integer.c **** 	/* Keep performing a calculation and checking the result against a constant. */
+ 136:..\Common\Minimal/integer.c **** 	for( ;; )
+ 137:..\Common\Minimal/integer.c **** 	{
+ 138:..\Common\Minimal/integer.c **** 		/* Perform the calculation.  This will store partial value in
+ 139:..\Common\Minimal/integer.c **** 		registers, resulting in a good test of the context switch mechanism. */
+ 140:..\Common\Minimal/integer.c **** 		lValue = intgCONST1;
+ 126              		.loc 1 140 0
+ 127 0010 7B23     		movs	r3, #123
+ 128 0012 FB60     		str	r3, [r7, #12]
+ 141:..\Common\Minimal/integer.c **** 		lValue += intgCONST2;
+ 129              		.loc 1 141 0
+ 130 0014 FB68     		ldr	r3, [r7, #12]
+ 131 0016 03F56533 		add	r3, r3, #234496
+ 132 001a 4733     		adds	r3, r3, #71
+ 133 001c FB60     		str	r3, [r7, #12]
+ 142:..\Common\Minimal/integer.c **** 
+ 143:..\Common\Minimal/integer.c **** 		/* Yield in case cooperative scheduling is being used. */
+ 144:..\Common\Minimal/integer.c **** 		#if configUSE_PREEMPTION == 0
+ 145:..\Common\Minimal/integer.c **** 		{
+ 146:..\Common\Minimal/integer.c **** 			taskYIELD();
+ 147:..\Common\Minimal/integer.c **** 		}
+ 148:..\Common\Minimal/integer.c **** 		#endif
+ 149:..\Common\Minimal/integer.c **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 6
+
+
+ 150:..\Common\Minimal/integer.c **** 		/* Finish off the calculation. */
+ 151:..\Common\Minimal/integer.c **** 		lValue *= intgCONST3;
+ 134              		.loc 1 151 0
+ 135 001e FB68     		ldr	r3, [r7, #12]
+ 136 0020 1A46     		mov	r2, r3
+ 137 0022 9B00     		lsls	r3, r3, #2
+ 138 0024 D31A     		subs	r3, r2, r3
+ 139 0026 FB60     		str	r3, [r7, #12]
+ 152:..\Common\Minimal/integer.c **** 		lValue /= intgCONST4;
+ 140              		.loc 1 152 0
+ 141 0028 FB68     		ldr	r3, [r7, #12]
+ 142 002a 0D4A     		ldr	r2, .L10
+ 143 002c 82FB0312 		smull	r1, r2, r2, r3
+ 144 0030 1A44     		add	r2, r2, r3
+ 145 0032 9210     		asrs	r2, r2, #2
+ 146 0034 DB17     		asrs	r3, r3, #31
+ 147 0036 D31A     		subs	r3, r2, r3
+ 148 0038 FB60     		str	r3, [r7, #12]
+ 153:..\Common\Minimal/integer.c **** 
+ 154:..\Common\Minimal/integer.c **** 		/* If the calculation is found to be incorrect we stop setting the 
+ 155:..\Common\Minimal/integer.c **** 		TaskHasExecuted variable so the check task can see an error has 
+ 156:..\Common\Minimal/integer.c **** 		occurred. */
+ 157:..\Common\Minimal/integer.c **** 		if( lValue != intgEXPECTED_ANSWER ) /*lint !e774 volatile used to prevent this being optimised ou
+ 149              		.loc 1 157 0
+ 150 003a FB68     		ldr	r3, [r7, #12]
+ 151 003c 094A     		ldr	r2, .L10+4
+ 152 003e 9342     		cmp	r3, r2
+ 153 0040 01D0     		beq	.L7
+ 158:..\Common\Minimal/integer.c **** 		{
+ 159:..\Common\Minimal/integer.c **** 			sError = pdTRUE;
+ 154              		.loc 1 159 0
+ 155 0042 0123     		movs	r3, #1
+ 156 0044 FB82     		strh	r3, [r7, #22]	@ movhi
+ 157              	.L7:
+ 160:..\Common\Minimal/integer.c **** 		}
+ 161:..\Common\Minimal/integer.c **** 
+ 162:..\Common\Minimal/integer.c **** 		if( sError == pdFALSE )
+ 158              		.loc 1 162 0
+ 159 0046 B7F91630 		ldrsh	r3, [r7, #22]
+ 160 004a 002B     		cmp	r3, #0
+ 161 004c E0D1     		bne	.L9
+ 163:..\Common\Minimal/integer.c **** 		{
+ 164:..\Common\Minimal/integer.c **** 			/* We have not encountered any errors, so set the flag that show
+ 165:..\Common\Minimal/integer.c **** 			we are still executing.  This will be periodically cleared by
+ 166:..\Common\Minimal/integer.c **** 			the check task. */
+ 167:..\Common\Minimal/integer.c **** 			portENTER_CRITICAL();
+ 162              		.loc 1 167 0
+ 163 004e FFF7FEFF 		bl	vPortEnterCritical
+ 168:..\Common\Minimal/integer.c **** 				*pxTaskHasExecuted = pdTRUE;
+ 164              		.loc 1 168 0
+ 165 0052 3B69     		ldr	r3, [r7, #16]
+ 166 0054 0122     		movs	r2, #1
+ 167 0056 1A60     		str	r2, [r3]
+ 169:..\Common\Minimal/integer.c **** 			portEXIT_CRITICAL();
+ 168              		.loc 1 169 0
+ 169 0058 FFF7FEFF 		bl	vPortExitCritical
+ 170:..\Common\Minimal/integer.c **** 		}
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 7
+
+
+ 171:..\Common\Minimal/integer.c **** 
+ 172:..\Common\Minimal/integer.c **** 		/* Yield in case cooperative scheduling is being used. */
+ 173:..\Common\Minimal/integer.c **** 		#if configUSE_PREEMPTION == 0
+ 174:..\Common\Minimal/integer.c **** 		{
+ 175:..\Common\Minimal/integer.c **** 			taskYIELD();
+ 176:..\Common\Minimal/integer.c **** 		}
+ 177:..\Common\Minimal/integer.c **** 		#endif
+ 178:..\Common\Minimal/integer.c **** 	}
+ 170              		.loc 1 178 0
+ 171 005c D8E7     		b	.L9
+ 172              	.L11:
+ 173 005e 00BF     		.align	2
+ 174              	.L10:
+ 175 0060 93244992 		.word	-1840700269
+ 176 0064 1B77FEFF 		.word	-100581
+ 177              		.cfi_endproc
+ 178              	.LFE69:
+ 179              		.size	vCompeteingIntMathTask, .-vCompeteingIntMathTask
+ 180              		.section	.text.xAreIntegerMathsTaskStillRunning,"ax",%progbits
+ 181              		.align	2
+ 182              		.global	xAreIntegerMathsTaskStillRunning
+ 183              		.thumb
+ 184              		.thumb_func
+ 185              		.type	xAreIntegerMathsTaskStillRunning, %function
+ 186              	xAreIntegerMathsTaskStillRunning:
+ 187              	.LFB70:
+ 179:..\Common\Minimal/integer.c **** }
+ 180:..\Common\Minimal/integer.c **** /*-----------------------------------------------------------*/
+ 181:..\Common\Minimal/integer.c **** 
+ 182:..\Common\Minimal/integer.c **** /* This is called to check that all the created tasks are still running. */
+ 183:..\Common\Minimal/integer.c **** BaseType_t xAreIntegerMathsTaskStillRunning( void )
+ 184:..\Common\Minimal/integer.c **** {
+ 188              		.loc 1 184 0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 8
+ 191              		@ frame_needed = 1, uses_anonymous_args = 0
+ 192              		@ link register save eliminated.
+ 193 0000 80B4     		push	{r7}
+ 194              		.cfi_def_cfa_offset 4
+ 195              		.cfi_offset 7, -4
+ 196 0002 83B0     		sub	sp, sp, #12
+ 197              		.cfi_def_cfa_offset 16
+ 198 0004 00AF     		add	r7, sp, #0
+ 199              		.cfi_def_cfa_register 7
+ 185:..\Common\Minimal/integer.c **** BaseType_t xReturn = pdTRUE;
+ 200              		.loc 1 185 0
+ 201 0006 0123     		movs	r3, #1
+ 202 0008 7B60     		str	r3, [r7, #4]
+ 186:..\Common\Minimal/integer.c **** short sTask;
+ 187:..\Common\Minimal/integer.c **** 
+ 188:..\Common\Minimal/integer.c **** 	/* Check the maths tasks are still running by ensuring their check variables 
+ 189:..\Common\Minimal/integer.c **** 	are still being set to true. */
+ 190:..\Common\Minimal/integer.c **** 	for( sTask = 0; sTask < intgNUMBER_OF_TASKS; sTask++ )
+ 203              		.loc 1 190 0
+ 204 000a 0023     		movs	r3, #0
+ 205 000c 7B80     		strh	r3, [r7, #2]	@ movhi
+ 206 000e 14E0     		b	.L13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 8
+
+
+ 207              	.L15:
+ 191:..\Common\Minimal/integer.c **** 	{
+ 192:..\Common\Minimal/integer.c **** 		if( xTaskCheck[ sTask ] == pdFALSE )
+ 208              		.loc 1 192 0
+ 209 0010 B7F90230 		ldrsh	r3, [r7, #2]
+ 210 0014 0E4A     		ldr	r2, .L17
+ 211 0016 52F82330 		ldr	r3, [r2, r3, lsl #2]
+ 212 001a 002B     		cmp	r3, #0
+ 213 001c 01D1     		bne	.L14
+ 193:..\Common\Minimal/integer.c **** 		{
+ 194:..\Common\Minimal/integer.c **** 			/* The check has not incremented so an error exists. */
+ 195:..\Common\Minimal/integer.c **** 			xReturn = pdFALSE;
+ 214              		.loc 1 195 0
+ 215 001e 0023     		movs	r3, #0
+ 216 0020 7B60     		str	r3, [r7, #4]
+ 217              	.L14:
+ 196:..\Common\Minimal/integer.c **** 		}
+ 197:..\Common\Minimal/integer.c **** 
+ 198:..\Common\Minimal/integer.c **** 		/* Reset the check variable so we can tell if it has been set by
+ 199:..\Common\Minimal/integer.c **** 		the next time around. */
+ 200:..\Common\Minimal/integer.c **** 		xTaskCheck[ sTask ] = pdFALSE;
+ 218              		.loc 1 200 0 discriminator 2
+ 219 0022 B7F90230 		ldrsh	r3, [r7, #2]
+ 220 0026 0A4A     		ldr	r2, .L17
+ 221 0028 0021     		movs	r1, #0
+ 222 002a 42F82310 		str	r1, [r2, r3, lsl #2]
+ 190:..\Common\Minimal/integer.c **** 	{
+ 223              		.loc 1 190 0 discriminator 2
+ 224 002e B7F90230 		ldrsh	r3, [r7, #2]
+ 225 0032 9BB2     		uxth	r3, r3
+ 226 0034 0133     		adds	r3, r3, #1
+ 227 0036 9BB2     		uxth	r3, r3
+ 228 0038 7B80     		strh	r3, [r7, #2]	@ movhi
+ 229              	.L13:
+ 190:..\Common\Minimal/integer.c **** 	{
+ 230              		.loc 1 190 0 is_stmt 0 discriminator 1
+ 231 003a B7F90230 		ldrsh	r3, [r7, #2]
+ 232 003e 002B     		cmp	r3, #0
+ 233 0040 E6DD     		ble	.L15
+ 201:..\Common\Minimal/integer.c **** 	}
+ 202:..\Common\Minimal/integer.c **** 
+ 203:..\Common\Minimal/integer.c **** 	return xReturn;
+ 234              		.loc 1 203 0 is_stmt 1
+ 235 0042 7B68     		ldr	r3, [r7, #4]
+ 204:..\Common\Minimal/integer.c **** }
+ 236              		.loc 1 204 0
+ 237 0044 1846     		mov	r0, r3
+ 238 0046 0C37     		adds	r7, r7, #12
+ 239              		.cfi_def_cfa_offset 4
+ 240 0048 BD46     		mov	sp, r7
+ 241              		.cfi_def_cfa_register 13
+ 242              		@ sp needed
+ 243 004a 80BC     		pop	{r7}
+ 244              		.cfi_restore 7
+ 245              		.cfi_def_cfa_offset 0
+ 246 004c 7047     		bx	lr
+ 247              	.L18:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 9
+
+
+ 248 004e 00BF     		.align	2
+ 249              	.L17:
+ 250 0050 00000000 		.word	xTaskCheck
+ 251              		.cfi_endproc
+ 252              	.LFE70:
+ 253              		.size	xAreIntegerMathsTaskStillRunning, .-xAreIntegerMathsTaskStillRunning
+ 254              		.text
+ 255              	.Letext0:
+ 256              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 257              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 258              		.file 4 ".\\Tracer/sniffPayload.h"
+ 259              		.file 5 ".\\Tracer/selfFIFO.h"
+ 260              		.file 6 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 261              		.file 7 "..\\Source\\include/task.h"
+ 262              		.file 8 "Generated_Source\\PSoC5/core_cm3.h"
+ 263              		.file 9 ".\\Tracer/sniffTask.h"
+ 264              		.section	.debug_info,"",%progbits
+ 265              	.Ldebug_info0:
+ 266 0000 7A030000 		.4byte	0x37a
+ 267 0004 0400     		.2byte	0x4
+ 268 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 269 000a 04       		.byte	0x4
+ 270 000b 01       		.uleb128 0x1
+ 271 000c 68000000 		.4byte	.LASF56
+ 272 0010 0C       		.byte	0xc
+ 273 0011 24010000 		.4byte	.LASF57
+ 274 0015 72030000 		.4byte	.LASF58
+ 275 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 276 001d 00000000 		.4byte	0
+ 277 0021 00000000 		.4byte	.Ldebug_line0
+ 278 0025 02       		.uleb128 0x2
+ 279 0026 04       		.byte	0x4
+ 280 0027 07       		.byte	0x7
+ 281 0028 42020000 		.4byte	.LASF0
+ 282 002c 03       		.uleb128 0x3
+ 283 002d 04       		.byte	0x4
+ 284 002e 05       		.byte	0x5
+ 285 002f 696E7400 		.ascii	"int\000"
+ 286 0033 02       		.uleb128 0x2
+ 287 0034 08       		.byte	0x8
+ 288 0035 05       		.byte	0x5
+ 289 0036 7E010000 		.4byte	.LASF1
+ 290 003a 02       		.uleb128 0x2
+ 291 003b 08       		.byte	0x8
+ 292 003c 04       		.byte	0x4
+ 293 003d FE010000 		.4byte	.LASF2
+ 294 0041 02       		.uleb128 0x2
+ 295 0042 01       		.byte	0x1
+ 296 0043 06       		.byte	0x6
+ 297 0044 1F020000 		.4byte	.LASF3
+ 298 0048 04       		.uleb128 0x4
+ 299 0049 D0010000 		.4byte	.LASF7
+ 300 004d 02       		.byte	0x2
+ 301 004e 1D       		.byte	0x1d
+ 302 004f 53000000 		.4byte	0x53
+ 303 0053 02       		.uleb128 0x2
+ 304 0054 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 10
+
+
+ 305 0055 08       		.byte	0x8
+ 306 0056 0A020000 		.4byte	.LASF4
+ 307 005a 02       		.uleb128 0x2
+ 308 005b 02       		.byte	0x2
+ 309 005c 05       		.byte	0x5
+ 310 005d 37000000 		.4byte	.LASF5
+ 311 0061 02       		.uleb128 0x2
+ 312 0062 02       		.byte	0x2
+ 313 0063 07       		.byte	0x7
+ 314 0064 78020000 		.4byte	.LASF6
+ 315 0068 04       		.uleb128 0x4
+ 316 0069 2A030000 		.4byte	.LASF8
+ 317 006d 02       		.byte	0x2
+ 318 006e 3F       		.byte	0x3f
+ 319 006f 73000000 		.4byte	0x73
+ 320 0073 02       		.uleb128 0x2
+ 321 0074 04       		.byte	0x4
+ 322 0075 05       		.byte	0x5
+ 323 0076 A3010000 		.4byte	.LASF9
+ 324 007a 02       		.uleb128 0x2
+ 325 007b 04       		.byte	0x4
+ 326 007c 07       		.byte	0x7
+ 327 007d F0020000 		.4byte	.LASF10
+ 328 0081 02       		.uleb128 0x2
+ 329 0082 08       		.byte	0x8
+ 330 0083 07       		.byte	0x7
+ 331 0084 2B020000 		.4byte	.LASF11
+ 332 0088 02       		.uleb128 0x2
+ 333 0089 04       		.byte	0x4
+ 334 008a 07       		.byte	0x7
+ 335 008b 41000000 		.4byte	.LASF12
+ 336 008f 05       		.uleb128 0x5
+ 337 0090 04       		.byte	0x4
+ 338 0091 02       		.uleb128 0x2
+ 339 0092 01       		.byte	0x1
+ 340 0093 08       		.byte	0x8
+ 341 0094 8B020000 		.4byte	.LASF13
+ 342 0098 04       		.uleb128 0x4
+ 343 0099 1C010000 		.4byte	.LASF14
+ 344 009d 03       		.byte	0x3
+ 345 009e 18       		.byte	0x18
+ 346 009f 48000000 		.4byte	0x48
+ 347 00a3 04       		.uleb128 0x4
+ 348 00a4 99020000 		.4byte	.LASF15
+ 349 00a8 03       		.byte	0x3
+ 350 00a9 2C       		.byte	0x2c
+ 351 00aa 68000000 		.4byte	0x68
+ 352 00ae 02       		.uleb128 0x2
+ 353 00af 04       		.byte	0x4
+ 354 00b0 04       		.byte	0x4
+ 355 00b1 6C010000 		.4byte	.LASF16
+ 356 00b5 02       		.uleb128 0x2
+ 357 00b6 08       		.byte	0x8
+ 358 00b7 04       		.byte	0x4
+ 359 00b8 02030000 		.4byte	.LASF17
+ 360 00bc 06       		.uleb128 0x6
+ 361 00bd 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 11
+
+
+ 362 00be 53000000 		.4byte	0x53
+ 363 00c2 04       		.byte	0x4
+ 364 00c3 10       		.byte	0x10
+ 365 00c4 F3000000 		.4byte	0xf3
+ 366 00c8 07       		.uleb128 0x7
+ 367 00c9 DA010000 		.4byte	.LASF18
+ 368 00cd 00       		.byte	0
+ 369 00ce 07       		.uleb128 0x7
+ 370 00cf 4A000000 		.4byte	.LASF19
+ 371 00d3 01       		.byte	0x1
+ 372 00d4 07       		.uleb128 0x7
+ 373 00d5 E0010000 		.4byte	.LASF20
+ 374 00d9 02       		.byte	0x2
+ 375 00da 07       		.uleb128 0x7
+ 376 00db 09030000 		.4byte	.LASF21
+ 377 00df 03       		.byte	0x3
+ 378 00e0 07       		.uleb128 0x7
+ 379 00e1 C0010000 		.4byte	.LASF22
+ 380 00e5 04       		.byte	0x4
+ 381 00e6 07       		.uleb128 0x7
+ 382 00e7 25030000 		.4byte	.LASF23
+ 383 00eb 05       		.byte	0x5
+ 384 00ec 07       		.uleb128 0x7
+ 385 00ed DA020000 		.4byte	.LASF24
+ 386 00f1 06       		.byte	0x6
+ 387 00f2 00       		.byte	0
+ 388 00f3 04       		.uleb128 0x4
+ 389 00f4 5A010000 		.4byte	.LASF25
+ 390 00f8 04       		.byte	0x4
+ 391 00f9 10       		.byte	0x10
+ 392 00fa BC000000 		.4byte	0xbc
+ 393 00fe 08       		.uleb128 0x8
+ 394 00ff 04       		.byte	0x4
+ 395 0100 04       		.byte	0x4
+ 396 0101 86       		.byte	0x86
+ 397 0102 37010000 		.4byte	0x137
+ 398 0106 09       		.uleb128 0x9
+ 399 0107 90020000 		.4byte	.LASF26
+ 400 010b 04       		.byte	0x4
+ 401 010c 87       		.byte	0x87
+ 402 010d 98000000 		.4byte	0x98
+ 403 0111 00       		.byte	0
+ 404 0112 09       		.uleb128 0x9
+ 405 0113 00000000 		.4byte	.LASF27
+ 406 0117 04       		.byte	0x4
+ 407 0118 88       		.byte	0x88
+ 408 0119 98000000 		.4byte	0x98
+ 409 011d 01       		.byte	0x1
+ 410 011e 09       		.uleb128 0x9
+ 411 011f 5D000000 		.4byte	.LASF28
+ 412 0123 04       		.byte	0x4
+ 413 0124 89       		.byte	0x89
+ 414 0125 F3000000 		.4byte	0xf3
+ 415 0129 02       		.byte	0x2
+ 416 012a 09       		.uleb128 0x9
+ 417 012b 65010000 		.4byte	.LASF29
+ 418 012f 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 12
+
+
+ 419 0130 8A       		.byte	0x8a
+ 420 0131 98000000 		.4byte	0x98
+ 421 0135 03       		.byte	0x3
+ 422 0136 00       		.byte	0
+ 423 0137 04       		.uleb128 0x4
+ 424 0138 4F020000 		.4byte	.LASF30
+ 425 013c 04       		.byte	0x4
+ 426 013d 8B       		.byte	0x8b
+ 427 013e FE000000 		.4byte	0xfe
+ 428 0142 08       		.uleb128 0x8
+ 429 0143 0E       		.byte	0xe
+ 430 0144 04       		.byte	0x4
+ 431 0145 95       		.byte	0x95
+ 432 0146 6F010000 		.4byte	0x16f
+ 433 014a 09       		.uleb128 0x9
+ 434 014b 2A000000 		.4byte	.LASF31
+ 435 014f 04       		.byte	0x4
+ 436 0150 96       		.byte	0x96
+ 437 0151 98000000 		.4byte	0x98
+ 438 0155 00       		.byte	0
+ 439 0156 09       		.uleb128 0x9
+ 440 0157 4C010000 		.4byte	.LASF32
+ 441 015b 04       		.byte	0x4
+ 442 015c 97       		.byte	0x97
+ 443 015d 98000000 		.4byte	0x98
+ 444 0161 01       		.byte	0x1
+ 445 0162 09       		.uleb128 0x9
+ 446 0163 F3010000 		.4byte	.LASF33
+ 447 0167 04       		.byte	0x4
+ 448 0168 98       		.byte	0x98
+ 449 0169 6F010000 		.4byte	0x16f
+ 450 016d 02       		.byte	0x2
+ 451 016e 00       		.byte	0
+ 452 016f 0A       		.uleb128 0xa
+ 453 0170 91000000 		.4byte	0x91
+ 454 0174 7F010000 		.4byte	0x17f
+ 455 0178 0B       		.uleb128 0xb
+ 456 0179 88000000 		.4byte	0x88
+ 457 017d 0B       		.byte	0xb
+ 458 017e 00       		.byte	0
+ 459 017f 04       		.uleb128 0x4
+ 460 0180 72010000 		.4byte	.LASF34
+ 461 0184 04       		.byte	0x4
+ 462 0185 99       		.byte	0x99
+ 463 0186 42010000 		.4byte	0x142
+ 464 018a 0C       		.uleb128 0xc
+ 465 018b 1C01     		.2byte	0x11c
+ 466 018d 04       		.byte	0x4
+ 467 018e A3       		.byte	0xa3
+ 468 018f AC010000 		.4byte	0x1ac
+ 469 0193 09       		.uleb128 0x9
+ 470 0194 FD000000 		.4byte	.LASF35
+ 471 0198 04       		.byte	0x4
+ 472 0199 A4       		.byte	0xa4
+ 473 019a 37010000 		.4byte	0x137
+ 474 019e 00       		.byte	0
+ 475 019f 09       		.uleb128 0x9
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 13
+
+
+ 476 01a0 40010000 		.4byte	.LASF36
+ 477 01a4 04       		.byte	0x4
+ 478 01a5 A5       		.byte	0xa5
+ 479 01a6 AC010000 		.4byte	0x1ac
+ 480 01aa 04       		.byte	0x4
+ 481 01ab 00       		.byte	0
+ 482 01ac 0A       		.uleb128 0xa
+ 483 01ad 7F010000 		.4byte	0x17f
+ 484 01b1 BC010000 		.4byte	0x1bc
+ 485 01b5 0B       		.uleb128 0xb
+ 486 01b6 88000000 		.4byte	0x88
+ 487 01ba 13       		.byte	0x13
+ 488 01bb 00       		.byte	0
+ 489 01bc 04       		.uleb128 0x4
+ 490 01bd 53030000 		.4byte	.LASF37
+ 491 01c1 04       		.byte	0x4
+ 492 01c2 A6       		.byte	0xa6
+ 493 01c3 8A010000 		.4byte	0x18a
+ 494 01c7 0D       		.uleb128 0xd
+ 495 01c8 6B030000 		.4byte	.LASF59
+ 496 01cc 0210     		.2byte	0x1002
+ 497 01ce 05       		.byte	0x5
+ 498 01cf 0C       		.byte	0xc
+ 499 01d0 FB010000 		.4byte	0x1fb
+ 500 01d4 09       		.uleb128 0x9
+ 501 01d5 CE020000 		.4byte	.LASF38
+ 502 01d9 05       		.byte	0x5
+ 503 01da 0D       		.byte	0xd
+ 504 01db FB010000 		.4byte	0x1fb
+ 505 01df 00       		.byte	0
+ 506 01e0 0E       		.uleb128 0xe
+ 507 01e1 79010000 		.4byte	.LASF39
+ 508 01e5 05       		.byte	0x5
+ 509 01e6 0E       		.byte	0xe
+ 510 01e7 98000000 		.4byte	0x98
+ 511 01eb 0010     		.2byte	0x1000
+ 512 01ed 0E       		.uleb128 0xe
+ 513 01ee 19000000 		.4byte	.LASF40
+ 514 01f2 05       		.byte	0x5
+ 515 01f3 0F       		.byte	0xf
+ 516 01f4 98000000 		.4byte	0x98
+ 517 01f8 0110     		.2byte	0x1001
+ 518 01fa 00       		.byte	0
+ 519 01fb 0A       		.uleb128 0xa
+ 520 01fc 98000000 		.4byte	0x98
+ 521 0200 0C020000 		.4byte	0x20c
+ 522 0204 0F       		.uleb128 0xf
+ 523 0205 88000000 		.4byte	0x88
+ 524 0209 FF0F     		.2byte	0xfff
+ 525 020b 00       		.byte	0
+ 526 020c 04       		.uleb128 0x4
+ 527 020d 60020000 		.4byte	.LASF41
+ 528 0211 06       		.byte	0x6
+ 529 0212 62       		.byte	0x62
+ 530 0213 73000000 		.4byte	0x73
+ 531 0217 04       		.uleb128 0x4
+ 532 0218 C2020000 		.4byte	.LASF42
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 14
+
+
+ 533 021c 06       		.byte	0x6
+ 534 021d 63       		.byte	0x63
+ 535 021e 7A000000 		.4byte	0x7a
+ 536 0222 04       		.uleb128 0x4
+ 537 0223 50000000 		.4byte	.LASF43
+ 538 0227 07       		.byte	0x7
+ 539 0228 67       		.byte	0x67
+ 540 0229 8F000000 		.4byte	0x8f
+ 541 022d 10       		.uleb128 0x10
+ 542 022e 3C030000 		.4byte	.LASF60
+ 543 0232 01       		.byte	0x1
+ 544 0233 6F       		.byte	0x6f
+ 545 0234 00000000 		.4byte	.LFB68
+ 546 0238 54000000 		.4byte	.LFE68-.LFB68
+ 547 023c 01       		.uleb128 0x1
+ 548 023d 9C       		.byte	0x9c
+ 549 023e 5F020000 		.4byte	0x25f
+ 550 0242 11       		.uleb128 0x11
+ 551 0243 0E000000 		.4byte	.LASF44
+ 552 0247 01       		.byte	0x1
+ 553 0248 6F       		.byte	0x6f
+ 554 0249 17020000 		.4byte	0x217
+ 555 024d 02       		.uleb128 0x2
+ 556 024e 91       		.byte	0x91
+ 557 024f 6C       		.sleb128 -20
+ 558 0250 12       		.uleb128 0x12
+ 559 0251 BA010000 		.4byte	.LASF46
+ 560 0255 01       		.byte	0x1
+ 561 0256 71       		.byte	0x71
+ 562 0257 5A000000 		.4byte	0x5a
+ 563 025b 02       		.uleb128 0x2
+ 564 025c 91       		.byte	0x91
+ 565 025d 76       		.sleb128 -10
+ 566 025e 00       		.byte	0
+ 567 025f 13       		.uleb128 0x13
+ 568 0260 8C010000 		.4byte	.LASF61
+ 569 0264 01       		.byte	0x1
+ 570 0265 7A       		.byte	0x7a
+ 571 0266 00000000 		.4byte	.LFB69
+ 572 026a 68000000 		.4byte	.LFE69-.LFB69
+ 573 026e 01       		.uleb128 0x1
+ 574 026f 9C       		.byte	0x9c
+ 575 0270 AD020000 		.4byte	0x2ad
+ 576 0274 11       		.uleb128 0x11
+ 577 0275 6B020000 		.4byte	.LASF45
+ 578 0279 01       		.byte	0x1
+ 579 027a 7A       		.byte	0x7a
+ 580 027b 8F000000 		.4byte	0x8f
+ 581 027f 02       		.uleb128 0x2
+ 582 0280 91       		.byte	0x91
+ 583 0281 64       		.sleb128 -28
+ 584 0282 12       		.uleb128 0x12
+ 585 0283 18020000 		.4byte	.LASF47
+ 586 0287 01       		.byte	0x1
+ 587 0288 7E       		.byte	0x7e
+ 588 0289 AD020000 		.4byte	0x2ad
+ 589 028d 02       		.uleb128 0x2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 15
+
+
+ 590 028e 91       		.byte	0x91
+ 591 028f 6C       		.sleb128 -20
+ 592 0290 12       		.uleb128 0x12
+ 593 0291 F6000000 		.4byte	.LASF48
+ 594 0295 01       		.byte	0x1
+ 595 0296 7F       		.byte	0x7f
+ 596 0297 5A000000 		.4byte	0x5a
+ 597 029b 02       		.uleb128 0x2
+ 598 029c 91       		.byte	0x91
+ 599 029d 76       		.sleb128 -10
+ 600 029e 12       		.uleb128 0x12
+ 601 029f 0A010000 		.4byte	.LASF49
+ 602 02a3 01       		.byte	0x1
+ 603 02a4 80       		.byte	0x80
+ 604 02a5 B2020000 		.4byte	0x2b2
+ 605 02a9 02       		.uleb128 0x2
+ 606 02aa 91       		.byte	0x91
+ 607 02ab 70       		.sleb128 -16
+ 608 02ac 00       		.byte	0
+ 609 02ad 14       		.uleb128 0x14
+ 610 02ae 73000000 		.4byte	0x73
+ 611 02b2 15       		.uleb128 0x15
+ 612 02b3 04       		.byte	0x4
+ 613 02b4 B8020000 		.4byte	0x2b8
+ 614 02b8 14       		.uleb128 0x14
+ 615 02b9 0C020000 		.4byte	0x20c
+ 616 02bd 16       		.uleb128 0x16
+ 617 02be A1020000 		.4byte	.LASF62
+ 618 02c2 01       		.byte	0x1
+ 619 02c3 B7       		.byte	0xb7
+ 620 02c4 0C020000 		.4byte	0x20c
+ 621 02c8 00000000 		.4byte	.LFB70
+ 622 02cc 54000000 		.4byte	.LFE70-.LFB70
+ 623 02d0 01       		.uleb128 0x1
+ 624 02d1 9C       		.byte	0x9c
+ 625 02d2 F3020000 		.4byte	0x2f3
+ 626 02d6 12       		.uleb128 0x12
+ 627 02d7 34030000 		.4byte	.LASF50
+ 628 02db 01       		.byte	0x1
+ 629 02dc B9       		.byte	0xb9
+ 630 02dd 0C020000 		.4byte	0x20c
+ 631 02e1 02       		.uleb128 0x2
+ 632 02e2 91       		.byte	0x91
+ 633 02e3 74       		.sleb128 -12
+ 634 02e4 12       		.uleb128 0x12
+ 635 02e5 BA010000 		.4byte	.LASF46
+ 636 02e9 01       		.byte	0x1
+ 637 02ea BA       		.byte	0xba
+ 638 02eb 5A000000 		.4byte	0x5a
+ 639 02ef 02       		.uleb128 0x2
+ 640 02f0 91       		.byte	0x91
+ 641 02f1 72       		.sleb128 -14
+ 642 02f2 00       		.byte	0
+ 643 02f3 0A       		.uleb128 0xa
+ 644 02f4 B8020000 		.4byte	0x2b8
+ 645 02f8 03030000 		.4byte	0x303
+ 646 02fc 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 16
+
+
+ 647 02fd 88000000 		.4byte	0x88
+ 648 0301 00       		.byte	0
+ 649 0302 00       		.byte	0
+ 650 0303 12       		.uleb128 0x12
+ 651 0304 1F000000 		.4byte	.LASF51
+ 652 0308 01       		.byte	0x1
+ 653 0309 6B       		.byte	0x6b
+ 654 030a 14030000 		.4byte	0x314
+ 655 030e 05       		.uleb128 0x5
+ 656 030f 03       		.byte	0x3
+ 657 0310 00000000 		.4byte	xTaskCheck
+ 658 0314 14       		.uleb128 0x14
+ 659 0315 F3020000 		.4byte	0x2f3
+ 660 0319 17       		.uleb128 0x17
+ 661 031a 5E030000 		.4byte	.LASF52
+ 662 031e 08       		.byte	0x8
+ 663 031f 9606     		.2byte	0x696
+ 664 0321 25030000 		.4byte	0x325
+ 665 0325 14       		.uleb128 0x14
+ 666 0326 A3000000 		.4byte	0xa3
+ 667 032a 0A       		.uleb128 0xa
+ 668 032b 98000000 		.4byte	0x98
+ 669 032f 3A030000 		.4byte	0x33a
+ 670 0333 0B       		.uleb128 0xb
+ 671 0334 88000000 		.4byte	0x88
+ 672 0338 0C       		.byte	0xc
+ 673 0339 00       		.byte	0
+ 674 033a 18       		.uleb128 0x18
+ 675 033b AC010000 		.4byte	.LASF53
+ 676 033f 04       		.byte	0x4
+ 677 0340 12       		.byte	0x12
+ 678 0341 2A030000 		.4byte	0x32a
+ 679 0345 05       		.uleb128 0x5
+ 680 0346 03       		.byte	0x3
+ 681 0347 00000000 		.4byte	sniffIDFilter
+ 682 034b 18       		.uleb128 0x18
+ 683 034c D3020000 		.4byte	.LASF54
+ 684 0350 05       		.byte	0x5
+ 685 0351 10       		.byte	0x10
+ 686 0352 C7010000 		.4byte	0x1c7
+ 687 0356 05       		.uleb128 0x5
+ 688 0357 03       		.byte	0x3
+ 689 0358 00000000 		.4byte	buffer
+ 690 035c 0A       		.uleb128 0xa
+ 691 035d BC010000 		.4byte	0x1bc
+ 692 0361 6C030000 		.4byte	0x36c
+ 693 0365 0B       		.uleb128 0xb
+ 694 0366 88000000 		.4byte	0x88
+ 695 036a 05       		.byte	0x5
+ 696 036b 00       		.byte	0
+ 697 036c 18       		.uleb128 0x18
+ 698 036d 1A030000 		.4byte	.LASF55
+ 699 0371 09       		.byte	0x9
+ 700 0372 0D       		.byte	0xd
+ 701 0373 5C030000 		.4byte	0x35c
+ 702 0377 05       		.uleb128 0x5
+ 703 0378 03       		.byte	0x3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 17
+
+
+ 704 0379 00000000 		.4byte	objectList
+ 705 037d 00       		.byte	0
+ 706              		.section	.debug_abbrev,"",%progbits
+ 707              	.Ldebug_abbrev0:
+ 708 0000 01       		.uleb128 0x1
+ 709 0001 11       		.uleb128 0x11
+ 710 0002 01       		.byte	0x1
+ 711 0003 25       		.uleb128 0x25
+ 712 0004 0E       		.uleb128 0xe
+ 713 0005 13       		.uleb128 0x13
+ 714 0006 0B       		.uleb128 0xb
+ 715 0007 03       		.uleb128 0x3
+ 716 0008 0E       		.uleb128 0xe
+ 717 0009 1B       		.uleb128 0x1b
+ 718 000a 0E       		.uleb128 0xe
+ 719 000b 55       		.uleb128 0x55
+ 720 000c 17       		.uleb128 0x17
+ 721 000d 11       		.uleb128 0x11
+ 722 000e 01       		.uleb128 0x1
+ 723 000f 10       		.uleb128 0x10
+ 724 0010 17       		.uleb128 0x17
+ 725 0011 00       		.byte	0
+ 726 0012 00       		.byte	0
+ 727 0013 02       		.uleb128 0x2
+ 728 0014 24       		.uleb128 0x24
+ 729 0015 00       		.byte	0
+ 730 0016 0B       		.uleb128 0xb
+ 731 0017 0B       		.uleb128 0xb
+ 732 0018 3E       		.uleb128 0x3e
+ 733 0019 0B       		.uleb128 0xb
+ 734 001a 03       		.uleb128 0x3
+ 735 001b 0E       		.uleb128 0xe
+ 736 001c 00       		.byte	0
+ 737 001d 00       		.byte	0
+ 738 001e 03       		.uleb128 0x3
+ 739 001f 24       		.uleb128 0x24
+ 740 0020 00       		.byte	0
+ 741 0021 0B       		.uleb128 0xb
+ 742 0022 0B       		.uleb128 0xb
+ 743 0023 3E       		.uleb128 0x3e
+ 744 0024 0B       		.uleb128 0xb
+ 745 0025 03       		.uleb128 0x3
+ 746 0026 08       		.uleb128 0x8
+ 747 0027 00       		.byte	0
+ 748 0028 00       		.byte	0
+ 749 0029 04       		.uleb128 0x4
+ 750 002a 16       		.uleb128 0x16
+ 751 002b 00       		.byte	0
+ 752 002c 03       		.uleb128 0x3
+ 753 002d 0E       		.uleb128 0xe
+ 754 002e 3A       		.uleb128 0x3a
+ 755 002f 0B       		.uleb128 0xb
+ 756 0030 3B       		.uleb128 0x3b
+ 757 0031 0B       		.uleb128 0xb
+ 758 0032 49       		.uleb128 0x49
+ 759 0033 13       		.uleb128 0x13
+ 760 0034 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 18
+
+
+ 761 0035 00       		.byte	0
+ 762 0036 05       		.uleb128 0x5
+ 763 0037 0F       		.uleb128 0xf
+ 764 0038 00       		.byte	0
+ 765 0039 0B       		.uleb128 0xb
+ 766 003a 0B       		.uleb128 0xb
+ 767 003b 00       		.byte	0
+ 768 003c 00       		.byte	0
+ 769 003d 06       		.uleb128 0x6
+ 770 003e 04       		.uleb128 0x4
+ 771 003f 01       		.byte	0x1
+ 772 0040 0B       		.uleb128 0xb
+ 773 0041 0B       		.uleb128 0xb
+ 774 0042 49       		.uleb128 0x49
+ 775 0043 13       		.uleb128 0x13
+ 776 0044 3A       		.uleb128 0x3a
+ 777 0045 0B       		.uleb128 0xb
+ 778 0046 3B       		.uleb128 0x3b
+ 779 0047 0B       		.uleb128 0xb
+ 780 0048 01       		.uleb128 0x1
+ 781 0049 13       		.uleb128 0x13
+ 782 004a 00       		.byte	0
+ 783 004b 00       		.byte	0
+ 784 004c 07       		.uleb128 0x7
+ 785 004d 28       		.uleb128 0x28
+ 786 004e 00       		.byte	0
+ 787 004f 03       		.uleb128 0x3
+ 788 0050 0E       		.uleb128 0xe
+ 789 0051 1C       		.uleb128 0x1c
+ 790 0052 0B       		.uleb128 0xb
+ 791 0053 00       		.byte	0
+ 792 0054 00       		.byte	0
+ 793 0055 08       		.uleb128 0x8
+ 794 0056 13       		.uleb128 0x13
+ 795 0057 01       		.byte	0x1
+ 796 0058 0B       		.uleb128 0xb
+ 797 0059 0B       		.uleb128 0xb
+ 798 005a 3A       		.uleb128 0x3a
+ 799 005b 0B       		.uleb128 0xb
+ 800 005c 3B       		.uleb128 0x3b
+ 801 005d 0B       		.uleb128 0xb
+ 802 005e 01       		.uleb128 0x1
+ 803 005f 13       		.uleb128 0x13
+ 804 0060 00       		.byte	0
+ 805 0061 00       		.byte	0
+ 806 0062 09       		.uleb128 0x9
+ 807 0063 0D       		.uleb128 0xd
+ 808 0064 00       		.byte	0
+ 809 0065 03       		.uleb128 0x3
+ 810 0066 0E       		.uleb128 0xe
+ 811 0067 3A       		.uleb128 0x3a
+ 812 0068 0B       		.uleb128 0xb
+ 813 0069 3B       		.uleb128 0x3b
+ 814 006a 0B       		.uleb128 0xb
+ 815 006b 49       		.uleb128 0x49
+ 816 006c 13       		.uleb128 0x13
+ 817 006d 38       		.uleb128 0x38
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 19
+
+
+ 818 006e 0B       		.uleb128 0xb
+ 819 006f 00       		.byte	0
+ 820 0070 00       		.byte	0
+ 821 0071 0A       		.uleb128 0xa
+ 822 0072 01       		.uleb128 0x1
+ 823 0073 01       		.byte	0x1
+ 824 0074 49       		.uleb128 0x49
+ 825 0075 13       		.uleb128 0x13
+ 826 0076 01       		.uleb128 0x1
+ 827 0077 13       		.uleb128 0x13
+ 828 0078 00       		.byte	0
+ 829 0079 00       		.byte	0
+ 830 007a 0B       		.uleb128 0xb
+ 831 007b 21       		.uleb128 0x21
+ 832 007c 00       		.byte	0
+ 833 007d 49       		.uleb128 0x49
+ 834 007e 13       		.uleb128 0x13
+ 835 007f 2F       		.uleb128 0x2f
+ 836 0080 0B       		.uleb128 0xb
+ 837 0081 00       		.byte	0
+ 838 0082 00       		.byte	0
+ 839 0083 0C       		.uleb128 0xc
+ 840 0084 13       		.uleb128 0x13
+ 841 0085 01       		.byte	0x1
+ 842 0086 0B       		.uleb128 0xb
+ 843 0087 05       		.uleb128 0x5
+ 844 0088 3A       		.uleb128 0x3a
+ 845 0089 0B       		.uleb128 0xb
+ 846 008a 3B       		.uleb128 0x3b
+ 847 008b 0B       		.uleb128 0xb
+ 848 008c 01       		.uleb128 0x1
+ 849 008d 13       		.uleb128 0x13
+ 850 008e 00       		.byte	0
+ 851 008f 00       		.byte	0
+ 852 0090 0D       		.uleb128 0xd
+ 853 0091 13       		.uleb128 0x13
+ 854 0092 01       		.byte	0x1
+ 855 0093 03       		.uleb128 0x3
+ 856 0094 0E       		.uleb128 0xe
+ 857 0095 0B       		.uleb128 0xb
+ 858 0096 05       		.uleb128 0x5
+ 859 0097 3A       		.uleb128 0x3a
+ 860 0098 0B       		.uleb128 0xb
+ 861 0099 3B       		.uleb128 0x3b
+ 862 009a 0B       		.uleb128 0xb
+ 863 009b 01       		.uleb128 0x1
+ 864 009c 13       		.uleb128 0x13
+ 865 009d 00       		.byte	0
+ 866 009e 00       		.byte	0
+ 867 009f 0E       		.uleb128 0xe
+ 868 00a0 0D       		.uleb128 0xd
+ 869 00a1 00       		.byte	0
+ 870 00a2 03       		.uleb128 0x3
+ 871 00a3 0E       		.uleb128 0xe
+ 872 00a4 3A       		.uleb128 0x3a
+ 873 00a5 0B       		.uleb128 0xb
+ 874 00a6 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 20
+
+
+ 875 00a7 0B       		.uleb128 0xb
+ 876 00a8 49       		.uleb128 0x49
+ 877 00a9 13       		.uleb128 0x13
+ 878 00aa 38       		.uleb128 0x38
+ 879 00ab 05       		.uleb128 0x5
+ 880 00ac 00       		.byte	0
+ 881 00ad 00       		.byte	0
+ 882 00ae 0F       		.uleb128 0xf
+ 883 00af 21       		.uleb128 0x21
+ 884 00b0 00       		.byte	0
+ 885 00b1 49       		.uleb128 0x49
+ 886 00b2 13       		.uleb128 0x13
+ 887 00b3 2F       		.uleb128 0x2f
+ 888 00b4 05       		.uleb128 0x5
+ 889 00b5 00       		.byte	0
+ 890 00b6 00       		.byte	0
+ 891 00b7 10       		.uleb128 0x10
+ 892 00b8 2E       		.uleb128 0x2e
+ 893 00b9 01       		.byte	0x1
+ 894 00ba 3F       		.uleb128 0x3f
+ 895 00bb 19       		.uleb128 0x19
+ 896 00bc 03       		.uleb128 0x3
+ 897 00bd 0E       		.uleb128 0xe
+ 898 00be 3A       		.uleb128 0x3a
+ 899 00bf 0B       		.uleb128 0xb
+ 900 00c0 3B       		.uleb128 0x3b
+ 901 00c1 0B       		.uleb128 0xb
+ 902 00c2 27       		.uleb128 0x27
+ 903 00c3 19       		.uleb128 0x19
+ 904 00c4 11       		.uleb128 0x11
+ 905 00c5 01       		.uleb128 0x1
+ 906 00c6 12       		.uleb128 0x12
+ 907 00c7 06       		.uleb128 0x6
+ 908 00c8 40       		.uleb128 0x40
+ 909 00c9 18       		.uleb128 0x18
+ 910 00ca 9642     		.uleb128 0x2116
+ 911 00cc 19       		.uleb128 0x19
+ 912 00cd 01       		.uleb128 0x1
+ 913 00ce 13       		.uleb128 0x13
+ 914 00cf 00       		.byte	0
+ 915 00d0 00       		.byte	0
+ 916 00d1 11       		.uleb128 0x11
+ 917 00d2 05       		.uleb128 0x5
+ 918 00d3 00       		.byte	0
+ 919 00d4 03       		.uleb128 0x3
+ 920 00d5 0E       		.uleb128 0xe
+ 921 00d6 3A       		.uleb128 0x3a
+ 922 00d7 0B       		.uleb128 0xb
+ 923 00d8 3B       		.uleb128 0x3b
+ 924 00d9 0B       		.uleb128 0xb
+ 925 00da 49       		.uleb128 0x49
+ 926 00db 13       		.uleb128 0x13
+ 927 00dc 02       		.uleb128 0x2
+ 928 00dd 18       		.uleb128 0x18
+ 929 00de 00       		.byte	0
+ 930 00df 00       		.byte	0
+ 931 00e0 12       		.uleb128 0x12
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 21
+
+
+ 932 00e1 34       		.uleb128 0x34
+ 933 00e2 00       		.byte	0
+ 934 00e3 03       		.uleb128 0x3
+ 935 00e4 0E       		.uleb128 0xe
+ 936 00e5 3A       		.uleb128 0x3a
+ 937 00e6 0B       		.uleb128 0xb
+ 938 00e7 3B       		.uleb128 0x3b
+ 939 00e8 0B       		.uleb128 0xb
+ 940 00e9 49       		.uleb128 0x49
+ 941 00ea 13       		.uleb128 0x13
+ 942 00eb 02       		.uleb128 0x2
+ 943 00ec 18       		.uleb128 0x18
+ 944 00ed 00       		.byte	0
+ 945 00ee 00       		.byte	0
+ 946 00ef 13       		.uleb128 0x13
+ 947 00f0 2E       		.uleb128 0x2e
+ 948 00f1 01       		.byte	0x1
+ 949 00f2 03       		.uleb128 0x3
+ 950 00f3 0E       		.uleb128 0xe
+ 951 00f4 3A       		.uleb128 0x3a
+ 952 00f5 0B       		.uleb128 0xb
+ 953 00f6 3B       		.uleb128 0x3b
+ 954 00f7 0B       		.uleb128 0xb
+ 955 00f8 27       		.uleb128 0x27
+ 956 00f9 19       		.uleb128 0x19
+ 957 00fa 11       		.uleb128 0x11
+ 958 00fb 01       		.uleb128 0x1
+ 959 00fc 12       		.uleb128 0x12
+ 960 00fd 06       		.uleb128 0x6
+ 961 00fe 40       		.uleb128 0x40
+ 962 00ff 18       		.uleb128 0x18
+ 963 0100 9642     		.uleb128 0x2116
+ 964 0102 19       		.uleb128 0x19
+ 965 0103 01       		.uleb128 0x1
+ 966 0104 13       		.uleb128 0x13
+ 967 0105 00       		.byte	0
+ 968 0106 00       		.byte	0
+ 969 0107 14       		.uleb128 0x14
+ 970 0108 35       		.uleb128 0x35
+ 971 0109 00       		.byte	0
+ 972 010a 49       		.uleb128 0x49
+ 973 010b 13       		.uleb128 0x13
+ 974 010c 00       		.byte	0
+ 975 010d 00       		.byte	0
+ 976 010e 15       		.uleb128 0x15
+ 977 010f 0F       		.uleb128 0xf
+ 978 0110 00       		.byte	0
+ 979 0111 0B       		.uleb128 0xb
+ 980 0112 0B       		.uleb128 0xb
+ 981 0113 49       		.uleb128 0x49
+ 982 0114 13       		.uleb128 0x13
+ 983 0115 00       		.byte	0
+ 984 0116 00       		.byte	0
+ 985 0117 16       		.uleb128 0x16
+ 986 0118 2E       		.uleb128 0x2e
+ 987 0119 01       		.byte	0x1
+ 988 011a 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 22
+
+
+ 989 011b 19       		.uleb128 0x19
+ 990 011c 03       		.uleb128 0x3
+ 991 011d 0E       		.uleb128 0xe
+ 992 011e 3A       		.uleb128 0x3a
+ 993 011f 0B       		.uleb128 0xb
+ 994 0120 3B       		.uleb128 0x3b
+ 995 0121 0B       		.uleb128 0xb
+ 996 0122 27       		.uleb128 0x27
+ 997 0123 19       		.uleb128 0x19
+ 998 0124 49       		.uleb128 0x49
+ 999 0125 13       		.uleb128 0x13
+ 1000 0126 11       		.uleb128 0x11
+ 1001 0127 01       		.uleb128 0x1
+ 1002 0128 12       		.uleb128 0x12
+ 1003 0129 06       		.uleb128 0x6
+ 1004 012a 40       		.uleb128 0x40
+ 1005 012b 18       		.uleb128 0x18
+ 1006 012c 9742     		.uleb128 0x2117
+ 1007 012e 19       		.uleb128 0x19
+ 1008 012f 01       		.uleb128 0x1
+ 1009 0130 13       		.uleb128 0x13
+ 1010 0131 00       		.byte	0
+ 1011 0132 00       		.byte	0
+ 1012 0133 17       		.uleb128 0x17
+ 1013 0134 34       		.uleb128 0x34
+ 1014 0135 00       		.byte	0
+ 1015 0136 03       		.uleb128 0x3
+ 1016 0137 0E       		.uleb128 0xe
+ 1017 0138 3A       		.uleb128 0x3a
+ 1018 0139 0B       		.uleb128 0xb
+ 1019 013a 3B       		.uleb128 0x3b
+ 1020 013b 05       		.uleb128 0x5
+ 1021 013c 49       		.uleb128 0x49
+ 1022 013d 13       		.uleb128 0x13
+ 1023 013e 3F       		.uleb128 0x3f
+ 1024 013f 19       		.uleb128 0x19
+ 1025 0140 3C       		.uleb128 0x3c
+ 1026 0141 19       		.uleb128 0x19
+ 1027 0142 00       		.byte	0
+ 1028 0143 00       		.byte	0
+ 1029 0144 18       		.uleb128 0x18
+ 1030 0145 34       		.uleb128 0x34
+ 1031 0146 00       		.byte	0
+ 1032 0147 03       		.uleb128 0x3
+ 1033 0148 0E       		.uleb128 0xe
+ 1034 0149 3A       		.uleb128 0x3a
+ 1035 014a 0B       		.uleb128 0xb
+ 1036 014b 3B       		.uleb128 0x3b
+ 1037 014c 0B       		.uleb128 0xb
+ 1038 014d 49       		.uleb128 0x49
+ 1039 014e 13       		.uleb128 0x13
+ 1040 014f 3F       		.uleb128 0x3f
+ 1041 0150 19       		.uleb128 0x19
+ 1042 0151 02       		.uleb128 0x2
+ 1043 0152 18       		.uleb128 0x18
+ 1044 0153 00       		.byte	0
+ 1045 0154 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 23
+
+
+ 1046 0155 00       		.byte	0
+ 1047              		.section	.debug_aranges,"",%progbits
+ 1048 0000 2C000000 		.4byte	0x2c
+ 1049 0004 0200     		.2byte	0x2
+ 1050 0006 00000000 		.4byte	.Ldebug_info0
+ 1051 000a 04       		.byte	0x4
+ 1052 000b 00       		.byte	0
+ 1053 000c 0000     		.2byte	0
+ 1054 000e 0000     		.2byte	0
+ 1055 0010 00000000 		.4byte	.LFB68
+ 1056 0014 54000000 		.4byte	.LFE68-.LFB68
+ 1057 0018 00000000 		.4byte	.LFB69
+ 1058 001c 68000000 		.4byte	.LFE69-.LFB69
+ 1059 0020 00000000 		.4byte	.LFB70
+ 1060 0024 54000000 		.4byte	.LFE70-.LFB70
+ 1061 0028 00000000 		.4byte	0
+ 1062 002c 00000000 		.4byte	0
+ 1063              		.section	.debug_ranges,"",%progbits
+ 1064              	.Ldebug_ranges0:
+ 1065 0000 00000000 		.4byte	.LFB68
+ 1066 0004 54000000 		.4byte	.LFE68
+ 1067 0008 00000000 		.4byte	.LFB69
+ 1068 000c 68000000 		.4byte	.LFE69
+ 1069 0010 00000000 		.4byte	.LFB70
+ 1070 0014 54000000 		.4byte	.LFE70
+ 1071 0018 00000000 		.4byte	0
+ 1072 001c 00000000 		.4byte	0
+ 1073              		.section	.debug_line,"",%progbits
+ 1074              	.Ldebug_line0:
+ 1075 0000 4B020000 		.section	.debug_str,"MS",%progbits,1
+ 1075      0200D601 
+ 1075      00000201 
+ 1075      FB0E0D00 
+ 1075      01010101 
+ 1076              	.LASF27:
+ 1077 0000 696E666F 		.ascii	"informationID\000"
+ 1077      726D6174 
+ 1077      696F6E49 
+ 1077      4400
+ 1078              	.LASF44:
+ 1079 000e 75785072 		.ascii	"uxPriority\000"
+ 1079      696F7269 
+ 1079      747900
+ 1080              	.LASF40:
+ 1081 0019 77726974 		.ascii	"write\000"
+ 1081      6500
+ 1082              	.LASF51:
+ 1083 001f 78546173 		.ascii	"xTaskCheck\000"
+ 1083      6B436865 
+ 1083      636B00
+ 1084              	.LASF31:
+ 1085 002a 6F626A65 		.ascii	"objectNumber\000"
+ 1085      63744E75 
+ 1085      6D626572 
+ 1085      00
+ 1086              	.LASF5:
+ 1087 0037 73686F72 		.ascii	"short int\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 24
+
+
+ 1087      7420696E 
+ 1087      7400
+ 1088              	.LASF12:
+ 1089 0041 73697A65 		.ascii	"sizetype\000"
+ 1089      74797065 
+ 1089      00
+ 1090              	.LASF19:
+ 1091 004a 4D555445 		.ascii	"MUTEX\000"
+ 1091      5800
+ 1092              	.LASF43:
+ 1093 0050 5461736B 		.ascii	"TaskHandle_t\000"
+ 1093      48616E64 
+ 1093      6C655F74 
+ 1093      00
+ 1094              	.LASF28:
+ 1095 005d 6F626A65 		.ascii	"objectType\000"
+ 1095      63745479 
+ 1095      706500
+ 1096              	.LASF56:
+ 1097 0068 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1097      43313120 
+ 1097      352E342E 
+ 1097      31203230 
+ 1097      31363036 
+ 1098 009b 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1098      20726576 
+ 1098      6973696F 
+ 1098      6E203233 
+ 1098      37373135 
+ 1099 00ce 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1099      66756E63 
+ 1099      74696F6E 
+ 1099      2D736563 
+ 1099      74696F6E 
+ 1100              	.LASF48:
+ 1101 00f6 73457272 		.ascii	"sError\000"
+ 1101      6F7200
+ 1102              	.LASF35:
+ 1103 00fd 6F626A65 		.ascii	"objectHeader\000"
+ 1103      63744865 
+ 1103      61646572 
+ 1103      00
+ 1104              	.LASF49:
+ 1105 010a 70785461 		.ascii	"pxTaskHasExecuted\000"
+ 1105      736B4861 
+ 1105      73457865 
+ 1105      63757465 
+ 1105      6400
+ 1106              	.LASF14:
+ 1107 011c 75696E74 		.ascii	"uint8_t\000"
+ 1107      385F7400 
+ 1108              	.LASF57:
+ 1109 0124 2E2E5C43 		.ascii	"..\\Common\\Minimal\\integer.c\000"
+ 1109      6F6D6D6F 
+ 1109      6E5C4D69 
+ 1109      6E696D61 
+ 1109      6C5C696E 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 25
+
+
+ 1110              	.LASF36:
+ 1111 0140 6F626A65 		.ascii	"objectArray\000"
+ 1111      63744172 
+ 1111      72617900 
+ 1112              	.LASF32:
+ 1113 014c 6C656E4F 		.ascii	"lenObjectName\000"
+ 1113      626A6563 
+ 1113      744E616D 
+ 1113      6500
+ 1114              	.LASF25:
+ 1115 015a 4F626A65 		.ascii	"ObjectType\000"
+ 1115      63745479 
+ 1115      706500
+ 1116              	.LASF29:
+ 1117 0165 6C656E67 		.ascii	"length\000"
+ 1117      746800
+ 1118              	.LASF16:
+ 1119 016c 666C6F61 		.ascii	"float\000"
+ 1119      7400
+ 1120              	.LASF34:
+ 1121 0172 4F626A65 		.ascii	"Object\000"
+ 1121      637400
+ 1122              	.LASF39:
+ 1123 0179 72656164 		.ascii	"read\000"
+ 1123      00
+ 1124              	.LASF1:
+ 1125 017e 6C6F6E67 		.ascii	"long long int\000"
+ 1125      206C6F6E 
+ 1125      6720696E 
+ 1125      7400
+ 1126              	.LASF61:
+ 1127 018c 76436F6D 		.ascii	"vCompeteingIntMathTask\000"
+ 1127      70657465 
+ 1127      696E6749 
+ 1127      6E744D61 
+ 1127      74685461 
+ 1128              	.LASF9:
+ 1129 01a3 6C6F6E67 		.ascii	"long int\000"
+ 1129      20696E74 
+ 1129      00
+ 1130              	.LASF53:
+ 1131 01ac 736E6966 		.ascii	"sniffIDFilter\000"
+ 1131      66494446 
+ 1131      696C7465 
+ 1131      7200
+ 1132              	.LASF46:
+ 1133 01ba 73546173 		.ascii	"sTask\000"
+ 1133      6B00
+ 1134              	.LASF22:
+ 1135 01c0 52454355 		.ascii	"RECURSIVE_MUTEX\000"
+ 1135      52534956 
+ 1135      455F4D55 
+ 1135      54455800 
+ 1136              	.LASF7:
+ 1137 01d0 5F5F7569 		.ascii	"__uint8_t\000"
+ 1137      6E74385F 
+ 1137      7400
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 26
+
+
+ 1138              	.LASF18:
+ 1139 01da 51554555 		.ascii	"QUEUE\000"
+ 1139      4500
+ 1140              	.LASF20:
+ 1141 01e0 434F554E 		.ascii	"COUNTING_SEMAPHORE\000"
+ 1141      54494E47 
+ 1141      5F53454D 
+ 1141      4150484F 
+ 1141      524500
+ 1142              	.LASF33:
+ 1143 01f3 6F626A65 		.ascii	"objectName\000"
+ 1143      63744E61 
+ 1143      6D6500
+ 1144              	.LASF2:
+ 1145 01fe 6C6F6E67 		.ascii	"long double\000"
+ 1145      20646F75 
+ 1145      626C6500 
+ 1146              	.LASF4:
+ 1147 020a 756E7369 		.ascii	"unsigned char\000"
+ 1147      676E6564 
+ 1147      20636861 
+ 1147      7200
+ 1148              	.LASF47:
+ 1149 0218 6C56616C 		.ascii	"lValue\000"
+ 1149      756500
+ 1150              	.LASF3:
+ 1151 021f 7369676E 		.ascii	"signed char\000"
+ 1151      65642063 
+ 1151      68617200 
+ 1152              	.LASF11:
+ 1153 022b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1153      206C6F6E 
+ 1153      6720756E 
+ 1153      7369676E 
+ 1153      65642069 
+ 1154              	.LASF0:
+ 1155 0242 756E7369 		.ascii	"unsigned int\000"
+ 1155      676E6564 
+ 1155      20696E74 
+ 1155      00
+ 1156              	.LASF30:
+ 1157 024f 4F626A65 		.ascii	"ObjectListHeader\000"
+ 1157      63744C69 
+ 1157      73744865 
+ 1157      61646572 
+ 1157      00
+ 1158              	.LASF41:
+ 1159 0260 42617365 		.ascii	"BaseType_t\000"
+ 1159      54797065 
+ 1159      5F7400
+ 1160              	.LASF45:
+ 1161 026b 70765061 		.ascii	"pvParameters\000"
+ 1161      72616D65 
+ 1161      74657273 
+ 1161      00
+ 1162              	.LASF6:
+ 1163 0278 73686F72 		.ascii	"short unsigned int\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 27
+
+
+ 1163      7420756E 
+ 1163      7369676E 
+ 1163      65642069 
+ 1163      6E7400
+ 1164              	.LASF13:
+ 1165 028b 63686172 		.ascii	"char\000"
+ 1165      00
+ 1166              	.LASF26:
+ 1167 0290 7061636B 		.ascii	"packetID\000"
+ 1167      65744944 
+ 1167      00
+ 1168              	.LASF15:
+ 1169 0299 696E7433 		.ascii	"int32_t\000"
+ 1169      325F7400 
+ 1170              	.LASF62:
+ 1171 02a1 78417265 		.ascii	"xAreIntegerMathsTaskStillRunning\000"
+ 1171      496E7465 
+ 1171      6765724D 
+ 1171      61746873 
+ 1171      5461736B 
+ 1172              	.LASF42:
+ 1173 02c2 55426173 		.ascii	"UBaseType_t\000"
+ 1173      65547970 
+ 1173      655F7400 
+ 1174              	.LASF38:
+ 1175 02ce 64617461 		.ascii	"data\000"
+ 1175      00
+ 1176              	.LASF54:
+ 1177 02d3 62756666 		.ascii	"buffer\000"
+ 1177      657200
+ 1178              	.LASF24:
+ 1179 02da 4E554D42 		.ascii	"NUMBER_OF_OBJECTTYPES\000"
+ 1179      45525F4F 
+ 1179      465F4F42 
+ 1179      4A454354 
+ 1179      54595045 
+ 1180              	.LASF10:
+ 1181 02f0 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1181      20756E73 
+ 1181      69676E65 
+ 1181      6420696E 
+ 1181      7400
+ 1182              	.LASF17:
+ 1183 0302 646F7562 		.ascii	"double\000"
+ 1183      6C6500
+ 1184              	.LASF21:
+ 1185 0309 42494E41 		.ascii	"BINARY_SEMAPHORE\000"
+ 1185      52595F53 
+ 1185      454D4150 
+ 1185      484F5245 
+ 1185      00
+ 1186              	.LASF55:
+ 1187 031a 6F626A65 		.ascii	"objectList\000"
+ 1187      63744C69 
+ 1187      737400
+ 1188              	.LASF23:
+ 1189 0325 5441534B 		.ascii	"TASK\000"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\cczrSOdX.s 			page 28
+
+
+ 1189      00
+ 1190              	.LASF8:
+ 1191 032a 5F5F696E 		.ascii	"__int32_t\000"
+ 1191      7433325F 
+ 1191      7400
+ 1192              	.LASF50:
+ 1193 0334 78526574 		.ascii	"xReturn\000"
+ 1193      75726E00 
+ 1194              	.LASF60:
+ 1195 033c 76537461 		.ascii	"vStartIntegerMathTasks\000"
+ 1195      7274496E 
+ 1195      74656765 
+ 1195      724D6174 
+ 1195      68546173 
+ 1196              	.LASF37:
+ 1197 0353 4F626A65 		.ascii	"ObjectList\000"
+ 1197      63744C69 
+ 1197      737400
+ 1198              	.LASF52:
+ 1199 035e 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1199      52784275 
+ 1199      66666572 
+ 1199      00
+ 1200              	.LASF59:
+ 1201 036b 42756666 		.ascii	"Buffer\000"
+ 1201      657200
+ 1202              	.LASF58:
+ 1203 0372 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ 1203      726F6772 
+ 1203      616D6D65 
+ 1203      5F536372 
+ 1203      69707473 
+ 1204 03a1 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 1204      5F435938 
+ 1204      434B4954 
+ 1204      5F303539 
+ 1204      2D6D6173 
+ 1205              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

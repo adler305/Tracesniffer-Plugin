@@ -1,0 +1,1473 @@
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"PollQ.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.bss
+  19              		.align	2
+  20              	xPollingConsumerCount:
+  21 0000 00000000 		.space	4
+  22              		.align	2
+  23              	xPollingProducerCount:
+  24 0004 00000000 		.space	4
+  25              		.section	.rodata
+  26              		.align	2
+  27              	.LC0:
+  28 0000 506F6C6C 		.ascii	"Poll_Test_Queue\000"
+  28      5F546573 
+  28      745F5175 
+  28      65756500 
+  29              		.align	2
+  30              	.LC1:
+  31 0010 51436F6E 		.ascii	"QConsNB\000"
+  31      734E4200 
+  32              		.align	2
+  33              	.LC2:
+  34 0018 5150726F 		.ascii	"QProdNB\000"
+  34      644E4200 
+  35              		.section	.text.vStartPolledQueueTasks,"ax",%progbits
+  36              		.align	2
+  37              		.global	vStartPolledQueueTasks
+  38              		.thumb
+  39              		.thumb_func
+  40              		.type	vStartPolledQueueTasks, %function
+  41              	vStartPolledQueueTasks:
+  42              	.LFB68:
+  43              		.file 1 "..\\Common\\Minimal\\PollQ.c"
+   1:..\Common\Minimal/PollQ.c **** /*
+   2:..\Common\Minimal/PollQ.c ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:..\Common\Minimal/PollQ.c ****     All rights reserved
+   4:..\Common\Minimal/PollQ.c **** 
+   5:..\Common\Minimal/PollQ.c ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:..\Common\Minimal/PollQ.c **** 
+   7:..\Common\Minimal/PollQ.c ****     This file is part of the FreeRTOS distribution.
+   8:..\Common\Minimal/PollQ.c **** 
+   9:..\Common\Minimal/PollQ.c ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 2
+
+
+  10:..\Common\Minimal/PollQ.c ****     the terms of the GNU General Public License (version 2) as published by the
+  11:..\Common\Minimal/PollQ.c ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:..\Common\Minimal/PollQ.c **** 
+  13:..\Common\Minimal/PollQ.c ****     ***************************************************************************
+  14:..\Common\Minimal/PollQ.c ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:..\Common\Minimal/PollQ.c ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:..\Common\Minimal/PollQ.c ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:..\Common\Minimal/PollQ.c ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:..\Common\Minimal/PollQ.c ****     ***************************************************************************
+  19:..\Common\Minimal/PollQ.c **** 
+  20:..\Common\Minimal/PollQ.c ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:..\Common\Minimal/PollQ.c ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:..\Common\Minimal/PollQ.c ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:..\Common\Minimal/PollQ.c ****     link: http://www.freertos.org/a00114.html
+  24:..\Common\Minimal/PollQ.c **** 
+  25:..\Common\Minimal/PollQ.c ****     ***************************************************************************
+  26:..\Common\Minimal/PollQ.c ****      *                                                                       *
+  27:..\Common\Minimal/PollQ.c ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:..\Common\Minimal/PollQ.c ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:..\Common\Minimal/PollQ.c ****      *    platform software that is more than just the market leader, it     *
+  30:..\Common\Minimal/PollQ.c ****      *    is the industry's de facto standard.                               *
+  31:..\Common\Minimal/PollQ.c ****      *                                                                       *
+  32:..\Common\Minimal/PollQ.c ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:..\Common\Minimal/PollQ.c ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:..\Common\Minimal/PollQ.c ****      *    tutorial book, reference manual, or both:                          *
+  35:..\Common\Minimal/PollQ.c ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:..\Common\Minimal/PollQ.c ****      *                                                                       *
+  37:..\Common\Minimal/PollQ.c ****     ***************************************************************************
+  38:..\Common\Minimal/PollQ.c **** 
+  39:..\Common\Minimal/PollQ.c ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:..\Common\Minimal/PollQ.c ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:..\Common\Minimal/PollQ.c ****     defined configASSERT()?
+  42:..\Common\Minimal/PollQ.c **** 
+  43:..\Common\Minimal/PollQ.c ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:..\Common\Minimal/PollQ.c ****     embedded software for free we request you assist our global community by
+  45:..\Common\Minimal/PollQ.c ****     participating in the support forum.
+  46:..\Common\Minimal/PollQ.c **** 
+  47:..\Common\Minimal/PollQ.c ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:..\Common\Minimal/PollQ.c ****     be as productive as possible as early as possible.  Now you can receive
+  49:..\Common\Minimal/PollQ.c ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:..\Common\Minimal/PollQ.c ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:..\Common\Minimal/PollQ.c **** 
+  52:..\Common\Minimal/PollQ.c ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:..\Common\Minimal/PollQ.c ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:..\Common\Minimal/PollQ.c ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:..\Common\Minimal/PollQ.c **** 
+  56:..\Common\Minimal/PollQ.c ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:..\Common\Minimal/PollQ.c ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:..\Common\Minimal/PollQ.c **** 
+  59:..\Common\Minimal/PollQ.c ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:..\Common\Minimal/PollQ.c ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:..\Common\Minimal/PollQ.c ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:..\Common\Minimal/PollQ.c **** 
+  63:..\Common\Minimal/PollQ.c ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:..\Common\Minimal/PollQ.c ****     engineered and independently SIL3 certified version for use in safety and
+  65:..\Common\Minimal/PollQ.c ****     mission critical applications that require provable dependability.
+  66:..\Common\Minimal/PollQ.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 3
+
+
+  67:..\Common\Minimal/PollQ.c ****     1 tab == 4 spaces!
+  68:..\Common\Minimal/PollQ.c **** */
+  69:..\Common\Minimal/PollQ.c **** 
+  70:..\Common\Minimal/PollQ.c **** /*
+  71:..\Common\Minimal/PollQ.c ****  * This version of PollQ. c is for use on systems that have limited stack
+  72:..\Common\Minimal/PollQ.c ****  * space and no display facilities.  The complete version can be found in
+  73:..\Common\Minimal/PollQ.c ****  * the Demo/Common/Full directory.
+  74:..\Common\Minimal/PollQ.c ****  *
+  75:..\Common\Minimal/PollQ.c ****  * Creates two tasks that communicate over a single queue.  One task acts as a
+  76:..\Common\Minimal/PollQ.c ****  * producer, the other a consumer.
+  77:..\Common\Minimal/PollQ.c ****  *
+  78:..\Common\Minimal/PollQ.c ****  * The producer loops for three iteration, posting an incrementing number onto the
+  79:..\Common\Minimal/PollQ.c ****  * queue each cycle.  It then delays for a fixed period before doing exactly the
+  80:..\Common\Minimal/PollQ.c ****  * same again.
+  81:..\Common\Minimal/PollQ.c ****  *
+  82:..\Common\Minimal/PollQ.c ****  * The consumer loops emptying the queue.  Each item removed from the queue is
+  83:..\Common\Minimal/PollQ.c ****  * checked to ensure it contains the expected value.  When the queue is empty it
+  84:..\Common\Minimal/PollQ.c ****  * blocks for a fixed period, then does the same again.
+  85:..\Common\Minimal/PollQ.c ****  *
+  86:..\Common\Minimal/PollQ.c ****  * All queue access is performed without blocking.  The consumer completely empties
+  87:..\Common\Minimal/PollQ.c ****  * the queue each time it runs so the producer should never find the queue full.
+  88:..\Common\Minimal/PollQ.c ****  *
+  89:..\Common\Minimal/PollQ.c ****  * An error is flagged if the consumer obtains an unexpected value or the producer
+  90:..\Common\Minimal/PollQ.c ****  * find the queue is full.
+  91:..\Common\Minimal/PollQ.c ****  */
+  92:..\Common\Minimal/PollQ.c **** 
+  93:..\Common\Minimal/PollQ.c **** /*
+  94:..\Common\Minimal/PollQ.c **** Changes from V2.0.0
+  95:..\Common\Minimal/PollQ.c **** 
+  96:..\Common\Minimal/PollQ.c **** 	+ Delay periods are now specified using variables and constants of
+  97:..\Common\Minimal/PollQ.c **** 	  TickType_t rather than uint32_t.
+  98:..\Common\Minimal/PollQ.c **** */
+  99:..\Common\Minimal/PollQ.c **** 
+ 100:..\Common\Minimal/PollQ.c **** #include <stdlib.h>
+ 101:..\Common\Minimal/PollQ.c **** 
+ 102:..\Common\Minimal/PollQ.c **** /* Scheduler include files. */
+ 103:..\Common\Minimal/PollQ.c **** #include "FreeRTOS.h"
+ 104:..\Common\Minimal/PollQ.c **** #include "task.h"
+ 105:..\Common\Minimal/PollQ.c **** #include "queue.h"
+ 106:..\Common\Minimal/PollQ.c **** 
+ 107:..\Common\Minimal/PollQ.c **** /* Demo program include files. */
+ 108:..\Common\Minimal/PollQ.c **** #include "PollQ.h"
+ 109:..\Common\Minimal/PollQ.c **** 
+ 110:..\Common\Minimal/PollQ.c **** #define pollqSTACK_SIZE			configMINIMAL_STACK_SIZE
+ 111:..\Common\Minimal/PollQ.c **** #define pollqQUEUE_SIZE			( 10 )
+ 112:..\Common\Minimal/PollQ.c **** #define pollqPRODUCER_DELAY		( pdMS_TO_TICKS( ( TickType_t ) 200 ) )
+ 113:..\Common\Minimal/PollQ.c **** #define pollqCONSUMER_DELAY		( pollqPRODUCER_DELAY - ( TickType_t ) ( 20 / portTICK_PERIOD_MS ) )
+ 114:..\Common\Minimal/PollQ.c **** #define pollqNO_DELAY			( ( TickType_t ) 0 )
+ 115:..\Common\Minimal/PollQ.c **** #define pollqVALUES_TO_PRODUCE	( ( BaseType_t ) 3 )
+ 116:..\Common\Minimal/PollQ.c **** #define pollqINITIAL_VALUE		( ( BaseType_t ) 0 )
+ 117:..\Common\Minimal/PollQ.c **** 
+ 118:..\Common\Minimal/PollQ.c **** /* The task that posts the incrementing number onto the queue. */
+ 119:..\Common\Minimal/PollQ.c **** static portTASK_FUNCTION_PROTO( vPolledQueueProducer, pvParameters );
+ 120:..\Common\Minimal/PollQ.c **** 
+ 121:..\Common\Minimal/PollQ.c **** /* The task that empties the queue. */
+ 122:..\Common\Minimal/PollQ.c **** static portTASK_FUNCTION_PROTO( vPolledQueueConsumer, pvParameters );
+ 123:..\Common\Minimal/PollQ.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 4
+
+
+ 124:..\Common\Minimal/PollQ.c **** /* Variables that are used to check that the tasks are still running with no
+ 125:..\Common\Minimal/PollQ.c **** errors. */
+ 126:..\Common\Minimal/PollQ.c **** static volatile BaseType_t xPollingConsumerCount = pollqINITIAL_VALUE, xPollingProducerCount = poll
+ 127:..\Common\Minimal/PollQ.c **** 
+ 128:..\Common\Minimal/PollQ.c **** /*-----------------------------------------------------------*/
+ 129:..\Common\Minimal/PollQ.c **** 
+ 130:..\Common\Minimal/PollQ.c **** void vStartPolledQueueTasks( UBaseType_t uxPriority )
+ 131:..\Common\Minimal/PollQ.c **** {
+  44              		.loc 1 131 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 8
+  47              		@ frame_needed = 1, uses_anonymous_args = 0
+  48 0000 80B5     		push	{r7, lr}
+  49              		.cfi_def_cfa_offset 8
+  50              		.cfi_offset 7, -8
+  51              		.cfi_offset 14, -4
+  52 0002 84B0     		sub	sp, sp, #16
+  53              		.cfi_def_cfa_offset 24
+  54 0004 02AF     		add	r7, sp, #8
+  55              		.cfi_def_cfa 7, 16
+  56 0006 7860     		str	r0, [r7, #4]
+ 132:..\Common\Minimal/PollQ.c **** static QueueHandle_t xPolledQueue;
+ 133:..\Common\Minimal/PollQ.c **** 
+ 134:..\Common\Minimal/PollQ.c **** 	/* Create the queue used by the producer and consumer. */
+ 135:..\Common\Minimal/PollQ.c **** 	xPolledQueue = xQueueCreate( pollqQUEUE_SIZE, ( UBaseType_t ) sizeof( uint16_t ) );
+  57              		.loc 1 135 0
+  58 0008 0A20     		movs	r0, #10
+  59 000a 0221     		movs	r1, #2
+  60 000c 0022     		movs	r2, #0
+  61 000e FFF7FEFF 		bl	xQueueGenericCreate
+  62 0012 0246     		mov	r2, r0
+  63 0014 114B     		ldr	r3, .L3
+  64 0016 1A60     		str	r2, [r3]
+ 136:..\Common\Minimal/PollQ.c **** 
+ 137:..\Common\Minimal/PollQ.c **** 	if( xPolledQueue != NULL )
+  65              		.loc 1 137 0
+  66 0018 104B     		ldr	r3, .L3
+  67 001a 1B68     		ldr	r3, [r3]
+  68 001c 002B     		cmp	r3, #0
+  69 001e 19D0     		beq	.L1
+ 138:..\Common\Minimal/PollQ.c **** 	{
+ 139:..\Common\Minimal/PollQ.c **** 		/* vQueueAddToRegistry() adds the queue to the queue registry, if one is
+ 140:..\Common\Minimal/PollQ.c **** 		in use.  The queue registry is provided as a means for kernel aware
+ 141:..\Common\Minimal/PollQ.c **** 		debuggers to locate queues and has no purpose if a kernel aware debugger
+ 142:..\Common\Minimal/PollQ.c **** 		is not being used.  The call to vQueueAddToRegistry() will be removed
+ 143:..\Common\Minimal/PollQ.c **** 		by the pre-processor if configQUEUE_REGISTRY_SIZE is not defined or is
+ 144:..\Common\Minimal/PollQ.c **** 		defined to be less than 1. */
+ 145:..\Common\Minimal/PollQ.c **** 		vQueueAddToRegistry( xPolledQueue, "Poll_Test_Queue" );
+  70              		.loc 1 145 0
+  71 0020 0E4B     		ldr	r3, .L3
+  72 0022 1B68     		ldr	r3, [r3]
+  73 0024 1846     		mov	r0, r3
+  74 0026 0E49     		ldr	r1, .L3+4
+  75 0028 FFF7FEFF 		bl	vQueueAddToRegistry
+ 146:..\Common\Minimal/PollQ.c **** 
+ 147:..\Common\Minimal/PollQ.c **** 		/* Spawn the producer and consumer. */
+ 148:..\Common\Minimal/PollQ.c **** 		xTaskCreate( vPolledQueueConsumer, "QConsNB", pollqSTACK_SIZE, ( void * ) &xPolledQueue, uxPriori
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 5
+
+
+  76              		.loc 1 148 0
+  77 002c 7B68     		ldr	r3, [r7, #4]
+  78 002e 0093     		str	r3, [sp]
+  79 0030 0023     		movs	r3, #0
+  80 0032 0193     		str	r3, [sp, #4]
+  81 0034 0B48     		ldr	r0, .L3+8
+  82 0036 0C49     		ldr	r1, .L3+12
+  83 0038 6422     		movs	r2, #100
+  84 003a 084B     		ldr	r3, .L3
+  85 003c FFF7FEFF 		bl	xTaskCreate
+ 149:..\Common\Minimal/PollQ.c **** 		xTaskCreate( vPolledQueueProducer, "QProdNB", pollqSTACK_SIZE, ( void * ) &xPolledQueue, uxPriori
+  86              		.loc 1 149 0
+  87 0040 7B68     		ldr	r3, [r7, #4]
+  88 0042 0093     		str	r3, [sp]
+  89 0044 0023     		movs	r3, #0
+  90 0046 0193     		str	r3, [sp, #4]
+  91 0048 0848     		ldr	r0, .L3+16
+  92 004a 0949     		ldr	r1, .L3+20
+  93 004c 6422     		movs	r2, #100
+  94 004e 034B     		ldr	r3, .L3
+  95 0050 FFF7FEFF 		bl	xTaskCreate
+  96              	.L1:
+ 150:..\Common\Minimal/PollQ.c **** 	}
+ 151:..\Common\Minimal/PollQ.c **** }
+  97              		.loc 1 151 0
+  98 0054 0837     		adds	r7, r7, #8
+  99              		.cfi_def_cfa_offset 8
+ 100 0056 BD46     		mov	sp, r7
+ 101              		.cfi_def_cfa_register 13
+ 102              		@ sp needed
+ 103 0058 80BD     		pop	{r7, pc}
+ 104              	.L4:
+ 105 005a 00BF     		.align	2
+ 106              	.L3:
+ 107 005c 08000000 		.word	xPolledQueue.7061
+ 108 0060 00000000 		.word	.LC0
+ 109 0064 00000000 		.word	vPolledQueueConsumer
+ 110 0068 10000000 		.word	.LC1
+ 111 006c 00000000 		.word	vPolledQueueProducer
+ 112 0070 18000000 		.word	.LC2
+ 113              		.cfi_endproc
+ 114              	.LFE68:
+ 115              		.size	vStartPolledQueueTasks, .-vStartPolledQueueTasks
+ 116              		.section	.text.vPolledQueueProducer,"ax",%progbits
+ 117              		.align	2
+ 118              		.thumb
+ 119              		.thumb_func
+ 120              		.type	vPolledQueueProducer, %function
+ 121              	vPolledQueueProducer:
+ 122              	.LFB69:
+ 152:..\Common\Minimal/PollQ.c **** /*-----------------------------------------------------------*/
+ 153:..\Common\Minimal/PollQ.c **** 
+ 154:..\Common\Minimal/PollQ.c **** static portTASK_FUNCTION( vPolledQueueProducer, pvParameters )
+ 155:..\Common\Minimal/PollQ.c **** {
+ 123              		.loc 1 155 0
+ 124              		.cfi_startproc
+ 125              		@ args = 0, pretend = 0, frame = 24
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 6
+
+
+ 126              		@ frame_needed = 1, uses_anonymous_args = 0
+ 127 0000 80B5     		push	{r7, lr}
+ 128              		.cfi_def_cfa_offset 8
+ 129              		.cfi_offset 7, -8
+ 130              		.cfi_offset 14, -4
+ 131 0002 86B0     		sub	sp, sp, #24
+ 132              		.cfi_def_cfa_offset 32
+ 133 0004 00AF     		add	r7, sp, #0
+ 134              		.cfi_def_cfa_register 7
+ 135 0006 7860     		str	r0, [r7, #4]
+ 156:..\Common\Minimal/PollQ.c **** uint16_t usValue = ( uint16_t ) 0;
+ 136              		.loc 1 156 0
+ 137 0008 0023     		movs	r3, #0
+ 138 000a FB81     		strh	r3, [r7, #14]	@ movhi
+ 157:..\Common\Minimal/PollQ.c **** BaseType_t xError = pdFALSE, xLoop;
+ 139              		.loc 1 157 0
+ 140 000c 0023     		movs	r3, #0
+ 141 000e 7B61     		str	r3, [r7, #20]
+ 142              	.L11:
+ 158:..\Common\Minimal/PollQ.c **** 
+ 159:..\Common\Minimal/PollQ.c **** 	for( ;; )
+ 160:..\Common\Minimal/PollQ.c **** 	{
+ 161:..\Common\Minimal/PollQ.c **** 		for( xLoop = 0; xLoop < pollqVALUES_TO_PRODUCE; xLoop++ )
+ 143              		.loc 1 161 0
+ 144 0010 0023     		movs	r3, #0
+ 145 0012 3B61     		str	r3, [r7, #16]
+ 146 0014 22E0     		b	.L6
+ 147              	.L10:
+ 162:..\Common\Minimal/PollQ.c **** 		{
+ 163:..\Common\Minimal/PollQ.c **** 			/* Send an incrementing number on the queue without blocking. */
+ 164:..\Common\Minimal/PollQ.c **** 			if( xQueueSend( *( ( QueueHandle_t * ) pvParameters ), ( void * ) &usValue, pollqNO_DELAY ) != p
+ 148              		.loc 1 164 0
+ 149 0016 7B68     		ldr	r3, [r7, #4]
+ 150 0018 1A68     		ldr	r2, [r3]
+ 151 001a 07F10E03 		add	r3, r7, #14
+ 152 001e 1046     		mov	r0, r2
+ 153 0020 1946     		mov	r1, r3
+ 154 0022 0022     		movs	r2, #0
+ 155 0024 0023     		movs	r3, #0
+ 156 0026 FFF7FEFF 		bl	xQueueGenericSend
+ 157 002a 0346     		mov	r3, r0
+ 158 002c 012B     		cmp	r3, #1
+ 159 002e 02D0     		beq	.L7
+ 165:..\Common\Minimal/PollQ.c **** 			{
+ 166:..\Common\Minimal/PollQ.c **** 				/* We should never find the queue full so if we get here there
+ 167:..\Common\Minimal/PollQ.c **** 				has been an error. */
+ 168:..\Common\Minimal/PollQ.c **** 				xError = pdTRUE;
+ 160              		.loc 1 168 0
+ 161 0030 0123     		movs	r3, #1
+ 162 0032 7B61     		str	r3, [r7, #20]
+ 163 0034 0FE0     		b	.L8
+ 164              	.L7:
+ 169:..\Common\Minimal/PollQ.c **** 			}
+ 170:..\Common\Minimal/PollQ.c **** 			else
+ 171:..\Common\Minimal/PollQ.c **** 			{
+ 172:..\Common\Minimal/PollQ.c **** 				if( xError == pdFALSE )
+ 165              		.loc 1 172 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 7
+
+
+ 166 0036 7B69     		ldr	r3, [r7, #20]
+ 167 0038 002B     		cmp	r3, #0
+ 168 003a 08D1     		bne	.L9
+ 173:..\Common\Minimal/PollQ.c **** 				{
+ 174:..\Common\Minimal/PollQ.c **** 					/* If an error has ever been recorded we stop incrementing the
+ 175:..\Common\Minimal/PollQ.c **** 					check variable. */
+ 176:..\Common\Minimal/PollQ.c **** 					portENTER_CRITICAL();
+ 169              		.loc 1 176 0
+ 170 003c FFF7FEFF 		bl	vPortEnterCritical
+ 177:..\Common\Minimal/PollQ.c **** 						xPollingProducerCount++;
+ 171              		.loc 1 177 0
+ 172 0040 0A4B     		ldr	r3, .L12
+ 173 0042 1B68     		ldr	r3, [r3]
+ 174 0044 0133     		adds	r3, r3, #1
+ 175 0046 094A     		ldr	r2, .L12
+ 176 0048 1360     		str	r3, [r2]
+ 178:..\Common\Minimal/PollQ.c **** 					portEXIT_CRITICAL();
+ 177              		.loc 1 178 0
+ 178 004a FFF7FEFF 		bl	vPortExitCritical
+ 179              	.L9:
+ 179:..\Common\Minimal/PollQ.c **** 				}
+ 180:..\Common\Minimal/PollQ.c **** 
+ 181:..\Common\Minimal/PollQ.c **** 				/* Update the value we are going to post next time around. */
+ 182:..\Common\Minimal/PollQ.c **** 				usValue++;
+ 180              		.loc 1 182 0
+ 181 004e FB89     		ldrh	r3, [r7, #14]
+ 182 0050 0133     		adds	r3, r3, #1
+ 183 0052 9BB2     		uxth	r3, r3
+ 184 0054 FB81     		strh	r3, [r7, #14]	@ movhi
+ 185              	.L8:
+ 161:..\Common\Minimal/PollQ.c **** 		{
+ 186              		.loc 1 161 0 discriminator 2
+ 187 0056 3B69     		ldr	r3, [r7, #16]
+ 188 0058 0133     		adds	r3, r3, #1
+ 189 005a 3B61     		str	r3, [r7, #16]
+ 190              	.L6:
+ 161:..\Common\Minimal/PollQ.c **** 		{
+ 191              		.loc 1 161 0 is_stmt 0 discriminator 1
+ 192 005c 3B69     		ldr	r3, [r7, #16]
+ 193 005e 022B     		cmp	r3, #2
+ 194 0060 D9DD     		ble	.L10
+ 183:..\Common\Minimal/PollQ.c **** 			}
+ 184:..\Common\Minimal/PollQ.c **** 		}
+ 185:..\Common\Minimal/PollQ.c **** 
+ 186:..\Common\Minimal/PollQ.c **** 		/* Wait before we start posting again to ensure the consumer runs and
+ 187:..\Common\Minimal/PollQ.c **** 		empties the queue. */
+ 188:..\Common\Minimal/PollQ.c **** 		vTaskDelay( pollqPRODUCER_DELAY );
+ 195              		.loc 1 188 0 is_stmt 1
+ 196 0062 C820     		movs	r0, #200
+ 197 0064 FFF7FEFF 		bl	vTaskDelay
+ 189:..\Common\Minimal/PollQ.c **** 	}
+ 198              		.loc 1 189 0
+ 199 0068 D2E7     		b	.L11
+ 200              	.L13:
+ 201 006a 00BF     		.align	2
+ 202              	.L12:
+ 203 006c 04000000 		.word	xPollingProducerCount
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 8
+
+
+ 204              		.cfi_endproc
+ 205              	.LFE69:
+ 206              		.size	vPolledQueueProducer, .-vPolledQueueProducer
+ 207              		.section	.text.vPolledQueueConsumer,"ax",%progbits
+ 208              		.align	2
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.type	vPolledQueueConsumer, %function
+ 212              	vPolledQueueConsumer:
+ 213              	.LFB70:
+ 190:..\Common\Minimal/PollQ.c **** }  /*lint !e818 Function prototype must conform to API. */
+ 191:..\Common\Minimal/PollQ.c **** /*-----------------------------------------------------------*/
+ 192:..\Common\Minimal/PollQ.c **** 
+ 193:..\Common\Minimal/PollQ.c **** static portTASK_FUNCTION( vPolledQueueConsumer, pvParameters )
+ 194:..\Common\Minimal/PollQ.c **** {
+ 214              		.loc 1 194 0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 24
+ 217              		@ frame_needed = 1, uses_anonymous_args = 0
+ 218 0000 80B5     		push	{r7, lr}
+ 219              		.cfi_def_cfa_offset 8
+ 220              		.cfi_offset 7, -8
+ 221              		.cfi_offset 14, -4
+ 222 0002 86B0     		sub	sp, sp, #24
+ 223              		.cfi_def_cfa_offset 32
+ 224 0004 00AF     		add	r7, sp, #0
+ 225              		.cfi_def_cfa_register 7
+ 226 0006 7860     		str	r0, [r7, #4]
+ 195:..\Common\Minimal/PollQ.c **** uint16_t usData, usExpectedValue = ( uint16_t ) 0;
+ 227              		.loc 1 195 0
+ 228 0008 0023     		movs	r3, #0
+ 229 000a FB82     		strh	r3, [r7, #22]	@ movhi
+ 196:..\Common\Minimal/PollQ.c **** BaseType_t xError = pdFALSE;
+ 230              		.loc 1 196 0
+ 231 000c 0023     		movs	r3, #0
+ 232 000e 3B61     		str	r3, [r7, #16]
+ 233              	.L19:
+ 197:..\Common\Minimal/PollQ.c **** 
+ 198:..\Common\Minimal/PollQ.c **** 	for( ;; )
+ 199:..\Common\Minimal/PollQ.c **** 	{
+ 200:..\Common\Minimal/PollQ.c **** 		/* Loop until the queue is empty. */
+ 201:..\Common\Minimal/PollQ.c **** 		while( uxQueueMessagesWaiting( *( ( QueueHandle_t * ) pvParameters ) ) )
+ 234              		.loc 1 201 0
+ 235 0010 24E0     		b	.L15
+ 236              	.L18:
+ 202:..\Common\Minimal/PollQ.c **** 		{
+ 203:..\Common\Minimal/PollQ.c **** 			if( xQueueReceive( *( ( QueueHandle_t * ) pvParameters ), &usData, pollqNO_DELAY ) == pdPASS )
+ 237              		.loc 1 203 0
+ 238 0012 7B68     		ldr	r3, [r7, #4]
+ 239 0014 1A68     		ldr	r2, [r3]
+ 240 0016 07F10E03 		add	r3, r7, #14
+ 241 001a 1046     		mov	r0, r2
+ 242 001c 1946     		mov	r1, r3
+ 243 001e 0022     		movs	r2, #0
+ 244 0020 0023     		movs	r3, #0
+ 245 0022 FFF7FEFF 		bl	xQueueGenericReceive
+ 246 0026 0346     		mov	r3, r0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 9
+
+
+ 247 0028 012B     		cmp	r3, #1
+ 248 002a 17D1     		bne	.L15
+ 204:..\Common\Minimal/PollQ.c **** 			{
+ 205:..\Common\Minimal/PollQ.c **** 				if( usData != usExpectedValue )
+ 249              		.loc 1 205 0
+ 250 002c FB89     		ldrh	r3, [r7, #14]
+ 251 002e FA8A     		ldrh	r2, [r7, #22]
+ 252 0030 9A42     		cmp	r2, r3
+ 253 0032 04D0     		beq	.L16
+ 206:..\Common\Minimal/PollQ.c **** 				{
+ 207:..\Common\Minimal/PollQ.c **** 					/* This is not what we expected to receive so an error has
+ 208:..\Common\Minimal/PollQ.c **** 					occurred. */
+ 209:..\Common\Minimal/PollQ.c **** 					xError = pdTRUE;
+ 254              		.loc 1 209 0
+ 255 0034 0123     		movs	r3, #1
+ 256 0036 3B61     		str	r3, [r7, #16]
+ 210:..\Common\Minimal/PollQ.c **** 
+ 211:..\Common\Minimal/PollQ.c **** 					/* Catch-up to the value we received so our next expected
+ 212:..\Common\Minimal/PollQ.c **** 					value should again be correct. */
+ 213:..\Common\Minimal/PollQ.c **** 					usExpectedValue = usData;
+ 257              		.loc 1 213 0
+ 258 0038 FB89     		ldrh	r3, [r7, #14]	@ movhi
+ 259 003a FB82     		strh	r3, [r7, #22]	@ movhi
+ 260 003c 0BE0     		b	.L17
+ 261              	.L16:
+ 214:..\Common\Minimal/PollQ.c **** 				}
+ 215:..\Common\Minimal/PollQ.c **** 				else
+ 216:..\Common\Minimal/PollQ.c **** 				{
+ 217:..\Common\Minimal/PollQ.c **** 					if( xError == pdFALSE )
+ 262              		.loc 1 217 0
+ 263 003e 3B69     		ldr	r3, [r7, #16]
+ 264 0040 002B     		cmp	r3, #0
+ 265 0042 08D1     		bne	.L17
+ 218:..\Common\Minimal/PollQ.c **** 					{
+ 219:..\Common\Minimal/PollQ.c **** 						/* Only increment the check variable if no errors have
+ 220:..\Common\Minimal/PollQ.c **** 						occurred. */
+ 221:..\Common\Minimal/PollQ.c **** 						portENTER_CRITICAL();
+ 266              		.loc 1 221 0
+ 267 0044 FFF7FEFF 		bl	vPortEnterCritical
+ 222:..\Common\Minimal/PollQ.c **** 							xPollingConsumerCount++;
+ 268              		.loc 1 222 0
+ 269 0048 0A4B     		ldr	r3, .L20
+ 270 004a 1B68     		ldr	r3, [r3]
+ 271 004c 0133     		adds	r3, r3, #1
+ 272 004e 094A     		ldr	r2, .L20
+ 273 0050 1360     		str	r3, [r2]
+ 223:..\Common\Minimal/PollQ.c **** 						portEXIT_CRITICAL();
+ 274              		.loc 1 223 0
+ 275 0052 FFF7FEFF 		bl	vPortExitCritical
+ 276              	.L17:
+ 224:..\Common\Minimal/PollQ.c **** 					}
+ 225:..\Common\Minimal/PollQ.c **** 				}
+ 226:..\Common\Minimal/PollQ.c **** 
+ 227:..\Common\Minimal/PollQ.c **** 				/* Next time round we would expect the number to be one higher. */
+ 228:..\Common\Minimal/PollQ.c **** 				usExpectedValue++;
+ 277              		.loc 1 228 0
+ 278 0056 FB8A     		ldrh	r3, [r7, #22]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 10
+
+
+ 279 0058 0133     		adds	r3, r3, #1
+ 280 005a FB82     		strh	r3, [r7, #22]	@ movhi
+ 281              	.L15:
+ 201:..\Common\Minimal/PollQ.c **** 		{
+ 282              		.loc 1 201 0
+ 283 005c 7B68     		ldr	r3, [r7, #4]
+ 284 005e 1B68     		ldr	r3, [r3]
+ 285 0060 1846     		mov	r0, r3
+ 286 0062 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 287 0066 0346     		mov	r3, r0
+ 288 0068 002B     		cmp	r3, #0
+ 289 006a D2D1     		bne	.L18
+ 229:..\Common\Minimal/PollQ.c **** 			}
+ 230:..\Common\Minimal/PollQ.c **** 		}
+ 231:..\Common\Minimal/PollQ.c **** 
+ 232:..\Common\Minimal/PollQ.c **** 		/* Now the queue is empty we block, allowing the producer to place more
+ 233:..\Common\Minimal/PollQ.c **** 		items in the queue. */
+ 234:..\Common\Minimal/PollQ.c **** 		vTaskDelay( pollqCONSUMER_DELAY );
+ 290              		.loc 1 234 0
+ 291 006c B420     		movs	r0, #180
+ 292 006e FFF7FEFF 		bl	vTaskDelay
+ 235:..\Common\Minimal/PollQ.c **** 	}
+ 293              		.loc 1 235 0
+ 294 0072 CDE7     		b	.L19
+ 295              	.L21:
+ 296              		.align	2
+ 297              	.L20:
+ 298 0074 00000000 		.word	xPollingConsumerCount
+ 299              		.cfi_endproc
+ 300              	.LFE70:
+ 301              		.size	vPolledQueueConsumer, .-vPolledQueueConsumer
+ 302              		.section	.text.xArePollingQueuesStillRunning,"ax",%progbits
+ 303              		.align	2
+ 304              		.global	xArePollingQueuesStillRunning
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.type	xArePollingQueuesStillRunning, %function
+ 308              	xArePollingQueuesStillRunning:
+ 309              	.LFB71:
+ 236:..\Common\Minimal/PollQ.c **** } /*lint !e818 Function prototype must conform to API. */
+ 237:..\Common\Minimal/PollQ.c **** /*-----------------------------------------------------------*/
+ 238:..\Common\Minimal/PollQ.c **** 
+ 239:..\Common\Minimal/PollQ.c **** /* This is called to check that all the created tasks are still running with no errors. */
+ 240:..\Common\Minimal/PollQ.c **** BaseType_t xArePollingQueuesStillRunning( void )
+ 241:..\Common\Minimal/PollQ.c **** {
+ 310              		.loc 1 241 0
+ 311              		.cfi_startproc
+ 312              		@ args = 0, pretend = 0, frame = 8
+ 313              		@ frame_needed = 1, uses_anonymous_args = 0
+ 314              		@ link register save eliminated.
+ 315 0000 80B4     		push	{r7}
+ 316              		.cfi_def_cfa_offset 4
+ 317              		.cfi_offset 7, -4
+ 318 0002 83B0     		sub	sp, sp, #12
+ 319              		.cfi_def_cfa_offset 16
+ 320 0004 00AF     		add	r7, sp, #0
+ 321              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 11
+
+
+ 242:..\Common\Minimal/PollQ.c **** BaseType_t xReturn;
+ 243:..\Common\Minimal/PollQ.c **** 
+ 244:..\Common\Minimal/PollQ.c **** 	/* Check both the consumer and producer poll count to check they have both
+ 245:..\Common\Minimal/PollQ.c **** 	been changed since out last trip round.  We do not need a critical section
+ 246:..\Common\Minimal/PollQ.c **** 	around the check variables as this is called from a higher priority than
+ 247:..\Common\Minimal/PollQ.c **** 	the other tasks that access the same variables. */
+ 248:..\Common\Minimal/PollQ.c **** 	if( ( xPollingConsumerCount == pollqINITIAL_VALUE ) ||
+ 322              		.loc 1 248 0
+ 323 0006 0D4B     		ldr	r3, .L27
+ 324 0008 1B68     		ldr	r3, [r3]
+ 325 000a 002B     		cmp	r3, #0
+ 326 000c 03D0     		beq	.L23
+ 249:..\Common\Minimal/PollQ.c **** 		( xPollingProducerCount == pollqINITIAL_VALUE )
+ 327              		.loc 1 249 0 discriminator 1
+ 328 000e 0C4B     		ldr	r3, .L27+4
+ 329 0010 1B68     		ldr	r3, [r3]
+ 248:..\Common\Minimal/PollQ.c **** 		( xPollingProducerCount == pollqINITIAL_VALUE )
+ 330              		.loc 1 248 0 discriminator 1
+ 331 0012 002B     		cmp	r3, #0
+ 332 0014 02D1     		bne	.L24
+ 333              	.L23:
+ 250:..\Common\Minimal/PollQ.c **** 	  )
+ 251:..\Common\Minimal/PollQ.c **** 	{
+ 252:..\Common\Minimal/PollQ.c **** 		xReturn = pdFALSE;
+ 334              		.loc 1 252 0
+ 335 0016 0023     		movs	r3, #0
+ 336 0018 7B60     		str	r3, [r7, #4]
+ 337 001a 01E0     		b	.L25
+ 338              	.L24:
+ 253:..\Common\Minimal/PollQ.c **** 	}
+ 254:..\Common\Minimal/PollQ.c **** 	else
+ 255:..\Common\Minimal/PollQ.c **** 	{
+ 256:..\Common\Minimal/PollQ.c **** 		xReturn = pdTRUE;
+ 339              		.loc 1 256 0
+ 340 001c 0123     		movs	r3, #1
+ 341 001e 7B60     		str	r3, [r7, #4]
+ 342              	.L25:
+ 257:..\Common\Minimal/PollQ.c **** 	}
+ 258:..\Common\Minimal/PollQ.c **** 
+ 259:..\Common\Minimal/PollQ.c **** 	/* Set the check variables back down so we know if they have been
+ 260:..\Common\Minimal/PollQ.c **** 	incremented the next time around. */
+ 261:..\Common\Minimal/PollQ.c **** 	xPollingConsumerCount = pollqINITIAL_VALUE;
+ 343              		.loc 1 261 0
+ 344 0020 064B     		ldr	r3, .L27
+ 345 0022 0022     		movs	r2, #0
+ 346 0024 1A60     		str	r2, [r3]
+ 262:..\Common\Minimal/PollQ.c **** 	xPollingProducerCount = pollqINITIAL_VALUE;
+ 347              		.loc 1 262 0
+ 348 0026 064B     		ldr	r3, .L27+4
+ 349 0028 0022     		movs	r2, #0
+ 350 002a 1A60     		str	r2, [r3]
+ 263:..\Common\Minimal/PollQ.c **** 
+ 264:..\Common\Minimal/PollQ.c **** 	return xReturn;
+ 351              		.loc 1 264 0
+ 352 002c 7B68     		ldr	r3, [r7, #4]
+ 265:..\Common\Minimal/PollQ.c **** }
+ 353              		.loc 1 265 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 12
+
+
+ 354 002e 1846     		mov	r0, r3
+ 355 0030 0C37     		adds	r7, r7, #12
+ 356              		.cfi_def_cfa_offset 4
+ 357 0032 BD46     		mov	sp, r7
+ 358              		.cfi_def_cfa_register 13
+ 359              		@ sp needed
+ 360 0034 5DF8047B 		ldr	r7, [sp], #4
+ 361              		.cfi_restore 7
+ 362              		.cfi_def_cfa_offset 0
+ 363 0038 7047     		bx	lr
+ 364              	.L28:
+ 365 003a 00BF     		.align	2
+ 366              	.L27:
+ 367 003c 00000000 		.word	xPollingConsumerCount
+ 368 0040 04000000 		.word	xPollingProducerCount
+ 369              		.cfi_endproc
+ 370              	.LFE71:
+ 371              		.size	xArePollingQueuesStillRunning, .-xArePollingQueuesStillRunning
+ 372              		.bss
+ 373              		.align	2
+ 374              	xPolledQueue.7061:
+ 375 0008 00000000 		.space	4
+ 376              		.text
+ 377              	.Letext0:
+ 378              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 379              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 380              		.file 4 "..\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 381              		.file 5 "..\\Source\\include/task.h"
+ 382              		.file 6 "..\\Source\\include/queue.h"
+ 383              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 384              		.section	.debug_info,"",%progbits
+ 385              	.Ldebug_info0:
+ 386 0000 46020000 		.4byte	0x246
+ 387 0004 0400     		.2byte	0x4
+ 388 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 389 000a 04       		.byte	0x4
+ 390 000b 01       		.uleb128 0x1
+ 391 000c 57000000 		.4byte	.LASF39
+ 392 0010 01       		.byte	0x1
+ 393 0011 2A020000 		.4byte	.LASF40
+ 394 0015 C1020000 		.4byte	.LASF41
+ 395 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 396 001d 00000000 		.4byte	0
+ 397 0021 00000000 		.4byte	.Ldebug_line0
+ 398 0025 02       		.uleb128 0x2
+ 399 0026 04       		.byte	0x4
+ 400 0027 07       		.byte	0x7
+ 401 0028 B6010000 		.4byte	.LASF0
+ 402 002c 03       		.uleb128 0x3
+ 403 002d 04       		.byte	0x4
+ 404 002e 05       		.byte	0x5
+ 405 002f 696E7400 		.ascii	"int\000"
+ 406 0033 02       		.uleb128 0x2
+ 407 0034 01       		.byte	0x1
+ 408 0035 06       		.byte	0x6
+ 409 0036 8B020000 		.4byte	.LASF1
+ 410 003a 04       		.uleb128 0x4
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 13
+
+
+ 411 003b 0B000000 		.4byte	.LASF4
+ 412 003f 02       		.byte	0x2
+ 413 0040 1D       		.byte	0x1d
+ 414 0041 45000000 		.4byte	0x45
+ 415 0045 02       		.uleb128 0x2
+ 416 0046 01       		.byte	0x1
+ 417 0047 08       		.byte	0x8
+ 418 0048 0F010000 		.4byte	.LASF2
+ 419 004c 02       		.uleb128 0x2
+ 420 004d 02       		.byte	0x2
+ 421 004e 05       		.byte	0x5
+ 422 004f 44020000 		.4byte	.LASF3
+ 423 0053 04       		.uleb128 0x4
+ 424 0054 76010000 		.4byte	.LASF5
+ 425 0058 02       		.byte	0x2
+ 426 0059 2B       		.byte	0x2b
+ 427 005a 5E000000 		.4byte	0x5e
+ 428 005e 02       		.uleb128 0x2
+ 429 005f 02       		.byte	0x2
+ 430 0060 07       		.byte	0x7
+ 431 0061 97020000 		.4byte	.LASF6
+ 432 0065 04       		.uleb128 0x4
+ 433 0066 46000000 		.4byte	.LASF7
+ 434 006a 02       		.byte	0x2
+ 435 006b 3F       		.byte	0x3f
+ 436 006c 70000000 		.4byte	0x70
+ 437 0070 02       		.uleb128 0x2
+ 438 0071 04       		.byte	0x4
+ 439 0072 05       		.byte	0x5
+ 440 0073 82020000 		.4byte	.LASF8
+ 441 0077 04       		.uleb128 0x4
+ 442 0078 88010000 		.4byte	.LASF9
+ 443 007c 02       		.byte	0x2
+ 444 007d 41       		.byte	0x41
+ 445 007e 82000000 		.4byte	0x82
+ 446 0082 02       		.uleb128 0x2
+ 447 0083 04       		.byte	0x4
+ 448 0084 07       		.byte	0x7
+ 449 0085 24010000 		.4byte	.LASF10
+ 450 0089 02       		.uleb128 0x2
+ 451 008a 08       		.byte	0x8
+ 452 008b 05       		.byte	0x5
+ 453 008c 0A020000 		.4byte	.LASF11
+ 454 0090 02       		.uleb128 0x2
+ 455 0091 08       		.byte	0x8
+ 456 0092 07       		.byte	0x7
+ 457 0093 C3010000 		.4byte	.LASF12
+ 458 0097 02       		.uleb128 0x2
+ 459 0098 04       		.byte	0x4
+ 460 0099 07       		.byte	0x7
+ 461 009a 01020000 		.4byte	.LASF13
+ 462 009e 05       		.uleb128 0x5
+ 463 009f 04       		.byte	0x4
+ 464 00a0 02       		.uleb128 0x2
+ 465 00a1 01       		.byte	0x1
+ 466 00a2 08       		.byte	0x8
+ 467 00a3 18020000 		.4byte	.LASF14
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 14
+
+
+ 468 00a7 04       		.uleb128 0x4
+ 469 00a8 DA010000 		.4byte	.LASF15
+ 470 00ac 03       		.byte	0x3
+ 471 00ad 15       		.byte	0x15
+ 472 00ae 3A000000 		.4byte	0x3a
+ 473 00b2 04       		.uleb128 0x4
+ 474 00b3 4E020000 		.4byte	.LASF16
+ 475 00b7 03       		.byte	0x3
+ 476 00b8 21       		.byte	0x21
+ 477 00b9 53000000 		.4byte	0x53
+ 478 00bd 04       		.uleb128 0x4
+ 479 00be F9010000 		.4byte	.LASF17
+ 480 00c2 03       		.byte	0x3
+ 481 00c3 2C       		.byte	0x2c
+ 482 00c4 65000000 		.4byte	0x65
+ 483 00c8 04       		.uleb128 0x4
+ 484 00c9 79020000 		.4byte	.LASF18
+ 485 00cd 03       		.byte	0x3
+ 486 00ce 2D       		.byte	0x2d
+ 487 00cf 77000000 		.4byte	0x77
+ 488 00d3 02       		.uleb128 0x2
+ 489 00d4 04       		.byte	0x4
+ 490 00d5 04       		.byte	0x4
+ 491 00d6 09010000 		.4byte	.LASF19
+ 492 00da 02       		.uleb128 0x2
+ 493 00db 08       		.byte	0x8
+ 494 00dc 04       		.byte	0x4
+ 495 00dd 81010000 		.4byte	.LASF20
+ 496 00e1 04       		.uleb128 0x4
+ 497 00e2 B6020000 		.4byte	.LASF21
+ 498 00e6 04       		.byte	0x4
+ 499 00e7 62       		.byte	0x62
+ 500 00e8 70000000 		.4byte	0x70
+ 501 00ec 04       		.uleb128 0x4
+ 502 00ed AA020000 		.4byte	.LASF22
+ 503 00f1 04       		.byte	0x4
+ 504 00f2 63       		.byte	0x63
+ 505 00f3 82000000 		.4byte	0x82
+ 506 00f7 04       		.uleb128 0x4
+ 507 00f8 00000000 		.4byte	.LASF23
+ 508 00fc 04       		.byte	0x4
+ 509 00fd 69       		.byte	0x69
+ 510 00fe C8000000 		.4byte	0xc8
+ 511 0102 04       		.uleb128 0x4
+ 512 0103 6C020000 		.4byte	.LASF24
+ 513 0107 05       		.byte	0x5
+ 514 0108 67       		.byte	0x67
+ 515 0109 9E000000 		.4byte	0x9e
+ 516 010d 04       		.uleb128 0x4
+ 517 010e E5000000 		.4byte	.LASF25
+ 518 0112 06       		.byte	0x6
+ 519 0113 58       		.byte	0x58
+ 520 0114 9E000000 		.4byte	0x9e
+ 521 0118 06       		.uleb128 0x6
+ 522 0119 E2010000 		.4byte	.LASF42
+ 523 011d 01       		.byte	0x1
+ 524 011e 82       		.byte	0x82
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 15
+
+
+ 525 011f 00000000 		.4byte	.LFB68
+ 526 0123 74000000 		.4byte	.LFE68-.LFB68
+ 527 0127 01       		.uleb128 0x1
+ 528 0128 9C       		.byte	0x9c
+ 529 0129 4D010000 		.4byte	0x14d
+ 530 012d 07       		.uleb128 0x7
+ 531 012e AB010000 		.4byte	.LASF26
+ 532 0132 01       		.byte	0x1
+ 533 0133 82       		.byte	0x82
+ 534 0134 EC000000 		.4byte	0xec
+ 535 0138 02       		.uleb128 0x2
+ 536 0139 91       		.byte	0x91
+ 537 013a 74       		.sleb128 -12
+ 538 013b 08       		.uleb128 0x8
+ 539 013c 69010000 		.4byte	.LASF28
+ 540 0140 01       		.byte	0x1
+ 541 0141 84       		.byte	0x84
+ 542 0142 0D010000 		.4byte	0x10d
+ 543 0146 05       		.uleb128 0x5
+ 544 0147 03       		.byte	0x3
+ 545 0148 08000000 		.4byte	xPolledQueue.7061
+ 546 014c 00       		.byte	0
+ 547 014d 09       		.uleb128 0x9
+ 548 014e 57020000 		.4byte	.LASF32
+ 549 0152 01       		.byte	0x1
+ 550 0153 9A       		.byte	0x9a
+ 551 0154 00000000 		.4byte	.LFB69
+ 552 0158 70000000 		.4byte	.LFE69-.LFB69
+ 553 015c 01       		.uleb128 0x1
+ 554 015d 9C       		.byte	0x9c
+ 555 015e 9B010000 		.4byte	0x19b
+ 556 0162 07       		.uleb128 0x7
+ 557 0163 1D020000 		.4byte	.LASF27
+ 558 0167 01       		.byte	0x1
+ 559 0168 9A       		.byte	0x9a
+ 560 0169 9E000000 		.4byte	0x9e
+ 561 016d 02       		.uleb128 0x2
+ 562 016e 91       		.byte	0x91
+ 563 016f 64       		.sleb128 -28
+ 564 0170 08       		.uleb128 0x8
+ 565 0171 54010000 		.4byte	.LASF29
+ 566 0175 01       		.byte	0x1
+ 567 0176 9C       		.byte	0x9c
+ 568 0177 B2000000 		.4byte	0xb2
+ 569 017b 02       		.uleb128 0x2
+ 570 017c 91       		.byte	0x91
+ 571 017d 6E       		.sleb128 -18
+ 572 017e 08       		.uleb128 0x8
+ 573 017f 50000000 		.4byte	.LASF30
+ 574 0183 01       		.byte	0x1
+ 575 0184 9D       		.byte	0x9d
+ 576 0185 E1000000 		.4byte	0xe1
+ 577 0189 02       		.uleb128 0x2
+ 578 018a 91       		.byte	0x91
+ 579 018b 74       		.sleb128 -12
+ 580 018c 08       		.uleb128 0x8
+ 581 018d 40000000 		.4byte	.LASF31
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 16
+
+
+ 582 0191 01       		.byte	0x1
+ 583 0192 9D       		.byte	0x9d
+ 584 0193 E1000000 		.4byte	0xe1
+ 585 0197 02       		.uleb128 0x2
+ 586 0198 91       		.byte	0x91
+ 587 0199 70       		.sleb128 -16
+ 588 019a 00       		.byte	0
+ 589 019b 09       		.uleb128 0x9
+ 590 019c 2B000000 		.4byte	.LASF33
+ 591 01a0 01       		.byte	0x1
+ 592 01a1 C1       		.byte	0xc1
+ 593 01a2 00000000 		.4byte	.LFB70
+ 594 01a6 78000000 		.4byte	.LFE70-.LFB70
+ 595 01aa 01       		.uleb128 0x1
+ 596 01ab 9C       		.byte	0x9c
+ 597 01ac E9010000 		.4byte	0x1e9
+ 598 01b0 07       		.uleb128 0x7
+ 599 01b1 1D020000 		.4byte	.LASF27
+ 600 01b5 01       		.byte	0x1
+ 601 01b6 C1       		.byte	0xc1
+ 602 01b7 9E000000 		.4byte	0x9e
+ 603 01bb 02       		.uleb128 0x2
+ 604 01bc 91       		.byte	0x91
+ 605 01bd 64       		.sleb128 -28
+ 606 01be 08       		.uleb128 0x8
+ 607 01bf 1D010000 		.4byte	.LASF34
+ 608 01c3 01       		.byte	0x1
+ 609 01c4 C3       		.byte	0xc3
+ 610 01c5 B2000000 		.4byte	0xb2
+ 611 01c9 02       		.uleb128 0x2
+ 612 01ca 91       		.byte	0x91
+ 613 01cb 6E       		.sleb128 -18
+ 614 01cc 08       		.uleb128 0x8
+ 615 01cd 93010000 		.4byte	.LASF35
+ 616 01d1 01       		.byte	0x1
+ 617 01d2 C3       		.byte	0xc3
+ 618 01d3 B2000000 		.4byte	0xb2
+ 619 01d7 02       		.uleb128 0x2
+ 620 01d8 91       		.byte	0x91
+ 621 01d9 76       		.sleb128 -10
+ 622 01da 08       		.uleb128 0x8
+ 623 01db 50000000 		.4byte	.LASF30
+ 624 01df 01       		.byte	0x1
+ 625 01e0 C4       		.byte	0xc4
+ 626 01e1 E1000000 		.4byte	0xe1
+ 627 01e5 02       		.uleb128 0x2
+ 628 01e6 91       		.byte	0x91
+ 629 01e7 70       		.sleb128 -16
+ 630 01e8 00       		.byte	0
+ 631 01e9 0A       		.uleb128 0xa
+ 632 01ea 36010000 		.4byte	.LASF43
+ 633 01ee 01       		.byte	0x1
+ 634 01ef F0       		.byte	0xf0
+ 635 01f0 E1000000 		.4byte	0xe1
+ 636 01f4 00000000 		.4byte	.LFB71
+ 637 01f8 44000000 		.4byte	.LFE71-.LFB71
+ 638 01fc 01       		.uleb128 0x1
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 17
+
+
+ 639 01fd 9C       		.byte	0x9c
+ 640 01fe 11020000 		.4byte	0x211
+ 641 0202 08       		.uleb128 0x8
+ 642 0203 A3010000 		.4byte	.LASF36
+ 643 0207 01       		.byte	0x1
+ 644 0208 F2       		.byte	0xf2
+ 645 0209 E1000000 		.4byte	0xe1
+ 646 020d 02       		.uleb128 0x2
+ 647 020e 91       		.byte	0x91
+ 648 020f 74       		.sleb128 -12
+ 649 0210 00       		.byte	0
+ 650 0211 08       		.uleb128 0x8
+ 651 0212 F3000000 		.4byte	.LASF37
+ 652 0216 01       		.byte	0x1
+ 653 0217 7E       		.byte	0x7e
+ 654 0218 22020000 		.4byte	0x222
+ 655 021c 05       		.uleb128 0x5
+ 656 021d 03       		.byte	0x3
+ 657 021e 00000000 		.4byte	xPollingConsumerCount
+ 658 0222 0B       		.uleb128 0xb
+ 659 0223 E1000000 		.4byte	0xe1
+ 660 0227 08       		.uleb128 0x8
+ 661 0228 15000000 		.4byte	.LASF38
+ 662 022c 01       		.byte	0x1
+ 663 022d 7E       		.byte	0x7e
+ 664 022e 22020000 		.4byte	0x222
+ 665 0232 05       		.uleb128 0x5
+ 666 0233 03       		.byte	0x3
+ 667 0234 04000000 		.4byte	xPollingProducerCount
+ 668 0238 0C       		.uleb128 0xc
+ 669 0239 5C010000 		.4byte	.LASF44
+ 670 023d 07       		.byte	0x7
+ 671 023e 9606     		.2byte	0x696
+ 672 0240 44020000 		.4byte	0x244
+ 673 0244 0B       		.uleb128 0xb
+ 674 0245 BD000000 		.4byte	0xbd
+ 675 0249 00       		.byte	0
+ 676              		.section	.debug_abbrev,"",%progbits
+ 677              	.Ldebug_abbrev0:
+ 678 0000 01       		.uleb128 0x1
+ 679 0001 11       		.uleb128 0x11
+ 680 0002 01       		.byte	0x1
+ 681 0003 25       		.uleb128 0x25
+ 682 0004 0E       		.uleb128 0xe
+ 683 0005 13       		.uleb128 0x13
+ 684 0006 0B       		.uleb128 0xb
+ 685 0007 03       		.uleb128 0x3
+ 686 0008 0E       		.uleb128 0xe
+ 687 0009 1B       		.uleb128 0x1b
+ 688 000a 0E       		.uleb128 0xe
+ 689 000b 55       		.uleb128 0x55
+ 690 000c 17       		.uleb128 0x17
+ 691 000d 11       		.uleb128 0x11
+ 692 000e 01       		.uleb128 0x1
+ 693 000f 10       		.uleb128 0x10
+ 694 0010 17       		.uleb128 0x17
+ 695 0011 00       		.byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 18
+
+
+ 696 0012 00       		.byte	0
+ 697 0013 02       		.uleb128 0x2
+ 698 0014 24       		.uleb128 0x24
+ 699 0015 00       		.byte	0
+ 700 0016 0B       		.uleb128 0xb
+ 701 0017 0B       		.uleb128 0xb
+ 702 0018 3E       		.uleb128 0x3e
+ 703 0019 0B       		.uleb128 0xb
+ 704 001a 03       		.uleb128 0x3
+ 705 001b 0E       		.uleb128 0xe
+ 706 001c 00       		.byte	0
+ 707 001d 00       		.byte	0
+ 708 001e 03       		.uleb128 0x3
+ 709 001f 24       		.uleb128 0x24
+ 710 0020 00       		.byte	0
+ 711 0021 0B       		.uleb128 0xb
+ 712 0022 0B       		.uleb128 0xb
+ 713 0023 3E       		.uleb128 0x3e
+ 714 0024 0B       		.uleb128 0xb
+ 715 0025 03       		.uleb128 0x3
+ 716 0026 08       		.uleb128 0x8
+ 717 0027 00       		.byte	0
+ 718 0028 00       		.byte	0
+ 719 0029 04       		.uleb128 0x4
+ 720 002a 16       		.uleb128 0x16
+ 721 002b 00       		.byte	0
+ 722 002c 03       		.uleb128 0x3
+ 723 002d 0E       		.uleb128 0xe
+ 724 002e 3A       		.uleb128 0x3a
+ 725 002f 0B       		.uleb128 0xb
+ 726 0030 3B       		.uleb128 0x3b
+ 727 0031 0B       		.uleb128 0xb
+ 728 0032 49       		.uleb128 0x49
+ 729 0033 13       		.uleb128 0x13
+ 730 0034 00       		.byte	0
+ 731 0035 00       		.byte	0
+ 732 0036 05       		.uleb128 0x5
+ 733 0037 0F       		.uleb128 0xf
+ 734 0038 00       		.byte	0
+ 735 0039 0B       		.uleb128 0xb
+ 736 003a 0B       		.uleb128 0xb
+ 737 003b 00       		.byte	0
+ 738 003c 00       		.byte	0
+ 739 003d 06       		.uleb128 0x6
+ 740 003e 2E       		.uleb128 0x2e
+ 741 003f 01       		.byte	0x1
+ 742 0040 3F       		.uleb128 0x3f
+ 743 0041 19       		.uleb128 0x19
+ 744 0042 03       		.uleb128 0x3
+ 745 0043 0E       		.uleb128 0xe
+ 746 0044 3A       		.uleb128 0x3a
+ 747 0045 0B       		.uleb128 0xb
+ 748 0046 3B       		.uleb128 0x3b
+ 749 0047 0B       		.uleb128 0xb
+ 750 0048 27       		.uleb128 0x27
+ 751 0049 19       		.uleb128 0x19
+ 752 004a 11       		.uleb128 0x11
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 19
+
+
+ 753 004b 01       		.uleb128 0x1
+ 754 004c 12       		.uleb128 0x12
+ 755 004d 06       		.uleb128 0x6
+ 756 004e 40       		.uleb128 0x40
+ 757 004f 18       		.uleb128 0x18
+ 758 0050 9642     		.uleb128 0x2116
+ 759 0052 19       		.uleb128 0x19
+ 760 0053 01       		.uleb128 0x1
+ 761 0054 13       		.uleb128 0x13
+ 762 0055 00       		.byte	0
+ 763 0056 00       		.byte	0
+ 764 0057 07       		.uleb128 0x7
+ 765 0058 05       		.uleb128 0x5
+ 766 0059 00       		.byte	0
+ 767 005a 03       		.uleb128 0x3
+ 768 005b 0E       		.uleb128 0xe
+ 769 005c 3A       		.uleb128 0x3a
+ 770 005d 0B       		.uleb128 0xb
+ 771 005e 3B       		.uleb128 0x3b
+ 772 005f 0B       		.uleb128 0xb
+ 773 0060 49       		.uleb128 0x49
+ 774 0061 13       		.uleb128 0x13
+ 775 0062 02       		.uleb128 0x2
+ 776 0063 18       		.uleb128 0x18
+ 777 0064 00       		.byte	0
+ 778 0065 00       		.byte	0
+ 779 0066 08       		.uleb128 0x8
+ 780 0067 34       		.uleb128 0x34
+ 781 0068 00       		.byte	0
+ 782 0069 03       		.uleb128 0x3
+ 783 006a 0E       		.uleb128 0xe
+ 784 006b 3A       		.uleb128 0x3a
+ 785 006c 0B       		.uleb128 0xb
+ 786 006d 3B       		.uleb128 0x3b
+ 787 006e 0B       		.uleb128 0xb
+ 788 006f 49       		.uleb128 0x49
+ 789 0070 13       		.uleb128 0x13
+ 790 0071 02       		.uleb128 0x2
+ 791 0072 18       		.uleb128 0x18
+ 792 0073 00       		.byte	0
+ 793 0074 00       		.byte	0
+ 794 0075 09       		.uleb128 0x9
+ 795 0076 2E       		.uleb128 0x2e
+ 796 0077 01       		.byte	0x1
+ 797 0078 03       		.uleb128 0x3
+ 798 0079 0E       		.uleb128 0xe
+ 799 007a 3A       		.uleb128 0x3a
+ 800 007b 0B       		.uleb128 0xb
+ 801 007c 3B       		.uleb128 0x3b
+ 802 007d 0B       		.uleb128 0xb
+ 803 007e 27       		.uleb128 0x27
+ 804 007f 19       		.uleb128 0x19
+ 805 0080 11       		.uleb128 0x11
+ 806 0081 01       		.uleb128 0x1
+ 807 0082 12       		.uleb128 0x12
+ 808 0083 06       		.uleb128 0x6
+ 809 0084 40       		.uleb128 0x40
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 20
+
+
+ 810 0085 18       		.uleb128 0x18
+ 811 0086 9642     		.uleb128 0x2116
+ 812 0088 19       		.uleb128 0x19
+ 813 0089 01       		.uleb128 0x1
+ 814 008a 13       		.uleb128 0x13
+ 815 008b 00       		.byte	0
+ 816 008c 00       		.byte	0
+ 817 008d 0A       		.uleb128 0xa
+ 818 008e 2E       		.uleb128 0x2e
+ 819 008f 01       		.byte	0x1
+ 820 0090 3F       		.uleb128 0x3f
+ 821 0091 19       		.uleb128 0x19
+ 822 0092 03       		.uleb128 0x3
+ 823 0093 0E       		.uleb128 0xe
+ 824 0094 3A       		.uleb128 0x3a
+ 825 0095 0B       		.uleb128 0xb
+ 826 0096 3B       		.uleb128 0x3b
+ 827 0097 0B       		.uleb128 0xb
+ 828 0098 27       		.uleb128 0x27
+ 829 0099 19       		.uleb128 0x19
+ 830 009a 49       		.uleb128 0x49
+ 831 009b 13       		.uleb128 0x13
+ 832 009c 11       		.uleb128 0x11
+ 833 009d 01       		.uleb128 0x1
+ 834 009e 12       		.uleb128 0x12
+ 835 009f 06       		.uleb128 0x6
+ 836 00a0 40       		.uleb128 0x40
+ 837 00a1 18       		.uleb128 0x18
+ 838 00a2 9742     		.uleb128 0x2117
+ 839 00a4 19       		.uleb128 0x19
+ 840 00a5 01       		.uleb128 0x1
+ 841 00a6 13       		.uleb128 0x13
+ 842 00a7 00       		.byte	0
+ 843 00a8 00       		.byte	0
+ 844 00a9 0B       		.uleb128 0xb
+ 845 00aa 35       		.uleb128 0x35
+ 846 00ab 00       		.byte	0
+ 847 00ac 49       		.uleb128 0x49
+ 848 00ad 13       		.uleb128 0x13
+ 849 00ae 00       		.byte	0
+ 850 00af 00       		.byte	0
+ 851 00b0 0C       		.uleb128 0xc
+ 852 00b1 34       		.uleb128 0x34
+ 853 00b2 00       		.byte	0
+ 854 00b3 03       		.uleb128 0x3
+ 855 00b4 0E       		.uleb128 0xe
+ 856 00b5 3A       		.uleb128 0x3a
+ 857 00b6 0B       		.uleb128 0xb
+ 858 00b7 3B       		.uleb128 0x3b
+ 859 00b8 05       		.uleb128 0x5
+ 860 00b9 49       		.uleb128 0x49
+ 861 00ba 13       		.uleb128 0x13
+ 862 00bb 3F       		.uleb128 0x3f
+ 863 00bc 19       		.uleb128 0x19
+ 864 00bd 3C       		.uleb128 0x3c
+ 865 00be 19       		.uleb128 0x19
+ 866 00bf 00       		.byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 21
+
+
+ 867 00c0 00       		.byte	0
+ 868 00c1 00       		.byte	0
+ 869              		.section	.debug_aranges,"",%progbits
+ 870 0000 34000000 		.4byte	0x34
+ 871 0004 0200     		.2byte	0x2
+ 872 0006 00000000 		.4byte	.Ldebug_info0
+ 873 000a 04       		.byte	0x4
+ 874 000b 00       		.byte	0
+ 875 000c 0000     		.2byte	0
+ 876 000e 0000     		.2byte	0
+ 877 0010 00000000 		.4byte	.LFB68
+ 878 0014 74000000 		.4byte	.LFE68-.LFB68
+ 879 0018 00000000 		.4byte	.LFB69
+ 880 001c 70000000 		.4byte	.LFE69-.LFB69
+ 881 0020 00000000 		.4byte	.LFB70
+ 882 0024 78000000 		.4byte	.LFE70-.LFB70
+ 883 0028 00000000 		.4byte	.LFB71
+ 884 002c 44000000 		.4byte	.LFE71-.LFB71
+ 885 0030 00000000 		.4byte	0
+ 886 0034 00000000 		.4byte	0
+ 887              		.section	.debug_ranges,"",%progbits
+ 888              	.Ldebug_ranges0:
+ 889 0000 00000000 		.4byte	.LFB68
+ 890 0004 74000000 		.4byte	.LFE68
+ 891 0008 00000000 		.4byte	.LFB69
+ 892 000c 70000000 		.4byte	.LFE69
+ 893 0010 00000000 		.4byte	.LFB70
+ 894 0014 78000000 		.4byte	.LFE70
+ 895 0018 00000000 		.4byte	.LFB71
+ 896 001c 44000000 		.4byte	.LFE71
+ 897 0020 00000000 		.4byte	0
+ 898 0024 00000000 		.4byte	0
+ 899              		.section	.debug_line,"",%progbits
+ 900              	.Ldebug_line0:
+ 901 0000 2E020000 		.section	.debug_str,"MS",%progbits,1
+ 901      0200A201 
+ 901      00000201 
+ 901      FB0E0D00 
+ 901      01010101 
+ 902              	.LASF23:
+ 903 0000 5469636B 		.ascii	"TickType_t\000"
+ 903      54797065 
+ 903      5F7400
+ 904              	.LASF4:
+ 905 000b 5F5F7569 		.ascii	"__uint8_t\000"
+ 905      6E74385F 
+ 905      7400
+ 906              	.LASF38:
+ 907 0015 78506F6C 		.ascii	"xPollingProducerCount\000"
+ 907      6C696E67 
+ 907      50726F64 
+ 907      75636572 
+ 907      436F756E 
+ 908              	.LASF33:
+ 909 002b 76506F6C 		.ascii	"vPolledQueueConsumer\000"
+ 909      6C656451 
+ 909      75657565 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 22
+
+
+ 909      436F6E73 
+ 909      756D6572 
+ 910              	.LASF31:
+ 911 0040 784C6F6F 		.ascii	"xLoop\000"
+ 911      7000
+ 912              	.LASF7:
+ 913 0046 5F5F696E 		.ascii	"__int32_t\000"
+ 913      7433325F 
+ 913      7400
+ 914              	.LASF30:
+ 915 0050 78457272 		.ascii	"xError\000"
+ 915      6F7200
+ 916              	.LASF39:
+ 917 0057 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 917      4320342E 
+ 917      392E3320 
+ 917      32303135 
+ 917      30333033 
+ 918 008a 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 918      20726576 
+ 918      6973696F 
+ 918      6E203232 
+ 918      31323230 
+ 919 00bd 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 919      66756E63 
+ 919      74696F6E 
+ 919      2D736563 
+ 919      74696F6E 
+ 920              	.LASF25:
+ 921 00e5 51756575 		.ascii	"QueueHandle_t\000"
+ 921      6548616E 
+ 921      646C655F 
+ 921      7400
+ 922              	.LASF37:
+ 923 00f3 78506F6C 		.ascii	"xPollingConsumerCount\000"
+ 923      6C696E67 
+ 923      436F6E73 
+ 923      756D6572 
+ 923      436F756E 
+ 924              	.LASF19:
+ 925 0109 666C6F61 		.ascii	"float\000"
+ 925      7400
+ 926              	.LASF2:
+ 927 010f 756E7369 		.ascii	"unsigned char\000"
+ 927      676E6564 
+ 927      20636861 
+ 927      7200
+ 928              	.LASF34:
+ 929 011d 75734461 		.ascii	"usData\000"
+ 929      746100
+ 930              	.LASF10:
+ 931 0124 6C6F6E67 		.ascii	"long unsigned int\000"
+ 931      20756E73 
+ 931      69676E65 
+ 931      6420696E 
+ 931      7400
+ 932              	.LASF43:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 23
+
+
+ 933 0136 78417265 		.ascii	"xArePollingQueuesStillRunning\000"
+ 933      506F6C6C 
+ 933      696E6751 
+ 933      75657565 
+ 933      73537469 
+ 934              	.LASF29:
+ 935 0154 75735661 		.ascii	"usValue\000"
+ 935      6C756500 
+ 936              	.LASF44:
+ 937 015c 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 937      52784275 
+ 937      66666572 
+ 937      00
+ 938              	.LASF28:
+ 939 0169 78506F6C 		.ascii	"xPolledQueue\000"
+ 939      6C656451 
+ 939      75657565 
+ 939      00
+ 940              	.LASF5:
+ 941 0176 5F5F7569 		.ascii	"__uint16_t\000"
+ 941      6E743136 
+ 941      5F7400
+ 942              	.LASF20:
+ 943 0181 646F7562 		.ascii	"double\000"
+ 943      6C6500
+ 944              	.LASF9:
+ 945 0188 5F5F7569 		.ascii	"__uint32_t\000"
+ 945      6E743332 
+ 945      5F7400
+ 946              	.LASF35:
+ 947 0193 75734578 		.ascii	"usExpectedValue\000"
+ 947      70656374 
+ 947      65645661 
+ 947      6C756500 
+ 948              	.LASF36:
+ 949 01a3 78526574 		.ascii	"xReturn\000"
+ 949      75726E00 
+ 950              	.LASF26:
+ 951 01ab 75785072 		.ascii	"uxPriority\000"
+ 951      696F7269 
+ 951      747900
+ 952              	.LASF0:
+ 953 01b6 756E7369 		.ascii	"unsigned int\000"
+ 953      676E6564 
+ 953      20696E74 
+ 953      00
+ 954              	.LASF12:
+ 955 01c3 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 955      206C6F6E 
+ 955      6720756E 
+ 955      7369676E 
+ 955      65642069 
+ 956              	.LASF15:
+ 957 01da 75696E74 		.ascii	"uint8_t\000"
+ 957      385F7400 
+ 958              	.LASF42:
+ 959 01e2 76537461 		.ascii	"vStartPolledQueueTasks\000"
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 24
+
+
+ 959      7274506F 
+ 959      6C6C6564 
+ 959      51756575 
+ 959      65546173 
+ 960              	.LASF17:
+ 961 01f9 696E7433 		.ascii	"int32_t\000"
+ 961      325F7400 
+ 962              	.LASF13:
+ 963 0201 73697A65 		.ascii	"sizetype\000"
+ 963      74797065 
+ 963      00
+ 964              	.LASF11:
+ 965 020a 6C6F6E67 		.ascii	"long long int\000"
+ 965      206C6F6E 
+ 965      6720696E 
+ 965      7400
+ 966              	.LASF14:
+ 967 0218 63686172 		.ascii	"char\000"
+ 967      00
+ 968              	.LASF27:
+ 969 021d 70765061 		.ascii	"pvParameters\000"
+ 969      72616D65 
+ 969      74657273 
+ 969      00
+ 970              	.LASF40:
+ 971 022a 2E2E5C43 		.ascii	"..\\Common\\Minimal\\PollQ.c\000"
+ 971      6F6D6D6F 
+ 971      6E5C4D69 
+ 971      6E696D61 
+ 971      6C5C506F 
+ 972              	.LASF3:
+ 973 0244 73686F72 		.ascii	"short int\000"
+ 973      7420696E 
+ 973      7400
+ 974              	.LASF16:
+ 975 024e 75696E74 		.ascii	"uint16_t\000"
+ 975      31365F74 
+ 975      00
+ 976              	.LASF32:
+ 977 0257 76506F6C 		.ascii	"vPolledQueueProducer\000"
+ 977      6C656451 
+ 977      75657565 
+ 977      50726F64 
+ 977      75636572 
+ 978              	.LASF24:
+ 979 026c 5461736B 		.ascii	"TaskHandle_t\000"
+ 979      48616E64 
+ 979      6C655F74 
+ 979      00
+ 980              	.LASF18:
+ 981 0279 75696E74 		.ascii	"uint32_t\000"
+ 981      33325F74 
+ 981      00
+ 982              	.LASF8:
+ 983 0282 6C6F6E67 		.ascii	"long int\000"
+ 983      20696E74 
+ 983      00
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\ccOHQGpf.s 			page 25
+
+
+ 984              	.LASF1:
+ 985 028b 7369676E 		.ascii	"signed char\000"
+ 985      65642063 
+ 985      68617200 
+ 986              	.LASF6:
+ 987 0297 73686F72 		.ascii	"short unsigned int\000"
+ 987      7420756E 
+ 987      7369676E 
+ 987      65642069 
+ 987      6E7400
+ 988              	.LASF22:
+ 989 02aa 55426173 		.ascii	"UBaseType_t\000"
+ 989      65547970 
+ 989      655F7400 
+ 990              	.LASF21:
+ 991 02b6 42617365 		.ascii	"BaseType_t\000"
+ 991      54797065 
+ 991      5F7400
+ 992              	.LASF41:
+ 993 02c1 433A5C55 		.ascii	"C:\\Users\\bmt\\Documents\\GitHub\\FreeRTOS_CY8CKIT"
+ 993      73657273 
+ 993      5C626D74 
+ 993      5C446F63 
+ 993      756D656E 
+ 994 02ef 5F303539 		.ascii	"_059\\FreeRTOS_Demo.cydsn\000"
+ 994      5C467265 
+ 994      6552544F 
+ 994      535F4465 
+ 994      6D6F2E63 
+ 995              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

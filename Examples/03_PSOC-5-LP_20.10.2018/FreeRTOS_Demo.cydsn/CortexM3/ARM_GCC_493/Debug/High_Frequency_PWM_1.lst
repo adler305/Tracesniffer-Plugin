@@ -1,0 +1,2691 @@
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"High_Frequency_PWM_1.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	High_Frequency_PWM_1_initVar
+  19              		.bss
+  20              		.type	High_Frequency_PWM_1_initVar, %object
+  21              		.size	High_Frequency_PWM_1_initVar, 1
+  22              	High_Frequency_PWM_1_initVar:
+  23 0000 00       		.space	1
+  24              		.section	.text.High_Frequency_PWM_1_Start,"ax",%progbits
+  25              		.align	2
+  26              		.global	High_Frequency_PWM_1_Start
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	High_Frequency_PWM_1_Start, %function
+  30              	High_Frequency_PWM_1_Start:
+  31              	.LFB0:
+  32              		.file 1 "Generated_Source\\PSoC5\\High_Frequency_PWM_1.c"
+   1:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * File Name: High_Frequency_PWM_1.c
+   3:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Version 3.30
+   4:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+   5:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Description:
+   6:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  The PWM User Module consist of an 8 or 16-bit counter with two 8 or 16-bit
+   7:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  comparitors. Each instance of this user module is capable of generating
+   8:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  two PWM outputs with the same period. The pulse width is selectable between
+   9:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  1 and 255/65535. The period is selectable between 2 and 255/65536 clocks.
+  10:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  The compare value output may be configured to be active when the present
+  11:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  counter is less than or less than/equal to the compare value.
+  12:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  A terminal count output is also provided. It generates a pulse one clock
+  13:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  width wide when the counter is equal to zero.
+  14:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  15:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Note:
+  16:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  17:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *******************************************************************************
+  18:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  19:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * You may use this file only in accordance with the license, terms, conditions,
+  20:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  21:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * the software package with which this file was provided.
+  22:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** ********************************************************************************/
+  23:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  24:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #include "High_Frequency_PWM_1.h"
+  25:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 2
+
+
+  26:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** /* Error message for removed <resource> through optimization */
+  27:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #ifdef High_Frequency_PWM_1_PWMUDB_genblk1_ctrlreg__REMOVED
+  28:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #error PWM_v3_30 detected with a constant 0 for the enable or \
+  29:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****          constant 1 for reset. This will prevent the component from operating.
+  30:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* High_Frequency_PWM_1_PWMUDB_genblk1_ctrlreg__REMOVED */
+  31:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  32:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** uint8 High_Frequency_PWM_1_initVar = 0u;
+  33:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  34:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  35:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** /*******************************************************************************
+  36:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Function Name: High_Frequency_PWM_1_Start
+  37:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** ********************************************************************************
+  38:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  39:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Summary:
+  40:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  The start function initializes the pwm with the default values, the
+  41:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  enables the counter to begin counting.  It does not enable interrupts,
+  42:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  the EnableInt command should be called if interrupt generation is required.
+  43:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  44:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Parameters:
+  45:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+  46:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  47:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Return:
+  48:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+  49:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  50:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Global variables:
+  51:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  High_Frequency_PWM_1_initVar: Is modified when this function is called for the
+  52:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *   first time. Is used to ensure that initialization happens only once.
+  53:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  54:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *******************************************************************************/
+  55:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** void High_Frequency_PWM_1_Start(void) 
+  56:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** {
+  33              		.loc 1 56 0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 1, uses_anonymous_args = 0
+  37 0000 80B5     		push	{r7, lr}
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 00AF     		add	r7, sp, #0
+  42              		.cfi_def_cfa_register 7
+  57:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /* If not Initialized then initialize all required hardware and software */
+  58:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     if(High_Frequency_PWM_1_initVar == 0u)
+  43              		.loc 1 58 0
+  44 0004 054B     		ldr	r3, .L3
+  45 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  46 0008 002B     		cmp	r3, #0
+  47 000a 04D1     		bne	.L2
+  59:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+  60:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_Init();
+  48              		.loc 1 60 0
+  49 000c FFF7FEFF 		bl	High_Frequency_PWM_1_Init
+  61:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_initVar = 1u;
+  50              		.loc 1 61 0
+  51 0010 024B     		ldr	r3, .L3
+  52 0012 0122     		movs	r2, #1
+  53 0014 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 3
+
+
+  54              	.L2:
+  62:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+  63:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     High_Frequency_PWM_1_Enable();
+  55              		.loc 1 63 0
+  56 0016 FFF7FEFF 		bl	High_Frequency_PWM_1_Enable
+  64:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  65:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** }
+  57              		.loc 1 65 0
+  58 001a 80BD     		pop	{r7, pc}
+  59              	.L4:
+  60              		.align	2
+  61              	.L3:
+  62 001c 00000000 		.word	High_Frequency_PWM_1_initVar
+  63              		.cfi_endproc
+  64              	.LFE0:
+  65              		.size	High_Frequency_PWM_1_Start, .-High_Frequency_PWM_1_Start
+  66              		.section	.text.High_Frequency_PWM_1_Init,"ax",%progbits
+  67              		.align	2
+  68              		.global	High_Frequency_PWM_1_Init
+  69              		.thumb
+  70              		.thumb_func
+  71              		.type	High_Frequency_PWM_1_Init, %function
+  72              	High_Frequency_PWM_1_Init:
+  73              	.LFB1:
+  66:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  67:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  68:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** /*******************************************************************************
+  69:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Function Name: High_Frequency_PWM_1_Init
+  70:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** ********************************************************************************
+  71:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  72:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Summary:
+  73:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  Initialize component's parameters to the parameters set by user in the
+  74:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  customizer of the component placed onto schematic. Usually called in
+  75:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  High_Frequency_PWM_1_Start().
+  76:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  77:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Parameters:
+  78:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+  79:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  80:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Return:
+  81:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+  82:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+  83:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *******************************************************************************/
+  84:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** void High_Frequency_PWM_1_Init(void) 
+  85:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** {
+  74              		.loc 1 85 0
+  75              		.cfi_startproc
+  76              		@ args = 0, pretend = 0, frame = 8
+  77              		@ frame_needed = 1, uses_anonymous_args = 0
+  78 0000 80B5     		push	{r7, lr}
+  79              		.cfi_def_cfa_offset 8
+  80              		.cfi_offset 7, -8
+  81              		.cfi_offset 14, -4
+  82 0002 82B0     		sub	sp, sp, #8
+  83              		.cfi_def_cfa_offset 16
+  84 0004 00AF     		add	r7, sp, #0
+  85              		.cfi_def_cfa_register 7
+  86:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UsingFixedFunction || High_Frequency_PWM_1_UseControl)
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 4
+
+
+  87:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         uint8 ctrl;
+  88:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UsingFixedFunction || High_Frequency_PWM_1_UseControl) */
+  89:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  90:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if(!High_Frequency_PWM_1_UsingFixedFunction)
+  91:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(High_Frequency_PWM_1_UseStatus)
+  92:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Interrupt State Backup for Critical Region*/
+  93:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             uint8 High_Frequency_PWM_1_interruptState;
+  94:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_UseStatus) */
+  95:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (!High_Frequency_PWM_1_UsingFixedFunction) */
+  96:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+  97:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UsingFixedFunction)
+  98:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* You are allowed to write the compare value (FF only) */
+  99:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_CONTROL |= High_Frequency_PWM_1_CFG0_MODE;
+ 100:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if (High_Frequency_PWM_1_DeadBand2_4)
+ 101:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_CONTROL |= High_Frequency_PWM_1_CFG0_DB;
+ 102:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_DeadBand2_4) */
+ 103:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 104:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         ctrl = High_Frequency_PWM_1_CONTROL3 & ((uint8 )(~High_Frequency_PWM_1_CTRL_CMPMODE1_MASK))
+ 105:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_CONTROL3 = ctrl | High_Frequency_PWM_1_DEFAULT_COMPARE1_MODE;
+ 106:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 107:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****          /* Clear and Set SYNCTC and SYNCCMP bits of RT1 register */
+ 108:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_RT1 &= ((uint8)(~High_Frequency_PWM_1_RT1_MASK));
+ 109:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_RT1 |= High_Frequency_PWM_1_SYNC;
+ 110:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 111:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /*Enable DSI Sync all all inputs of the PWM*/
+ 112:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_RT1 &= ((uint8)(~High_Frequency_PWM_1_SYNCDSI_MASK));
+ 113:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_RT1 |= High_Frequency_PWM_1_SYNCDSI_EN;
+ 114:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 115:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #elif (High_Frequency_PWM_1_UseControl)
+ 116:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* Set the default compare mode defined in the parameter */
+ 117:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         ctrl = High_Frequency_PWM_1_CONTROL & ((uint8)(~High_Frequency_PWM_1_CTRL_CMPMODE2_MASK)) &
+  86              		.loc 1 117 0
+  87 0006 1F4B     		ldr	r3, .L6
+  88 0008 1B78     		ldrb	r3, [r3]
+  89 000a DBB2     		uxtb	r3, r3
+  90 000c 23F03F03 		bic	r3, r3, #63
+  91 0010 FB71     		strb	r3, [r7, #7]
+ 118:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 ((uint8)(~High_Frequency_PWM_1_CTRL_CMPMODE1_MASK));
+ 119:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_CONTROL = ctrl | High_Frequency_PWM_1_DEFAULT_COMPARE2_MODE |
+  92              		.loc 1 119 0
+  93 0012 1C4A     		ldr	r2, .L6
+  94 0014 FB79     		ldrb	r3, [r7, #7]
+  95 0016 43F00903 		orr	r3, r3, #9
+  96 001a DBB2     		uxtb	r3, r3
+  97 001c 1370     		strb	r3, [r2]
+ 120:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                    High_Frequency_PWM_1_DEFAULT_COMPARE1_MODE;
+ 121:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 122:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 123:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (!High_Frequency_PWM_1_UsingFixedFunction)
+ 124:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if (High_Frequency_PWM_1_Resolution == 8)
+ 125:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Set FIFO 0 to 1 byte register for period*/
+ 126:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_AUX_CONTROLDP0 |= (High_Frequency_PWM_1_AUX_CTRL_FIFO0_CLR);
+ 127:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else /* (High_Frequency_PWM_1_Resolution == 16)*/
+ 128:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Set FIFO 0 to 1 byte register for period */
+ 129:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_AUX_CONTROLDP0 |= (High_Frequency_PWM_1_AUX_CTRL_FIFO0_CLR);
+  98              		.loc 1 129 0
+  99 001e 1A4A     		ldr	r2, .L6+4
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 5
+
+
+ 100 0020 194B     		ldr	r3, .L6+4
+ 101 0022 1B78     		ldrb	r3, [r3]
+ 102 0024 DBB2     		uxtb	r3, r3
+ 103 0026 43F00103 		orr	r3, r3, #1
+ 104 002a DBB2     		uxtb	r3, r3
+ 105 002c 1370     		strb	r3, [r2]
+ 130:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_AUX_CONTROLDP1 |= (High_Frequency_PWM_1_AUX_CTRL_FIFO0_CLR);
+ 106              		.loc 1 130 0
+ 107 002e 174A     		ldr	r2, .L6+8
+ 108 0030 164B     		ldr	r3, .L6+8
+ 109 0032 1B78     		ldrb	r3, [r3]
+ 110 0034 DBB2     		uxtb	r3, r3
+ 111 0036 43F00103 		orr	r3, r3, #1
+ 112 003a DBB2     		uxtb	r3, r3
+ 113 003c 1370     		strb	r3, [r2]
+ 131:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_Resolution == 8) */
+ 132:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 133:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_WriteCounter(High_Frequency_PWM_1_INIT_PERIOD_VALUE);
+ 114              		.loc 1 133 0
+ 115 003e 40F2F510 		movw	r0, #501
+ 116 0042 FFF7FEFF 		bl	High_Frequency_PWM_1_WriteCounter
+ 134:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (!High_Frequency_PWM_1_UsingFixedFunction) */
+ 135:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 136:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     High_Frequency_PWM_1_WritePeriod(High_Frequency_PWM_1_INIT_PERIOD_VALUE);
+ 117              		.loc 1 136 0
+ 118 0046 40F2F510 		movw	r0, #501
+ 119 004a FFF7FEFF 		bl	High_Frequency_PWM_1_WritePeriod
+ 137:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 138:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if (High_Frequency_PWM_1_UseOneCompareMode)
+ 139:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_WriteCompare(High_Frequency_PWM_1_INIT_COMPARE_VALUE1);
+ 120              		.loc 1 139 0
+ 121 004e FA20     		movs	r0, #250
+ 122 0050 FFF7FEFF 		bl	High_Frequency_PWM_1_WriteCompare
+ 140:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else
+ 141:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_WriteCompare1(High_Frequency_PWM_1_INIT_COMPARE_VALUE1);
+ 142:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_WriteCompare2(High_Frequency_PWM_1_INIT_COMPARE_VALUE2);
+ 143:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_UseOneCompareMode) */
+ 144:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 145:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if (High_Frequency_PWM_1_KillModeMinTime)
+ 146:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_WriteKillTime(High_Frequency_PWM_1_MinimumKillTime);
+ 147:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_KillModeMinTime) */
+ 148:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 149:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if (High_Frequency_PWM_1_DeadBandUsed)
+ 150:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_WriteDeadTime(High_Frequency_PWM_1_INIT_DEAD_TIME);
+ 151:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_DeadBandUsed) */
+ 152:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 153:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UseStatus || High_Frequency_PWM_1_UsingFixedFunction)
+ 154:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_SetInterruptMode(High_Frequency_PWM_1_INIT_INTERRUPTS_MODE);
+ 123              		.loc 1 154 0
+ 124 0054 0020     		movs	r0, #0
+ 125 0056 FFF7FEFF 		bl	High_Frequency_PWM_1_SetInterruptMode
+ 155:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UseStatus || High_Frequency_PWM_1_UsingFixedFunction) */
+ 156:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 157:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UsingFixedFunction)
+ 158:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* Globally Enable the Fixed Function Block chosen */
+ 159:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_GLOBAL_ENABLE |= High_Frequency_PWM_1_BLOCK_EN_MASK;
+ 160:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* Set the Interrupt source to come from the status register */
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 6
+
+
+ 161:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_CONTROL2 |= High_Frequency_PWM_1_CTRL2_IRQ_SEL;
+ 162:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #else
+ 163:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(High_Frequency_PWM_1_UseStatus)
+ 164:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 165:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* CyEnterCriticalRegion and CyExitCriticalRegion are used to mark following region cri
+ 166:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Enter Critical Region*/
+ 167:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_interruptState = CyEnterCriticalSection();
+ 126              		.loc 1 167 0
+ 127 005a FFF7FEFF 		bl	CyEnterCriticalSection
+ 128 005e 0346     		mov	r3, r0
+ 129 0060 BB71     		strb	r3, [r7, #6]
+ 168:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Use the interrupt output of the status register for IRQ output */
+ 169:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_STATUS_AUX_CTRL |= High_Frequency_PWM_1_STATUS_ACTL_INT_EN_MASK;
+ 130              		.loc 1 169 0
+ 131 0062 0A4A     		ldr	r2, .L6+8
+ 132 0064 094B     		ldr	r3, .L6+8
+ 133 0066 1B78     		ldrb	r3, [r3]
+ 134 0068 DBB2     		uxtb	r3, r3
+ 135 006a 43F01003 		orr	r3, r3, #16
+ 136 006e DBB2     		uxtb	r3, r3
+ 137 0070 1370     		strb	r3, [r2]
+ 170:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 171:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****              /* Exit Critical Region*/
+ 172:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             CyExitCriticalSection(High_Frequency_PWM_1_interruptState);
+ 138              		.loc 1 172 0
+ 139 0072 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 140 0074 1846     		mov	r0, r3
+ 141 0076 FFF7FEFF 		bl	CyExitCriticalSection
+ 173:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 174:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Clear the FIFO to enable the High_Frequency_PWM_1_STATUS_FIFOFULL
+ 175:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                    bit to be set on FIFO full. */
+ 176:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_ClearFIFO();
+ 142              		.loc 1 176 0
+ 143 007a FFF7FEFF 		bl	High_Frequency_PWM_1_ClearFIFO
+ 177:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_UseStatus) */
+ 178:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 179:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** }
+ 144              		.loc 1 179 0
+ 145 007e 0837     		adds	r7, r7, #8
+ 146              		.cfi_def_cfa_offset 8
+ 147 0080 BD46     		mov	sp, r7
+ 148              		.cfi_def_cfa_register 13
+ 149              		@ sp needed
+ 150 0082 80BD     		pop	{r7, pc}
+ 151              	.L7:
+ 152              		.align	2
+ 153              	.L6:
+ 154 0084 79640040 		.word	1073767545
+ 155 0088 98640040 		.word	1073767576
+ 156 008c 99640040 		.word	1073767577
+ 157              		.cfi_endproc
+ 158              	.LFE1:
+ 159              		.size	High_Frequency_PWM_1_Init, .-High_Frequency_PWM_1_Init
+ 160              		.section	.text.High_Frequency_PWM_1_Enable,"ax",%progbits
+ 161              		.align	2
+ 162              		.global	High_Frequency_PWM_1_Enable
+ 163              		.thumb
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 7
+
+
+ 164              		.thumb_func
+ 165              		.type	High_Frequency_PWM_1_Enable, %function
+ 166              	High_Frequency_PWM_1_Enable:
+ 167              	.LFB2:
+ 180:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 181:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 182:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** /*******************************************************************************
+ 183:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Function Name: High_Frequency_PWM_1_Enable
+ 184:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** ********************************************************************************
+ 185:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 186:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Summary:
+ 187:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  Enables the PWM block operation
+ 188:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 189:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Parameters:
+ 190:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+ 191:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 192:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Return:
+ 193:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+ 194:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 195:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Side Effects:
+ 196:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  This works only if software enable mode is chosen
+ 197:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 198:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *******************************************************************************/
+ 199:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** void High_Frequency_PWM_1_Enable(void) 
+ 200:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** {
+ 168              		.loc 1 200 0
+ 169              		.cfi_startproc
+ 170              		@ args = 0, pretend = 0, frame = 0
+ 171              		@ frame_needed = 1, uses_anonymous_args = 0
+ 172              		@ link register save eliminated.
+ 173 0000 80B4     		push	{r7}
+ 174              		.cfi_def_cfa_offset 4
+ 175              		.cfi_offset 7, -4
+ 176 0002 00AF     		add	r7, sp, #0
+ 177              		.cfi_def_cfa_register 7
+ 201:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /* Globally Enable the Fixed Function Block chosen */
+ 202:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UsingFixedFunction)
+ 203:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_GLOBAL_ENABLE |= High_Frequency_PWM_1_BLOCK_EN_MASK;
+ 204:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_GLOBAL_STBY_ENABLE |= High_Frequency_PWM_1_BLOCK_STBY_EN_MASK;
+ 205:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 206:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 207:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /* Enable the PWM from the control register  */
+ 208:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UseControl || High_Frequency_PWM_1_UsingFixedFunction)
+ 209:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_CONTROL |= High_Frequency_PWM_1_CTRL_ENABLE;
+ 178              		.loc 1 209 0
+ 179 0004 054A     		ldr	r2, .L9
+ 180 0006 054B     		ldr	r3, .L9
+ 181 0008 1B78     		ldrb	r3, [r3]
+ 182 000a DBB2     		uxtb	r3, r3
+ 183 000c 63F07F03 		orn	r3, r3, #127
+ 184 0010 DBB2     		uxtb	r3, r3
+ 185 0012 1370     		strb	r3, [r2]
+ 210:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UseControl || High_Frequency_PWM_1_UsingFixedFunction) */
+ 211:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** }
+ 186              		.loc 1 211 0
+ 187 0014 BD46     		mov	sp, r7
+ 188              		.cfi_def_cfa_register 13
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 8
+
+
+ 189              		@ sp needed
+ 190 0016 5DF8047B 		ldr	r7, [sp], #4
+ 191              		.cfi_restore 7
+ 192              		.cfi_def_cfa_offset 0
+ 193 001a 7047     		bx	lr
+ 194              	.L10:
+ 195              		.align	2
+ 196              	.L9:
+ 197 001c 79640040 		.word	1073767545
+ 198              		.cfi_endproc
+ 199              	.LFE2:
+ 200              		.size	High_Frequency_PWM_1_Enable, .-High_Frequency_PWM_1_Enable
+ 201              		.section	.text.High_Frequency_PWM_1_Stop,"ax",%progbits
+ 202              		.align	2
+ 203              		.global	High_Frequency_PWM_1_Stop
+ 204              		.thumb
+ 205              		.thumb_func
+ 206              		.type	High_Frequency_PWM_1_Stop, %function
+ 207              	High_Frequency_PWM_1_Stop:
+ 208              	.LFB3:
+ 212:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 213:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 214:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** /*******************************************************************************
+ 215:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Function Name: High_Frequency_PWM_1_Stop
+ 216:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** ********************************************************************************
+ 217:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 218:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Summary:
+ 219:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  The stop function halts the PWM, but does not change any modes or disable
+ 220:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  interrupts.
+ 221:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 222:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Parameters:
+ 223:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+ 224:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 225:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Return:
+ 226:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+ 227:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 228:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Side Effects:
+ 229:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  If the Enable mode is set to Hardware only then this function
+ 230:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  has no effect on the operation of the PWM
+ 231:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 232:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *******************************************************************************/
+ 233:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** void High_Frequency_PWM_1_Stop(void) 
+ 234:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** {
+ 209              		.loc 1 234 0
+ 210              		.cfi_startproc
+ 211              		@ args = 0, pretend = 0, frame = 0
+ 212              		@ frame_needed = 1, uses_anonymous_args = 0
+ 213              		@ link register save eliminated.
+ 214 0000 80B4     		push	{r7}
+ 215              		.cfi_def_cfa_offset 4
+ 216              		.cfi_offset 7, -4
+ 217 0002 00AF     		add	r7, sp, #0
+ 218              		.cfi_def_cfa_register 7
+ 235:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UseControl || High_Frequency_PWM_1_UsingFixedFunction)
+ 236:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_CONTROL &= ((uint8)(~High_Frequency_PWM_1_CTRL_ENABLE));
+ 219              		.loc 1 236 0
+ 220 0004 054A     		ldr	r2, .L12
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 9
+
+
+ 221 0006 054B     		ldr	r3, .L12
+ 222 0008 1B78     		ldrb	r3, [r3]
+ 223 000a DBB2     		uxtb	r3, r3
+ 224 000c 03F07F03 		and	r3, r3, #127
+ 225 0010 DBB2     		uxtb	r3, r3
+ 226 0012 1370     		strb	r3, [r2]
+ 237:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UseControl || High_Frequency_PWM_1_UsingFixedFunction) */
+ 238:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 239:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /* Globally disable the Fixed Function Block chosen */
+ 240:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UsingFixedFunction)
+ 241:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_GLOBAL_ENABLE &= ((uint8)(~High_Frequency_PWM_1_BLOCK_EN_MASK));
+ 242:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         High_Frequency_PWM_1_GLOBAL_STBY_ENABLE &= ((uint8)(~High_Frequency_PWM_1_BLOCK_STBY_EN_MAS
+ 243:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 244:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** }
+ 227              		.loc 1 244 0
+ 228 0014 BD46     		mov	sp, r7
+ 229              		.cfi_def_cfa_register 13
+ 230              		@ sp needed
+ 231 0016 5DF8047B 		ldr	r7, [sp], #4
+ 232              		.cfi_restore 7
+ 233              		.cfi_def_cfa_offset 0
+ 234 001a 7047     		bx	lr
+ 235              	.L13:
+ 236              		.align	2
+ 237              	.L12:
+ 238 001c 79640040 		.word	1073767545
+ 239              		.cfi_endproc
+ 240              	.LFE3:
+ 241              		.size	High_Frequency_PWM_1_Stop, .-High_Frequency_PWM_1_Stop
+ 242              		.section	.text.High_Frequency_PWM_1_WriteCounter,"ax",%progbits
+ 243              		.align	2
+ 244              		.global	High_Frequency_PWM_1_WriteCounter
+ 245              		.thumb
+ 246              		.thumb_func
+ 247              		.type	High_Frequency_PWM_1_WriteCounter, %function
+ 248              	High_Frequency_PWM_1_WriteCounter:
+ 249              	.LFB4:
+ 245:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 246:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (High_Frequency_PWM_1_UseOneCompareMode)
+ 247:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_CompareMode1SW)
+ 248:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 249:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 250:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /*******************************************************************************
+ 251:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Function Name: High_Frequency_PWM_1_SetCompareMode
+ 252:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         ********************************************************************************
+ 253:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 254:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Summary:
+ 255:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  This function writes the Compare Mode for the pwm output when in Dither mode,
+ 256:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  Center Align Mode or One Output Mode.
+ 257:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 258:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Parameters:
+ 259:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 260:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *                defined in the H file as input arguments.
+ 261:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 262:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Return:
+ 263:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  None
+ 264:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 10
+
+
+ 265:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *******************************************************************************/
+ 266:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         void High_Frequency_PWM_1_SetCompareMode(uint8 comparemode) 
+ 267:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         {
+ 268:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #if(High_Frequency_PWM_1_UsingFixedFunction)
+ 269:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 270:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #if(0 != High_Frequency_PWM_1_CTRL_CMPMODE1_SHIFT)
+ 271:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                     uint8 comparemodemasked = ((uint8)((uint8)comparemode << High_Frequency_PWM_1_C
+ 272:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #else
+ 273:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                     uint8 comparemodemasked = comparemode;
+ 274:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #endif /* (0 != High_Frequency_PWM_1_CTRL_CMPMODE1_SHIFT) */
+ 275:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 276:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 High_Frequency_PWM_1_CONTROL3 &= ((uint8)(~High_Frequency_PWM_1_CTRL_CMPMODE1_MASK)
+ 277:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 High_Frequency_PWM_1_CONTROL3 |= comparemodemasked;
+ 278:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 279:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #elif (High_Frequency_PWM_1_UseControl)
+ 280:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 281:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #if(0 != High_Frequency_PWM_1_CTRL_CMPMODE1_SHIFT)
+ 282:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                     uint8 comparemode1masked = ((uint8)((uint8)comparemode << High_Frequency_PWM_1_
+ 283:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                                 High_Frequency_PWM_1_CTRL_CMPMODE1_MASK;
+ 284:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #else
+ 285:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                     uint8 comparemode1masked = comparemode & High_Frequency_PWM_1_CTRL_CMPMODE1_MAS
+ 286:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #endif /* (0 != High_Frequency_PWM_1_CTRL_CMPMODE1_SHIFT) */
+ 287:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 288:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #if(0 != High_Frequency_PWM_1_CTRL_CMPMODE2_SHIFT)
+ 289:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                     uint8 comparemode2masked = ((uint8)((uint8)comparemode << High_Frequency_PWM_1_
+ 290:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                                High_Frequency_PWM_1_CTRL_CMPMODE2_MASK;
+ 291:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #else
+ 292:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                     uint8 comparemode2masked = comparemode & High_Frequency_PWM_1_CTRL_CMPMODE2_MAS
+ 293:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 #endif /* (0 != High_Frequency_PWM_1_CTRL_CMPMODE2_SHIFT) */
+ 294:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 295:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 /*Clear existing mode */
+ 296:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 High_Frequency_PWM_1_CONTROL &= ((uint8)(~(High_Frequency_PWM_1_CTRL_CMPMODE1_MASK 
+ 297:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                             High_Frequency_PWM_1_CTRL_CMPMODE2_MASK)));
+ 298:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 High_Frequency_PWM_1_CONTROL |= (comparemode1masked | comparemode2masked);
+ 299:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 300:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #else
+ 301:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 uint8 temp = comparemode;
+ 302:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 303:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         }
+ 304:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* High_Frequency_PWM_1_CompareMode1SW */
+ 305:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 306:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #else /* UseOneCompareMode */
+ 307:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 308:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_CompareMode1SW)
+ 309:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 310:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 311:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /*******************************************************************************
+ 312:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Function Name: High_Frequency_PWM_1_SetCompareMode1
+ 313:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         ********************************************************************************
+ 314:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 315:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Summary:
+ 316:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  This function writes the Compare Mode for the pwm or pwm1 output
+ 317:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 318:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Parameters:
+ 319:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 320:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *                defined in the H file as input arguments.
+ 321:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 11
+
+
+ 322:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Return:
+ 323:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  None
+ 324:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 325:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *******************************************************************************/
+ 326:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         void High_Frequency_PWM_1_SetCompareMode1(uint8 comparemode) 
+ 327:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         {
+ 328:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #if(0 != High_Frequency_PWM_1_CTRL_CMPMODE1_SHIFT)
+ 329:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 uint8 comparemodemasked = ((uint8)((uint8)comparemode << High_Frequency_PWM_1_CTRL_
+ 330:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                            High_Frequency_PWM_1_CTRL_CMPMODE1_MASK;
+ 331:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #else
+ 332:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 uint8 comparemodemasked = comparemode & High_Frequency_PWM_1_CTRL_CMPMODE1_MASK;
+ 333:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #endif /* (0 != High_Frequency_PWM_1_CTRL_CMPMODE1_SHIFT) */
+ 334:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 335:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #if (High_Frequency_PWM_1_UseControl)
+ 336:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 High_Frequency_PWM_1_CONTROL &= ((uint8)(~High_Frequency_PWM_1_CTRL_CMPMODE1_MASK))
+ 337:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 High_Frequency_PWM_1_CONTROL |= comparemodemasked;
+ 338:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #endif /* (High_Frequency_PWM_1_UseControl) */
+ 339:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         }
+ 340:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* High_Frequency_PWM_1_CompareMode1SW */
+ 341:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 342:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (High_Frequency_PWM_1_CompareMode2SW)
+ 343:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 344:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 345:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 346:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_SetCompareMode2
+ 347:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 348:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 349:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 350:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This function writes the Compare Mode for the pwm or pwm2 output
+ 351:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 352:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 353:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 354:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *                defined in the H file as input arguments.
+ 355:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 356:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 357:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 358:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 359:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 360:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     void High_Frequency_PWM_1_SetCompareMode2(uint8 comparemode) 
+ 361:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 362:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 363:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(0 != High_Frequency_PWM_1_CTRL_CMPMODE2_SHIFT)
+ 364:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             uint8 comparemodemasked = ((uint8)((uint8)comparemode << High_Frequency_PWM_1_CTRL_CMPM
+ 365:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                                  High_Frequency_PWM_1_CTRL_CMPMODE2_MASK;
+ 366:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else
+ 367:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             uint8 comparemodemasked = comparemode & High_Frequency_PWM_1_CTRL_CMPMODE2_MASK;
+ 368:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (0 != High_Frequency_PWM_1_CTRL_CMPMODE2_SHIFT) */
+ 369:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 370:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if (High_Frequency_PWM_1_UseControl)
+ 371:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_CONTROL &= ((uint8)(~High_Frequency_PWM_1_CTRL_CMPMODE2_MASK)); /*
+ 372:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_CONTROL |= comparemodemasked;
+ 373:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_UseControl) */
+ 374:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 375:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /*High_Frequency_PWM_1_CompareMode2SW */
+ 376:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 377:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* UseOneCompareMode */
+ 378:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 12
+
+
+ 379:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 380:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (!High_Frequency_PWM_1_UsingFixedFunction)
+ 381:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 382:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 383:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 384:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_WriteCounter
+ 385:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 386:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 387:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 388:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Writes a new counter value directly to the counter register. This will be
+ 389:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  implemented for that currently running period and only that period. This API
+ 390:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  is valid only for UDB implementation and not available for fixed function
+ 391:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  PWM implementation.
+ 392:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 393:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 394:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  counter:  The period new period counter value.
+ 395:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 396:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 397:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 398:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 399:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Side Effects:
+ 400:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  The PWM Period will be reloaded when a counter value will be a zero
+ 401:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 402:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 403:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     void High_Frequency_PWM_1_WriteCounter(uint16 counter) \
+ 404:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                        
+ 405:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 250              		.loc 1 405 0
+ 251              		.cfi_startproc
+ 252              		@ args = 0, pretend = 0, frame = 8
+ 253              		@ frame_needed = 1, uses_anonymous_args = 0
+ 254              		@ link register save eliminated.
+ 255 0000 80B4     		push	{r7}
+ 256              		.cfi_def_cfa_offset 4
+ 257              		.cfi_offset 7, -4
+ 258 0002 83B0     		sub	sp, sp, #12
+ 259              		.cfi_def_cfa_offset 16
+ 260 0004 00AF     		add	r7, sp, #0
+ 261              		.cfi_def_cfa_register 7
+ 262 0006 0346     		mov	r3, r0
+ 263 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 406:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         CY_SET_REG16(High_Frequency_PWM_1_COUNTER_LSB_PTR, counter);
+ 264              		.loc 1 406 0
+ 265 000a 044A     		ldr	r2, .L15
+ 266 000c FB88     		ldrh	r3, [r7, #6]	@ movhi
+ 267 000e 1380     		strh	r3, [r2]	@ movhi
+ 407:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 268              		.loc 1 407 0
+ 269 0010 0C37     		adds	r7, r7, #12
+ 270              		.cfi_def_cfa_offset 4
+ 271 0012 BD46     		mov	sp, r7
+ 272              		.cfi_def_cfa_register 13
+ 273              		@ sp needed
+ 274 0014 5DF8047B 		ldr	r7, [sp], #4
+ 275              		.cfi_restore 7
+ 276              		.cfi_def_cfa_offset 0
+ 277 0018 7047     		bx	lr
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 13
+
+
+ 278              	.L16:
+ 279 001a 00BF     		.align	2
+ 280              	.L15:
+ 281 001c 10680040 		.word	1073768464
+ 282              		.cfi_endproc
+ 283              	.LFE4:
+ 284              		.size	High_Frequency_PWM_1_WriteCounter, .-High_Frequency_PWM_1_WriteCounter
+ 285              		.section	.text.High_Frequency_PWM_1_ReadCounter,"ax",%progbits
+ 286              		.align	2
+ 287              		.global	High_Frequency_PWM_1_ReadCounter
+ 288              		.thumb
+ 289              		.thumb_func
+ 290              		.type	High_Frequency_PWM_1_ReadCounter, %function
+ 291              	High_Frequency_PWM_1_ReadCounter:
+ 292              	.LFB5:
+ 408:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 409:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 410:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 411:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_ReadCounter
+ 412:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 413:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 414:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 415:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This function returns the current value of the counter.  It doesn't matter
+ 416:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  if the counter is enabled or running.
+ 417:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 418:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 419:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 420:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 421:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 422:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  The current value of the counter.
+ 423:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 424:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 425:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     uint16 High_Frequency_PWM_1_ReadCounter(void) 
+ 426:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 293              		.loc 1 426 0
+ 294              		.cfi_startproc
+ 295              		@ args = 0, pretend = 0, frame = 0
+ 296              		@ frame_needed = 1, uses_anonymous_args = 0
+ 297              		@ link register save eliminated.
+ 298 0000 80B4     		push	{r7}
+ 299              		.cfi_def_cfa_offset 4
+ 300              		.cfi_offset 7, -4
+ 301 0002 00AF     		add	r7, sp, #0
+ 302              		.cfi_def_cfa_register 7
+ 427:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* Force capture by reading Accumulator */
+ 428:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* Must first do a software capture to be able to read the counter */
+ 429:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* It is up to the user code to make sure there isn't already captured data in the FIFO */
+ 430:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****           (void)CY_GET_REG8(High_Frequency_PWM_1_COUNTERCAP_LSB_PTR_8BIT);
+ 303              		.loc 1 430 0
+ 304 0004 044B     		ldr	r3, .L19
+ 305 0006 1B78     		ldrb	r3, [r3]
+ 431:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 432:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* Read the data from the FIFO */
+ 433:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         return (CY_GET_REG16(High_Frequency_PWM_1_CAPTURE_LSB_PTR));
+ 306              		.loc 1 433 0
+ 307 0008 044B     		ldr	r3, .L19+4
+ 308 000a 1B88     		ldrh	r3, [r3]	@ movhi
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 14
+
+
+ 309 000c 9BB2     		uxth	r3, r3
+ 434:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 310              		.loc 1 434 0
+ 311 000e 1846     		mov	r0, r3
+ 312 0010 BD46     		mov	sp, r7
+ 313              		.cfi_def_cfa_register 13
+ 314              		@ sp needed
+ 315 0012 5DF8047B 		ldr	r7, [sp], #4
+ 316              		.cfi_restore 7
+ 317              		.cfi_def_cfa_offset 0
+ 318 0016 7047     		bx	lr
+ 319              	.L20:
+ 320              		.align	2
+ 321              	.L19:
+ 322 0018 18640040 		.word	1073767448
+ 323 001c B0680040 		.word	1073768624
+ 324              		.cfi_endproc
+ 325              	.LFE5:
+ 326              		.size	High_Frequency_PWM_1_ReadCounter, .-High_Frequency_PWM_1_ReadCounter
+ 327              		.section	.text.High_Frequency_PWM_1_ClearFIFO,"ax",%progbits
+ 328              		.align	2
+ 329              		.global	High_Frequency_PWM_1_ClearFIFO
+ 330              		.thumb
+ 331              		.thumb_func
+ 332              		.type	High_Frequency_PWM_1_ClearFIFO, %function
+ 333              	High_Frequency_PWM_1_ClearFIFO:
+ 334              	.LFB6:
+ 435:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 436:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if (High_Frequency_PWM_1_UseStatus)
+ 437:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 438:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 439:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /*******************************************************************************
+ 440:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Function Name: High_Frequency_PWM_1_ClearFIFO
+ 441:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         ********************************************************************************
+ 442:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 443:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Summary:
+ 444:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  This function clears all capture data from the capture FIFO
+ 445:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 446:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Parameters:
+ 447:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  None
+ 448:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 449:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         * Return:
+ 450:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *  None
+ 451:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *
+ 452:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         *******************************************************************************/
+ 453:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         void High_Frequency_PWM_1_ClearFIFO(void) 
+ 454:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         {
+ 335              		.loc 1 454 0
+ 336              		.cfi_startproc
+ 337              		@ args = 0, pretend = 0, frame = 0
+ 338              		@ frame_needed = 1, uses_anonymous_args = 0
+ 339 0000 80B5     		push	{r7, lr}
+ 340              		.cfi_def_cfa_offset 8
+ 341              		.cfi_offset 7, -8
+ 342              		.cfi_offset 14, -4
+ 343 0002 00AF     		add	r7, sp, #0
+ 344              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 15
+
+
+ 455:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             while(0u != (High_Frequency_PWM_1_ReadStatusRegister() & High_Frequency_PWM_1_STATUS_FI
+ 345              		.loc 1 455 0
+ 346 0004 01E0     		b	.L22
+ 347              	.L23:
+ 456:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             {
+ 457:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 (void)High_Frequency_PWM_1_ReadCapture();
+ 348              		.loc 1 457 0
+ 349 0006 FFF7FEFF 		bl	High_Frequency_PWM_1_ReadCapture
+ 350              	.L22:
+ 455:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             while(0u != (High_Frequency_PWM_1_ReadStatusRegister() & High_Frequency_PWM_1_STATUS_FI
+ 351              		.loc 1 455 0
+ 352 000a FFF7FEFF 		bl	High_Frequency_PWM_1_ReadStatusRegister
+ 353 000e 0346     		mov	r3, r0
+ 354 0010 03F01003 		and	r3, r3, #16
+ 355 0014 002B     		cmp	r3, #0
+ 356 0016 F6D1     		bne	.L23
+ 458:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             }
+ 459:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         }
+ 357              		.loc 1 459 0
+ 358 0018 80BD     		pop	{r7, pc}
+ 359              		.cfi_endproc
+ 360              	.LFE6:
+ 361              		.size	High_Frequency_PWM_1_ClearFIFO, .-High_Frequency_PWM_1_ClearFIFO
+ 362 001a 00BF     		.section	.text.High_Frequency_PWM_1_WritePeriod,"ax",%progbits
+ 363              		.align	2
+ 364              		.global	High_Frequency_PWM_1_WritePeriod
+ 365              		.thumb
+ 366              		.thumb_func
+ 367              		.type	High_Frequency_PWM_1_WritePeriod, %function
+ 368              	High_Frequency_PWM_1_WritePeriod:
+ 369              	.LFB7:
+ 460:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 461:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* High_Frequency_PWM_1_UseStatus */
+ 462:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 463:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* !High_Frequency_PWM_1_UsingFixedFunction */
+ 464:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 465:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 466:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** /*******************************************************************************
+ 467:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Function Name: High_Frequency_PWM_1_WritePeriod
+ 468:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** ********************************************************************************
+ 469:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 470:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Summary:
+ 471:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  This function is used to change the period of the counter.  The new period
+ 472:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  will be loaded the next time terminal count is detected.
+ 473:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 474:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Parameters:
+ 475:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  period:  Period value. May be between 1 and (2^Resolution)-1.  A value of 0
+ 476:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *           will result in the counter remaining at zero.
+ 477:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 478:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Return:
+ 479:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+ 480:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 481:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *******************************************************************************/
+ 482:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** void High_Frequency_PWM_1_WritePeriod(uint16 period) 
+ 483:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** {
+ 370              		.loc 1 483 0
+ 371              		.cfi_startproc
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 16
+
+
+ 372              		@ args = 0, pretend = 0, frame = 8
+ 373              		@ frame_needed = 1, uses_anonymous_args = 0
+ 374              		@ link register save eliminated.
+ 375 0000 80B4     		push	{r7}
+ 376              		.cfi_def_cfa_offset 4
+ 377              		.cfi_offset 7, -4
+ 378 0002 83B0     		sub	sp, sp, #12
+ 379              		.cfi_def_cfa_offset 16
+ 380 0004 00AF     		add	r7, sp, #0
+ 381              		.cfi_def_cfa_register 7
+ 382 0006 0346     		mov	r3, r0
+ 383 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 484:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if(High_Frequency_PWM_1_UsingFixedFunction)
+ 485:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         CY_SET_REG16(High_Frequency_PWM_1_PERIOD_LSB_PTR, (uint16)period);
+ 486:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #else
+ 487:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         CY_SET_REG16(High_Frequency_PWM_1_PERIOD_LSB_PTR, period);
+ 384              		.loc 1 487 0
+ 385 000a 044A     		ldr	r2, .L25
+ 386 000c FB88     		ldrh	r3, [r7, #6]	@ movhi
+ 387 000e 1380     		strh	r3, [r2]	@ movhi
+ 488:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 489:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** }
+ 388              		.loc 1 489 0
+ 389 0010 0C37     		adds	r7, r7, #12
+ 390              		.cfi_def_cfa_offset 4
+ 391 0012 BD46     		mov	sp, r7
+ 392              		.cfi_def_cfa_register 13
+ 393              		@ sp needed
+ 394 0014 5DF8047B 		ldr	r7, [sp], #4
+ 395              		.cfi_restore 7
+ 396              		.cfi_def_cfa_offset 0
+ 397 0018 7047     		bx	lr
+ 398              	.L26:
+ 399 001a 00BF     		.align	2
+ 400              	.L25:
+ 401 001c 90680040 		.word	1073768592
+ 402              		.cfi_endproc
+ 403              	.LFE7:
+ 404              		.size	High_Frequency_PWM_1_WritePeriod, .-High_Frequency_PWM_1_WritePeriod
+ 405              		.section	.text.High_Frequency_PWM_1_WriteCompare,"ax",%progbits
+ 406              		.align	2
+ 407              		.global	High_Frequency_PWM_1_WriteCompare
+ 408              		.thumb
+ 409              		.thumb_func
+ 410              		.type	High_Frequency_PWM_1_WriteCompare, %function
+ 411              	High_Frequency_PWM_1_WriteCompare:
+ 412              	.LFB8:
+ 490:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 491:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (High_Frequency_PWM_1_UseOneCompareMode)
+ 492:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 493:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 494:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 495:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_WriteCompare
+ 496:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 497:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 498:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 499:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This funtion is used to change the compare1 value when the PWM is in Dither
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 17
+
+
+ 500:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  mode. The compare output will reflect the new value on the next UDB clock.
+ 501:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  The compare output will be driven high when the present counter value is
+ 502:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  compared to the compare value based on the compare mode defined in
+ 503:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Dither Mode.
+ 504:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 505:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 506:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  compare:  New compare value.
+ 507:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 508:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 509:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 510:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 511:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Side Effects:
+ 512:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This function is only available if the PWM mode parameter is set to
+ 513:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Dither Mode, Center Aligned Mode or One Output Mode
+ 514:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 515:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 516:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     void High_Frequency_PWM_1_WriteCompare(uint16 compare) \
+ 517:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                        
+ 518:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 413              		.loc 1 518 0
+ 414              		.cfi_startproc
+ 415              		@ args = 0, pretend = 0, frame = 8
+ 416              		@ frame_needed = 1, uses_anonymous_args = 0
+ 417              		@ link register save eliminated.
+ 418 0000 80B4     		push	{r7}
+ 419              		.cfi_def_cfa_offset 4
+ 420              		.cfi_offset 7, -4
+ 421 0002 83B0     		sub	sp, sp, #12
+ 422              		.cfi_def_cfa_offset 16
+ 423 0004 00AF     		add	r7, sp, #0
+ 424              		.cfi_def_cfa_register 7
+ 425 0006 0346     		mov	r3, r0
+ 426 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 519:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(High_Frequency_PWM_1_UsingFixedFunction)
+ 520:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             CY_SET_REG16(High_Frequency_PWM_1_COMPARE1_LSB_PTR, (uint16)compare);
+ 521:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else
+ 522:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             CY_SET_REG16(High_Frequency_PWM_1_COMPARE1_LSB_PTR, compare);
+ 427              		.loc 1 522 0
+ 428 000a 044A     		ldr	r2, .L28
+ 429 000c FB88     		ldrh	r3, [r7, #6]	@ movhi
+ 430 000e 1380     		strh	r3, [r2]	@ movhi
+ 523:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 524:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 525:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if (High_Frequency_PWM_1_PWMMode == High_Frequency_PWM_1__B_PWM__DITHER)
+ 526:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #if(High_Frequency_PWM_1_UsingFixedFunction)
+ 527:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 CY_SET_REG16(High_Frequency_PWM_1_COMPARE2_LSB_PTR, (uint16)(compare + 1u));
+ 528:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #else
+ 529:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 CY_SET_REG16(High_Frequency_PWM_1_COMPARE2_LSB_PTR, (compare + 1u));
+ 530:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 531:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_PWMMode == High_Frequency_PWM_1__B_PWM__DITHER) */
+ 532:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 431              		.loc 1 532 0
+ 432 0010 0C37     		adds	r7, r7, #12
+ 433              		.cfi_def_cfa_offset 4
+ 434 0012 BD46     		mov	sp, r7
+ 435              		.cfi_def_cfa_register 13
+ 436              		@ sp needed
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 18
+
+
+ 437 0014 5DF8047B 		ldr	r7, [sp], #4
+ 438              		.cfi_restore 7
+ 439              		.cfi_def_cfa_offset 0
+ 440 0018 7047     		bx	lr
+ 441              	.L29:
+ 442 001a 00BF     		.align	2
+ 443              	.L28:
+ 444 001c 50680040 		.word	1073768528
+ 445              		.cfi_endproc
+ 446              	.LFE8:
+ 447              		.size	High_Frequency_PWM_1_WriteCompare, .-High_Frequency_PWM_1_WriteCompare
+ 448              		.section	.text.High_Frequency_PWM_1_SetInterruptMode,"ax",%progbits
+ 449              		.align	2
+ 450              		.global	High_Frequency_PWM_1_SetInterruptMode
+ 451              		.thumb
+ 452              		.thumb_func
+ 453              		.type	High_Frequency_PWM_1_SetInterruptMode, %function
+ 454              	High_Frequency_PWM_1_SetInterruptMode:
+ 455              	.LFB9:
+ 533:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 534:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 535:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #else
+ 536:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 537:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 538:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 539:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_WriteCompare1
+ 540:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 541:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 542:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 543:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This funtion is used to change the compare1 value.  The compare output will
+ 544:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  reflect the new value on the next UDB clock.  The compare output will be
+ 545:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  driven high when the present counter value is less than or less than or
+ 546:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  equal to the compare register, depending on the mode.
+ 547:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 548:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 549:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  compare:  New compare value.
+ 550:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 551:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 552:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 553:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 554:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 555:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     void High_Frequency_PWM_1_WriteCompare1(uint16 compare) \
+ 556:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                         
+ 557:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 558:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(High_Frequency_PWM_1_UsingFixedFunction)
+ 559:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             CY_SET_REG16(High_Frequency_PWM_1_COMPARE1_LSB_PTR, (uint16)compare);
+ 560:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else
+ 561:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             CY_SET_REG16(High_Frequency_PWM_1_COMPARE1_LSB_PTR, compare);
+ 562:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 563:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 564:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 565:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 566:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 567:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_WriteCompare2
+ 568:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 569:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 570:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 19
+
+
+ 571:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This funtion is used to change the compare value, for compare1 output.
+ 572:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  The compare output will reflect the new value on the next UDB clock.
+ 573:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  The compare output will be driven high when the present counter value is
+ 574:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  less than or less than or equal to the compare register, depending on the
+ 575:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  mode.
+ 576:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 577:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 578:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  compare:  New compare value.
+ 579:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 580:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 581:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 582:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 583:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 584:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     void High_Frequency_PWM_1_WriteCompare2(uint16 compare) \
+ 585:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                         
+ 586:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 587:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(High_Frequency_PWM_1_UsingFixedFunction)
+ 588:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             CY_SET_REG16(High_Frequency_PWM_1_COMPARE2_LSB_PTR, compare);
+ 589:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else
+ 590:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             CY_SET_REG16(High_Frequency_PWM_1_COMPARE2_LSB_PTR, compare);
+ 591:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 592:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 593:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* UseOneCompareMode */
+ 594:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 595:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (High_Frequency_PWM_1_DeadBandUsed)
+ 596:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 597:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 598:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 599:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_WriteDeadTime
+ 600:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 601:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 602:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 603:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This function writes the dead-band counts to the corresponding register
+ 604:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 605:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 606:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  deadtime:  Number of counts for dead time
+ 607:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 608:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 609:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 610:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 611:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 612:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     void High_Frequency_PWM_1_WriteDeadTime(uint8 deadtime) 
+ 613:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 614:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* If using the Dead Band 1-255 mode then just write the register */
+ 615:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(!High_Frequency_PWM_1_DeadBand2_4)
+ 616:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             CY_SET_REG8(High_Frequency_PWM_1_DEADBAND_COUNT_PTR, deadtime);
+ 617:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else
+ 618:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Otherwise the data has to be masked and offset */
+ 619:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Clear existing data */
+ 620:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             High_Frequency_PWM_1_DEADBAND_COUNT &= ((uint8)(~High_Frequency_PWM_1_DEADBAND_COUNT_MA
+ 621:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 622:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Set new dead time */
+ 623:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #if(High_Frequency_PWM_1_DEADBAND_COUNT_SHIFT)
+ 624:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 High_Frequency_PWM_1_DEADBAND_COUNT |= ((uint8)((uint8)deadtime << High_Frequency_P
+ 625:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                                     High_Frequency_PWM_1_DEADBAND_COUNT_MASK;
+ 626:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #else
+ 627:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 High_Frequency_PWM_1_DEADBAND_COUNT |= deadtime & High_Frequency_PWM_1_DEADBAND_COU
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 20
+
+
+ 628:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #endif /* (High_Frequency_PWM_1_DEADBAND_COUNT_SHIFT) */
+ 629:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 630:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (!High_Frequency_PWM_1_DeadBand2_4) */
+ 631:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 632:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 633:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 634:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 635:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_ReadDeadTime
+ 636:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 637:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 638:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 639:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This function reads the dead-band counts from the corresponding register
+ 640:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 641:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 642:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 643:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 644:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 645:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Dead Band Counts
+ 646:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 647:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 648:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     uint8 High_Frequency_PWM_1_ReadDeadTime(void) 
+ 649:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 650:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         /* If using the Dead Band 1-255 mode then just read the register */
+ 651:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(!High_Frequency_PWM_1_DeadBand2_4)
+ 652:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             return (CY_GET_REG8(High_Frequency_PWM_1_DEADBAND_COUNT_PTR));
+ 653:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else
+ 654:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 655:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             /* Otherwise the data has to be masked and offset */
+ 656:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #if(High_Frequency_PWM_1_DEADBAND_COUNT_SHIFT)
+ 657:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 return ((uint8)(((uint8)(High_Frequency_PWM_1_DEADBAND_COUNT & High_Frequency_PWM_1
+ 658:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                                                                            High_Frequency_PWM_1_DEA
+ 659:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #else
+ 660:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****                 return (High_Frequency_PWM_1_DEADBAND_COUNT & High_Frequency_PWM_1_DEADBAND_COUNT_M
+ 661:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             #endif /* (High_Frequency_PWM_1_DEADBAND_COUNT_SHIFT) */
+ 662:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (!High_Frequency_PWM_1_DeadBand2_4) */
+ 663:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 664:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* DeadBandUsed */
+ 665:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 666:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (High_Frequency_PWM_1_UseStatus || High_Frequency_PWM_1_UsingFixedFunction)
+ 667:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 668:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 669:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 670:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_SetInterruptMode
+ 671:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 672:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 673:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 674:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This function configures the interrupts mask control of theinterrupt
+ 675:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  source status register.
+ 676:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 677:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 678:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  uint8 interruptMode: Bit field containing the interrupt sources enabled
+ 679:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 680:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 681:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 682:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 683:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 684:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     void High_Frequency_PWM_1_SetInterruptMode(uint8 interruptMode) 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 21
+
+
+ 685:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 456              		.loc 1 685 0
+ 457              		.cfi_startproc
+ 458              		@ args = 0, pretend = 0, frame = 8
+ 459              		@ frame_needed = 1, uses_anonymous_args = 0
+ 460              		@ link register save eliminated.
+ 461 0000 80B4     		push	{r7}
+ 462              		.cfi_def_cfa_offset 4
+ 463              		.cfi_offset 7, -4
+ 464 0002 83B0     		sub	sp, sp, #12
+ 465              		.cfi_def_cfa_offset 16
+ 466 0004 00AF     		add	r7, sp, #0
+ 467              		.cfi_def_cfa_register 7
+ 468 0006 0346     		mov	r3, r0
+ 469 0008 FB71     		strb	r3, [r7, #7]
+ 686:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         CY_SET_REG8(High_Frequency_PWM_1_STATUS_MASK_PTR, interruptMode);
+ 470              		.loc 1 686 0
+ 471 000a 044A     		ldr	r2, .L31
+ 472 000c FB79     		ldrb	r3, [r7, #7]
+ 473 000e 1370     		strb	r3, [r2]
+ 687:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 474              		.loc 1 687 0
+ 475 0010 0C37     		adds	r7, r7, #12
+ 476              		.cfi_def_cfa_offset 4
+ 477 0012 BD46     		mov	sp, r7
+ 478              		.cfi_def_cfa_register 13
+ 479              		@ sp needed
+ 480 0014 5DF8047B 		ldr	r7, [sp], #4
+ 481              		.cfi_restore 7
+ 482              		.cfi_def_cfa_offset 0
+ 483 0018 7047     		bx	lr
+ 484              	.L32:
+ 485 001a 00BF     		.align	2
+ 486              	.L31:
+ 487 001c 89640040 		.word	1073767561
+ 488              		.cfi_endproc
+ 489              	.LFE9:
+ 490              		.size	High_Frequency_PWM_1_SetInterruptMode, .-High_Frequency_PWM_1_SetInterruptMode
+ 491              		.section	.text.High_Frequency_PWM_1_ReadStatusRegister,"ax",%progbits
+ 492              		.align	2
+ 493              		.global	High_Frequency_PWM_1_ReadStatusRegister
+ 494              		.thumb
+ 495              		.thumb_func
+ 496              		.type	High_Frequency_PWM_1_ReadStatusRegister, %function
+ 497              	High_Frequency_PWM_1_ReadStatusRegister:
+ 498              	.LFB10:
+ 688:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 689:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 690:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 691:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_ReadStatusRegister
+ 692:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 693:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 694:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 695:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  This function returns the current state of the status register.
+ 696:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 697:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 698:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 22
+
+
+ 699:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 700:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 701:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  uint8 : Current status register value. The status register bits are:
+ 702:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [7:6] : Unused(0)
+ 703:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [5]   : Kill event output
+ 704:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [4]   : FIFO not empty
+ 705:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [3]   : FIFO full
+ 706:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [2]   : Terminal count
+ 707:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [1]   : Compare output 2
+ 708:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [0]   : Compare output 1
+ 709:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 710:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 711:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     uint8 High_Frequency_PWM_1_ReadStatusRegister(void) 
+ 712:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 499              		.loc 1 712 0
+ 500              		.cfi_startproc
+ 501              		@ args = 0, pretend = 0, frame = 0
+ 502              		@ frame_needed = 1, uses_anonymous_args = 0
+ 503              		@ link register save eliminated.
+ 504 0000 80B4     		push	{r7}
+ 505              		.cfi_def_cfa_offset 4
+ 506              		.cfi_offset 7, -4
+ 507 0002 00AF     		add	r7, sp, #0
+ 508              		.cfi_def_cfa_register 7
+ 713:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         return (CY_GET_REG8(High_Frequency_PWM_1_STATUS_PTR));
+ 509              		.loc 1 713 0
+ 510 0004 034B     		ldr	r3, .L35
+ 511 0006 1B78     		ldrb	r3, [r3]
+ 512 0008 DBB2     		uxtb	r3, r3
+ 714:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 513              		.loc 1 714 0
+ 514 000a 1846     		mov	r0, r3
+ 515 000c BD46     		mov	sp, r7
+ 516              		.cfi_def_cfa_register 13
+ 517              		@ sp needed
+ 518 000e 5DF8047B 		ldr	r7, [sp], #4
+ 519              		.cfi_restore 7
+ 520              		.cfi_def_cfa_offset 0
+ 521 0012 7047     		bx	lr
+ 522              	.L36:
+ 523              		.align	2
+ 524              	.L35:
+ 525 0014 69640040 		.word	1073767529
+ 526              		.cfi_endproc
+ 527              	.LFE10:
+ 528              		.size	High_Frequency_PWM_1_ReadStatusRegister, .-High_Frequency_PWM_1_ReadStatusRegister
+ 529              		.section	.text.High_Frequency_PWM_1_ReadControlRegister,"ax",%progbits
+ 530              		.align	2
+ 531              		.global	High_Frequency_PWM_1_ReadControlRegister
+ 532              		.thumb
+ 533              		.thumb_func
+ 534              		.type	High_Frequency_PWM_1_ReadControlRegister, %function
+ 535              	High_Frequency_PWM_1_ReadControlRegister:
+ 536              	.LFB11:
+ 715:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 716:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* (High_Frequency_PWM_1_UseStatus || High_Frequency_PWM_1_UsingFixedFunction) */
+ 717:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 23
+
+
+ 718:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 719:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (High_Frequency_PWM_1_UseControl)
+ 720:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 721:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 722:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 723:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_ReadControlRegister
+ 724:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 725:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 726:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 727:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Returns the current state of the control register. This API is available
+ 728:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  only if the control register is not removed.
+ 729:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 730:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 731:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 732:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 733:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 734:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  uint8 : Current control register value
+ 735:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 736:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 737:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     uint8 High_Frequency_PWM_1_ReadControlRegister(void) 
+ 738:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 537              		.loc 1 738 0
+ 538              		.cfi_startproc
+ 539              		@ args = 0, pretend = 0, frame = 8
+ 540              		@ frame_needed = 1, uses_anonymous_args = 0
+ 541              		@ link register save eliminated.
+ 542 0000 80B4     		push	{r7}
+ 543              		.cfi_def_cfa_offset 4
+ 544              		.cfi_offset 7, -4
+ 545 0002 83B0     		sub	sp, sp, #12
+ 546              		.cfi_def_cfa_offset 16
+ 547 0004 00AF     		add	r7, sp, #0
+ 548              		.cfi_def_cfa_register 7
+ 739:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         uint8 result;
+ 740:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 741:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         result = CY_GET_REG8(High_Frequency_PWM_1_CONTROL_PTR);
+ 549              		.loc 1 741 0
+ 550 0006 054B     		ldr	r3, .L39
+ 551 0008 1B78     		ldrb	r3, [r3]
+ 552 000a FB71     		strb	r3, [r7, #7]
+ 742:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         return (result);
+ 553              		.loc 1 742 0
+ 554 000c FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 743:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 555              		.loc 1 743 0
+ 556 000e 1846     		mov	r0, r3
+ 557 0010 0C37     		adds	r7, r7, #12
+ 558              		.cfi_def_cfa_offset 4
+ 559 0012 BD46     		mov	sp, r7
+ 560              		.cfi_def_cfa_register 13
+ 561              		@ sp needed
+ 562 0014 5DF8047B 		ldr	r7, [sp], #4
+ 563              		.cfi_restore 7
+ 564              		.cfi_def_cfa_offset 0
+ 565 0018 7047     		bx	lr
+ 566              	.L40:
+ 567 001a 00BF     		.align	2
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 24
+
+
+ 568              	.L39:
+ 569 001c 79640040 		.word	1073767545
+ 570              		.cfi_endproc
+ 571              	.LFE11:
+ 572              		.size	High_Frequency_PWM_1_ReadControlRegister, .-High_Frequency_PWM_1_ReadControlRegister
+ 573              		.section	.text.High_Frequency_PWM_1_WriteControlRegister,"ax",%progbits
+ 574              		.align	2
+ 575              		.global	High_Frequency_PWM_1_WriteControlRegister
+ 576              		.thumb
+ 577              		.thumb_func
+ 578              		.type	High_Frequency_PWM_1_WriteControlRegister, %function
+ 579              	High_Frequency_PWM_1_WriteControlRegister:
+ 580              	.LFB12:
+ 744:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 745:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 746:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 747:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_WriteControlRegister
+ 748:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 749:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 750:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 751:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Sets the bit field of the control register. This API is available only if
+ 752:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  the control register is not removed.
+ 753:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 754:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 755:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  uint8 control: Control register bit field, The status register bits are:
+ 756:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [7]   : PWM Enable
+ 757:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [6]   : Reset
+ 758:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [5:3] : Compare Mode2
+ 759:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  [2:0] : Compare Mode2
+ 760:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 761:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 762:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 763:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 764:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 765:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     void High_Frequency_PWM_1_WriteControlRegister(uint8 control) 
+ 766:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 581              		.loc 1 766 0
+ 582              		.cfi_startproc
+ 583              		@ args = 0, pretend = 0, frame = 8
+ 584              		@ frame_needed = 1, uses_anonymous_args = 0
+ 585              		@ link register save eliminated.
+ 586 0000 80B4     		push	{r7}
+ 587              		.cfi_def_cfa_offset 4
+ 588              		.cfi_offset 7, -4
+ 589 0002 83B0     		sub	sp, sp, #12
+ 590              		.cfi_def_cfa_offset 16
+ 591 0004 00AF     		add	r7, sp, #0
+ 592              		.cfi_def_cfa_register 7
+ 593 0006 0346     		mov	r3, r0
+ 594 0008 FB71     		strb	r3, [r7, #7]
+ 767:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         CY_SET_REG8(High_Frequency_PWM_1_CONTROL_PTR, control);
+ 595              		.loc 1 767 0
+ 596 000a 044A     		ldr	r2, .L42
+ 597 000c FB79     		ldrb	r3, [r7, #7]
+ 598 000e 1370     		strb	r3, [r2]
+ 768:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 599              		.loc 1 768 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 25
+
+
+ 600 0010 0C37     		adds	r7, r7, #12
+ 601              		.cfi_def_cfa_offset 4
+ 602 0012 BD46     		mov	sp, r7
+ 603              		.cfi_def_cfa_register 13
+ 604              		@ sp needed
+ 605 0014 5DF8047B 		ldr	r7, [sp], #4
+ 606              		.cfi_restore 7
+ 607              		.cfi_def_cfa_offset 0
+ 608 0018 7047     		bx	lr
+ 609              	.L43:
+ 610 001a 00BF     		.align	2
+ 611              	.L42:
+ 612 001c 79640040 		.word	1073767545
+ 613              		.cfi_endproc
+ 614              	.LFE12:
+ 615              		.size	High_Frequency_PWM_1_WriteControlRegister, .-High_Frequency_PWM_1_WriteControlRegister
+ 616              		.section	.text.High_Frequency_PWM_1_ReadCapture,"ax",%progbits
+ 617              		.align	2
+ 618              		.global	High_Frequency_PWM_1_ReadCapture
+ 619              		.thumb
+ 620              		.thumb_func
+ 621              		.type	High_Frequency_PWM_1_ReadCapture, %function
+ 622              	High_Frequency_PWM_1_ReadCapture:
+ 623              	.LFB13:
+ 769:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 770:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* (High_Frequency_PWM_1_UseControl) */
+ 771:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 772:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 773:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (!High_Frequency_PWM_1_UsingFixedFunction)
+ 774:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 775:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 776:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 777:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_ReadCapture
+ 778:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 779:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 780:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 781:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Reads the capture value from the capture FIFO.
+ 782:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 783:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 784:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 785:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 786:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 787:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  uint8/uint16: The current capture value
+ 788:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 789:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 790:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     uint16 High_Frequency_PWM_1_ReadCapture(void) 
+ 791:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 624              		.loc 1 791 0
+ 625              		.cfi_startproc
+ 626              		@ args = 0, pretend = 0, frame = 0
+ 627              		@ frame_needed = 1, uses_anonymous_args = 0
+ 628              		@ link register save eliminated.
+ 629 0000 80B4     		push	{r7}
+ 630              		.cfi_def_cfa_offset 4
+ 631              		.cfi_offset 7, -4
+ 632 0002 00AF     		add	r7, sp, #0
+ 633              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 26
+
+
+ 792:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         return (CY_GET_REG16(High_Frequency_PWM_1_CAPTURE_LSB_PTR));
+ 634              		.loc 1 792 0
+ 635 0004 034B     		ldr	r3, .L46
+ 636 0006 1B88     		ldrh	r3, [r3]	@ movhi
+ 637 0008 9BB2     		uxth	r3, r3
+ 793:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 638              		.loc 1 793 0
+ 639 000a 1846     		mov	r0, r3
+ 640 000c BD46     		mov	sp, r7
+ 641              		.cfi_def_cfa_register 13
+ 642              		@ sp needed
+ 643 000e 5DF8047B 		ldr	r7, [sp], #4
+ 644              		.cfi_restore 7
+ 645              		.cfi_def_cfa_offset 0
+ 646 0012 7047     		bx	lr
+ 647              	.L47:
+ 648              		.align	2
+ 649              	.L46:
+ 650 0014 B0680040 		.word	1073768624
+ 651              		.cfi_endproc
+ 652              	.LFE13:
+ 653              		.size	High_Frequency_PWM_1_ReadCapture, .-High_Frequency_PWM_1_ReadCapture
+ 654              		.section	.text.High_Frequency_PWM_1_ReadCompare,"ax",%progbits
+ 655              		.align	2
+ 656              		.global	High_Frequency_PWM_1_ReadCompare
+ 657              		.thumb
+ 658              		.thumb_func
+ 659              		.type	High_Frequency_PWM_1_ReadCompare, %function
+ 660              	High_Frequency_PWM_1_ReadCompare:
+ 661              	.LFB14:
+ 794:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 795:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* (!High_Frequency_PWM_1_UsingFixedFunction) */
+ 796:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 797:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 798:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #if (High_Frequency_PWM_1_UseOneCompareMode)
+ 799:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 800:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 801:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 802:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_ReadCompare
+ 803:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 804:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 805:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 806:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Reads the compare value for the compare output when the PWM Mode parameter is
+ 807:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  set to Dither mode, Center Aligned mode, or One Output mode.
+ 808:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 809:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 810:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 811:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 812:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 813:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  uint8/uint16: Current compare value
+ 814:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 815:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 816:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     uint16 High_Frequency_PWM_1_ReadCompare(void) 
+ 817:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 662              		.loc 1 817 0
+ 663              		.cfi_startproc
+ 664              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 27
+
+
+ 665              		@ frame_needed = 1, uses_anonymous_args = 0
+ 666              		@ link register save eliminated.
+ 667 0000 80B4     		push	{r7}
+ 668              		.cfi_def_cfa_offset 4
+ 669              		.cfi_offset 7, -4
+ 670 0002 00AF     		add	r7, sp, #0
+ 671              		.cfi_def_cfa_register 7
+ 818:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #if(High_Frequency_PWM_1_UsingFixedFunction)
+ 819:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             return ((uint16)CY_GET_REG16(High_Frequency_PWM_1_COMPARE1_LSB_PTR));
+ 820:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #else
+ 821:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****             return (CY_GET_REG16(High_Frequency_PWM_1_COMPARE1_LSB_PTR));
+ 672              		.loc 1 821 0
+ 673 0004 034B     		ldr	r3, .L50
+ 674 0006 1B88     		ldrh	r3, [r3]	@ movhi
+ 675 0008 9BB2     		uxth	r3, r3
+ 822:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 823:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 676              		.loc 1 823 0
+ 677 000a 1846     		mov	r0, r3
+ 678 000c BD46     		mov	sp, r7
+ 679              		.cfi_def_cfa_register 13
+ 680              		@ sp needed
+ 681 000e 5DF8047B 		ldr	r7, [sp], #4
+ 682              		.cfi_restore 7
+ 683              		.cfi_def_cfa_offset 0
+ 684 0012 7047     		bx	lr
+ 685              	.L51:
+ 686              		.align	2
+ 687              	.L50:
+ 688 0014 50680040 		.word	1073768528
+ 689              		.cfi_endproc
+ 690              	.LFE14:
+ 691              		.size	High_Frequency_PWM_1_ReadCompare, .-High_Frequency_PWM_1_ReadCompare
+ 692              		.section	.text.High_Frequency_PWM_1_ReadPeriod,"ax",%progbits
+ 693              		.align	2
+ 694              		.global	High_Frequency_PWM_1_ReadPeriod
+ 695              		.thumb
+ 696              		.thumb_func
+ 697              		.type	High_Frequency_PWM_1_ReadPeriod, %function
+ 698              	High_Frequency_PWM_1_ReadPeriod:
+ 699              	.LFB15:
+ 824:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 825:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #else
+ 826:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 827:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 828:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 829:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_ReadCompare1
+ 830:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 831:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 832:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 833:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Reads the compare value for the compare1 output.
+ 834:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 835:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 836:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 837:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 838:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 839:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  uint8/uint16: Current compare value.
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 28
+
+
+ 840:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 841:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 842:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     uint16 High_Frequency_PWM_1_ReadCompare1(void) 
+ 843:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 844:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         return (CY_GET_REG16(High_Frequency_PWM_1_COMPARE1_LSB_PTR));
+ 845:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 846:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 847:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 848:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     /*******************************************************************************
+ 849:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Function Name: High_Frequency_PWM_1_ReadCompare2
+ 850:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     ********************************************************************************
+ 851:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 852:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Summary:
+ 853:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  Reads the compare value for the compare2 output.
+ 854:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 855:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Parameters:
+ 856:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  None
+ 857:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 858:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     * Return:
+ 859:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *  uint8/uint16: Current compare value.
+ 860:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *
+ 861:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     *******************************************************************************/
+ 862:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     uint16 High_Frequency_PWM_1_ReadCompare2(void) 
+ 863:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     {
+ 864:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         return (CY_GET_REG16(High_Frequency_PWM_1_COMPARE2_LSB_PTR));
+ 865:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     }
+ 866:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 867:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** #endif /* (High_Frequency_PWM_1_UseOneCompareMode) */
+ 868:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 869:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** 
+ 870:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** /*******************************************************************************
+ 871:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Function Name: High_Frequency_PWM_1_ReadPeriod
+ 872:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** ********************************************************************************
+ 873:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 874:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Summary:
+ 875:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  Reads the period value used by the PWM hardware.
+ 876:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 877:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Parameters:
+ 878:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  None
+ 879:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 880:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** * Return:
+ 881:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *  uint8/16: Period value
+ 882:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *
+ 883:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** *******************************************************************************/
+ 884:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** uint16 High_Frequency_PWM_1_ReadPeriod(void) 
+ 885:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** {
+ 700              		.loc 1 885 0
+ 701              		.cfi_startproc
+ 702              		@ args = 0, pretend = 0, frame = 0
+ 703              		@ frame_needed = 1, uses_anonymous_args = 0
+ 704              		@ link register save eliminated.
+ 705 0000 80B4     		push	{r7}
+ 706              		.cfi_def_cfa_offset 4
+ 707              		.cfi_offset 7, -4
+ 708 0002 00AF     		add	r7, sp, #0
+ 709              		.cfi_def_cfa_register 7
+ 886:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #if(High_Frequency_PWM_1_UsingFixedFunction)
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 29
+
+
+ 887:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         return ((uint16)CY_GET_REG16(High_Frequency_PWM_1_PERIOD_LSB_PTR));
+ 888:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #else
+ 889:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****         return (CY_GET_REG16(High_Frequency_PWM_1_PERIOD_LSB_PTR));
+ 710              		.loc 1 889 0
+ 711 0004 034B     		ldr	r3, .L54
+ 712 0006 1B88     		ldrh	r3, [r3]	@ movhi
+ 713 0008 9BB2     		uxth	r3, r3
+ 890:Generated_Source\PSoC5/High_Frequency_PWM_1.c ****     #endif /* (High_Frequency_PWM_1_UsingFixedFunction) */
+ 891:Generated_Source\PSoC5/High_Frequency_PWM_1.c **** }
+ 714              		.loc 1 891 0
+ 715 000a 1846     		mov	r0, r3
+ 716 000c BD46     		mov	sp, r7
+ 717              		.cfi_def_cfa_register 13
+ 718              		@ sp needed
+ 719 000e 5DF8047B 		ldr	r7, [sp], #4
+ 720              		.cfi_restore 7
+ 721              		.cfi_def_cfa_offset 0
+ 722 0012 7047     		bx	lr
+ 723              	.L55:
+ 724              		.align	2
+ 725              	.L54:
+ 726 0014 90680040 		.word	1073768592
+ 727              		.cfi_endproc
+ 728              	.LFE15:
+ 729              		.size	High_Frequency_PWM_1_ReadPeriod, .-High_Frequency_PWM_1_ReadPeriod
+ 730              		.text
+ 731              	.Letext0:
+ 732              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 733              		.section	.debug_info,"",%progbits
+ 734              	.Ldebug_info0:
+ 735 0000 9C020000 		.4byte	0x29c
+ 736 0004 0400     		.2byte	0x4
+ 737 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 738 000a 04       		.byte	0x4
+ 739 000b 01       		.uleb128 0x1
+ 740 000c 0A010000 		.4byte	.LASF40
+ 741 0010 01       		.byte	0x1
+ 742 0011 B5020000 		.4byte	.LASF41
+ 743 0015 DF030000 		.4byte	.LASF42
+ 744 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 745 001d 00000000 		.4byte	0
+ 746 0021 00000000 		.4byte	.Ldebug_line0
+ 747 0025 02       		.uleb128 0x2
+ 748 0026 01       		.byte	0x1
+ 749 0027 06       		.byte	0x6
+ 750 0028 6C030000 		.4byte	.LASF0
+ 751 002c 02       		.uleb128 0x2
+ 752 002d 01       		.byte	0x1
+ 753 002e 08       		.byte	0x8
+ 754 002f B8000000 		.4byte	.LASF1
+ 755 0033 02       		.uleb128 0x2
+ 756 0034 02       		.byte	0x2
+ 757 0035 05       		.byte	0x5
+ 758 0036 81020000 		.4byte	.LASF2
+ 759 003a 02       		.uleb128 0x2
+ 760 003b 02       		.byte	0x2
+ 761 003c 07       		.byte	0x7
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 30
+
+
+ 762 003d 2E000000 		.4byte	.LASF3
+ 763 0041 02       		.uleb128 0x2
+ 764 0042 04       		.byte	0x4
+ 765 0043 05       		.byte	0x5
+ 766 0044 44030000 		.4byte	.LASF4
+ 767 0048 02       		.uleb128 0x2
+ 768 0049 04       		.byte	0x4
+ 769 004a 07       		.byte	0x7
+ 770 004b EA000000 		.4byte	.LASF5
+ 771 004f 02       		.uleb128 0x2
+ 772 0050 08       		.byte	0x8
+ 773 0051 05       		.byte	0x5
+ 774 0052 65020000 		.4byte	.LASF6
+ 775 0056 02       		.uleb128 0x2
+ 776 0057 08       		.byte	0x8
+ 777 0058 07       		.byte	0x7
+ 778 0059 F5010000 		.4byte	.LASF7
+ 779 005d 03       		.uleb128 0x3
+ 780 005e 04       		.byte	0x4
+ 781 005f 05       		.byte	0x5
+ 782 0060 696E7400 		.ascii	"int\000"
+ 783 0064 02       		.uleb128 0x2
+ 784 0065 04       		.byte	0x4
+ 785 0066 07       		.byte	0x7
+ 786 0067 E8010000 		.4byte	.LASF8
+ 787 006b 04       		.uleb128 0x4
+ 788 006c FC000000 		.4byte	.LASF9
+ 789 0070 02       		.byte	0x2
+ 790 0071 9201     		.2byte	0x192
+ 791 0073 2C000000 		.4byte	0x2c
+ 792 0077 04       		.uleb128 0x4
+ 793 0078 E1010000 		.4byte	.LASF10
+ 794 007c 02       		.byte	0x2
+ 795 007d 9301     		.2byte	0x193
+ 796 007f 3A000000 		.4byte	0x3a
+ 797 0083 02       		.uleb128 0x2
+ 798 0084 04       		.byte	0x4
+ 799 0085 04       		.byte	0x4
+ 800 0086 AA000000 		.4byte	.LASF11
+ 801 008a 02       		.uleb128 0x2
+ 802 008b 08       		.byte	0x8
+ 803 008c 04       		.byte	0x4
+ 804 008d 98010000 		.4byte	.LASF12
+ 805 0091 02       		.uleb128 0x2
+ 806 0092 01       		.byte	0x1
+ 807 0093 08       		.byte	0x8
+ 808 0094 4D030000 		.4byte	.LASF13
+ 809 0098 04       		.uleb128 0x4
+ 810 0099 E5000000 		.4byte	.LASF14
+ 811 009d 02       		.byte	0x2
+ 812 009e 3C02     		.2byte	0x23c
+ 813 00a0 A4000000 		.4byte	0xa4
+ 814 00a4 05       		.uleb128 0x5
+ 815 00a5 6B000000 		.4byte	0x6b
+ 816 00a9 04       		.uleb128 0x4
+ 817 00aa 00000000 		.4byte	.LASF15
+ 818 00ae 02       		.byte	0x2
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 31
+
+
+ 819 00af 3D02     		.2byte	0x23d
+ 820 00b1 B5000000 		.4byte	0xb5
+ 821 00b5 05       		.uleb128 0x5
+ 822 00b6 77000000 		.4byte	0x77
+ 823 00ba 02       		.uleb128 0x2
+ 824 00bb 04       		.byte	0x4
+ 825 00bc 07       		.byte	0x7
+ 826 00bd 38020000 		.4byte	.LASF16
+ 827 00c1 06       		.uleb128 0x6
+ 828 00c2 C4030000 		.4byte	.LASF19
+ 829 00c6 01       		.byte	0x1
+ 830 00c7 37       		.byte	0x37
+ 831 00c8 00000000 		.4byte	.LFB0
+ 832 00cc 20000000 		.4byte	.LFE0-.LFB0
+ 833 00d0 01       		.uleb128 0x1
+ 834 00d1 9C       		.byte	0x9c
+ 835 00d2 07       		.uleb128 0x7
+ 836 00d3 52030000 		.4byte	.LASF22
+ 837 00d7 01       		.byte	0x1
+ 838 00d8 54       		.byte	0x54
+ 839 00d9 00000000 		.4byte	.LFB1
+ 840 00dd 90000000 		.4byte	.LFE1-.LFB1
+ 841 00e1 01       		.uleb128 0x1
+ 842 00e2 9C       		.byte	0x9c
+ 843 00e3 04010000 		.4byte	0x104
+ 844 00e7 08       		.uleb128 0x8
+ 845 00e8 33020000 		.4byte	.LASF17
+ 846 00ec 01       		.byte	0x1
+ 847 00ed 57       		.byte	0x57
+ 848 00ee 6B000000 		.4byte	0x6b
+ 849 00f2 02       		.uleb128 0x2
+ 850 00f3 91       		.byte	0x91
+ 851 00f4 77       		.sleb128 -9
+ 852 00f5 08       		.uleb128 0x8
+ 853 00f6 41020000 		.4byte	.LASF18
+ 854 00fa 01       		.byte	0x1
+ 855 00fb 5D       		.byte	0x5d
+ 856 00fc 6B000000 		.4byte	0x6b
+ 857 0100 02       		.uleb128 0x2
+ 858 0101 91       		.byte	0x91
+ 859 0102 76       		.sleb128 -10
+ 860 0103 00       		.byte	0
+ 861 0104 09       		.uleb128 0x9
+ 862 0105 E3020000 		.4byte	.LASF20
+ 863 0109 01       		.byte	0x1
+ 864 010a C7       		.byte	0xc7
+ 865 010b 00000000 		.4byte	.LFB2
+ 866 010f 20000000 		.4byte	.LFE2-.LFB2
+ 867 0113 01       		.uleb128 0x1
+ 868 0114 9C       		.byte	0x9c
+ 869 0115 09       		.uleb128 0x9
+ 870 0116 90000000 		.4byte	.LASF21
+ 871 011a 01       		.byte	0x1
+ 872 011b E9       		.byte	0xe9
+ 873 011c 00000000 		.4byte	.LFB3
+ 874 0120 20000000 		.4byte	.LFE3-.LFB3
+ 875 0124 01       		.uleb128 0x1
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 32
+
+
+ 876 0125 9C       		.byte	0x9c
+ 877 0126 0A       		.uleb128 0xa
+ 878 0127 80030000 		.4byte	.LASF23
+ 879 012b 01       		.byte	0x1
+ 880 012c 9301     		.2byte	0x193
+ 881 012e 00000000 		.4byte	.LFB4
+ 882 0132 20000000 		.4byte	.LFE4-.LFB4
+ 883 0136 01       		.uleb128 0x1
+ 884 0137 9C       		.byte	0x9c
+ 885 0138 4C010000 		.4byte	0x14c
+ 886 013c 0B       		.uleb128 0xb
+ 887 013d B0000000 		.4byte	.LASF26
+ 888 0141 01       		.byte	0x1
+ 889 0142 9301     		.2byte	0x193
+ 890 0144 77000000 		.4byte	0x77
+ 891 0148 02       		.uleb128 0x2
+ 892 0149 91       		.byte	0x91
+ 893 014a 76       		.sleb128 -10
+ 894 014b 00       		.byte	0
+ 895 014c 0C       		.uleb128 0xc
+ 896 014d 9F010000 		.4byte	.LASF32
+ 897 0151 01       		.byte	0x1
+ 898 0152 A901     		.2byte	0x1a9
+ 899 0154 77000000 		.4byte	0x77
+ 900 0158 00000000 		.4byte	.LFB5
+ 901 015c 20000000 		.4byte	.LFE5-.LFB5
+ 902 0160 01       		.uleb128 0x1
+ 903 0161 9C       		.byte	0x9c
+ 904 0162 0D       		.uleb128 0xd
+ 905 0163 C6000000 		.4byte	.LASF24
+ 906 0167 01       		.byte	0x1
+ 907 0168 C501     		.2byte	0x1c5
+ 908 016a 00000000 		.4byte	.LFB6
+ 909 016e 1A000000 		.4byte	.LFE6-.LFB6
+ 910 0172 01       		.uleb128 0x1
+ 911 0173 9C       		.byte	0x9c
+ 912 0174 0A       		.uleb128 0xa
+ 913 0175 26040000 		.4byte	.LASF25
+ 914 0179 01       		.byte	0x1
+ 915 017a E201     		.2byte	0x1e2
+ 916 017c 00000000 		.4byte	.LFB7
+ 917 0180 20000000 		.4byte	.LFE7-.LFB7
+ 918 0184 01       		.uleb128 0x1
+ 919 0185 9C       		.byte	0x9c
+ 920 0186 9A010000 		.4byte	0x19a
+ 921 018a 0B       		.uleb128 0xb
+ 922 018b 06000000 		.4byte	.LASF27
+ 923 018f 01       		.byte	0x1
+ 924 0190 E201     		.2byte	0x1e2
+ 925 0192 77000000 		.4byte	0x77
+ 926 0196 02       		.uleb128 0x2
+ 927 0197 91       		.byte	0x91
+ 928 0198 76       		.sleb128 -10
+ 929 0199 00       		.byte	0
+ 930 019a 0A       		.uleb128 0xa
+ 931 019b A2030000 		.4byte	.LASF28
+ 932 019f 01       		.byte	0x1
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 33
+
+
+ 933 01a0 0402     		.2byte	0x204
+ 934 01a2 00000000 		.4byte	.LFB8
+ 935 01a6 20000000 		.4byte	.LFE8-.LFB8
+ 936 01aa 01       		.uleb128 0x1
+ 937 01ab 9C       		.byte	0x9c
+ 938 01ac C0010000 		.4byte	0x1c0
+ 939 01b0 0B       		.uleb128 0xb
+ 940 01b1 78030000 		.4byte	.LASF29
+ 941 01b5 01       		.byte	0x1
+ 942 01b6 0402     		.2byte	0x204
+ 943 01b8 77000000 		.4byte	0x77
+ 944 01bc 02       		.uleb128 0x2
+ 945 01bd 91       		.byte	0x91
+ 946 01be 76       		.sleb128 -10
+ 947 01bf 00       		.byte	0
+ 948 01c0 0A       		.uleb128 0xa
+ 949 01c1 6A000000 		.4byte	.LASF30
+ 950 01c5 01       		.byte	0x1
+ 951 01c6 AC02     		.2byte	0x2ac
+ 952 01c8 00000000 		.4byte	.LFB9
+ 953 01cc 20000000 		.4byte	.LFE9-.LFB9
+ 954 01d0 01       		.uleb128 0x1
+ 955 01d1 9C       		.byte	0x9c
+ 956 01d2 E6010000 		.4byte	0x1e6
+ 957 01d6 0B       		.uleb128 0xb
+ 958 01d7 73020000 		.4byte	.LASF31
+ 959 01db 01       		.byte	0x1
+ 960 01dc AC02     		.2byte	0x2ac
+ 961 01de 6B000000 		.4byte	0x6b
+ 962 01e2 02       		.uleb128 0x2
+ 963 01e3 91       		.byte	0x91
+ 964 01e4 77       		.sleb128 -9
+ 965 01e5 00       		.byte	0
+ 966 01e6 0C       		.uleb128 0xc
+ 967 01e7 FF020000 		.4byte	.LASF33
+ 968 01eb 01       		.byte	0x1
+ 969 01ec C702     		.2byte	0x2c7
+ 970 01ee 6B000000 		.4byte	0x6b
+ 971 01f2 00000000 		.4byte	.LFB10
+ 972 01f6 18000000 		.4byte	.LFE10-.LFB10
+ 973 01fa 01       		.uleb128 0x1
+ 974 01fb 9C       		.byte	0x9c
+ 975 01fc 0E       		.uleb128 0xe
+ 976 01fd 41000000 		.4byte	.LASF43
+ 977 0201 01       		.byte	0x1
+ 978 0202 E102     		.2byte	0x2e1
+ 979 0204 6B000000 		.4byte	0x6b
+ 980 0208 00000000 		.4byte	.LFB11
+ 981 020c 20000000 		.4byte	.LFE11-.LFB11
+ 982 0210 01       		.uleb128 0x1
+ 983 0211 9C       		.byte	0x9c
+ 984 0212 26020000 		.4byte	0x226
+ 985 0216 0F       		.uleb128 0xf
+ 986 0217 0C020000 		.4byte	.LASF34
+ 987 021b 01       		.byte	0x1
+ 988 021c E302     		.2byte	0x2e3
+ 989 021e 6B000000 		.4byte	0x6b
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 34
+
+
+ 990 0222 02       		.uleb128 0x2
+ 991 0223 91       		.byte	0x91
+ 992 0224 77       		.sleb128 -9
+ 993 0225 00       		.byte	0
+ 994 0226 0A       		.uleb128 0xa
+ 995 0227 8B020000 		.4byte	.LASF35
+ 996 022b 01       		.byte	0x1
+ 997 022c FD02     		.2byte	0x2fd
+ 998 022e 00000000 		.4byte	.LFB12
+ 999 0232 20000000 		.4byte	.LFE12-.LFB12
+ 1000 0236 01       		.uleb128 0x1
+ 1001 0237 9C       		.byte	0x9c
+ 1002 0238 4C020000 		.4byte	0x24c
+ 1003 023c 0B       		.uleb128 0xb
+ 1004 023d 02010000 		.4byte	.LASF36
+ 1005 0241 01       		.byte	0x1
+ 1006 0242 FD02     		.2byte	0x2fd
+ 1007 0244 6B000000 		.4byte	0x6b
+ 1008 0248 02       		.uleb128 0x2
+ 1009 0249 91       		.byte	0x91
+ 1010 024a 77       		.sleb128 -9
+ 1011 024b 00       		.byte	0
+ 1012 024c 0C       		.uleb128 0xc
+ 1013 024d C0010000 		.4byte	.LASF37
+ 1014 0251 01       		.byte	0x1
+ 1015 0252 1603     		.2byte	0x316
+ 1016 0254 77000000 		.4byte	0x77
+ 1017 0258 00000000 		.4byte	.LFB13
+ 1018 025c 18000000 		.4byte	.LFE13-.LFB13
+ 1019 0260 01       		.uleb128 0x1
+ 1020 0261 9C       		.byte	0x9c
+ 1021 0262 0C       		.uleb128 0xc
+ 1022 0263 0D000000 		.4byte	.LASF38
+ 1023 0267 01       		.byte	0x1
+ 1024 0268 3003     		.2byte	0x330
+ 1025 026a 77000000 		.4byte	0x77
+ 1026 026e 00000000 		.4byte	.LFB14
+ 1027 0272 18000000 		.4byte	.LFE14-.LFB14
+ 1028 0276 01       		.uleb128 0x1
+ 1029 0277 9C       		.byte	0x9c
+ 1030 0278 0C       		.uleb128 0xc
+ 1031 0279 13020000 		.4byte	.LASF39
+ 1032 027d 01       		.byte	0x1
+ 1033 027e 7403     		.2byte	0x374
+ 1034 0280 77000000 		.4byte	0x77
+ 1035 0284 00000000 		.4byte	.LFB15
+ 1036 0288 18000000 		.4byte	.LFE15-.LFB15
+ 1037 028c 01       		.uleb128 0x1
+ 1038 028d 9C       		.byte	0x9c
+ 1039 028e 10       		.uleb128 0x10
+ 1040 028f 27030000 		.4byte	.LASF44
+ 1041 0293 01       		.byte	0x1
+ 1042 0294 20       		.byte	0x20
+ 1043 0295 6B000000 		.4byte	0x6b
+ 1044 0299 05       		.uleb128 0x5
+ 1045 029a 03       		.byte	0x3
+ 1046 029b 00000000 		.4byte	High_Frequency_PWM_1_initVar
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 35
+
+
+ 1047 029f 00       		.byte	0
+ 1048              		.section	.debug_abbrev,"",%progbits
+ 1049              	.Ldebug_abbrev0:
+ 1050 0000 01       		.uleb128 0x1
+ 1051 0001 11       		.uleb128 0x11
+ 1052 0002 01       		.byte	0x1
+ 1053 0003 25       		.uleb128 0x25
+ 1054 0004 0E       		.uleb128 0xe
+ 1055 0005 13       		.uleb128 0x13
+ 1056 0006 0B       		.uleb128 0xb
+ 1057 0007 03       		.uleb128 0x3
+ 1058 0008 0E       		.uleb128 0xe
+ 1059 0009 1B       		.uleb128 0x1b
+ 1060 000a 0E       		.uleb128 0xe
+ 1061 000b 55       		.uleb128 0x55
+ 1062 000c 17       		.uleb128 0x17
+ 1063 000d 11       		.uleb128 0x11
+ 1064 000e 01       		.uleb128 0x1
+ 1065 000f 10       		.uleb128 0x10
+ 1066 0010 17       		.uleb128 0x17
+ 1067 0011 00       		.byte	0
+ 1068 0012 00       		.byte	0
+ 1069 0013 02       		.uleb128 0x2
+ 1070 0014 24       		.uleb128 0x24
+ 1071 0015 00       		.byte	0
+ 1072 0016 0B       		.uleb128 0xb
+ 1073 0017 0B       		.uleb128 0xb
+ 1074 0018 3E       		.uleb128 0x3e
+ 1075 0019 0B       		.uleb128 0xb
+ 1076 001a 03       		.uleb128 0x3
+ 1077 001b 0E       		.uleb128 0xe
+ 1078 001c 00       		.byte	0
+ 1079 001d 00       		.byte	0
+ 1080 001e 03       		.uleb128 0x3
+ 1081 001f 24       		.uleb128 0x24
+ 1082 0020 00       		.byte	0
+ 1083 0021 0B       		.uleb128 0xb
+ 1084 0022 0B       		.uleb128 0xb
+ 1085 0023 3E       		.uleb128 0x3e
+ 1086 0024 0B       		.uleb128 0xb
+ 1087 0025 03       		.uleb128 0x3
+ 1088 0026 08       		.uleb128 0x8
+ 1089 0027 00       		.byte	0
+ 1090 0028 00       		.byte	0
+ 1091 0029 04       		.uleb128 0x4
+ 1092 002a 16       		.uleb128 0x16
+ 1093 002b 00       		.byte	0
+ 1094 002c 03       		.uleb128 0x3
+ 1095 002d 0E       		.uleb128 0xe
+ 1096 002e 3A       		.uleb128 0x3a
+ 1097 002f 0B       		.uleb128 0xb
+ 1098 0030 3B       		.uleb128 0x3b
+ 1099 0031 05       		.uleb128 0x5
+ 1100 0032 49       		.uleb128 0x49
+ 1101 0033 13       		.uleb128 0x13
+ 1102 0034 00       		.byte	0
+ 1103 0035 00       		.byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 36
+
+
+ 1104 0036 05       		.uleb128 0x5
+ 1105 0037 35       		.uleb128 0x35
+ 1106 0038 00       		.byte	0
+ 1107 0039 49       		.uleb128 0x49
+ 1108 003a 13       		.uleb128 0x13
+ 1109 003b 00       		.byte	0
+ 1110 003c 00       		.byte	0
+ 1111 003d 06       		.uleb128 0x6
+ 1112 003e 2E       		.uleb128 0x2e
+ 1113 003f 00       		.byte	0
+ 1114 0040 3F       		.uleb128 0x3f
+ 1115 0041 19       		.uleb128 0x19
+ 1116 0042 03       		.uleb128 0x3
+ 1117 0043 0E       		.uleb128 0xe
+ 1118 0044 3A       		.uleb128 0x3a
+ 1119 0045 0B       		.uleb128 0xb
+ 1120 0046 3B       		.uleb128 0x3b
+ 1121 0047 0B       		.uleb128 0xb
+ 1122 0048 27       		.uleb128 0x27
+ 1123 0049 19       		.uleb128 0x19
+ 1124 004a 11       		.uleb128 0x11
+ 1125 004b 01       		.uleb128 0x1
+ 1126 004c 12       		.uleb128 0x12
+ 1127 004d 06       		.uleb128 0x6
+ 1128 004e 40       		.uleb128 0x40
+ 1129 004f 18       		.uleb128 0x18
+ 1130 0050 9642     		.uleb128 0x2116
+ 1131 0052 19       		.uleb128 0x19
+ 1132 0053 00       		.byte	0
+ 1133 0054 00       		.byte	0
+ 1134 0055 07       		.uleb128 0x7
+ 1135 0056 2E       		.uleb128 0x2e
+ 1136 0057 01       		.byte	0x1
+ 1137 0058 3F       		.uleb128 0x3f
+ 1138 0059 19       		.uleb128 0x19
+ 1139 005a 03       		.uleb128 0x3
+ 1140 005b 0E       		.uleb128 0xe
+ 1141 005c 3A       		.uleb128 0x3a
+ 1142 005d 0B       		.uleb128 0xb
+ 1143 005e 3B       		.uleb128 0x3b
+ 1144 005f 0B       		.uleb128 0xb
+ 1145 0060 27       		.uleb128 0x27
+ 1146 0061 19       		.uleb128 0x19
+ 1147 0062 11       		.uleb128 0x11
+ 1148 0063 01       		.uleb128 0x1
+ 1149 0064 12       		.uleb128 0x12
+ 1150 0065 06       		.uleb128 0x6
+ 1151 0066 40       		.uleb128 0x40
+ 1152 0067 18       		.uleb128 0x18
+ 1153 0068 9642     		.uleb128 0x2116
+ 1154 006a 19       		.uleb128 0x19
+ 1155 006b 01       		.uleb128 0x1
+ 1156 006c 13       		.uleb128 0x13
+ 1157 006d 00       		.byte	0
+ 1158 006e 00       		.byte	0
+ 1159 006f 08       		.uleb128 0x8
+ 1160 0070 34       		.uleb128 0x34
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 37
+
+
+ 1161 0071 00       		.byte	0
+ 1162 0072 03       		.uleb128 0x3
+ 1163 0073 0E       		.uleb128 0xe
+ 1164 0074 3A       		.uleb128 0x3a
+ 1165 0075 0B       		.uleb128 0xb
+ 1166 0076 3B       		.uleb128 0x3b
+ 1167 0077 0B       		.uleb128 0xb
+ 1168 0078 49       		.uleb128 0x49
+ 1169 0079 13       		.uleb128 0x13
+ 1170 007a 02       		.uleb128 0x2
+ 1171 007b 18       		.uleb128 0x18
+ 1172 007c 00       		.byte	0
+ 1173 007d 00       		.byte	0
+ 1174 007e 09       		.uleb128 0x9
+ 1175 007f 2E       		.uleb128 0x2e
+ 1176 0080 00       		.byte	0
+ 1177 0081 3F       		.uleb128 0x3f
+ 1178 0082 19       		.uleb128 0x19
+ 1179 0083 03       		.uleb128 0x3
+ 1180 0084 0E       		.uleb128 0xe
+ 1181 0085 3A       		.uleb128 0x3a
+ 1182 0086 0B       		.uleb128 0xb
+ 1183 0087 3B       		.uleb128 0x3b
+ 1184 0088 0B       		.uleb128 0xb
+ 1185 0089 27       		.uleb128 0x27
+ 1186 008a 19       		.uleb128 0x19
+ 1187 008b 11       		.uleb128 0x11
+ 1188 008c 01       		.uleb128 0x1
+ 1189 008d 12       		.uleb128 0x12
+ 1190 008e 06       		.uleb128 0x6
+ 1191 008f 40       		.uleb128 0x40
+ 1192 0090 18       		.uleb128 0x18
+ 1193 0091 9742     		.uleb128 0x2117
+ 1194 0093 19       		.uleb128 0x19
+ 1195 0094 00       		.byte	0
+ 1196 0095 00       		.byte	0
+ 1197 0096 0A       		.uleb128 0xa
+ 1198 0097 2E       		.uleb128 0x2e
+ 1199 0098 01       		.byte	0x1
+ 1200 0099 3F       		.uleb128 0x3f
+ 1201 009a 19       		.uleb128 0x19
+ 1202 009b 03       		.uleb128 0x3
+ 1203 009c 0E       		.uleb128 0xe
+ 1204 009d 3A       		.uleb128 0x3a
+ 1205 009e 0B       		.uleb128 0xb
+ 1206 009f 3B       		.uleb128 0x3b
+ 1207 00a0 05       		.uleb128 0x5
+ 1208 00a1 27       		.uleb128 0x27
+ 1209 00a2 19       		.uleb128 0x19
+ 1210 00a3 11       		.uleb128 0x11
+ 1211 00a4 01       		.uleb128 0x1
+ 1212 00a5 12       		.uleb128 0x12
+ 1213 00a6 06       		.uleb128 0x6
+ 1214 00a7 40       		.uleb128 0x40
+ 1215 00a8 18       		.uleb128 0x18
+ 1216 00a9 9742     		.uleb128 0x2117
+ 1217 00ab 19       		.uleb128 0x19
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 38
+
+
+ 1218 00ac 01       		.uleb128 0x1
+ 1219 00ad 13       		.uleb128 0x13
+ 1220 00ae 00       		.byte	0
+ 1221 00af 00       		.byte	0
+ 1222 00b0 0B       		.uleb128 0xb
+ 1223 00b1 05       		.uleb128 0x5
+ 1224 00b2 00       		.byte	0
+ 1225 00b3 03       		.uleb128 0x3
+ 1226 00b4 0E       		.uleb128 0xe
+ 1227 00b5 3A       		.uleb128 0x3a
+ 1228 00b6 0B       		.uleb128 0xb
+ 1229 00b7 3B       		.uleb128 0x3b
+ 1230 00b8 05       		.uleb128 0x5
+ 1231 00b9 49       		.uleb128 0x49
+ 1232 00ba 13       		.uleb128 0x13
+ 1233 00bb 02       		.uleb128 0x2
+ 1234 00bc 18       		.uleb128 0x18
+ 1235 00bd 00       		.byte	0
+ 1236 00be 00       		.byte	0
+ 1237 00bf 0C       		.uleb128 0xc
+ 1238 00c0 2E       		.uleb128 0x2e
+ 1239 00c1 00       		.byte	0
+ 1240 00c2 3F       		.uleb128 0x3f
+ 1241 00c3 19       		.uleb128 0x19
+ 1242 00c4 03       		.uleb128 0x3
+ 1243 00c5 0E       		.uleb128 0xe
+ 1244 00c6 3A       		.uleb128 0x3a
+ 1245 00c7 0B       		.uleb128 0xb
+ 1246 00c8 3B       		.uleb128 0x3b
+ 1247 00c9 05       		.uleb128 0x5
+ 1248 00ca 27       		.uleb128 0x27
+ 1249 00cb 19       		.uleb128 0x19
+ 1250 00cc 49       		.uleb128 0x49
+ 1251 00cd 13       		.uleb128 0x13
+ 1252 00ce 11       		.uleb128 0x11
+ 1253 00cf 01       		.uleb128 0x1
+ 1254 00d0 12       		.uleb128 0x12
+ 1255 00d1 06       		.uleb128 0x6
+ 1256 00d2 40       		.uleb128 0x40
+ 1257 00d3 18       		.uleb128 0x18
+ 1258 00d4 9742     		.uleb128 0x2117
+ 1259 00d6 19       		.uleb128 0x19
+ 1260 00d7 00       		.byte	0
+ 1261 00d8 00       		.byte	0
+ 1262 00d9 0D       		.uleb128 0xd
+ 1263 00da 2E       		.uleb128 0x2e
+ 1264 00db 00       		.byte	0
+ 1265 00dc 3F       		.uleb128 0x3f
+ 1266 00dd 19       		.uleb128 0x19
+ 1267 00de 03       		.uleb128 0x3
+ 1268 00df 0E       		.uleb128 0xe
+ 1269 00e0 3A       		.uleb128 0x3a
+ 1270 00e1 0B       		.uleb128 0xb
+ 1271 00e2 3B       		.uleb128 0x3b
+ 1272 00e3 05       		.uleb128 0x5
+ 1273 00e4 27       		.uleb128 0x27
+ 1274 00e5 19       		.uleb128 0x19
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 39
+
+
+ 1275 00e6 11       		.uleb128 0x11
+ 1276 00e7 01       		.uleb128 0x1
+ 1277 00e8 12       		.uleb128 0x12
+ 1278 00e9 06       		.uleb128 0x6
+ 1279 00ea 40       		.uleb128 0x40
+ 1280 00eb 18       		.uleb128 0x18
+ 1281 00ec 9642     		.uleb128 0x2116
+ 1282 00ee 19       		.uleb128 0x19
+ 1283 00ef 00       		.byte	0
+ 1284 00f0 00       		.byte	0
+ 1285 00f1 0E       		.uleb128 0xe
+ 1286 00f2 2E       		.uleb128 0x2e
+ 1287 00f3 01       		.byte	0x1
+ 1288 00f4 3F       		.uleb128 0x3f
+ 1289 00f5 19       		.uleb128 0x19
+ 1290 00f6 03       		.uleb128 0x3
+ 1291 00f7 0E       		.uleb128 0xe
+ 1292 00f8 3A       		.uleb128 0x3a
+ 1293 00f9 0B       		.uleb128 0xb
+ 1294 00fa 3B       		.uleb128 0x3b
+ 1295 00fb 05       		.uleb128 0x5
+ 1296 00fc 27       		.uleb128 0x27
+ 1297 00fd 19       		.uleb128 0x19
+ 1298 00fe 49       		.uleb128 0x49
+ 1299 00ff 13       		.uleb128 0x13
+ 1300 0100 11       		.uleb128 0x11
+ 1301 0101 01       		.uleb128 0x1
+ 1302 0102 12       		.uleb128 0x12
+ 1303 0103 06       		.uleb128 0x6
+ 1304 0104 40       		.uleb128 0x40
+ 1305 0105 18       		.uleb128 0x18
+ 1306 0106 9742     		.uleb128 0x2117
+ 1307 0108 19       		.uleb128 0x19
+ 1308 0109 01       		.uleb128 0x1
+ 1309 010a 13       		.uleb128 0x13
+ 1310 010b 00       		.byte	0
+ 1311 010c 00       		.byte	0
+ 1312 010d 0F       		.uleb128 0xf
+ 1313 010e 34       		.uleb128 0x34
+ 1314 010f 00       		.byte	0
+ 1315 0110 03       		.uleb128 0x3
+ 1316 0111 0E       		.uleb128 0xe
+ 1317 0112 3A       		.uleb128 0x3a
+ 1318 0113 0B       		.uleb128 0xb
+ 1319 0114 3B       		.uleb128 0x3b
+ 1320 0115 05       		.uleb128 0x5
+ 1321 0116 49       		.uleb128 0x49
+ 1322 0117 13       		.uleb128 0x13
+ 1323 0118 02       		.uleb128 0x2
+ 1324 0119 18       		.uleb128 0x18
+ 1325 011a 00       		.byte	0
+ 1326 011b 00       		.byte	0
+ 1327 011c 10       		.uleb128 0x10
+ 1328 011d 34       		.uleb128 0x34
+ 1329 011e 00       		.byte	0
+ 1330 011f 03       		.uleb128 0x3
+ 1331 0120 0E       		.uleb128 0xe
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 40
+
+
+ 1332 0121 3A       		.uleb128 0x3a
+ 1333 0122 0B       		.uleb128 0xb
+ 1334 0123 3B       		.uleb128 0x3b
+ 1335 0124 0B       		.uleb128 0xb
+ 1336 0125 49       		.uleb128 0x49
+ 1337 0126 13       		.uleb128 0x13
+ 1338 0127 3F       		.uleb128 0x3f
+ 1339 0128 19       		.uleb128 0x19
+ 1340 0129 02       		.uleb128 0x2
+ 1341 012a 18       		.uleb128 0x18
+ 1342 012b 00       		.byte	0
+ 1343 012c 00       		.byte	0
+ 1344 012d 00       		.byte	0
+ 1345              		.section	.debug_aranges,"",%progbits
+ 1346 0000 94000000 		.4byte	0x94
+ 1347 0004 0200     		.2byte	0x2
+ 1348 0006 00000000 		.4byte	.Ldebug_info0
+ 1349 000a 04       		.byte	0x4
+ 1350 000b 00       		.byte	0
+ 1351 000c 0000     		.2byte	0
+ 1352 000e 0000     		.2byte	0
+ 1353 0010 00000000 		.4byte	.LFB0
+ 1354 0014 20000000 		.4byte	.LFE0-.LFB0
+ 1355 0018 00000000 		.4byte	.LFB1
+ 1356 001c 90000000 		.4byte	.LFE1-.LFB1
+ 1357 0020 00000000 		.4byte	.LFB2
+ 1358 0024 20000000 		.4byte	.LFE2-.LFB2
+ 1359 0028 00000000 		.4byte	.LFB3
+ 1360 002c 20000000 		.4byte	.LFE3-.LFB3
+ 1361 0030 00000000 		.4byte	.LFB4
+ 1362 0034 20000000 		.4byte	.LFE4-.LFB4
+ 1363 0038 00000000 		.4byte	.LFB5
+ 1364 003c 20000000 		.4byte	.LFE5-.LFB5
+ 1365 0040 00000000 		.4byte	.LFB6
+ 1366 0044 1A000000 		.4byte	.LFE6-.LFB6
+ 1367 0048 00000000 		.4byte	.LFB7
+ 1368 004c 20000000 		.4byte	.LFE7-.LFB7
+ 1369 0050 00000000 		.4byte	.LFB8
+ 1370 0054 20000000 		.4byte	.LFE8-.LFB8
+ 1371 0058 00000000 		.4byte	.LFB9
+ 1372 005c 20000000 		.4byte	.LFE9-.LFB9
+ 1373 0060 00000000 		.4byte	.LFB10
+ 1374 0064 18000000 		.4byte	.LFE10-.LFB10
+ 1375 0068 00000000 		.4byte	.LFB11
+ 1376 006c 20000000 		.4byte	.LFE11-.LFB11
+ 1377 0070 00000000 		.4byte	.LFB12
+ 1378 0074 20000000 		.4byte	.LFE12-.LFB12
+ 1379 0078 00000000 		.4byte	.LFB13
+ 1380 007c 18000000 		.4byte	.LFE13-.LFB13
+ 1381 0080 00000000 		.4byte	.LFB14
+ 1382 0084 18000000 		.4byte	.LFE14-.LFB14
+ 1383 0088 00000000 		.4byte	.LFB15
+ 1384 008c 18000000 		.4byte	.LFE15-.LFB15
+ 1385 0090 00000000 		.4byte	0
+ 1386 0094 00000000 		.4byte	0
+ 1387              		.section	.debug_ranges,"",%progbits
+ 1388              	.Ldebug_ranges0:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 41
+
+
+ 1389 0000 00000000 		.4byte	.LFB0
+ 1390 0004 20000000 		.4byte	.LFE0
+ 1391 0008 00000000 		.4byte	.LFB1
+ 1392 000c 90000000 		.4byte	.LFE1
+ 1393 0010 00000000 		.4byte	.LFB2
+ 1394 0014 20000000 		.4byte	.LFE2
+ 1395 0018 00000000 		.4byte	.LFB3
+ 1396 001c 20000000 		.4byte	.LFE3
+ 1397 0020 00000000 		.4byte	.LFB4
+ 1398 0024 20000000 		.4byte	.LFE4
+ 1399 0028 00000000 		.4byte	.LFB5
+ 1400 002c 20000000 		.4byte	.LFE5
+ 1401 0030 00000000 		.4byte	.LFB6
+ 1402 0034 1A000000 		.4byte	.LFE6
+ 1403 0038 00000000 		.4byte	.LFB7
+ 1404 003c 20000000 		.4byte	.LFE7
+ 1405 0040 00000000 		.4byte	.LFB8
+ 1406 0044 20000000 		.4byte	.LFE8
+ 1407 0048 00000000 		.4byte	.LFB9
+ 1408 004c 20000000 		.4byte	.LFE9
+ 1409 0050 00000000 		.4byte	.LFB10
+ 1410 0054 18000000 		.4byte	.LFE10
+ 1411 0058 00000000 		.4byte	.LFB11
+ 1412 005c 20000000 		.4byte	.LFE11
+ 1413 0060 00000000 		.4byte	.LFB12
+ 1414 0064 20000000 		.4byte	.LFE12
+ 1415 0068 00000000 		.4byte	.LFB13
+ 1416 006c 18000000 		.4byte	.LFE13
+ 1417 0070 00000000 		.4byte	.LFB14
+ 1418 0074 18000000 		.4byte	.LFE14
+ 1419 0078 00000000 		.4byte	.LFB15
+ 1420 007c 18000000 		.4byte	.LFE15
+ 1421 0080 00000000 		.4byte	0
+ 1422 0084 00000000 		.4byte	0
+ 1423              		.section	.debug_line,"",%progbits
+ 1424              	.Ldebug_line0:
+ 1425 0000 94010000 		.section	.debug_str,"MS",%progbits,1
+ 1425      02005100 
+ 1425      00000201 
+ 1425      FB0E0D00 
+ 1425      01010101 
+ 1426              	.LASF15:
+ 1427 0000 72656731 		.ascii	"reg16\000"
+ 1427      3600
+ 1428              	.LASF27:
+ 1429 0006 70657269 		.ascii	"period\000"
+ 1429      6F6400
+ 1430              	.LASF38:
+ 1431 000d 48696768 		.ascii	"High_Frequency_PWM_1_ReadCompare\000"
+ 1431      5F467265 
+ 1431      7175656E 
+ 1431      63795F50 
+ 1431      574D5F31 
+ 1432              	.LASF3:
+ 1433 002e 73686F72 		.ascii	"short unsigned int\000"
+ 1433      7420756E 
+ 1433      7369676E 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 42
+
+
+ 1433      65642069 
+ 1433      6E7400
+ 1434              	.LASF43:
+ 1435 0041 48696768 		.ascii	"High_Frequency_PWM_1_ReadControlRegister\000"
+ 1435      5F467265 
+ 1435      7175656E 
+ 1435      63795F50 
+ 1435      574D5F31 
+ 1436              	.LASF30:
+ 1437 006a 48696768 		.ascii	"High_Frequency_PWM_1_SetInterruptMode\000"
+ 1437      5F467265 
+ 1437      7175656E 
+ 1437      63795F50 
+ 1437      574D5F31 
+ 1438              	.LASF21:
+ 1439 0090 48696768 		.ascii	"High_Frequency_PWM_1_Stop\000"
+ 1439      5F467265 
+ 1439      7175656E 
+ 1439      63795F50 
+ 1439      574D5F31 
+ 1440              	.LASF11:
+ 1441 00aa 666C6F61 		.ascii	"float\000"
+ 1441      7400
+ 1442              	.LASF26:
+ 1443 00b0 636F756E 		.ascii	"counter\000"
+ 1443      74657200 
+ 1444              	.LASF1:
+ 1445 00b8 756E7369 		.ascii	"unsigned char\000"
+ 1445      676E6564 
+ 1445      20636861 
+ 1445      7200
+ 1446              	.LASF24:
+ 1447 00c6 48696768 		.ascii	"High_Frequency_PWM_1_ClearFIFO\000"
+ 1447      5F467265 
+ 1447      7175656E 
+ 1447      63795F50 
+ 1447      574D5F31 
+ 1448              	.LASF14:
+ 1449 00e5 72656738 		.ascii	"reg8\000"
+ 1449      00
+ 1450              	.LASF5:
+ 1451 00ea 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1451      20756E73 
+ 1451      69676E65 
+ 1451      6420696E 
+ 1451      7400
+ 1452              	.LASF9:
+ 1453 00fc 75696E74 		.ascii	"uint8\000"
+ 1453      3800
+ 1454              	.LASF36:
+ 1455 0102 636F6E74 		.ascii	"control\000"
+ 1455      726F6C00 
+ 1456              	.LASF40:
+ 1457 010a 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1457      4320342E 
+ 1457      392E3320 
+ 1457      32303135 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 43
+
+
+ 1457      30333033 
+ 1458 013d 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1458      20726576 
+ 1458      6973696F 
+ 1458      6E203232 
+ 1458      31323230 
+ 1459 0170 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 1459      66756E63 
+ 1459      74696F6E 
+ 1459      2D736563 
+ 1459      74696F6E 
+ 1460              	.LASF12:
+ 1461 0198 646F7562 		.ascii	"double\000"
+ 1461      6C6500
+ 1462              	.LASF32:
+ 1463 019f 48696768 		.ascii	"High_Frequency_PWM_1_ReadCounter\000"
+ 1463      5F467265 
+ 1463      7175656E 
+ 1463      63795F50 
+ 1463      574D5F31 
+ 1464              	.LASF37:
+ 1465 01c0 48696768 		.ascii	"High_Frequency_PWM_1_ReadCapture\000"
+ 1465      5F467265 
+ 1465      7175656E 
+ 1465      63795F50 
+ 1465      574D5F31 
+ 1466              	.LASF10:
+ 1467 01e1 75696E74 		.ascii	"uint16\000"
+ 1467      313600
+ 1468              	.LASF8:
+ 1469 01e8 756E7369 		.ascii	"unsigned int\000"
+ 1469      676E6564 
+ 1469      20696E74 
+ 1469      00
+ 1470              	.LASF7:
+ 1471 01f5 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1471      206C6F6E 
+ 1471      6720756E 
+ 1471      7369676E 
+ 1471      65642069 
+ 1472              	.LASF34:
+ 1473 020c 72657375 		.ascii	"result\000"
+ 1473      6C7400
+ 1474              	.LASF39:
+ 1475 0213 48696768 		.ascii	"High_Frequency_PWM_1_ReadPeriod\000"
+ 1475      5F467265 
+ 1475      7175656E 
+ 1475      63795F50 
+ 1475      574D5F31 
+ 1476              	.LASF17:
+ 1477 0233 6374726C 		.ascii	"ctrl\000"
+ 1477      00
+ 1478              	.LASF16:
+ 1479 0238 73697A65 		.ascii	"sizetype\000"
+ 1479      74797065 
+ 1479      00
+ 1480              	.LASF18:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 44
+
+
+ 1481 0241 48696768 		.ascii	"High_Frequency_PWM_1_interruptState\000"
+ 1481      5F467265 
+ 1481      7175656E 
+ 1481      63795F50 
+ 1481      574D5F31 
+ 1482              	.LASF6:
+ 1483 0265 6C6F6E67 		.ascii	"long long int\000"
+ 1483      206C6F6E 
+ 1483      6720696E 
+ 1483      7400
+ 1484              	.LASF31:
+ 1485 0273 696E7465 		.ascii	"interruptMode\000"
+ 1485      72727570 
+ 1485      744D6F64 
+ 1485      6500
+ 1486              	.LASF2:
+ 1487 0281 73686F72 		.ascii	"short int\000"
+ 1487      7420696E 
+ 1487      7400
+ 1488              	.LASF35:
+ 1489 028b 48696768 		.ascii	"High_Frequency_PWM_1_WriteControlRegister\000"
+ 1489      5F467265 
+ 1489      7175656E 
+ 1489      63795F50 
+ 1489      574D5F31 
+ 1490              	.LASF41:
+ 1491 02b5 47656E65 		.ascii	"Generated_Source\\PSoC5\\High_Frequency_PWM_1.c\000"
+ 1491      72617465 
+ 1491      645F536F 
+ 1491      75726365 
+ 1491      5C50536F 
+ 1492              	.LASF20:
+ 1493 02e3 48696768 		.ascii	"High_Frequency_PWM_1_Enable\000"
+ 1493      5F467265 
+ 1493      7175656E 
+ 1493      63795F50 
+ 1493      574D5F31 
+ 1494              	.LASF33:
+ 1495 02ff 48696768 		.ascii	"High_Frequency_PWM_1_ReadStatusRegister\000"
+ 1495      5F467265 
+ 1495      7175656E 
+ 1495      63795F50 
+ 1495      574D5F31 
+ 1496              	.LASF44:
+ 1497 0327 48696768 		.ascii	"High_Frequency_PWM_1_initVar\000"
+ 1497      5F467265 
+ 1497      7175656E 
+ 1497      63795F50 
+ 1497      574D5F31 
+ 1498              	.LASF4:
+ 1499 0344 6C6F6E67 		.ascii	"long int\000"
+ 1499      20696E74 
+ 1499      00
+ 1500              	.LASF13:
+ 1501 034d 63686172 		.ascii	"char\000"
+ 1501      00
+ 1502              	.LASF22:
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cciulnHj.s 			page 45
+
+
+ 1503 0352 48696768 		.ascii	"High_Frequency_PWM_1_Init\000"
+ 1503      5F467265 
+ 1503      7175656E 
+ 1503      63795F50 
+ 1503      574D5F31 
+ 1504              	.LASF0:
+ 1505 036c 7369676E 		.ascii	"signed char\000"
+ 1505      65642063 
+ 1505      68617200 
+ 1506              	.LASF29:
+ 1507 0378 636F6D70 		.ascii	"compare\000"
+ 1507      61726500 
+ 1508              	.LASF23:
+ 1509 0380 48696768 		.ascii	"High_Frequency_PWM_1_WriteCounter\000"
+ 1509      5F467265 
+ 1509      7175656E 
+ 1509      63795F50 
+ 1509      574D5F31 
+ 1510              	.LASF28:
+ 1511 03a2 48696768 		.ascii	"High_Frequency_PWM_1_WriteCompare\000"
+ 1511      5F467265 
+ 1511      7175656E 
+ 1511      63795F50 
+ 1511      574D5F31 
+ 1512              	.LASF19:
+ 1513 03c4 48696768 		.ascii	"High_Frequency_PWM_1_Start\000"
+ 1513      5F467265 
+ 1513      7175656E 
+ 1513      63795F50 
+ 1513      574D5F31 
+ 1514              	.LASF42:
+ 1515 03df 433A5C55 		.ascii	"C:\\Users\\bmt\\Documents\\GitHub\\FreeRTOS_CY8CKIT"
+ 1515      73657273 
+ 1515      5C626D74 
+ 1515      5C446F63 
+ 1515      756D656E 
+ 1516 040d 5F303539 		.ascii	"_059\\FreeRTOS_Demo.cydsn\000"
+ 1516      5C467265 
+ 1516      6552544F 
+ 1516      535F4465 
+ 1516      6D6F2E63 
+ 1517              	.LASF25:
+ 1518 0426 48696768 		.ascii	"High_Frequency_PWM_1_WritePeriod\000"
+ 1518      5F467265 
+ 1518      7175656E 
+ 1518      63795F50 
+ 1518      574D5F31 
+ 1519              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

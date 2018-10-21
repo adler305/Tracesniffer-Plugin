@@ -1,0 +1,4509 @@
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"xformatc.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.rodata
+  20              		.align	2
+  21              		.type	ms_null, %object
+  22              		.size	ms_null, 7
+  23              	ms_null:
+  24 0000 286E756C 		.ascii	"(null)\000"
+  24      6C2900
+  25 0007 00       		.align	2
+  26              		.type	ms_true, %object
+  27              		.size	ms_true, 5
+  28              	ms_true:
+  29 0008 54727565 		.ascii	"True\000"
+  29      00
+  30 000d 000000   		.align	2
+  31              		.type	ms_false, %object
+  32              		.size	ms_false, 6
+  33              	ms_false:
+  34 0010 46616C73 		.ascii	"False\000"
+  34      6500
+  35 0016 0000     		.align	2
+  36              		.type	ms_digits, %object
+  37              		.size	ms_digits, 17
+  38              	ms_digits:
+  39 0018 30313233 		.ascii	"0123456789abcdef\000"
+  39      34353637 
+  39      38396162 
+  39      63646566 
+  39      00
+  40 0029 000000   		.align	2
+  41              		.type	formatStates, %object
+  42              		.size	formatStates, 91
+  43              	formatStates:
+  44 002c 06       		.byte	6
+  45 002d 00       		.byte	0
+  46 002e 00       		.byte	0
+  47 002f 06       		.byte	6
+  48 0030 00       		.byte	0
+  49 0031 01       		.byte	1
+  50 0032 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 2
+
+
+  51 0033 00       		.byte	0
+  52 0034 10       		.byte	16
+  53 0035 00       		.byte	0
+  54 0036 03       		.byte	3
+  55 0037 06       		.byte	6
+  56 0038 00       		.byte	0
+  57 0039 06       		.byte	6
+  58 003a 02       		.byte	2
+  59 003b 10       		.byte	16
+  60 003c 04       		.byte	4
+  61 003d 45       		.byte	69
+  62 003e 45       		.byte	69
+  63 003f 45       		.byte	69
+  64 0040 45       		.byte	69
+  65 0041 05       		.byte	5
+  66 0042 05       		.byte	5
+  67 0043 05       		.byte	5
+  68 0044 05       		.byte	5
+  69 0045 35       		.byte	53
+  70 0046 30       		.byte	48
+  71 0047 00       		.byte	0
+  72 0048 50       		.byte	80
+  73 0049 60       		.byte	96
+  74 004a 00       		.byte	0
+  75 004b 00       		.byte	0
+  76 004c 00       		.byte	0
+  77 004d 20       		.byte	32
+  78 004e 28       		.byte	40
+  79 004f 38       		.byte	56
+  80 0050 50       		.byte	80
+  81 0051 50       		.byte	80
+  82 0052 00       		.byte	0
+  83 0053 00       		.byte	0
+  84 0054 00       		.byte	0
+  85 0055 30       		.byte	48
+  86 0056 30       		.byte	48
+  87 0057 30       		.byte	48
+  88 0058 50       		.byte	80
+  89 0059 50       		.byte	80
+  90 005a 00       		.byte	0
+  91 005b 00       		.byte	0
+  92 005c 08       		.byte	8
+  93 005d 20       		.byte	32
+  94 005e 20       		.byte	32
+  95 005f 28       		.byte	40
+  96 0060 20       		.byte	32
+  97 0061 20       		.byte	32
+  98 0062 20       		.byte	32
+  99 0063 00       		.byte	0
+ 100 0064 08       		.byte	8
+ 101 0065 60       		.byte	96
+ 102 0066 60       		.byte	96
+ 103 0067 60       		.byte	96
+ 104 0068 60       		.byte	96
+ 105 0069 60       		.byte	96
+ 106 006a 60       		.byte	96
+ 107 006b 00       		.byte	0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 3
+
+
+ 108 006c 00       		.byte	0
+ 109 006d 70       		.byte	112
+ 110 006e 78       		.byte	120
+ 111 006f 78       		.byte	120
+ 112 0070 78       		.byte	120
+ 113 0071 70       		.byte	112
+ 114 0072 78       		.byte	120
+ 115 0073 00       		.byte	0
+ 116 0074 07       		.byte	7
+ 117 0075 08       		.byte	8
+ 118 0076 00       		.byte	0
+ 119 0077 00       		.byte	0
+ 120 0078 07       		.byte	7
+ 121 0079 00       		.byte	0
+ 122 007a 00       		.byte	0
+ 123 007b 08       		.byte	8
+ 124 007c 08       		.byte	8
+ 125 007d 00       		.byte	0
+ 126 007e 00       		.byte	0
+ 127 007f 08       		.byte	8
+ 128 0080 00       		.byte	0
+ 129 0081 08       		.byte	8
+ 130 0082 00       		.byte	0
+ 131 0083 00       		.byte	0
+ 132 0084 08       		.byte	8
+ 133 0085 00       		.byte	0
+ 134 0086 07       		.byte	7
+ 135              		.section	.text.ulong2a,"ax",%progbits
+ 136              		.align	2
+ 137              		.thumb
+ 138              		.thumb_func
+ 139              		.type	ulong2a, %function
+ 140              	ulong2a:
+ 141              	.LFB0:
+ 142              		.file 1 "xformatc.c"
+   1:xformatc.c    **** /**
+   2:xformatc.c    ****  * @file	xformatc.c
+   3:xformatc.c    ****  *
+   4:xformatc.c    ****  * @brief	Printf C implementation.
+   5:xformatc.c    ****  *
+   6:xformatc.c    ****  * Tested wuth the following operating systems / compilers :
+   7:xformatc.c    ****  *
+   8:xformatc.c    ****  * - Visual studio 6
+   9:xformatc.c    ****  * - Visual studio 2008 / Windows CE
+  10:xformatc.c    ****  * - MinGw 32
+  11:xformatc.c    ****  * - Linux i686
+  12:xformatc.c    ****  * - Linux x86_64
+  13:xformatc.c    ****  * - GCC wiith embedded ARM.
+  14:xformatc.c    ****  * - Linux armel
+  15:xformatc.c    ****  * - HCS08 with Freescale compiler.
+  16:xformatc.c    ****  * - SDCC (Z80 and 8051)
+  17:xformatc.c    ****  * 
+  18:xformatc.c    ****  * @author	Mario Viara
+  19:xformatc.c    ****  * 
+  20:xformatc.c    ****  * 
+  21:xformatc.c    ****  * @copyright	Copyright Mario Viara 2014	- License Open Source (LGPL)
+  22:xformatc.c    ****  * This is a free software and is opened for education, research and commercial
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 4
+
+
+  23:xformatc.c    ****  * developments under license policy of following terms:
+  24:xformatc.c    ****  * 
+  25:xformatc.c    ****  * - This is a free software and there is NO WARRANTY.
+  26:xformatc.c    ****  * - No restriction on use. You can use, modify and redistribute it for personal,
+  27:xformatc.c    ****  *	 non-profit or commercial product UNDER YOUR RESPONSIBILITY.
+  28:xformatc.c    ****  * - Redistributions of source code must retain the above copyright notice.
+  29:xformatc.c    ****  *
+  30:xformatc.c    ****  * To contact the author send an email to mario_at_viara.eu
+  31:xformatc.c    ****  *
+  32:xformatc.c    ****  */
+  33:xformatc.c    **** #ifdef HAVE_CONFIG_H
+  34:xformatc.c    **** #include "config.h"
+  35:xformatc.c    **** #endif
+  36:xformatc.c    **** 
+  37:xformatc.c    **** #include  "xformatc.h"
+  38:xformatc.c    **** 
+  39:xformatc.c    **** 
+  40:xformatc.c    **** 
+  41:xformatc.c    **** /**
+  42:xformatc.c    ****  * Default largest int is long
+  43:xformatc.c    ****  */
+  44:xformatc.c    **** #ifndef	LONG
+  45:xformatc.c    **** #define	LONG	long
+  46:xformatc.c    **** #endif
+  47:xformatc.c    **** 
+  48:xformatc.c    **** /**
+  49:xformatc.c    ****  * Define the double type if not defined
+  50:xformatc.c    ****  */
+  51:xformatc.c    **** #ifndef DOUBLE
+  52:xformatc.c    **** #define DOUBLE	double
+  53:xformatc.c    **** #endif
+  54:xformatc.c    **** 
+  55:xformatc.c    **** 
+  56:xformatc.c    **** /**
+  57:xformatc.c    ****  * Default long long type
+  58:xformatc.c    ****  */
+  59:xformatc.c    **** #ifndef LONGLONG
+  60:xformatc.c    **** #define LONGLONG   long long
+  61:xformatc.c    **** #endif
+  62:xformatc.c    **** 
+  63:xformatc.c    **** 
+  64:xformatc.c    **** /**
+  65:xformatc.c    ****  * Definition to convert integer part of floating point
+  66:xformatc.c    ****  * number if supported we use the long long type
+  67:xformatc.c    ****  */
+  68:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+  69:xformatc.c    **** #define	FLOAT_LONG		LONGLONG
+  70:xformatc.c    **** #define FLOAT_VALUE		llvalue
+  71:xformatc.c    **** #define FLOAT_TYPE		FLAG_TYPE_LONGLONG
+  72:xformatc.c    **** #else
+  73:xformatc.c    **** #define FLOAT_LONG		LONG
+  74:xformatc.c    **** #define FLOAT_VALUE		lvalue
+  75:xformatc.c    **** #define FLOAT_TYPE		FLAG_TYPE_LONG
+  76:xformatc.c    **** #endif
+  77:xformatc.c    **** 
+  78:xformatc.c    **** /**
+  79:xformatc.c    ****  * Structure with all parameter used
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 5
+
+
+  80:xformatc.c    ****  */
+  81:xformatc.c    **** struct param_s
+  82:xformatc.c    **** {
+  83:xformatc.c    **** 	/**
+  84:xformatc.c    **** 	 * Buffer for current integer value and for temporary
+  85:xformatc.c    **** 	 * double value defined as union to save stack.
+  86:xformatc.c    **** 	 */
+  87:xformatc.c    **** 	union
+  88:xformatc.c    **** 	{
+  89:xformatc.c    **** 		unsigned LONG		lvalue;
+  90:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+  91:xformatc.c    **** 		unsigned LONGLONG	llvalue;
+  92:xformatc.c    **** #endif
+  93:xformatc.c    **** #if XCFG_FORMAT_FLOAT
+  94:xformatc.c    **** 		DOUBLE				dvalue;
+  95:xformatc.c    **** #endif
+  96:xformatc.c    **** 	} values;
+  97:xformatc.c    **** 
+  98:xformatc.c    **** 	/**
+  99:xformatc.c    **** 	 * Pointer to the output buffer
+ 100:xformatc.c    **** 	 */
+ 101:xformatc.c    **** 	char*		out;
+ 102:xformatc.c    **** 
+ 103:xformatc.c    **** #if XCFG_FORMAT_FLOAT
+ 104:xformatc.c    **** 	/**
+ 105:xformatc.c    **** 	 * Floating point argument
+ 106:xformatc.c    **** 	 */
+ 107:xformatc.c    **** 	DOUBLE		dbl;
+ 108:xformatc.c    **** 
+ 109:xformatc.c    **** 	/**
+ 110:xformatc.c    **** 	 * Integer part of floating point
+ 111:xformatc.c    **** 	 */
+ 112:xformatc.c    **** 	unsigned FLOAT_LONG	iPart;
+ 113:xformatc.c    **** 
+ 114:xformatc.c    **** #endif
+ 115:xformatc.c    **** 
+ 116:xformatc.c    **** 	
+ 117:xformatc.c    **** 	/**
+ 118:xformatc.c    **** 	 * Current length of the output buffer
+ 119:xformatc.c    **** 	 */
+ 120:xformatc.c    **** 	int		length;
+ 121:xformatc.c    **** 
+ 122:xformatc.c    **** 	/**
+ 123:xformatc.c    **** 	 * Field precision
+ 124:xformatc.c    **** 	 */
+ 125:xformatc.c    **** 	int		prec;
+ 126:xformatc.c    **** 
+ 127:xformatc.c    **** 	/**
+ 128:xformatc.c    **** 	 * Field width
+ 129:xformatc.c    **** 	 */
+ 130:xformatc.c    **** 	int		width;
+ 131:xformatc.c    **** 
+ 132:xformatc.c    **** 
+ 133:xformatc.c    **** 	/**
+ 134:xformatc.c    **** 	 * Count the number of char emitted
+ 135:xformatc.c    **** 	 */
+ 136:xformatc.c    **** 	unsigned	count;
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 6
+
+
+ 137:xformatc.c    **** 
+ 138:xformatc.c    **** 
+ 139:xformatc.c    **** 	/**
+ 140:xformatc.c    **** 	 * Parser flags
+ 141:xformatc.c    **** 	 */
+ 142:xformatc.c    **** 	unsigned flags;
+ 143:xformatc.c    **** 
+ 144:xformatc.c    **** #define FLAG_TYPE_INT		0x0000	/* Argument is integer					*/
+ 145:xformatc.c    **** #define FLAG_TYPE_LONG		0x0001	/* Argument is long						*/
+ 146:xformatc.c    **** #define FLAG_TYPE_SIZEOF	0x0002	/* Argument is size_t					*/
+ 147:xformatc.c    **** #define FLAG_TYPE_LONGLONG	0x0003	/* Argument is long long				*/
+ 148:xformatc.c    **** #define	FLAG_TYPE_MASK		0x0003	/* Mask for field type					*/
+ 149:xformatc.c    **** #define FLAG_PREC			0x0004	/* Precision set						*/
+ 150:xformatc.c    **** #define FLAG_LEFT			0x0008	/* Left alignment						*/
+ 151:xformatc.c    **** #define	FLAG_BLANK			0x0010	/* Blank before positive integer number */
+ 152:xformatc.c    **** #define	FLAG_PREFIX			0x0020	/* Prefix required						*/
+ 153:xformatc.c    **** #define FLAG_PLUS			0x0040	/* Force a + before positive number		*/
+ 154:xformatc.c    **** #define	FLAG_UPPER			0x0080	/* Output in upper case letter			*/
+ 155:xformatc.c    **** #define FLAG_DECIMAL		0x0100	/* Decimal field						*/
+ 156:xformatc.c    **** #define FLAG_INTEGER		0x0200	/* Integer field						*/
+ 157:xformatc.c    **** #define FLAG_MINUS			0x0400	/* Field is negative					*/
+ 158:xformatc.c    **** #define FLAG_VALUE			0x0800	/* Value set							*/
+ 159:xformatc.c    **** #define FLAG_BUFFER			0x1000	/* Buffer set							*/
+ 160:xformatc.c    **** 
+ 161:xformatc.c    **** 	/**
+ 162:xformatc.c    **** 	 * Length of the prefix
+ 163:xformatc.c    **** 	 */
+ 164:xformatc.c    **** 	int		prefixlen;
+ 165:xformatc.c    **** 
+ 166:xformatc.c    **** 	/* Buffer to store the field  prefix */
+ 167:xformatc.c    **** 	char prefix[2];
+ 168:xformatc.c    **** 
+ 169:xformatc.c    **** 
+ 170:xformatc.c    **** 	/** Buffer to store the biggest integer number in binary */
+ 171:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+ 172:xformatc.c    **** 	char		buffer[sizeof(LONGLONG)*8+1];
+ 173:xformatc.c    **** #else
+ 174:xformatc.c    **** 	char		buffer[sizeof(LONG)*8+1];
+ 175:xformatc.c    **** #endif
+ 176:xformatc.c    **** 
+ 177:xformatc.c    **** 	/* Radix for ASCII integer conversion */
+ 178:xformatc.c    **** 	unsigned char	radix;
+ 179:xformatc.c    **** 
+ 180:xformatc.c    **** 	/* char used for padding */
+ 181:xformatc.c    **** 	char		pad;
+ 182:xformatc.c    **** 
+ 183:xformatc.c    **** 
+ 184:xformatc.c    **** 	/**
+ 185:xformatc.c    **** 	 * Current state
+ 186:xformatc.c    **** 	 */
+ 187:xformatc.c    **** 	char		state;
+ 188:xformatc.c    **** 
+ 189:xformatc.c    **** };
+ 190:xformatc.c    **** 
+ 191:xformatc.c    **** 
+ 192:xformatc.c    **** /**
+ 193:xformatc.c    ****  * Enum for the internal state machine
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 7
+
+
+ 194:xformatc.c    ****  */ 
+ 195:xformatc.c    **** enum State
+ 196:xformatc.c    **** {
+ 197:xformatc.c    **** 	/* Normal state outputting literal */
+ 198:xformatc.c    **** 	ST_NORMAL = 0,
+ 199:xformatc.c    **** 
+ 200:xformatc.c    **** 	/* Just read % */
+ 201:xformatc.c    **** 	ST_PERCENT = 1,
+ 202:xformatc.c    **** 
+ 203:xformatc.c    **** 	/* Just read flag */
+ 204:xformatc.c    **** 	ST_FLAG = 2,
+ 205:xformatc.c    **** 
+ 206:xformatc.c    **** 	/* Just read the width */
+ 207:xformatc.c    **** 	ST_WIDTH = 3,
+ 208:xformatc.c    **** 
+ 209:xformatc.c    **** 	/* Just read '.' */
+ 210:xformatc.c    **** 	ST_DOT= 4,
+ 211:xformatc.c    **** 
+ 212:xformatc.c    **** 	/* Just read the precision */
+ 213:xformatc.c    **** 	ST_PRECIS = 5,
+ 214:xformatc.c    **** 
+ 215:xformatc.c    **** 	/* Just	 read the size */
+ 216:xformatc.c    **** 	ST_SIZE = 6,
+ 217:xformatc.c    **** 
+ 218:xformatc.c    **** 	/* Just read the type specifier */
+ 219:xformatc.c    **** 	ST_TYPE = 7 
+ 220:xformatc.c    **** };
+ 221:xformatc.c    **** 
+ 222:xformatc.c    **** /**
+ 223:xformatc.c    ****  * Enum for char class
+ 224:xformatc.c    ****  */ 
+ 225:xformatc.c    **** enum CharClass
+ 226:xformatc.c    **** {
+ 227:xformatc.c    **** 	/* Other char */
+ 228:xformatc.c    **** 	CH_OTHER = 0,
+ 229:xformatc.c    **** 	/* The % char */
+ 230:xformatc.c    **** 	CH_PERCENT = 1,
+ 231:xformatc.c    **** 	/* The . char */
+ 232:xformatc.c    **** 	CH_DOT = 2,
+ 233:xformatc.c    **** 	/* The * char */
+ 234:xformatc.c    **** 	CH_STAR = 3,
+ 235:xformatc.c    **** 	/* The 0 char */
+ 236:xformatc.c    **** 	CH_ZERO = 4,
+ 237:xformatc.c    **** 	/* Digit 0-9 */
+ 238:xformatc.c    **** 	CH_DIGIT = 5,
+ 239:xformatc.c    **** 	/* Flag chars */
+ 240:xformatc.c    **** 	CH_FLAG = 6,
+ 241:xformatc.c    **** 	/* Size chars */
+ 242:xformatc.c    **** 	CH_SIZE = 7,
+ 243:xformatc.c    **** 	/* Type chars */
+ 244:xformatc.c    **** 	CH_TYPE = 8
+ 245:xformatc.c    **** };
+ 246:xformatc.c    **** 
+ 247:xformatc.c    **** 
+ 248:xformatc.c    **** 
+ 249:xformatc.c    **** /**
+ 250:xformatc.c    ****  * String used when %s is a null parameter
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 8
+
+
+ 251:xformatc.c    ****  */
+ 252:xformatc.c    **** static const char  ms_null[] = "(null)";
+ 253:xformatc.c    **** /*
+ 254:xformatc.c    ****  * String for true value
+ 255:xformatc.c    ****  */
+ 256:xformatc.c    **** static const char  ms_true[] = "True";
+ 257:xformatc.c    **** 
+ 258:xformatc.c    **** /**
+ 259:xformatc.c    ****  * String for false value
+ 260:xformatc.c    ****  */
+ 261:xformatc.c    **** static const char  ms_false[]= "False";
+ 262:xformatc.c    **** 
+ 263:xformatc.c    **** 
+ 264:xformatc.c    **** /*
+ 265:xformatc.c    ****  * Digit values
+ 266:xformatc.c    ****  */
+ 267:xformatc.c    **** static const char ms_digits[] = "0123456789abcdef";
+ 268:xformatc.c    ****    
+ 269:xformatc.c    ****    
+ 270:xformatc.c    **** /*
+ 271:xformatc.c    ****  * This table contains the next state for all char and it will be
+ 272:xformatc.c    ****  * generate using xformattable.c
+ 273:xformatc.c    ****  */
+ 274:xformatc.c    **** 
+ 275:xformatc.c    **** static const unsigned char formatStates[] =
+ 276:xformatc.c    **** {
+ 277:xformatc.c    **** 	0x06,0x00,0x00,0x06,0x00,0x01,0x00,0x00,
+ 278:xformatc.c    **** 	0x10,0x00,0x03,0x06,0x00,0x06,0x02,0x10,
+ 279:xformatc.c    **** 	0x04,0x45,0x45,0x45,0x45,0x05,0x05,0x05,
+ 280:xformatc.c    **** 	0x05,0x35,0x30,0x00,0x50,0x60,0x00,0x00,
+ 281:xformatc.c    **** 	0x00,0x20,0x28,0x38,0x50,0x50,0x00,0x00,
+ 282:xformatc.c    **** 	0x00,0x30,0x30,0x30,0x50,0x50,0x00,0x00,
+ 283:xformatc.c    **** 	0x08,0x20,0x20,0x28,0x20,0x20,0x20,0x00,
+ 284:xformatc.c    **** 	0x08,0x60,0x60,0x60,0x60,0x60,0x60,0x00,
+ 285:xformatc.c    **** 	0x00,0x70,0x78,0x78,0x78,0x70,0x78,0x00,
+ 286:xformatc.c    **** 	0x07,0x08,0x00,0x00,0x07,0x00,0x00,0x08,
+ 287:xformatc.c    **** 	0x08,0x00,0x00,0x08,0x00,0x08,0x00,0x00,
+ 288:xformatc.c    **** 	0x08,0x00,0x07
+ 289:xformatc.c    **** };
+ 290:xformatc.c    **** 
+ 291:xformatc.c    **** 
+ 292:xformatc.c    **** 
+ 293:xformatc.c    **** 
+ 294:xformatc.c    **** /**
+ 295:xformatc.c    ****  * Convert an unsigned value in one string
+ 296:xformatc.c    ****  *
+ 297:xformatc.c    ****  * All parameter are in the passed structure
+ 298:xformatc.c    ****  *
+ 299:xformatc.c    ****  * @param prec		- Minimum precision
+ 300:xformatc.c    ****  * @param lvalue	- Unsigned value
+ 301:xformatc.c    ****  * @param radix		- Radix (Supported values 2/8/10/16)
+ 302:xformatc.c    ****  *
+ 303:xformatc.c    ****  * @param out		- Buffer with the converted value.
+ 304:xformatc.c    ****  */
+ 305:xformatc.c    **** static void ulong2a(struct param_s * param)
+ 306:xformatc.c    **** {
+ 143              		.loc 1 306 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 9
+
+
+ 144              		.cfi_startproc
+ 145              		@ args = 0, pretend = 0, frame = 16
+ 146              		@ frame_needed = 1, uses_anonymous_args = 0
+ 147              		@ link register save eliminated.
+ 148 0000 80B4     		push	{r7}
+ 149              		.cfi_def_cfa_offset 4
+ 150              		.cfi_offset 7, -4
+ 151 0002 85B0     		sub	sp, sp, #20
+ 152              		.cfi_def_cfa_offset 24
+ 153 0004 00AF     		add	r7, sp, #0
+ 154              		.cfi_def_cfa_register 7
+ 155 0006 7860     		str	r0, [r7, #4]
+ 307:xformatc.c    **** 	unsigned char digit;
+ 308:xformatc.c    **** 	
+ 309:xformatc.c    **** 	while (param->prec -- > 0 ||  param->values.lvalue)
+ 156              		.loc 1 309 0
+ 157 0008 50E0     		b	.L2
+ 158              	.L8:
+ 310:xformatc.c    **** 	{
+ 311:xformatc.c    **** 		switch (param->radix)
+ 159              		.loc 1 311 0
+ 160 000a 7B68     		ldr	r3, [r7, #4]
+ 161 000c 93F87B30 		ldrb	r3, [r3, #123]	@ zero_extendqisi2
+ 162 0010 082B     		cmp	r3, #8
+ 163 0012 0FD0     		beq	.L4
+ 164 0014 102B     		cmp	r3, #16
+ 165 0016 19D0     		beq	.L5
+ 166 0018 022B     		cmp	r3, #2
+ 167 001a 23D1     		bne	.L9
+ 312:xformatc.c    **** 		{
+ 313:xformatc.c    **** 			case 2:
+ 314:xformatc.c    **** 				digit = param->values.lvalue & 0x01;
+ 168              		.loc 1 314 0
+ 169 001c 7B68     		ldr	r3, [r7, #4]
+ 170 001e 1B68     		ldr	r3, [r3]
+ 171 0020 DBB2     		uxtb	r3, r3
+ 172 0022 03F00103 		and	r3, r3, #1
+ 173 0026 FB73     		strb	r3, [r7, #15]
+ 315:xformatc.c    **** 				param->values.lvalue >>= 1;
+ 174              		.loc 1 315 0
+ 175 0028 7B68     		ldr	r3, [r7, #4]
+ 176 002a 1B68     		ldr	r3, [r3]
+ 177 002c 5A08     		lsrs	r2, r3, #1
+ 178 002e 7B68     		ldr	r3, [r7, #4]
+ 179 0030 1A60     		str	r2, [r3]
+ 316:xformatc.c    **** 				break;
+ 180              		.loc 1 316 0
+ 181 0032 2DE0     		b	.L7
+ 182              	.L4:
+ 317:xformatc.c    **** 
+ 318:xformatc.c    **** 			case 8:
+ 319:xformatc.c    **** 				digit = param->values.lvalue & 0x07;
+ 183              		.loc 1 319 0
+ 184 0034 7B68     		ldr	r3, [r7, #4]
+ 185 0036 1B68     		ldr	r3, [r3]
+ 186 0038 DBB2     		uxtb	r3, r3
+ 187 003a 03F00703 		and	r3, r3, #7
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 10
+
+
+ 188 003e FB73     		strb	r3, [r7, #15]
+ 320:xformatc.c    **** 				param->values.lvalue >>= 3;
+ 189              		.loc 1 320 0
+ 190 0040 7B68     		ldr	r3, [r7, #4]
+ 191 0042 1B68     		ldr	r3, [r3]
+ 192 0044 DA08     		lsrs	r2, r3, #3
+ 193 0046 7B68     		ldr	r3, [r7, #4]
+ 194 0048 1A60     		str	r2, [r3]
+ 321:xformatc.c    **** 				break;
+ 195              		.loc 1 321 0
+ 196 004a 21E0     		b	.L7
+ 197              	.L5:
+ 322:xformatc.c    **** 
+ 323:xformatc.c    **** 			case 16:
+ 324:xformatc.c    **** 				digit = param->values.lvalue & 0x0F;
+ 198              		.loc 1 324 0
+ 199 004c 7B68     		ldr	r3, [r7, #4]
+ 200 004e 1B68     		ldr	r3, [r3]
+ 201 0050 DBB2     		uxtb	r3, r3
+ 202 0052 03F00F03 		and	r3, r3, #15
+ 203 0056 FB73     		strb	r3, [r7, #15]
+ 325:xformatc.c    **** 				param->values.lvalue >>= 4;
+ 204              		.loc 1 325 0
+ 205 0058 7B68     		ldr	r3, [r7, #4]
+ 206 005a 1B68     		ldr	r3, [r3]
+ 207 005c 1A09     		lsrs	r2, r3, #4
+ 208 005e 7B68     		ldr	r3, [r7, #4]
+ 209 0060 1A60     		str	r2, [r3]
+ 326:xformatc.c    **** 				break;
+ 210              		.loc 1 326 0
+ 211 0062 15E0     		b	.L7
+ 212              	.L9:
+ 327:xformatc.c    **** 				
+ 328:xformatc.c    **** 			default:
+ 329:xformatc.c    **** 			case 10:
+ 330:xformatc.c    **** 				digit = param->values.lvalue % 10;
+ 213              		.loc 1 330 0
+ 214 0064 7B68     		ldr	r3, [r7, #4]
+ 215 0066 1968     		ldr	r1, [r3]
+ 216 0068 184B     		ldr	r3, .L10
+ 217 006a A3FB0123 		umull	r2, r3, r3, r1
+ 218 006e DA08     		lsrs	r2, r3, #3
+ 219 0070 1346     		mov	r3, r2
+ 220 0072 9B00     		lsls	r3, r3, #2
+ 221 0074 1344     		add	r3, r3, r2
+ 222 0076 5B00     		lsls	r3, r3, #1
+ 223 0078 CA1A     		subs	r2, r1, r3
+ 224 007a 1346     		mov	r3, r2
+ 225 007c FB73     		strb	r3, [r7, #15]
+ 331:xformatc.c    **** 				param->values.lvalue /= 10;
+ 226              		.loc 1 331 0
+ 227 007e 7B68     		ldr	r3, [r7, #4]
+ 228 0080 1B68     		ldr	r3, [r3]
+ 229 0082 124A     		ldr	r2, .L10
+ 230 0084 A2FB0323 		umull	r2, r3, r2, r3
+ 231 0088 DA08     		lsrs	r2, r3, #3
+ 232 008a 7B68     		ldr	r3, [r7, #4]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 11
+
+
+ 233 008c 1A60     		str	r2, [r3]
+ 332:xformatc.c    **** 				break;
+ 234              		.loc 1 332 0
+ 235 008e 00BF     		nop
+ 236              	.L7:
+ 333:xformatc.c    **** 		}
+ 334:xformatc.c    **** 
+ 335:xformatc.c    **** 
+ 336:xformatc.c    **** 		*param->out -- = ms_digits[digit];
+ 237              		.loc 1 336 0
+ 238 0090 7B68     		ldr	r3, [r7, #4]
+ 239 0092 9B68     		ldr	r3, [r3, #8]
+ 240 0094 591E     		subs	r1, r3, #1
+ 241 0096 7A68     		ldr	r2, [r7, #4]
+ 242 0098 9160     		str	r1, [r2, #8]
+ 243 009a FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+ 244 009c 0C49     		ldr	r1, .L10+4
+ 245 009e 8A5C     		ldrb	r2, [r1, r2]	@ zero_extendqisi2
+ 246 00a0 1A70     		strb	r2, [r3]
+ 337:xformatc.c    **** 		param->length ++;
+ 247              		.loc 1 337 0
+ 248 00a2 7B68     		ldr	r3, [r7, #4]
+ 249 00a4 1B6A     		ldr	r3, [r3, #32]
+ 250 00a6 5A1C     		adds	r2, r3, #1
+ 251 00a8 7B68     		ldr	r3, [r7, #4]
+ 252 00aa 1A62     		str	r2, [r3, #32]
+ 253              	.L2:
+ 309:xformatc.c    **** 	{
+ 254              		.loc 1 309 0
+ 255 00ac 7B68     		ldr	r3, [r7, #4]
+ 256 00ae 5B6A     		ldr	r3, [r3, #36]
+ 257 00b0 591E     		subs	r1, r3, #1
+ 258 00b2 7A68     		ldr	r2, [r7, #4]
+ 259 00b4 5162     		str	r1, [r2, #36]
+ 260 00b6 002B     		cmp	r3, #0
+ 261 00b8 A7DC     		bgt	.L8
+ 309:xformatc.c    **** 	{
+ 262              		.loc 1 309 0 is_stmt 0 discriminator 1
+ 263 00ba 7B68     		ldr	r3, [r7, #4]
+ 264 00bc 1B68     		ldr	r3, [r3]
+ 265 00be 002B     		cmp	r3, #0
+ 266 00c0 A3D1     		bne	.L8
+ 338:xformatc.c    **** 
+ 339:xformatc.c    **** 	}
+ 340:xformatc.c    **** 
+ 341:xformatc.c    **** }
+ 267              		.loc 1 341 0 is_stmt 1
+ 268 00c2 00BF     		nop
+ 269 00c4 1437     		adds	r7, r7, #20
+ 270              		.cfi_def_cfa_offset 4
+ 271 00c6 BD46     		mov	sp, r7
+ 272              		.cfi_def_cfa_register 13
+ 273              		@ sp needed
+ 274 00c8 80BC     		pop	{r7}
+ 275              		.cfi_restore 7
+ 276              		.cfi_def_cfa_offset 0
+ 277 00ca 7047     		bx	lr
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 12
+
+
+ 278              	.L11:
+ 279              		.align	2
+ 280              	.L10:
+ 281 00cc CDCCCCCC 		.word	-858993459
+ 282 00d0 18000000 		.word	ms_digits
+ 283              		.cfi_endproc
+ 284              	.LFE0:
+ 285              		.size	ulong2a, .-ulong2a
+ 286              		.global	__aeabi_uldivmod
+ 287              		.section	.text.ullong2a,"ax",%progbits
+ 288              		.align	2
+ 289              		.thumb
+ 290              		.thumb_func
+ 291              		.type	ullong2a, %function
+ 292              	ullong2a:
+ 293              	.LFB1:
+ 342:xformatc.c    **** 
+ 343:xformatc.c    **** 
+ 344:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+ 345:xformatc.c    **** #ifdef XCFG_FORMAT_LONG_ARE_LONGLONG
+ 346:xformatc.c    **** #define	ullong2a	ulong2a
+ 347:xformatc.c    **** #else
+ 348:xformatc.c    **** static void ullong2a(struct param_s * param)
+ 349:xformatc.c    **** {
+ 294              		.loc 1 349 0
+ 295              		.cfi_startproc
+ 296              		@ args = 0, pretend = 0, frame = 16
+ 297              		@ frame_needed = 1, uses_anonymous_args = 0
+ 298 0000 2DE9B043 		push	{r4, r5, r7, r8, r9, lr}
+ 299              		.cfi_def_cfa_offset 24
+ 300              		.cfi_offset 4, -24
+ 301              		.cfi_offset 5, -20
+ 302              		.cfi_offset 7, -16
+ 303              		.cfi_offset 8, -12
+ 304              		.cfi_offset 9, -8
+ 305              		.cfi_offset 14, -4
+ 306 0004 84B0     		sub	sp, sp, #16
+ 307              		.cfi_def_cfa_offset 40
+ 308 0006 00AF     		add	r7, sp, #0
+ 309              		.cfi_def_cfa_register 7
+ 310 0008 7860     		str	r0, [r7, #4]
+ 350:xformatc.c    **** 	unsigned char digit;
+ 351:xformatc.c    **** 
+ 352:xformatc.c    **** 	while (param->prec -- > 0 ||  param->values.llvalue)
+ 311              		.loc 1 352 0
+ 312 000a 67E0     		b	.L13
+ 313              	.L19:
+ 353:xformatc.c    **** 	{
+ 354:xformatc.c    **** 		switch (param->radix)
+ 314              		.loc 1 354 0
+ 315 000c 7B68     		ldr	r3, [r7, #4]
+ 316 000e 93F87B30 		ldrb	r3, [r3, #123]	@ zero_extendqisi2
+ 317 0012 082B     		cmp	r3, #8
+ 318 0014 14D0     		beq	.L15
+ 319 0016 102B     		cmp	r3, #16
+ 320 0018 24D0     		beq	.L16
+ 321 001a 022B     		cmp	r3, #2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 13
+
+
+ 322 001c 36D1     		bne	.L20
+ 355:xformatc.c    **** 		{
+ 356:xformatc.c    **** 			case 2:
+ 357:xformatc.c    **** 				digit = param->values.llvalue & 0x01;
+ 323              		.loc 1 357 0
+ 324 001e 7B68     		ldr	r3, [r7, #4]
+ 325 0020 D3E90023 		ldrd	r2, [r3]
+ 326 0024 D3B2     		uxtb	r3, r2
+ 327 0026 03F00103 		and	r3, r3, #1
+ 328 002a FB73     		strb	r3, [r7, #15]
+ 358:xformatc.c    **** 				param->values.llvalue >>= 1;
+ 329              		.loc 1 358 0
+ 330 002c 7B68     		ldr	r3, [r7, #4]
+ 331 002e D3E90023 		ldrd	r2, [r3]
+ 332 0032 5B08     		movs	r3, r3, lsr #1
+ 333 0034 4FEA3202 		mov	r2, r2, rrx
+ 334 0038 7968     		ldr	r1, [r7, #4]
+ 335 003a C1E90023 		strd	r2, [r1]
+ 359:xformatc.c    **** 				break;
+ 336              		.loc 1 359 0
+ 337 003e 3FE0     		b	.L18
+ 338              	.L15:
+ 360:xformatc.c    **** 
+ 361:xformatc.c    **** 			case 8:
+ 362:xformatc.c    **** 				digit = param->values.llvalue & 0x07;
+ 339              		.loc 1 362 0
+ 340 0040 7B68     		ldr	r3, [r7, #4]
+ 341 0042 D3E90023 		ldrd	r2, [r3]
+ 342 0046 D3B2     		uxtb	r3, r2
+ 343 0048 03F00703 		and	r3, r3, #7
+ 344 004c FB73     		strb	r3, [r7, #15]
+ 363:xformatc.c    **** 				param->values.llvalue >>= 3;
+ 345              		.loc 1 363 0
+ 346 004e 7B68     		ldr	r3, [r7, #4]
+ 347 0050 D3E90023 		ldrd	r2, [r3]
+ 348 0054 D408     		lsrs	r4, r2, #3
+ 349 0056 44EA4374 		orr	r4, r4, r3, lsl #29
+ 350 005a DD08     		lsrs	r5, r3, #3
+ 351 005c 7B68     		ldr	r3, [r7, #4]
+ 352 005e C3E90045 		strd	r4, [r3]
+ 364:xformatc.c    **** 				break;
+ 353              		.loc 1 364 0
+ 354 0062 2DE0     		b	.L18
+ 355              	.L16:
+ 365:xformatc.c    **** 
+ 366:xformatc.c    **** 			case 16:
+ 367:xformatc.c    **** 				digit = param->values.llvalue & 0x0F;
+ 356              		.loc 1 367 0
+ 357 0064 7B68     		ldr	r3, [r7, #4]
+ 358 0066 D3E90023 		ldrd	r2, [r3]
+ 359 006a D3B2     		uxtb	r3, r2
+ 360 006c 03F00F03 		and	r3, r3, #15
+ 361 0070 FB73     		strb	r3, [r7, #15]
+ 368:xformatc.c    **** 				param->values.llvalue >>= 4;
+ 362              		.loc 1 368 0
+ 363 0072 7B68     		ldr	r3, [r7, #4]
+ 364 0074 D3E90023 		ldrd	r2, [r3]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 14
+
+
+ 365 0078 4FEA1218 		lsr	r8, r2, #4
+ 366 007c 48EA0378 		orr	r8, r8, r3, lsl #28
+ 367 0080 4FEA1319 		lsr	r9, r3, #4
+ 368 0084 7B68     		ldr	r3, [r7, #4]
+ 369 0086 C3E90089 		strd	r8, [r3]
+ 369:xformatc.c    **** 				break;
+ 370              		.loc 1 369 0
+ 371 008a 19E0     		b	.L18
+ 372              	.L20:
+ 370:xformatc.c    **** 				
+ 371:xformatc.c    **** 			default:
+ 372:xformatc.c    **** 			case 10:
+ 373:xformatc.c    **** 				digit = param->values.llvalue % 10;
+ 373              		.loc 1 373 0
+ 374 008c 7B68     		ldr	r3, [r7, #4]
+ 375 008e D3E90001 		ldrd	r0, [r3]
+ 376 0092 4FF00A02 		mov	r2, #10
+ 377 0096 4FF00003 		mov	r3, #0
+ 378 009a FFF7FEFF 		bl	__aeabi_uldivmod
+ 379 009e 1346     		mov	r3, r2
+ 380 00a0 FB73     		strb	r3, [r7, #15]
+ 374:xformatc.c    **** 				param->values.llvalue /= 10;
+ 381              		.loc 1 374 0
+ 382 00a2 7B68     		ldr	r3, [r7, #4]
+ 383 00a4 D3E90001 		ldrd	r0, [r3]
+ 384 00a8 4FF00A02 		mov	r2, #10
+ 385 00ac 4FF00003 		mov	r3, #0
+ 386 00b0 FFF7FEFF 		bl	__aeabi_uldivmod
+ 387 00b4 0246     		mov	r2, r0
+ 388 00b6 0B46     		mov	r3, r1
+ 389 00b8 7968     		ldr	r1, [r7, #4]
+ 390 00ba C1E90023 		strd	r2, [r1]
+ 375:xformatc.c    **** 				
+ 376:xformatc.c    **** 				break;
+ 391              		.loc 1 376 0
+ 392 00be 00BF     		nop
+ 393              	.L18:
+ 377:xformatc.c    **** 		}
+ 378:xformatc.c    **** 
+ 379:xformatc.c    **** 
+ 380:xformatc.c    **** 		*param->out -- = ms_digits[digit];
+ 394              		.loc 1 380 0
+ 395 00c0 7B68     		ldr	r3, [r7, #4]
+ 396 00c2 9B68     		ldr	r3, [r3, #8]
+ 397 00c4 591E     		subs	r1, r3, #1
+ 398 00c6 7A68     		ldr	r2, [r7, #4]
+ 399 00c8 9160     		str	r1, [r2, #8]
+ 400 00ca FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+ 401 00cc 0C49     		ldr	r1, .L21
+ 402 00ce 8A5C     		ldrb	r2, [r1, r2]	@ zero_extendqisi2
+ 403 00d0 1A70     		strb	r2, [r3]
+ 381:xformatc.c    **** 		param->length ++;
+ 404              		.loc 1 381 0
+ 405 00d2 7B68     		ldr	r3, [r7, #4]
+ 406 00d4 1B6A     		ldr	r3, [r3, #32]
+ 407 00d6 5A1C     		adds	r2, r3, #1
+ 408 00d8 7B68     		ldr	r3, [r7, #4]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 15
+
+
+ 409 00da 1A62     		str	r2, [r3, #32]
+ 410              	.L13:
+ 352:xformatc.c    **** 	{
+ 411              		.loc 1 352 0
+ 412 00dc 7B68     		ldr	r3, [r7, #4]
+ 413 00de 5B6A     		ldr	r3, [r3, #36]
+ 414 00e0 591E     		subs	r1, r3, #1
+ 415 00e2 7A68     		ldr	r2, [r7, #4]
+ 416 00e4 5162     		str	r1, [r2, #36]
+ 417 00e6 002B     		cmp	r3, #0
+ 418 00e8 90DC     		bgt	.L19
+ 352:xformatc.c    **** 	{
+ 419              		.loc 1 352 0 is_stmt 0 discriminator 1
+ 420 00ea 7B68     		ldr	r3, [r7, #4]
+ 421 00ec D3E90023 		ldrd	r2, [r3]
+ 422 00f0 1343     		orrs	r3, r2, r3
+ 423 00f2 8BD1     		bne	.L19
+ 382:xformatc.c    **** 
+ 383:xformatc.c    **** 	}
+ 384:xformatc.c    **** 
+ 385:xformatc.c    **** }
+ 424              		.loc 1 385 0 is_stmt 1
+ 425 00f4 00BF     		nop
+ 426 00f6 1037     		adds	r7, r7, #16
+ 427              		.cfi_def_cfa_offset 24
+ 428 00f8 BD46     		mov	sp, r7
+ 429              		.cfi_def_cfa_register 13
+ 430              		@ sp needed
+ 431 00fa BDE8B083 		pop	{r4, r5, r7, r8, r9, pc}
+ 432              	.L22:
+ 433 00fe 00BF     		.align	2
+ 434              	.L21:
+ 435 0100 18000000 		.word	ms_digits
+ 436              		.cfi_endproc
+ 437              	.LFE1:
+ 438              		.size	ullong2a, .-ullong2a
+ 439              		.section	.text.xformat,"ax",%progbits
+ 440              		.align	2
+ 441              		.global	xformat
+ 442              		.thumb
+ 443              		.thumb_func
+ 444              		.type	xformat, %function
+ 445              	xformat:
+ 446              	.LFB2:
+ 386:xformatc.c    **** #endif
+ 387:xformatc.c    **** #endif
+ 388:xformatc.c    **** 
+ 389:xformatc.c    **** /**
+ 390:xformatc.c    ****  * Printf like using variable arguments.
+ 391:xformatc.c    ****  * 
+ 392:xformatc.c    ****  * @param outchar - Pointer to the function to output one new char.
+ 393:xformatc.c    ****  * @param arg	- Argument for the output function.
+ 394:xformatc.c    ****  * @param fmt	- Format options for the list of parameters.
+ 395:xformatc.c    ****  * @param ...	- Arguments
+ 396:xformatc.c    ****  *
+ 397:xformatc.c    ****  * @return The number of char emitted.
+ 398:xformatc.c    ****  * 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 16
+
+
+ 399:xformatc.c    ****  * @see xvformat
+ 400:xformatc.c    ****  */
+ 401:xformatc.c    **** unsigned xformat(void (*outchar)(void *,char),void *arg,const char * fmt,...)
+ 402:xformatc.c    **** {
+ 447              		.loc 1 402 0
+ 448              		.cfi_startproc
+ 449              		@ args = 4, pretend = 8, frame = 16
+ 450              		@ frame_needed = 1, uses_anonymous_args = 1
+ 451 0000 0CB4     		push	{r2, r3}
+ 452              		.cfi_def_cfa_offset 8
+ 453              		.cfi_offset 2, -8
+ 454              		.cfi_offset 3, -4
+ 455 0002 80B5     		push	{r7, lr}
+ 456              		.cfi_def_cfa_offset 16
+ 457              		.cfi_offset 7, -16
+ 458              		.cfi_offset 14, -12
+ 459 0004 84B0     		sub	sp, sp, #16
+ 460              		.cfi_def_cfa_offset 32
+ 461 0006 00AF     		add	r7, sp, #0
+ 462              		.cfi_def_cfa_register 7
+ 463 0008 7860     		str	r0, [r7, #4]
+ 464 000a 3960     		str	r1, [r7]
+ 403:xformatc.c    **** 	va_list list;
+ 404:xformatc.c    **** 	unsigned count;
+ 405:xformatc.c    **** 
+ 406:xformatc.c    **** 	va_start(list,fmt);
+ 465              		.loc 1 406 0
+ 466 000c 07F11C03 		add	r3, r7, #28
+ 467 0010 BB60     		str	r3, [r7, #8]
+ 407:xformatc.c    **** 	count = xvformat(outchar,arg,fmt,list);
+ 468              		.loc 1 407 0
+ 469 0012 BB68     		ldr	r3, [r7, #8]
+ 470 0014 BA69     		ldr	r2, [r7, #24]
+ 471 0016 3968     		ldr	r1, [r7]
+ 472 0018 7868     		ldr	r0, [r7, #4]
+ 473 001a FFF7FEFF 		bl	xvformat
+ 474 001e F860     		str	r0, [r7, #12]
+ 408:xformatc.c    **** 	va_end(list);
+ 409:xformatc.c    **** 
+ 410:xformatc.c    **** 	(void)list;
+ 411:xformatc.c    **** 
+ 412:xformatc.c    **** 	return count;
+ 475              		.loc 1 412 0
+ 476 0020 FB68     		ldr	r3, [r7, #12]
+ 413:xformatc.c    **** }
+ 477              		.loc 1 413 0
+ 478 0022 1846     		mov	r0, r3
+ 479 0024 1037     		adds	r7, r7, #16
+ 480              		.cfi_def_cfa_offset 16
+ 481 0026 BD46     		mov	sp, r7
+ 482              		.cfi_def_cfa_register 13
+ 483              		@ sp needed
+ 484 0028 BDE88040 		pop	{r7, lr}
+ 485              		.cfi_restore 14
+ 486              		.cfi_restore 7
+ 487              		.cfi_def_cfa_offset 8
+ 488 002c 02B0     		add	sp, sp, #8
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 17
+
+
+ 489              		.cfi_restore 3
+ 490              		.cfi_restore 2
+ 491              		.cfi_def_cfa_offset 0
+ 492 002e 7047     		bx	lr
+ 493              		.cfi_endproc
+ 494              	.LFE2:
+ 495              		.size	xformat, .-xformat
+ 496              		.section	.text.xstrlen,"ax",%progbits
+ 497              		.align	2
+ 498              		.thumb
+ 499              		.thumb_func
+ 500              		.type	xstrlen, %function
+ 501              	xstrlen:
+ 502              	.LFB3:
+ 414:xformatc.c    **** 
+ 415:xformatc.c    **** 
+ 416:xformatc.c    **** /**
+ 417:xformatc.c    ****  * We do not want use any library function.
+ 418:xformatc.c    ****  *
+ 419:xformatc.c    ****  * @param s - C	 string
+ 420:xformatc.c    ****  * @return The length of the string
+ 421:xformatc.c    ****  */
+ 422:xformatc.c    **** static unsigned xstrlen(const char *s)
+ 423:xformatc.c    **** {
+ 503              		.loc 1 423 0
+ 504              		.cfi_startproc
+ 505              		@ args = 0, pretend = 0, frame = 16
+ 506              		@ frame_needed = 1, uses_anonymous_args = 0
+ 507              		@ link register save eliminated.
+ 508 0000 80B4     		push	{r7}
+ 509              		.cfi_def_cfa_offset 4
+ 510              		.cfi_offset 7, -4
+ 511 0002 85B0     		sub	sp, sp, #20
+ 512              		.cfi_def_cfa_offset 24
+ 513 0004 00AF     		add	r7, sp, #0
+ 514              		.cfi_def_cfa_register 7
+ 515 0006 7860     		str	r0, [r7, #4]
+ 424:xformatc.c    **** 	const char *i;
+ 425:xformatc.c    **** 
+ 426:xformatc.c    **** 	for (i = s ; *i ; i++)
+ 516              		.loc 1 426 0
+ 517 0008 7B68     		ldr	r3, [r7, #4]
+ 518 000a FB60     		str	r3, [r7, #12]
+ 519 000c 02E0     		b	.L26
+ 520              	.L27:
+ 521              		.loc 1 426 0 is_stmt 0 discriminator 3
+ 522 000e FB68     		ldr	r3, [r7, #12]
+ 523 0010 0133     		adds	r3, r3, #1
+ 524 0012 FB60     		str	r3, [r7, #12]
+ 525              	.L26:
+ 526              		.loc 1 426 0 discriminator 1
+ 527 0014 FB68     		ldr	r3, [r7, #12]
+ 528 0016 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 529 0018 002B     		cmp	r3, #0
+ 530 001a F8D1     		bne	.L27
+ 427:xformatc.c    **** 	{
+ 428:xformatc.c    **** 	}
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 18
+
+
+ 429:xformatc.c    **** 
+ 430:xformatc.c    **** 	return (unsigned)(i - s);
+ 531              		.loc 1 430 0 is_stmt 1
+ 532 001c FA68     		ldr	r2, [r7, #12]
+ 533 001e 7B68     		ldr	r3, [r7, #4]
+ 534 0020 D31A     		subs	r3, r2, r3
+ 431:xformatc.c    **** }
+ 535              		.loc 1 431 0
+ 536 0022 1846     		mov	r0, r3
+ 537 0024 1437     		adds	r7, r7, #20
+ 538              		.cfi_def_cfa_offset 4
+ 539 0026 BD46     		mov	sp, r7
+ 540              		.cfi_def_cfa_register 13
+ 541              		@ sp needed
+ 542 0028 80BC     		pop	{r7}
+ 543              		.cfi_restore 7
+ 544              		.cfi_def_cfa_offset 0
+ 545 002a 7047     		bx	lr
+ 546              		.cfi_endproc
+ 547              	.LFE3:
+ 548              		.size	xstrlen, .-xstrlen
+ 549              		.section	.text.outBuffer,"ax",%progbits
+ 550              		.align	2
+ 551              		.thumb
+ 552              		.thumb_func
+ 553              		.type	outBuffer, %function
+ 554              	outBuffer:
+ 555              	.LFB4:
+ 432:xformatc.c    **** 
+ 433:xformatc.c    **** static unsigned outBuffer(void (*myoutchar)(void *arg,char),void *arg,const char *buffer,int len,un
+ 434:xformatc.c    **** {
+ 556              		.loc 1 434 0
+ 557              		.cfi_startproc
+ 558              		@ args = 4, pretend = 0, frame = 32
+ 559              		@ frame_needed = 1, uses_anonymous_args = 0
+ 560 0000 80B5     		push	{r7, lr}
+ 561              		.cfi_def_cfa_offset 8
+ 562              		.cfi_offset 7, -8
+ 563              		.cfi_offset 14, -4
+ 564 0002 88B0     		sub	sp, sp, #32
+ 565              		.cfi_def_cfa_offset 40
+ 566 0004 00AF     		add	r7, sp, #0
+ 567              		.cfi_def_cfa_register 7
+ 568 0006 F860     		str	r0, [r7, #12]
+ 569 0008 B960     		str	r1, [r7, #8]
+ 570 000a 7A60     		str	r2, [r7, #4]
+ 571 000c 3B60     		str	r3, [r7]
+ 435:xformatc.c    **** 	unsigned count = 0;
+ 572              		.loc 1 435 0
+ 573 000e 0023     		movs	r3, #0
+ 574 0010 FB61     		str	r3, [r7, #28]
+ 436:xformatc.c    **** 	int i;
+ 437:xformatc.c    **** 	char c;
+ 438:xformatc.c    **** 
+ 439:xformatc.c    **** 	for (i = 0; i < len ; i++)
+ 575              		.loc 1 439 0
+ 576 0012 0023     		movs	r3, #0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 19
+
+
+ 577 0014 BB61     		str	r3, [r7, #24]
+ 578 0016 1BE0     		b	.L30
+ 579              	.L32:
+ 440:xformatc.c    **** 	{
+ 441:xformatc.c    **** 		c = buffer[i];
+ 580              		.loc 1 441 0
+ 581 0018 BB69     		ldr	r3, [r7, #24]
+ 582 001a 7A68     		ldr	r2, [r7, #4]
+ 583 001c 1344     		add	r3, r3, r2
+ 584 001e 1B78     		ldrb	r3, [r3]
+ 585 0020 FB75     		strb	r3, [r7, #23]
+ 442:xformatc.c    **** 
+ 443:xformatc.c    **** 		if (toupper && (c >= 'a' && c <= 'z'))
+ 586              		.loc 1 443 0
+ 587 0022 BB6A     		ldr	r3, [r7, #40]
+ 588 0024 002B     		cmp	r3, #0
+ 589 0026 08D0     		beq	.L31
+ 590              		.loc 1 443 0 is_stmt 0 discriminator 1
+ 591 0028 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 592 002a 602B     		cmp	r3, #96
+ 593 002c 05D9     		bls	.L31
+ 594              		.loc 1 443 0 discriminator 2
+ 595 002e FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 596 0030 7A2B     		cmp	r3, #122
+ 597 0032 02D8     		bhi	.L31
+ 444:xformatc.c    **** 		{
+ 445:xformatc.c    **** 			c -= 'a' - 'A';
+ 598              		.loc 1 445 0 is_stmt 1
+ 599 0034 FB7D     		ldrb	r3, [r7, #23]
+ 600 0036 203B     		subs	r3, r3, #32
+ 601 0038 FB75     		strb	r3, [r7, #23]
+ 602              	.L31:
+ 446:xformatc.c    **** 		}
+ 447:xformatc.c    **** 
+ 448:xformatc.c    **** 		(*myoutchar)(arg,c);
+ 603              		.loc 1 448 0 discriminator 2
+ 604 003a FA7D     		ldrb	r2, [r7, #23]	@ zero_extendqisi2
+ 605 003c FB68     		ldr	r3, [r7, #12]
+ 606 003e 1146     		mov	r1, r2
+ 607 0040 B868     		ldr	r0, [r7, #8]
+ 608 0042 9847     		blx	r3
+ 449:xformatc.c    **** 		count++;
+ 609              		.loc 1 449 0 discriminator 2
+ 610 0044 FB69     		ldr	r3, [r7, #28]
+ 611 0046 0133     		adds	r3, r3, #1
+ 612 0048 FB61     		str	r3, [r7, #28]
+ 439:xformatc.c    **** 	{
+ 613              		.loc 1 439 0 discriminator 2
+ 614 004a BB69     		ldr	r3, [r7, #24]
+ 615 004c 0133     		adds	r3, r3, #1
+ 616 004e BB61     		str	r3, [r7, #24]
+ 617              	.L30:
+ 439:xformatc.c    **** 	{
+ 618              		.loc 1 439 0 is_stmt 0 discriminator 1
+ 619 0050 BA69     		ldr	r2, [r7, #24]
+ 620 0052 3B68     		ldr	r3, [r7]
+ 621 0054 9A42     		cmp	r2, r3
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 20
+
+
+ 622 0056 DFDB     		blt	.L32
+ 450:xformatc.c    **** 	}
+ 451:xformatc.c    **** 
+ 452:xformatc.c    **** 	return count;
+ 623              		.loc 1 452 0 is_stmt 1
+ 624 0058 FB69     		ldr	r3, [r7, #28]
+ 453:xformatc.c    **** }
+ 625              		.loc 1 453 0
+ 626 005a 1846     		mov	r0, r3
+ 627 005c 2037     		adds	r7, r7, #32
+ 628              		.cfi_def_cfa_offset 8
+ 629 005e BD46     		mov	sp, r7
+ 630              		.cfi_def_cfa_register 13
+ 631              		@ sp needed
+ 632 0060 80BD     		pop	{r7, pc}
+ 633              		.cfi_endproc
+ 634              	.LFE4:
+ 635              		.size	outBuffer, .-outBuffer
+ 636 0062 00BF     		.section	.text.outChars,"ax",%progbits
+ 637              		.align	2
+ 638              		.thumb
+ 639              		.thumb_func
+ 640              		.type	outChars, %function
+ 641              	outChars:
+ 642              	.LFB5:
+ 454:xformatc.c    **** 
+ 455:xformatc.c    **** 
+ 456:xformatc.c    **** static unsigned outChars(void (*myoutchar)(void *arg,char),void *arg,char ch,int len)
+ 457:xformatc.c    **** {
+ 643              		.loc 1 457 0
+ 644              		.cfi_startproc
+ 645              		@ args = 0, pretend = 0, frame = 24
+ 646              		@ frame_needed = 1, uses_anonymous_args = 0
+ 647 0000 80B5     		push	{r7, lr}
+ 648              		.cfi_def_cfa_offset 8
+ 649              		.cfi_offset 7, -8
+ 650              		.cfi_offset 14, -4
+ 651 0002 86B0     		sub	sp, sp, #24
+ 652              		.cfi_def_cfa_offset 32
+ 653 0004 00AF     		add	r7, sp, #0
+ 654              		.cfi_def_cfa_register 7
+ 655 0006 F860     		str	r0, [r7, #12]
+ 656 0008 B960     		str	r1, [r7, #8]
+ 657 000a 3B60     		str	r3, [r7]
+ 658 000c 1346     		mov	r3, r2
+ 659 000e FB71     		strb	r3, [r7, #7]
+ 458:xformatc.c    **** 	unsigned count= 0;
+ 660              		.loc 1 458 0
+ 661 0010 0023     		movs	r3, #0
+ 662 0012 7B61     		str	r3, [r7, #20]
+ 459:xformatc.c    **** 
+ 460:xformatc.c    **** 	while (len-- > 0)
+ 663              		.loc 1 460 0
+ 664 0014 07E0     		b	.L35
+ 665              	.L36:
+ 461:xformatc.c    **** 	{
+ 462:xformatc.c    **** 		(*myoutchar)(arg,ch);
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 21
+
+
+ 666              		.loc 1 462 0
+ 667 0016 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 668 0018 FB68     		ldr	r3, [r7, #12]
+ 669 001a 1146     		mov	r1, r2
+ 670 001c B868     		ldr	r0, [r7, #8]
+ 671 001e 9847     		blx	r3
+ 463:xformatc.c    **** 		count++;
+ 672              		.loc 1 463 0
+ 673 0020 7B69     		ldr	r3, [r7, #20]
+ 674 0022 0133     		adds	r3, r3, #1
+ 675 0024 7B61     		str	r3, [r7, #20]
+ 676              	.L35:
+ 460:xformatc.c    **** 	{
+ 677              		.loc 1 460 0
+ 678 0026 3B68     		ldr	r3, [r7]
+ 679 0028 5A1E     		subs	r2, r3, #1
+ 680 002a 3A60     		str	r2, [r7]
+ 681 002c 002B     		cmp	r3, #0
+ 682 002e F2DC     		bgt	.L36
+ 464:xformatc.c    **** 	}
+ 465:xformatc.c    **** 
+ 466:xformatc.c    **** 	return count;
+ 683              		.loc 1 466 0
+ 684 0030 7B69     		ldr	r3, [r7, #20]
+ 467:xformatc.c    **** }
+ 685              		.loc 1 467 0
+ 686 0032 1846     		mov	r0, r3
+ 687 0034 1837     		adds	r7, r7, #24
+ 688              		.cfi_def_cfa_offset 8
+ 689 0036 BD46     		mov	sp, r7
+ 690              		.cfi_def_cfa_register 13
+ 691              		@ sp needed
+ 692 0038 80BD     		pop	{r7, pc}
+ 693              		.cfi_endproc
+ 694              	.LFE5:
+ 695              		.size	outChars, .-outChars
+ 696              		.global	__aeabi_ddiv
+ 697              		.global	__aeabi_dcmplt
+ 698              		.global	__aeabi_dsub
+ 699              		.global	__aeabi_d2lz
+ 700              		.global	__aeabi_l2d
+ 701              		.global	__aeabi_dadd
+ 702              		.global	__aeabi_ul2d
+ 703              		.global	__aeabi_dmul
+ 704              		.global	__aeabi_d2uiz
+ 705 003a 00BF     		.section	.text.xvformat,"ax",%progbits
+ 706              		.align	2
+ 707              		.global	xvformat
+ 708              		.thumb
+ 709              		.thumb_func
+ 710              		.type	xvformat, %function
+ 711              	xvformat:
+ 712              	.LFB6:
+ 468:xformatc.c    **** 
+ 469:xformatc.c    **** 
+ 470:xformatc.c    **** 
+ 471:xformatc.c    **** /*
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 22
+
+
+ 472:xformatc.c    ****  * Lint want declare list as const but list is an obscured pointer so
+ 473:xformatc.c    ****  * the warning is disabled.
+ 474:xformatc.c    ****  */
+ 475:xformatc.c    **** /*lint -save -e818 */
+ 476:xformatc.c    **** 
+ 477:xformatc.c    **** 
+ 478:xformatc.c    **** /**
+ 479:xformatc.c    ****  * Printf like format function.
+ 480:xformatc.c    ****  *
+ 481:xformatc.c    ****  * General format :
+ 482:xformatc.c    ****  * 
+ 483:xformatc.c    ****  * %[width][.precision][flags]type
+ 484:xformatc.c    ****  *
+ 485:xformatc.c    ****  * - width Is the minimum size of the field.
+ 486:xformatc.c    ****  * 
+ 487:xformatc.c    ****  * - precision Is the maximum size of the field.
+ 488:xformatc.c    ****  * 
+ 489:xformatc.c    ****  * Supported flags :
+ 490:xformatc.c    ****  * 
+ 491:xformatc.c    ****  * - l	With integer number the argument will be of type long.
+ 492:xformatc.c    ****  * - ll With integer number the argument will be of type long long.
+ 493:xformatc.c    ****  * -	Space for positive integer a space will be added before.
+ 494:xformatc.c    ****  * - z	Compatible with C99 the argument is size_t (aka sizeof(void *))
+ 495:xformatc.c    ****  * - +	A + sign prefix positive number.
+ 496:xformatc.c    ****  * - #	A prefix will be printed (o for octal,0x for hex,0b for binary)
+ 497:xformatc.c    ****  * - 0	Value will be padded with zero (default is spacwe)
+ 498:xformatc.c    ****  * - -	Left justify as default filed have rigth justification.
+ 499:xformatc.c    ****  * 
+ 500:xformatc.c    ****  * Supported type :
+ 501:xformatc.c    ****  * 
+ 502:xformatc.c    ****  * - s	Null terminated string of char.
+ 503:xformatc.c    ****  * - S	Null terminated string of char in upper case.
+ 504:xformatc.c    ****  * - i	Integer number.
+ 505:xformatc.c    ****  * - d	Integer number.
+ 506:xformatc.c    ****  * - u	Unsigned number.
+ 507:xformatc.c    ****  * - x	Unsigned number in hex.
+ 508:xformatc.c    ****  * - X	Unsigned number in hex upper case.
+ 509:xformatc.c    ****  * - b	Binary number
+ 510:xformatc.c    ****  * - o	Octal number
+ 511:xformatc.c    ****  * - p	Pointer will be emitted with the prefix ->
+ 512:xformatc.c    ****  * - P	Pointer in upper case letter.
+ 513:xformatc.c    ****  * - f	Floating point number.
+ 514:xformatc.c    ****  * - B	Boolean value printed as True / False.
+ 515:xformatc.c    ****  *
+ 516:xformatc.c    ****  * @param outchar - Pointer to the function to output one char.
+ 517:xformatc.c    ****  * @param arg	- Argument for the output function.
+ 518:xformatc.c    ****  * @param fmt	- Format options for the list of parameters.
+ 519:xformatc.c    ****  * @param args	- List parameters.
+ 520:xformatc.c    ****  *
+ 521:xformatc.c    ****  * @return The number of char emitted.
+ 522:xformatc.c    ****  */
+ 523:xformatc.c    **** unsigned xvformat(void (*outchar)(void *,char),void *arg,const char * fmt,va_list _args)
+ 524:xformatc.c    **** {
+ 713              		.loc 1 524 0
+ 714              		.cfi_startproc
+ 715              		@ args = 0, pretend = 0, frame = 152
+ 716              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 23
+
+
+ 717 0000 2DE9B043 		push	{r4, r5, r7, r8, r9, lr}
+ 718              		.cfi_def_cfa_offset 24
+ 719              		.cfi_offset 4, -24
+ 720              		.cfi_offset 5, -20
+ 721              		.cfi_offset 7, -16
+ 722              		.cfi_offset 8, -12
+ 723              		.cfi_offset 9, -8
+ 724              		.cfi_offset 14, -4
+ 725 0004 A8B0     		sub	sp, sp, #160
+ 726              		.cfi_def_cfa_offset 184
+ 727 0006 02AF     		add	r7, sp, #8
+ 728              		.cfi_def_cfa 7, 176
+ 729 0008 F860     		str	r0, [r7, #12]
+ 730 000a B960     		str	r1, [r7, #8]
+ 731 000c 7A60     		str	r2, [r7, #4]
+ 732 000e 3B60     		str	r3, [r7]
+ 525:xformatc.c    **** 	XCFG_FORMAT_STATIC struct param_s param;
+ 526:xformatc.c    **** 	int i;
+ 527:xformatc.c    **** 	char c;
+ 528:xformatc.c    **** 	
+ 529:xformatc.c    **** #if XCFG_FORMAT_VA_COPY
+ 530:xformatc.c    **** 	va_list args;
+ 531:xformatc.c    **** 
+ 532:xformatc.c    **** 	va_copy(args,_args);
+ 533:xformatc.c    **** #else
+ 534:xformatc.c    **** #define args	_args
+ 535:xformatc.c    **** #endif
+ 536:xformatc.c    **** 
+ 537:xformatc.c    **** 	param.count = 0;
+ 733              		.loc 1 537 0
+ 734 0010 0023     		movs	r3, #0
+ 735 0012 FB63     		str	r3, [r7, #60]
+ 538:xformatc.c    **** 	param.state = ST_NORMAL;
+ 736              		.loc 1 538 0
+ 737 0014 0023     		movs	r3, #0
+ 738 0016 87F88D30 		strb	r3, [r7, #141]
+ 539:xformatc.c    **** 
+ 540:xformatc.c    **** 	while (*fmt)
+ 739              		.loc 1 540 0
+ 740 001a 00F021BC 		b	.L39
+ 741              	.L128:
+ 541:xformatc.c    **** 	{
+ 542:xformatc.c    **** 		c = *fmt++;
+ 742              		.loc 1 542 0
+ 743 001e 7B68     		ldr	r3, [r7, #4]
+ 744 0020 5A1C     		adds	r2, r3, #1
+ 745 0022 7A60     		str	r2, [r7, #4]
+ 746 0024 1B78     		ldrb	r3, [r3]
+ 747 0026 87F89330 		strb	r3, [r7, #147]
+ 543:xformatc.c    **** 
+ 544:xformatc.c    **** 		if (c < ' ' || c > 'z')
+ 748              		.loc 1 544 0
+ 749 002a 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 750 002e 1F2B     		cmp	r3, #31
+ 751 0030 03D9     		bls	.L40
+ 752              		.loc 1 544 0 is_stmt 0 discriminator 1
+ 753 0032 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 24
+
+
+ 754 0036 7A2B     		cmp	r3, #122
+ 755 0038 03D9     		bls	.L41
+ 756              	.L40:
+ 545:xformatc.c    **** 			i = (int)CH_OTHER;
+ 757              		.loc 1 545 0 is_stmt 1
+ 758 003a 0023     		movs	r3, #0
+ 759 003c C7F89430 		str	r3, [r7, #148]
+ 760 0040 08E0     		b	.L42
+ 761              	.L41:
+ 546:xformatc.c    **** 		else
+ 547:xformatc.c    **** 			i = formatStates[c - ' '] & 0x0F;
+ 762              		.loc 1 547 0
+ 763 0042 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 764 0046 203B     		subs	r3, r3, #32
+ 765 0048 C34A     		ldr	r2, .L137
+ 766 004a D35C     		ldrb	r3, [r2, r3]	@ zero_extendqisi2
+ 767 004c 03F00F03 		and	r3, r3, #15
+ 768 0050 C7F89430 		str	r3, [r7, #148]
+ 769              	.L42:
+ 548:xformatc.c    **** 
+ 549:xformatc.c    **** 		param.state = formatStates[(i << 3) + param.state] >> 4;
+ 770              		.loc 1 549 0
+ 771 0054 D7F89430 		ldr	r3, [r7, #148]
+ 772 0058 DB00     		lsls	r3, r3, #3
+ 773 005a 97F88D20 		ldrb	r2, [r7, #141]	@ zero_extendqisi2
+ 774 005e 1344     		add	r3, r3, r2
+ 775 0060 BD4A     		ldr	r2, .L137
+ 776 0062 D35C     		ldrb	r3, [r2, r3]	@ zero_extendqisi2
+ 777 0064 1B09     		lsrs	r3, r3, #4
+ 778 0066 DBB2     		uxtb	r3, r3
+ 779 0068 87F88D30 		strb	r3, [r7, #141]
+ 550:xformatc.c    **** 
+ 551:xformatc.c    **** 
+ 552:xformatc.c    **** 		switch (param.state)
+ 780              		.loc 1 552 0
+ 781 006c 97F88D30 		ldrb	r3, [r7, #141]	@ zero_extendqisi2
+ 782 0070 013B     		subs	r3, r3, #1
+ 783 0072 062B     		cmp	r3, #6
+ 784 0074 10D8     		bhi	.L43
+ 785 0076 01A2     		adr	r2, .L45
+ 786 0078 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 787              		.p2align 2
+ 788              	.L45:
+ 789 007c AD000000 		.word	.L44+1
+ 790 0080 79010000 		.word	.L46+1
+ 791 0084 C9000000 		.word	.L47+1
+ 792 0088 61080000 		.word	.L39+1
+ 793 008c F5000000 		.word	.L49+1
+ 794 0090 29010000 		.word	.L50+1
+ 795 0094 01020000 		.word	.L51+1
+ 796              		.p2align 1
+ 797              	.L43:
+ 553:xformatc.c    **** 		{
+ 554:xformatc.c    **** 			default:
+ 555:xformatc.c    **** 			case	ST_NORMAL:
+ 556:xformatc.c    **** 				(*outchar)(arg,c);
+ 798              		.loc 1 556 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 25
+
+
+ 799 0098 97F89320 		ldrb	r2, [r7, #147]	@ zero_extendqisi2
+ 800 009c FB68     		ldr	r3, [r7, #12]
+ 801 009e 1146     		mov	r1, r2
+ 802 00a0 B868     		ldr	r0, [r7, #8]
+ 803 00a2 9847     		blx	r3
+ 557:xformatc.c    **** 				param.count++;
+ 804              		.loc 1 557 0
+ 805 00a4 FB6B     		ldr	r3, [r7, #60]
+ 806 00a6 0133     		adds	r3, r3, #1
+ 807 00a8 FB63     		str	r3, [r7, #60]
+ 558:xformatc.c    **** 				break;
+ 808              		.loc 1 558 0
+ 809 00aa D9E3     		b	.L39
+ 810              	.L44:
+ 559:xformatc.c    **** 
+ 560:xformatc.c    **** 			case	ST_PERCENT:
+ 561:xformatc.c    **** 				param.flags = param.length = param.prefixlen = param.width = param.prec = 0;
+ 811              		.loc 1 561 0
+ 812 00ac 0023     		movs	r3, #0
+ 813 00ae 7B63     		str	r3, [r7, #52]
+ 814 00b0 7B6B     		ldr	r3, [r7, #52]
+ 815 00b2 BB63     		str	r3, [r7, #56]
+ 816 00b4 BB6B     		ldr	r3, [r7, #56]
+ 817 00b6 7B64     		str	r3, [r7, #68]
+ 818 00b8 7B6C     		ldr	r3, [r7, #68]
+ 819 00ba 3B63     		str	r3, [r7, #48]
+ 820 00bc 3B6B     		ldr	r3, [r7, #48]
+ 821 00be 3B64     		str	r3, [r7, #64]
+ 562:xformatc.c    **** 				param.pad = ' ';
+ 822              		.loc 1 562 0
+ 823 00c0 2023     		movs	r3, #32
+ 824 00c2 87F88C30 		strb	r3, [r7, #140]
+ 563:xformatc.c    **** 				break;
+ 825              		.loc 1 563 0
+ 826 00c6 CBE3     		b	.L39
+ 827              	.L47:
+ 564:xformatc.c    **** 
+ 565:xformatc.c    **** 			case	ST_WIDTH:
+ 566:xformatc.c    **** 				if (c == '*')
+ 828              		.loc 1 566 0
+ 829 00c8 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 830 00cc 2A2B     		cmp	r3, #42
+ 831 00ce 05D1     		bne	.L52
+ 567:xformatc.c    **** 					param.width = (int)va_arg(args,int);
+ 832              		.loc 1 567 0
+ 833 00d0 3B68     		ldr	r3, [r7]
+ 834 00d2 1A1D     		adds	r2, r3, #4
+ 835 00d4 3A60     		str	r2, [r7]
+ 836 00d6 1B68     		ldr	r3, [r3]
+ 837 00d8 BB63     		str	r3, [r7, #56]
+ 838 00da C1E3     		b	.L39
+ 839              	.L52:
+ 568:xformatc.c    **** 				else
+ 569:xformatc.c    **** 					param.width = param.width * 10 + (c - '0');
+ 840              		.loc 1 569 0
+ 841 00dc BA6B     		ldr	r2, [r7, #56]
+ 842 00de 1346     		mov	r3, r2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 26
+
+
+ 843 00e0 9B00     		lsls	r3, r3, #2
+ 844 00e2 1344     		add	r3, r3, r2
+ 845 00e4 5B00     		lsls	r3, r3, #1
+ 846 00e6 1A46     		mov	r2, r3
+ 847 00e8 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 848 00ec 303B     		subs	r3, r3, #48
+ 849 00ee 1344     		add	r3, r3, r2
+ 850 00f0 BB63     		str	r3, [r7, #56]
+ 570:xformatc.c    **** 				break;
+ 851              		.loc 1 570 0
+ 852 00f2 B5E3     		b	.L39
+ 853              	.L49:
+ 571:xformatc.c    **** 
+ 572:xformatc.c    **** 			case	ST_DOT:
+ 573:xformatc.c    **** 				break;
+ 574:xformatc.c    **** 
+ 575:xformatc.c    **** 			case	ST_PRECIS:
+ 576:xformatc.c    **** 				param.flags |= FLAG_PREC;
+ 854              		.loc 1 576 0
+ 855 00f4 3B6C     		ldr	r3, [r7, #64]
+ 856 00f6 43F00403 		orr	r3, r3, #4
+ 857 00fa 3B64     		str	r3, [r7, #64]
+ 577:xformatc.c    **** 				if (c == '*')
+ 858              		.loc 1 577 0
+ 859 00fc 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 860 0100 2A2B     		cmp	r3, #42
+ 861 0102 05D1     		bne	.L54
+ 578:xformatc.c    **** 					param.prec = (int)va_arg(args,int);
+ 862              		.loc 1 578 0
+ 863 0104 3B68     		ldr	r3, [r7]
+ 864 0106 1A1D     		adds	r2, r3, #4
+ 865 0108 3A60     		str	r2, [r7]
+ 866 010a 1B68     		ldr	r3, [r3]
+ 867 010c 7B63     		str	r3, [r7, #52]
+ 868 010e A7E3     		b	.L39
+ 869              	.L54:
+ 579:xformatc.c    **** 				else
+ 580:xformatc.c    **** 					param.prec = param.prec * 10 + (c - '0');
+ 870              		.loc 1 580 0
+ 871 0110 7A6B     		ldr	r2, [r7, #52]
+ 872 0112 1346     		mov	r3, r2
+ 873 0114 9B00     		lsls	r3, r3, #2
+ 874 0116 1344     		add	r3, r3, r2
+ 875 0118 5B00     		lsls	r3, r3, #1
+ 876 011a 1A46     		mov	r2, r3
+ 877 011c 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 878 0120 303B     		subs	r3, r3, #48
+ 879 0122 1344     		add	r3, r3, r2
+ 880 0124 7B63     		str	r3, [r7, #52]
+ 581:xformatc.c    **** 				break;
+ 881              		.loc 1 581 0
+ 882 0126 9BE3     		b	.L39
+ 883              	.L50:
+ 582:xformatc.c    **** 
+ 583:xformatc.c    **** 			case	ST_SIZE:
+ 584:xformatc.c    **** 				switch (c)
+ 884              		.loc 1 584 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 27
+
+
+ 885 0128 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 886 012c 6C2B     		cmp	r3, #108
+ 887 012e 0BD0     		beq	.L57
+ 888 0130 7A2B     		cmp	r3, #122
+ 889 0132 00D0     		beq	.L58
+ 585:xformatc.c    **** 				{
+ 586:xformatc.c    **** 					default:
+ 587:xformatc.c    **** 						break;
+ 890              		.loc 1 587 0
+ 891 0134 1FE0     		b	.L59
+ 892              	.L58:
+ 588:xformatc.c    **** 					case 'z':
+ 589:xformatc.c    **** 						param.flags &= ~FLAG_TYPE_MASK;
+ 893              		.loc 1 589 0
+ 894 0136 3B6C     		ldr	r3, [r7, #64]
+ 895 0138 23F00303 		bic	r3, r3, #3
+ 896 013c 3B64     		str	r3, [r7, #64]
+ 590:xformatc.c    **** 						param.flags |= FLAG_TYPE_SIZEOF;
+ 897              		.loc 1 590 0
+ 898 013e 3B6C     		ldr	r3, [r7, #64]
+ 899 0140 43F00203 		orr	r3, r3, #2
+ 900 0144 3B64     		str	r3, [r7, #64]
+ 591:xformatc.c    **** 						break;
+ 901              		.loc 1 591 0
+ 902 0146 16E0     		b	.L59
+ 903              	.L57:
+ 592:xformatc.c    **** 
+ 593:xformatc.c    **** 					case 'l':
+ 594:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+ 595:xformatc.c    **** 						if ((param.flags & FLAG_TYPE_MASK) == FLAG_TYPE_LONG)
+ 904              		.loc 1 595 0
+ 905 0148 3B6C     		ldr	r3, [r7, #64]
+ 906 014a 03F00303 		and	r3, r3, #3
+ 907 014e 012B     		cmp	r3, #1
+ 908 0150 08D1     		bne	.L60
+ 596:xformatc.c    **** 						{
+ 597:xformatc.c    **** 							param.flags &= ~FLAG_TYPE_MASK;
+ 909              		.loc 1 597 0
+ 910 0152 3B6C     		ldr	r3, [r7, #64]
+ 911 0154 23F00303 		bic	r3, r3, #3
+ 912 0158 3B64     		str	r3, [r7, #64]
+ 598:xformatc.c    **** 							param.flags |=  FLAG_TYPE_LONGLONG;
+ 913              		.loc 1 598 0
+ 914 015a 3B6C     		ldr	r3, [r7, #64]
+ 915 015c 43F00303 		orr	r3, r3, #3
+ 916 0160 3B64     		str	r3, [r7, #64]
+ 599:xformatc.c    **** 						}
+ 600:xformatc.c    **** 						else
+ 601:xformatc.c    **** 						{
+ 602:xformatc.c    **** 							param.flags &= ~FLAG_TYPE_MASK;
+ 603:xformatc.c    **** 							param.flags |= FLAG_TYPE_LONG;
+ 604:xformatc.c    **** 
+ 605:xformatc.c    **** 						}
+ 606:xformatc.c    **** #else
+ 607:xformatc.c    **** 						param.flags &= ~FLAG_TYPE_MASK;
+ 608:xformatc.c    **** 						param.flags |= FLAG_TYPE_LONG;
+ 609:xformatc.c    **** #endif
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 28
+
+
+ 610:xformatc.c    **** 						break;
+ 917              		.loc 1 610 0
+ 918 0162 07E0     		b	.L132
+ 919              	.L60:
+ 602:xformatc.c    **** 							param.flags |= FLAG_TYPE_LONG;
+ 920              		.loc 1 602 0
+ 921 0164 3B6C     		ldr	r3, [r7, #64]
+ 922 0166 23F00303 		bic	r3, r3, #3
+ 923 016a 3B64     		str	r3, [r7, #64]
+ 603:xformatc.c    **** 
+ 924              		.loc 1 603 0
+ 925 016c 3B6C     		ldr	r3, [r7, #64]
+ 926 016e 43F00103 		orr	r3, r3, #1
+ 927 0172 3B64     		str	r3, [r7, #64]
+ 928              	.L132:
+ 929              		.loc 1 610 0
+ 930 0174 00BF     		nop
+ 931              	.L59:
+ 611:xformatc.c    **** 
+ 612:xformatc.c    **** 
+ 613:xformatc.c    **** 				}
+ 614:xformatc.c    **** 				break;
+ 932              		.loc 1 614 0 discriminator 1
+ 933 0176 73E3     		b	.L39
+ 934              	.L46:
+ 615:xformatc.c    **** 
+ 616:xformatc.c    **** 			case	ST_FLAG:
+ 617:xformatc.c    **** 				switch (c)
+ 935              		.loc 1 617 0
+ 936 0178 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 937 017c 203B     		subs	r3, r3, #32
+ 938 017e 102B     		cmp	r3, #16
+ 939 0180 3CD8     		bhi	.L133
+ 940 0182 01A2     		adr	r2, .L64
+ 941 0184 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 942              		.p2align 2
+ 943              	.L64:
+ 944 0188 DF010000 		.word	.L63+1
+ 945 018c FD010000 		.word	.L133+1
+ 946 0190 FD010000 		.word	.L133+1
+ 947 0194 E9010000 		.word	.L65+1
+ 948 0198 FD010000 		.word	.L133+1
+ 949 019c FD010000 		.word	.L133+1
+ 950 01a0 FD010000 		.word	.L133+1
+ 951 01a4 FD010000 		.word	.L133+1
+ 952 01a8 FD010000 		.word	.L133+1
+ 953 01ac FD010000 		.word	.L133+1
+ 954 01b0 FD010000 		.word	.L133+1
+ 955 01b4 F3010000 		.word	.L66+1
+ 956 01b8 FD010000 		.word	.L133+1
+ 957 01bc CD010000 		.word	.L67+1
+ 958 01c0 FD010000 		.word	.L133+1
+ 959 01c4 FD010000 		.word	.L133+1
+ 960 01c8 D7010000 		.word	.L68+1
+ 961              		.p2align 1
+ 962              	.L67:
+ 618:xformatc.c    **** 				{
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 29
+
+
+ 619:xformatc.c    **** 					default:
+ 620:xformatc.c    **** 						break;
+ 621:xformatc.c    **** 					case  '-':
+ 622:xformatc.c    **** 						param.flags |= FLAG_LEFT;
+ 963              		.loc 1 622 0
+ 964 01cc 3B6C     		ldr	r3, [r7, #64]
+ 965 01ce 43F00803 		orr	r3, r3, #8
+ 966 01d2 3B64     		str	r3, [r7, #64]
+ 623:xformatc.c    **** 						break;
+ 967              		.loc 1 623 0
+ 968 01d4 13E0     		b	.L69
+ 969              	.L68:
+ 624:xformatc.c    **** 					case  '0':
+ 625:xformatc.c    **** 						param.pad = '0';
+ 970              		.loc 1 625 0
+ 971 01d6 3023     		movs	r3, #48
+ 972 01d8 87F88C30 		strb	r3, [r7, #140]
+ 626:xformatc.c    **** 						break;
+ 973              		.loc 1 626 0
+ 974 01dc 0FE0     		b	.L69
+ 975              	.L63:
+ 627:xformatc.c    **** 					case ' ':
+ 628:xformatc.c    **** 						param.flags |= FLAG_BLANK;
+ 976              		.loc 1 628 0
+ 977 01de 3B6C     		ldr	r3, [r7, #64]
+ 978 01e0 43F01003 		orr	r3, r3, #16
+ 979 01e4 3B64     		str	r3, [r7, #64]
+ 629:xformatc.c    **** 						break;
+ 980              		.loc 1 629 0
+ 981 01e6 0AE0     		b	.L69
+ 982              	.L65:
+ 630:xformatc.c    **** 					case '#':
+ 631:xformatc.c    **** 						param.flags |= FLAG_PREFIX;
+ 983              		.loc 1 631 0
+ 984 01e8 3B6C     		ldr	r3, [r7, #64]
+ 985 01ea 43F02003 		orr	r3, r3, #32
+ 986 01ee 3B64     		str	r3, [r7, #64]
+ 632:xformatc.c    **** 						break;
+ 987              		.loc 1 632 0
+ 988 01f0 05E0     		b	.L69
+ 989              	.L66:
+ 633:xformatc.c    **** 					case '+':
+ 634:xformatc.c    **** 						param.flags |= FLAG_PLUS;
+ 990              		.loc 1 634 0
+ 991 01f2 3B6C     		ldr	r3, [r7, #64]
+ 992 01f4 43F04003 		orr	r3, r3, #64
+ 993 01f8 3B64     		str	r3, [r7, #64]
+ 635:xformatc.c    **** 						break;
+ 994              		.loc 1 635 0
+ 995 01fa 00E0     		b	.L69
+ 996              	.L133:
+ 620:xformatc.c    **** 					case  '-':
+ 997              		.loc 1 620 0
+ 998 01fc 00BF     		nop
+ 999              	.L69:
+ 636:xformatc.c    **** 				}
+ 637:xformatc.c    **** 				break;
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 30
+
+
+ 1000              		.loc 1 637 0 discriminator 3
+ 1001 01fe 2FE3     		b	.L39
+ 1002              	.L51:
+ 638:xformatc.c    **** 
+ 639:xformatc.c    **** 			case	ST_TYPE:
+ 640:xformatc.c    **** 				switch (c)
+ 1003              		.loc 1 640 0
+ 1004 0200 97F89330 		ldrb	r3, [r7, #147]	@ zero_extendqisi2
+ 1005 0204 423B     		subs	r3, r3, #66
+ 1006 0206 362B     		cmp	r3, #54
+ 1007 0208 70D8     		bhi	.L70
+ 1008 020a 01A2     		adr	r2, .L72
+ 1009 020c 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 1010              		.p2align 2
+ 1011              	.L72:
+ 1012 0210 D7050000 		.word	.L71+1
+ 1013 0214 01040000 		.word	.L73+1
+ 1014 0218 ED020000 		.word	.L70+1
+ 1015 021c ED020000 		.word	.L70+1
+ 1016 0220 ED020000 		.word	.L70+1
+ 1017 0224 ED020000 		.word	.L70+1
+ 1018 0228 ED020000 		.word	.L70+1
+ 1019 022c ED020000 		.word	.L70+1
+ 1020 0230 ED020000 		.word	.L70+1
+ 1021 0234 ED020000 		.word	.L70+1
+ 1022 0238 ED020000 		.word	.L70+1
+ 1023 023c ED020000 		.word	.L70+1
+ 1024 0240 ED020000 		.word	.L70+1
+ 1025 0244 ED020000 		.word	.L70+1
+ 1026 0248 F3020000 		.word	.L74+1
+ 1027 024c ED020000 		.word	.L70+1
+ 1028 0250 ED020000 		.word	.L70+1
+ 1029 0254 D7030000 		.word	.L75+1
+ 1030 0258 ED020000 		.word	.L70+1
+ 1031 025c ED020000 		.word	.L70+1
+ 1032 0260 ED020000 		.word	.L70+1
+ 1033 0264 ED020000 		.word	.L70+1
+ 1034 0268 83030000 		.word	.L76+1
+ 1035 026c ED020000 		.word	.L70+1
+ 1036 0270 ED020000 		.word	.L70+1
+ 1037 0274 ED020000 		.word	.L70+1
+ 1038 0278 ED020000 		.word	.L70+1
+ 1039 027c ED020000 		.word	.L70+1
+ 1040 0280 ED020000 		.word	.L70+1
+ 1041 0284 ED020000 		.word	.L70+1
+ 1042 0288 ED020000 		.word	.L70+1
+ 1043 028c ED020000 		.word	.L70+1
+ 1044 0290 2B030000 		.word	.L77+1
+ 1045 0294 09040000 		.word	.L78+1
+ 1046 0298 B7030000 		.word	.L79+1
+ 1047 029c ED020000 		.word	.L70+1
+ 1048 02a0 25040000 		.word	.L80+1
+ 1049 02a4 ED020000 		.word	.L70+1
+ 1050 02a8 ED020000 		.word	.L70+1
+ 1051 02ac B7030000 		.word	.L79+1
+ 1052 02b0 ED020000 		.word	.L70+1
+ 1053 02b4 ED020000 		.word	.L70+1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 31
+
+
+ 1054 02b8 ED020000 		.word	.L70+1
+ 1055 02bc ED020000 		.word	.L70+1
+ 1056 02c0 ED020000 		.word	.L70+1
+ 1057 02c4 5D030000 		.word	.L81+1
+ 1058 02c8 FB020000 		.word	.L82+1
+ 1059 02cc ED020000 		.word	.L70+1
+ 1060 02d0 ED020000 		.word	.L70+1
+ 1061 02d4 DF030000 		.word	.L83+1
+ 1062 02d8 ED020000 		.word	.L70+1
+ 1063 02dc C7030000 		.word	.L84+1
+ 1064 02e0 ED020000 		.word	.L70+1
+ 1065 02e4 ED020000 		.word	.L70+1
+ 1066 02e8 8B030000 		.word	.L85+1
+ 1067              		.p2align 1
+ 1068              	.L70:
+ 641:xformatc.c    **** 				{
+ 642:xformatc.c    **** 					default:
+ 643:xformatc.c    **** 						param.length = 0;
+ 1069              		.loc 1 643 0
+ 1070 02ec 0023     		movs	r3, #0
+ 1071 02ee 3B63     		str	r3, [r7, #48]
+ 644:xformatc.c    **** 						break;
+ 1072              		.loc 1 644 0
+ 1073 02f0 88E1     		b	.L86
+ 1074              	.L74:
+ 645:xformatc.c    **** 
+ 646:xformatc.c    **** 						/*
+ 647:xformatc.c    **** 						 * Pointer upper case
+ 648:xformatc.c    **** 						 */
+ 649:xformatc.c    **** 					case	'P':
+ 650:xformatc.c    **** 						param.flags |=  FLAG_UPPER;
+ 1075              		.loc 1 650 0
+ 1076 02f2 3B6C     		ldr	r3, [r7, #64]
+ 1077 02f4 43F08003 		orr	r3, r3, #128
+ 1078 02f8 3B64     		str	r3, [r7, #64]
+ 1079              	.L82:
+ 651:xformatc.c    **** 						/* no break */
+ 652:xformatc.c    **** 						/*lint -fallthrough */
+ 653:xformatc.c    **** 
+ 654:xformatc.c    **** 						/*
+ 655:xformatc.c    **** 						 * Pointer 
+ 656:xformatc.c    **** 						 */
+ 657:xformatc.c    **** 					case	'p':
+ 658:xformatc.c    **** 						param.flags &= ~FLAG_TYPE_MASK;
+ 1080              		.loc 1 658 0
+ 1081 02fa 3B6C     		ldr	r3, [r7, #64]
+ 1082 02fc 23F00303 		bic	r3, r3, #3
+ 1083 0300 3B64     		str	r3, [r7, #64]
+ 659:xformatc.c    **** 						param.flags |= FLAG_INTEGER | FLAG_TYPE_SIZEOF;
+ 1084              		.loc 1 659 0
+ 1085 0302 3B6C     		ldr	r3, [r7, #64]
+ 1086 0304 43F40073 		orr	r3, r3, #512
+ 1087 0308 43F00203 		orr	r3, r3, #2
+ 1088 030c 3B64     		str	r3, [r7, #64]
+ 660:xformatc.c    **** 						param.radix = 16;
+ 1089              		.loc 1 660 0
+ 1090 030e 1023     		movs	r3, #16
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 32
+
+
+ 1091 0310 87F88B30 		strb	r3, [r7, #139]
+ 661:xformatc.c    **** 						param.prec = sizeof(void *) * 2;
+ 1092              		.loc 1 661 0
+ 1093 0314 0823     		movs	r3, #8
+ 1094 0316 7B63     		str	r3, [r7, #52]
+ 662:xformatc.c    **** 						param.prefix[0] = '-';
+ 1095              		.loc 1 662 0
+ 1096 0318 2D23     		movs	r3, #45
+ 1097 031a 87F84830 		strb	r3, [r7, #72]
+ 663:xformatc.c    **** 						param.prefix[1] = '>';
+ 1098              		.loc 1 663 0
+ 1099 031e 3E23     		movs	r3, #62
+ 1100 0320 87F84930 		strb	r3, [r7, #73]
+ 664:xformatc.c    **** 						param.prefixlen = 2;
+ 1101              		.loc 1 664 0
+ 1102 0324 0223     		movs	r3, #2
+ 1103 0326 7B64     		str	r3, [r7, #68]
+ 665:xformatc.c    **** 						break;
+ 1104              		.loc 1 665 0
+ 1105 0328 6CE1     		b	.L86
+ 1106              	.L77:
+ 666:xformatc.c    **** 
+ 667:xformatc.c    **** 						/*
+ 668:xformatc.c    **** 						 * Binary number
+ 669:xformatc.c    **** 						 */
+ 670:xformatc.c    **** 					case	'b':
+ 671:xformatc.c    **** 						param.flags |= FLAG_INTEGER;
+ 1107              		.loc 1 671 0
+ 1108 032a 3B6C     		ldr	r3, [r7, #64]
+ 1109 032c 43F40073 		orr	r3, r3, #512
+ 1110 0330 3B64     		str	r3, [r7, #64]
+ 672:xformatc.c    **** 						param.radix = 2;
+ 1111              		.loc 1 672 0
+ 1112 0332 0223     		movs	r3, #2
+ 1113 0334 87F88B30 		strb	r3, [r7, #139]
+ 673:xformatc.c    **** 						if (param.flags & FLAG_PREFIX)
+ 1114              		.loc 1 673 0
+ 1115 0338 3B6C     		ldr	r3, [r7, #64]
+ 1116 033a 03F02003 		and	r3, r3, #32
+ 1117 033e 002B     		cmp	r3, #0
+ 1118 0340 00F05B81 		beq	.L134
+ 674:xformatc.c    **** 						{
+ 675:xformatc.c    **** 							param.prefix[0] = '0';
+ 1119              		.loc 1 675 0
+ 1120 0344 3023     		movs	r3, #48
+ 1121 0346 87F84830 		strb	r3, [r7, #72]
+ 676:xformatc.c    **** 							param.prefix[1] = 'b';
+ 1122              		.loc 1 676 0
+ 1123 034a 6223     		movs	r3, #98
+ 1124 034c 87F84930 		strb	r3, [r7, #73]
+ 677:xformatc.c    **** 							param.prefixlen = 2;
+ 1125              		.loc 1 677 0
+ 1126 0350 0223     		movs	r3, #2
+ 1127 0352 7B64     		str	r3, [r7, #68]
+ 678:xformatc.c    **** 						}
+ 679:xformatc.c    **** 						break;
+ 1128              		.loc 1 679 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 33
+
+
+ 1129 0354 51E1     		b	.L134
+ 1130              	.L138:
+ 1131 0356 00BF     		.align	2
+ 1132              	.L137:
+ 1133 0358 2C000000 		.word	formatStates
+ 1134              	.L81:
+ 680:xformatc.c    **** 
+ 681:xformatc.c    **** 						/*
+ 682:xformatc.c    **** 						 * Octal number
+ 683:xformatc.c    **** 						 */
+ 684:xformatc.c    **** 					case	'o':
+ 685:xformatc.c    **** 						param.flags |= FLAG_INTEGER;
+ 1135              		.loc 1 685 0
+ 1136 035c 3B6C     		ldr	r3, [r7, #64]
+ 1137 035e 43F40073 		orr	r3, r3, #512
+ 1138 0362 3B64     		str	r3, [r7, #64]
+ 686:xformatc.c    **** 						param.radix = 8;
+ 1139              		.loc 1 686 0
+ 1140 0364 0823     		movs	r3, #8
+ 1141 0366 87F88B30 		strb	r3, [r7, #139]
+ 687:xformatc.c    **** 						if (param.flags & FLAG_PREFIX)
+ 1142              		.loc 1 687 0
+ 1143 036a 3B6C     		ldr	r3, [r7, #64]
+ 1144 036c 03F02003 		and	r3, r3, #32
+ 1145 0370 002B     		cmp	r3, #0
+ 1146 0372 00F04481 		beq	.L135
+ 688:xformatc.c    **** 						{
+ 689:xformatc.c    **** 							param.prefix[0] = '0';
+ 1147              		.loc 1 689 0
+ 1148 0376 3023     		movs	r3, #48
+ 1149 0378 87F84830 		strb	r3, [r7, #72]
+ 690:xformatc.c    **** 							param.prefixlen = 1;
+ 1150              		.loc 1 690 0
+ 1151 037c 0123     		movs	r3, #1
+ 1152 037e 7B64     		str	r3, [r7, #68]
+ 691:xformatc.c    **** 						}
+ 692:xformatc.c    **** 						break;
+ 1153              		.loc 1 692 0
+ 1154 0380 3DE1     		b	.L135
+ 1155              	.L76:
+ 693:xformatc.c    **** 
+ 694:xformatc.c    **** 						/*
+ 695:xformatc.c    **** 						 * Hex number upper case letter.
+ 696:xformatc.c    **** 						 */
+ 697:xformatc.c    **** 					case	'X':
+ 698:xformatc.c    **** 						/* no break */
+ 699:xformatc.c    **** 						param.flags |= FLAG_UPPER;
+ 1156              		.loc 1 699 0
+ 1157 0382 3B6C     		ldr	r3, [r7, #64]
+ 1158 0384 43F08003 		orr	r3, r3, #128
+ 1159 0388 3B64     		str	r3, [r7, #64]
+ 1160              	.L85:
+ 700:xformatc.c    **** 
+ 701:xformatc.c    **** 						/* no break */
+ 702:xformatc.c    **** 
+ 703:xformatc.c    **** 						/* lint -fallthrough */
+ 704:xformatc.c    **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 34
+
+
+ 705:xformatc.c    **** 						/*
+ 706:xformatc.c    **** 						 * Hex number lower case
+ 707:xformatc.c    **** 						 */
+ 708:xformatc.c    **** 					case	'x':
+ 709:xformatc.c    **** 						param.flags |= FLAG_INTEGER;
+ 1161              		.loc 1 709 0
+ 1162 038a 3B6C     		ldr	r3, [r7, #64]
+ 1163 038c 43F40073 		orr	r3, r3, #512
+ 1164 0390 3B64     		str	r3, [r7, #64]
+ 710:xformatc.c    **** 						param.radix = 16;
+ 1165              		.loc 1 710 0
+ 1166 0392 1023     		movs	r3, #16
+ 1167 0394 87F88B30 		strb	r3, [r7, #139]
+ 711:xformatc.c    **** 						if (param.flags & FLAG_PREFIX)
+ 1168              		.loc 1 711 0
+ 1169 0398 3B6C     		ldr	r3, [r7, #64]
+ 1170 039a 03F02003 		and	r3, r3, #32
+ 1171 039e 002B     		cmp	r3, #0
+ 1172 03a0 00F02F81 		beq	.L136
+ 712:xformatc.c    **** 						{
+ 713:xformatc.c    **** 							param.prefix[0] = '0';
+ 1173              		.loc 1 713 0
+ 1174 03a4 3023     		movs	r3, #48
+ 1175 03a6 87F84830 		strb	r3, [r7, #72]
+ 714:xformatc.c    **** 							param.prefix[1] = 'x';
+ 1176              		.loc 1 714 0
+ 1177 03aa 7823     		movs	r3, #120
+ 1178 03ac 87F84930 		strb	r3, [r7, #73]
+ 715:xformatc.c    **** 							param.prefixlen = 2;
+ 1179              		.loc 1 715 0
+ 1180 03b0 0223     		movs	r3, #2
+ 1181 03b2 7B64     		str	r3, [r7, #68]
+ 716:xformatc.c    **** 						}
+ 717:xformatc.c    **** 						break;
+ 1182              		.loc 1 717 0
+ 1183 03b4 25E1     		b	.L136
+ 1184              	.L79:
+ 718:xformatc.c    **** 
+ 719:xformatc.c    **** 						/*
+ 720:xformatc.c    **** 						 * Integer number radix 10
+ 721:xformatc.c    **** 						 */
+ 722:xformatc.c    **** 					case	'd':
+ 723:xformatc.c    **** 					case	'i':
+ 724:xformatc.c    **** 						param.flags |= FLAG_DECIMAL|FLAG_INTEGER;
+ 1185              		.loc 1 724 0
+ 1186 03b6 3B6C     		ldr	r3, [r7, #64]
+ 1187 03b8 43F44073 		orr	r3, r3, #768
+ 1188 03bc 3B64     		str	r3, [r7, #64]
+ 725:xformatc.c    **** 						param.radix = 10;
+ 1189              		.loc 1 725 0
+ 1190 03be 0A23     		movs	r3, #10
+ 1191 03c0 87F88B30 		strb	r3, [r7, #139]
+ 726:xformatc.c    **** 						break;
+ 1192              		.loc 1 726 0
+ 1193 03c4 1EE1     		b	.L86
+ 1194              	.L84:
+ 727:xformatc.c    **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 35
+
+
+ 728:xformatc.c    **** 						/*
+ 729:xformatc.c    **** 						 * Unsigned number
+ 730:xformatc.c    **** 						 */
+ 731:xformatc.c    **** 					case	'u':
+ 732:xformatc.c    **** 						param.flags |= FLAG_INTEGER;
+ 1195              		.loc 1 732 0
+ 1196 03c6 3B6C     		ldr	r3, [r7, #64]
+ 1197 03c8 43F40073 		orr	r3, r3, #512
+ 1198 03cc 3B64     		str	r3, [r7, #64]
+ 733:xformatc.c    **** 						param.radix = 10;
+ 1199              		.loc 1 733 0
+ 1200 03ce 0A23     		movs	r3, #10
+ 1201 03d0 87F88B30 		strb	r3, [r7, #139]
+ 734:xformatc.c    **** 						break;
+ 1202              		.loc 1 734 0
+ 1203 03d4 16E1     		b	.L86
+ 1204              	.L75:
+ 735:xformatc.c    **** 
+ 736:xformatc.c    **** 						/*
+ 737:xformatc.c    **** 						 * Upper case string
+ 738:xformatc.c    **** 						 */
+ 739:xformatc.c    **** 					case	'S':
+ 740:xformatc.c    **** 						param.flags |= FLAG_UPPER;
+ 1205              		.loc 1 740 0
+ 1206 03d6 3B6C     		ldr	r3, [r7, #64]
+ 1207 03d8 43F08003 		orr	r3, r3, #128
+ 1208 03dc 3B64     		str	r3, [r7, #64]
+ 1209              	.L83:
+ 741:xformatc.c    **** 						/* no break */
+ 742:xformatc.c    **** 						/*lint -fallthrough */
+ 743:xformatc.c    **** 
+ 744:xformatc.c    **** 						/*
+ 745:xformatc.c    **** 						 * Normal string
+ 746:xformatc.c    **** 						 */
+ 747:xformatc.c    **** 					case	's':
+ 748:xformatc.c    **** 						param.out = va_arg(args,char *);
+ 1210              		.loc 1 748 0
+ 1211 03de 3B68     		ldr	r3, [r7]
+ 1212 03e0 1A1D     		adds	r2, r3, #4
+ 1213 03e2 3A60     		str	r2, [r7]
+ 1214 03e4 1B68     		ldr	r3, [r3]
+ 1215 03e6 BB61     		str	r3, [r7, #24]
+ 749:xformatc.c    **** 						if (param.out == 0)
+ 1216              		.loc 1 749 0
+ 1217 03e8 BB69     		ldr	r3, [r7, #24]
+ 1218 03ea 002B     		cmp	r3, #0
+ 1219 03ec 01D1     		bne	.L90
+ 750:xformatc.c    **** 							param.out = (char *)ms_null;
+ 1220              		.loc 1 750 0
+ 1221 03ee A94B     		ldr	r3, .L139
+ 1222 03f0 BB61     		str	r3, [r7, #24]
+ 1223              	.L90:
+ 751:xformatc.c    **** 						param.length = (int)xstrlen(param.out);
+ 1224              		.loc 1 751 0
+ 1225 03f2 BB69     		ldr	r3, [r7, #24]
+ 1226 03f4 1846     		mov	r0, r3
+ 1227 03f6 FFF7FEFF 		bl	xstrlen
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 36
+
+
+ 1228 03fa 0346     		mov	r3, r0
+ 1229 03fc 3B63     		str	r3, [r7, #48]
+ 752:xformatc.c    **** 						break;
+ 1230              		.loc 1 752 0
+ 1231 03fe 01E1     		b	.L86
+ 1232              	.L73:
+ 753:xformatc.c    **** 
+ 754:xformatc.c    **** 						/*
+ 755:xformatc.c    **** 						 * Upper case char
+ 756:xformatc.c    **** 						 */
+ 757:xformatc.c    **** 					case	'C':
+ 758:xformatc.c    **** 						param.flags |= FLAG_UPPER;
+ 1233              		.loc 1 758 0
+ 1234 0400 3B6C     		ldr	r3, [r7, #64]
+ 1235 0402 43F08003 		orr	r3, r3, #128
+ 1236 0406 3B64     		str	r3, [r7, #64]
+ 1237              	.L78:
+ 759:xformatc.c    **** 						/* no break */
+ 760:xformatc.c    **** 						/* lint -fallthrough */
+ 761:xformatc.c    **** 
+ 762:xformatc.c    **** 						/*
+ 763:xformatc.c    **** 						 * Char
+ 764:xformatc.c    **** 						 */
+ 765:xformatc.c    **** 					case	'c':
+ 766:xformatc.c    **** 						param.out = param.buffer;
+ 1238              		.loc 1 766 0
+ 1239 0408 07F11003 		add	r3, r7, #16
+ 1240 040c 3A33     		adds	r3, r3, #58
+ 1241 040e BB61     		str	r3, [r7, #24]
+ 767:xformatc.c    **** 						param.buffer[0] = (char)va_arg(args,int);
+ 1242              		.loc 1 767 0
+ 1243 0410 3B68     		ldr	r3, [r7]
+ 1244 0412 1A1D     		adds	r2, r3, #4
+ 1245 0414 3A60     		str	r2, [r7]
+ 1246 0416 1B68     		ldr	r3, [r3]
+ 1247 0418 DBB2     		uxtb	r3, r3
+ 1248 041a 87F84A30 		strb	r3, [r7, #74]
+ 768:xformatc.c    **** 						param.length = 1;
+ 1249              		.loc 1 768 0
+ 1250 041e 0123     		movs	r3, #1
+ 1251 0420 3B63     		str	r3, [r7, #48]
+ 769:xformatc.c    **** 						break;
+ 1252              		.loc 1 769 0
+ 1253 0422 EFE0     		b	.L86
+ 1254              	.L80:
+ 770:xformatc.c    **** 
+ 771:xformatc.c    **** #if XCFG_FORMAT_FLOAT
+ 772:xformatc.c    **** 						/**
+ 773:xformatc.c    **** 						 * Floating point number
+ 774:xformatc.c    **** 						 */
+ 775:xformatc.c    **** 					case 'f':
+ 776:xformatc.c    **** 						if (!(param.flags & FLAG_PREC))
+ 1255              		.loc 1 776 0
+ 1256 0424 3B6C     		ldr	r3, [r7, #64]
+ 1257 0426 03F00403 		and	r3, r3, #4
+ 1258 042a 002B     		cmp	r3, #0
+ 1259 042c 01D1     		bne	.L91
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 37
+
+
+ 777:xformatc.c    **** 						{
+ 778:xformatc.c    **** 							param.prec = 6;
+ 1260              		.loc 1 778 0
+ 1261 042e 0623     		movs	r3, #6
+ 1262 0430 7B63     		str	r3, [r7, #52]
+ 1263              	.L91:
+ 779:xformatc.c    **** 						}
+ 780:xformatc.c    **** 
+ 781:xformatc.c    **** 						param.dbl = va_arg(args,DOUBLE);
+ 1264              		.loc 1 781 0
+ 1265 0432 3B68     		ldr	r3, [r7]
+ 1266 0434 0733     		adds	r3, r3, #7
+ 1267 0436 23F00703 		bic	r3, r3, #7
+ 1268 043a 03F10802 		add	r2, r3, #8
+ 1269 043e 3A60     		str	r2, [r7]
+ 1270 0440 D3E90023 		ldrd	r2, [r3]
+ 1271 0444 C7E90823 		strd	r2, [r7, #32]
+ 782:xformatc.c    **** 						param.values.dvalue = 0.50;
+ 1272              		.loc 1 782 0
+ 1273 0448 4FF00002 		mov	r2, #0
+ 1274 044c 924B     		ldr	r3, .L139+4
+ 1275 044e C7E90423 		strd	r2, [r7, #16]
+ 783:xformatc.c    **** 						for (i = 0 ; i < param.prec ; i++)
+ 1276              		.loc 1 783 0
+ 1277 0452 0023     		movs	r3, #0
+ 1278 0454 C7F89430 		str	r3, [r7, #148]
+ 1279 0458 0FE0     		b	.L92
+ 1280              	.L93:
+ 784:xformatc.c    **** 							param.values.dvalue /= 10.0;
+ 1281              		.loc 1 784 0 discriminator 3
+ 1282 045a D7E90401 		ldrd	r0, [r7, #16]
+ 1283 045e 4FF00002 		mov	r2, #0
+ 1284 0462 8E4B     		ldr	r3, .L139+8
+ 1285 0464 FFF7FEFF 		bl	__aeabi_ddiv
+ 1286 0468 0246     		mov	r2, r0
+ 1287 046a 0B46     		mov	r3, r1
+ 1288 046c C7E90423 		strd	r2, [r7, #16]
+ 783:xformatc.c    **** 						for (i = 0 ; i < param.prec ; i++)
+ 1289              		.loc 1 783 0 discriminator 3
+ 1290 0470 D7F89430 		ldr	r3, [r7, #148]
+ 1291 0474 0133     		adds	r3, r3, #1
+ 1292 0476 C7F89430 		str	r3, [r7, #148]
+ 1293              	.L92:
+ 783:xformatc.c    **** 						for (i = 0 ; i < param.prec ; i++)
+ 1294              		.loc 1 783 0 is_stmt 0 discriminator 1
+ 1295 047a 7A6B     		ldr	r2, [r7, #52]
+ 1296 047c D7F89430 		ldr	r3, [r7, #148]
+ 1297 0480 9A42     		cmp	r2, r3
+ 1298 0482 EADC     		bgt	.L93
+ 785:xformatc.c    **** 
+ 786:xformatc.c    **** 						if (param.dbl < 0)
+ 1299              		.loc 1 786 0 is_stmt 1
+ 1300 0484 D7E90801 		ldrd	r0, [r7, #32]
+ 1301 0488 4FF00002 		mov	r2, #0
+ 1302 048c 4FF00003 		mov	r3, #0
+ 1303 0490 FFF7FEFF 		bl	__aeabi_dcmplt
+ 1304 0494 0346     		mov	r3, r0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 38
+
+
+ 1305 0496 002B     		cmp	r3, #0
+ 1306 0498 31D0     		beq	.L131
+ 787:xformatc.c    **** 						{
+ 788:xformatc.c    **** 							param.flags |= FLAG_MINUS;
+ 1307              		.loc 1 788 0
+ 1308 049a 3B6C     		ldr	r3, [r7, #64]
+ 1309 049c 43F48063 		orr	r3, r3, #1024
+ 1310 04a0 3B64     		str	r3, [r7, #64]
+ 789:xformatc.c    **** 							param.dbl		-= param.values.dvalue;
+ 1311              		.loc 1 789 0
+ 1312 04a2 D7E90801 		ldrd	r0, [r7, #32]
+ 1313 04a6 D7E90423 		ldrd	r2, [r7, #16]
+ 1314 04aa FFF7FEFF 		bl	__aeabi_dsub
+ 1315 04ae 0246     		mov	r2, r0
+ 1316 04b0 0B46     		mov	r3, r1
+ 1317 04b2 C7E90823 		strd	r2, [r7, #32]
+ 790:xformatc.c    **** 							param.iPart	   = (FLOAT_LONG)param.dbl;
+ 1318              		.loc 1 790 0
+ 1319 04b6 D7E90823 		ldrd	r2, [r7, #32]
+ 1320 04ba 1046     		mov	r0, r2
+ 1321 04bc 1946     		mov	r1, r3
+ 1322 04be FFF7FEFF 		bl	__aeabi_d2lz
+ 1323 04c2 0246     		mov	r2, r0
+ 1324 04c4 0B46     		mov	r3, r1
+ 1325 04c6 C7E90A23 		strd	r2, [r7, #40]
+ 791:xformatc.c    **** 							param.dbl		-=	(FLOAT_LONG)param.iPart;
+ 1326              		.loc 1 791 0
+ 1327 04ca D7E90889 		ldrd	r8, [r7, #32]
+ 1328 04ce D7E90A23 		ldrd	r2, [r7, #40]
+ 1329 04d2 1046     		mov	r0, r2
+ 1330 04d4 1946     		mov	r1, r3
+ 1331 04d6 FFF7FEFF 		bl	__aeabi_l2d
+ 1332 04da 0246     		mov	r2, r0
+ 1333 04dc 0B46     		mov	r3, r1
+ 1334 04de 4046     		mov	r0, r8
+ 1335 04e0 4946     		mov	r1, r9
+ 1336 04e2 FFF7FEFF 		bl	__aeabi_dsub
+ 1337 04e6 0246     		mov	r2, r0
+ 1338 04e8 0B46     		mov	r3, r1
+ 1339 04ea C7E90823 		strd	r2, [r7, #32]
+ 792:xformatc.c    **** 							param.dbl		 = - param.dbl;
+ 1340              		.loc 1 792 0
+ 1341 04ee D7E90823 		ldrd	r2, [r7, #32]
+ 1342 04f2 1446     		mov	r4, r2
+ 1343 04f4 83F00045 		eor	r5, r3, #-2147483648
+ 1344 04f8 C7E90845 		strd	r4, [r7, #32]
+ 1345 04fc 25E0     		b	.L96
+ 1346              	.L131:
+ 793:xformatc.c    **** 						}
+ 794:xformatc.c    **** 						else
+ 795:xformatc.c    **** 						{
+ 796:xformatc.c    **** 							param.dbl += param.values.dvalue;
+ 1347              		.loc 1 796 0
+ 1348 04fe D7E90801 		ldrd	r0, [r7, #32]
+ 1349 0502 D7E90423 		ldrd	r2, [r7, #16]
+ 1350 0506 FFF7FEFF 		bl	__aeabi_dadd
+ 1351 050a 0246     		mov	r2, r0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 39
+
+
+ 1352 050c 0B46     		mov	r3, r1
+ 1353 050e C7E90823 		strd	r2, [r7, #32]
+ 797:xformatc.c    **** 							param.iPart = (FLOAT_LONG)param.dbl;
+ 1354              		.loc 1 797 0
+ 1355 0512 D7E90823 		ldrd	r2, [r7, #32]
+ 1356 0516 1046     		mov	r0, r2
+ 1357 0518 1946     		mov	r1, r3
+ 1358 051a FFF7FEFF 		bl	__aeabi_d2lz
+ 1359 051e 0246     		mov	r2, r0
+ 1360 0520 0B46     		mov	r3, r1
+ 1361 0522 C7E90A23 		strd	r2, [r7, #40]
+ 798:xformatc.c    **** 							param.dbl -= param.iPart;
+ 1362              		.loc 1 798 0
+ 1363 0526 D7E90889 		ldrd	r8, [r7, #32]
+ 1364 052a D7E90A23 		ldrd	r2, [r7, #40]
+ 1365 052e 1046     		mov	r0, r2
+ 1366 0530 1946     		mov	r1, r3
+ 1367 0532 FFF7FEFF 		bl	__aeabi_ul2d
+ 1368 0536 0246     		mov	r2, r0
+ 1369 0538 0B46     		mov	r3, r1
+ 1370 053a 4046     		mov	r0, r8
+ 1371 053c 4946     		mov	r1, r9
+ 1372 053e FFF7FEFF 		bl	__aeabi_dsub
+ 1373 0542 0246     		mov	r2, r0
+ 1374 0544 0B46     		mov	r3, r1
+ 1375 0546 C7E90823 		strd	r2, [r7, #32]
+ 1376              	.L96:
+ 799:xformatc.c    **** 						}
+ 800:xformatc.c    **** 
+ 801:xformatc.c    **** 
+ 802:xformatc.c    **** 						for (i = 0 ;i < param.prec	;i++)
+ 1377              		.loc 1 802 0
+ 1378 054a 0023     		movs	r3, #0
+ 1379 054c C7F89430 		str	r3, [r7, #148]
+ 1380 0550 0FE0     		b	.L97
+ 1381              	.L98:
+ 803:xformatc.c    **** 							param.dbl *= 10.0;
+ 1382              		.loc 1 803 0 discriminator 3
+ 1383 0552 D7E90801 		ldrd	r0, [r7, #32]
+ 1384 0556 4FF00002 		mov	r2, #0
+ 1385 055a 504B     		ldr	r3, .L139+8
+ 1386 055c FFF7FEFF 		bl	__aeabi_dmul
+ 1387 0560 0246     		mov	r2, r0
+ 1388 0562 0B46     		mov	r3, r1
+ 1389 0564 C7E90823 		strd	r2, [r7, #32]
+ 802:xformatc.c    **** 							param.dbl *= 10.0;
+ 1390              		.loc 1 802 0 discriminator 3
+ 1391 0568 D7F89430 		ldr	r3, [r7, #148]
+ 1392 056c 0133     		adds	r3, r3, #1
+ 1393 056e C7F89430 		str	r3, [r7, #148]
+ 1394              	.L97:
+ 802:xformatc.c    **** 							param.dbl *= 10.0;
+ 1395              		.loc 1 802 0 is_stmt 0 discriminator 1
+ 1396 0572 7A6B     		ldr	r2, [r7, #52]
+ 1397 0574 D7F89430 		ldr	r3, [r7, #148]
+ 1398 0578 9A42     		cmp	r2, r3
+ 1399 057a EADC     		bgt	.L98
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 40
+
+
+ 804:xformatc.c    **** 
+ 805:xformatc.c    **** 						param.values.lvalue = (unsigned LONG)param.dbl;
+ 1400              		.loc 1 805 0 is_stmt 1
+ 1401 057c D7E90823 		ldrd	r2, [r7, #32]
+ 1402 0580 1046     		mov	r0, r2
+ 1403 0582 1946     		mov	r1, r3
+ 1404 0584 FFF7FEFF 		bl	__aeabi_d2uiz
+ 1405 0588 0346     		mov	r3, r0
+ 1406 058a 3B61     		str	r3, [r7, #16]
+ 806:xformatc.c    **** 
+ 807:xformatc.c    **** 						param.out = param.buffer + sizeof(param.buffer) - 1;
+ 1407              		.loc 1 807 0
+ 1408 058c 07F11003 		add	r3, r7, #16
+ 1409 0590 3A33     		adds	r3, r3, #58
+ 1410 0592 4033     		adds	r3, r3, #64
+ 1411 0594 BB61     		str	r3, [r7, #24]
+ 808:xformatc.c    **** 						param.radix = 10;
+ 1412              		.loc 1 808 0
+ 1413 0596 0A23     		movs	r3, #10
+ 1414 0598 87F88B30 		strb	r3, [r7, #139]
+ 809:xformatc.c    **** 						if (param.prec)
+ 1415              		.loc 1 809 0
+ 1416 059c 7B6B     		ldr	r3, [r7, #52]
+ 1417 059e 002B     		cmp	r3, #0
+ 1418 05a0 0CD0     		beq	.L99
+ 810:xformatc.c    **** 						{
+ 811:xformatc.c    **** 							ulong2a(&param);
+ 1419              		.loc 1 811 0
+ 1420 05a2 07F11003 		add	r3, r7, #16
+ 1421 05a6 1846     		mov	r0, r3
+ 1422 05a8 FFF7FEFF 		bl	ulong2a
+ 812:xformatc.c    **** 							*param.out -- = '.';
+ 1423              		.loc 1 812 0
+ 1424 05ac BB69     		ldr	r3, [r7, #24]
+ 1425 05ae 5A1E     		subs	r2, r3, #1
+ 1426 05b0 BA61     		str	r2, [r7, #24]
+ 1427 05b2 2E22     		movs	r2, #46
+ 1428 05b4 1A70     		strb	r2, [r3]
+ 813:xformatc.c    **** 							param.length ++;
+ 1429              		.loc 1 813 0
+ 1430 05b6 3B6B     		ldr	r3, [r7, #48]
+ 1431 05b8 0133     		adds	r3, r3, #1
+ 1432 05ba 3B63     		str	r3, [r7, #48]
+ 1433              	.L99:
+ 814:xformatc.c    **** 						}
+ 815:xformatc.c    **** 						param.flags |= FLAG_INTEGER | FLAG_BUFFER |
+ 1434              		.loc 1 815 0
+ 1435 05bc 3B6C     		ldr	r3, [r7, #64]
+ 1436 05be 43F4D853 		orr	r3, r3, #6912
+ 1437 05c2 43F00303 		orr	r3, r3, #3
+ 1438 05c6 3B64     		str	r3, [r7, #64]
+ 816:xformatc.c    **** 									   FLAG_DECIMAL | FLAG_VALUE  | FLOAT_TYPE;
+ 817:xformatc.c    **** 
+ 818:xformatc.c    **** 						param.prec = 0;
+ 1439              		.loc 1 818 0
+ 1440 05c8 0023     		movs	r3, #0
+ 1441 05ca 7B63     		str	r3, [r7, #52]
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 41
+
+
+ 819:xformatc.c    **** 						param.values.FLOAT_VALUE  = (unsigned FLOAT_LONG)param.iPart;
+ 1442              		.loc 1 819 0
+ 1443 05cc D7E90A23 		ldrd	r2, [r7, #40]
+ 1444 05d0 C7E90423 		strd	r2, [r7, #16]
+ 820:xformatc.c    **** 						break;
+ 1445              		.loc 1 820 0
+ 1446 05d4 16E0     		b	.L86
+ 1447              	.L71:
+ 821:xformatc.c    **** #endif
+ 822:xformatc.c    **** 
+ 823:xformatc.c    **** 						/**
+ 824:xformatc.c    **** 						 * Boolean value
+ 825:xformatc.c    **** 						 */
+ 826:xformatc.c    **** 					case 'B':
+ 827:xformatc.c    **** 						if (va_arg(args,int) != 0)
+ 1448              		.loc 1 827 0
+ 1449 05d6 3B68     		ldr	r3, [r7]
+ 1450 05d8 1A1D     		adds	r2, r3, #4
+ 1451 05da 3A60     		str	r2, [r7]
+ 1452 05dc 1B68     		ldr	r3, [r3]
+ 1453 05de 002B     		cmp	r3, #0
+ 1454 05e0 02D0     		beq	.L100
+ 828:xformatc.c    **** 							param.out = (char*)ms_true;
+ 1455              		.loc 1 828 0
+ 1456 05e2 2F4B     		ldr	r3, .L139+12
+ 1457 05e4 BB61     		str	r3, [r7, #24]
+ 1458 05e6 01E0     		b	.L101
+ 1459              	.L100:
+ 829:xformatc.c    **** 						else
+ 830:xformatc.c    **** 							param.out = (char*)ms_false;
+ 1460              		.loc 1 830 0
+ 1461 05e8 2E4B     		ldr	r3, .L139+16
+ 1462 05ea BB61     		str	r3, [r7, #24]
+ 1463              	.L101:
+ 831:xformatc.c    **** 
+ 832:xformatc.c    **** 						param.length = (int)xstrlen(param.out);
+ 1464              		.loc 1 832 0
+ 1465 05ec BB69     		ldr	r3, [r7, #24]
+ 1466 05ee 1846     		mov	r0, r3
+ 1467 05f0 FFF7FEFF 		bl	xstrlen
+ 1468 05f4 0346     		mov	r3, r0
+ 1469 05f6 3B63     		str	r3, [r7, #48]
+ 833:xformatc.c    **** 						break;
+ 1470              		.loc 1 833 0
+ 1471 05f8 04E0     		b	.L86
+ 1472              	.L134:
+ 679:xformatc.c    **** 
+ 1473              		.loc 1 679 0
+ 1474 05fa 00BF     		nop
+ 1475 05fc 02E0     		b	.L86
+ 1476              	.L135:
+ 692:xformatc.c    **** 
+ 1477              		.loc 1 692 0
+ 1478 05fe 00BF     		nop
+ 1479 0600 00E0     		b	.L86
+ 1480              	.L136:
+ 717:xformatc.c    **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 42
+
+
+ 1481              		.loc 1 717 0
+ 1482 0602 00BF     		nop
+ 1483              	.L86:
+ 834:xformatc.c    **** 
+ 835:xformatc.c    **** 
+ 836:xformatc.c    **** 				}
+ 837:xformatc.c    **** 
+ 838:xformatc.c    **** 				/*
+ 839:xformatc.c    **** 				 * Process integer number
+ 840:xformatc.c    **** 				 */
+ 841:xformatc.c    **** 				if (param.flags & FLAG_INTEGER)
+ 1484              		.loc 1 841 0
+ 1485 0604 3B6C     		ldr	r3, [r7, #64]
+ 1486 0606 03F40073 		and	r3, r3, #512
+ 1487 060a 002B     		cmp	r3, #0
+ 1488 060c 00F0D980 		beq	.L102
+ 842:xformatc.c    **** 				{
+ 843:xformatc.c    **** 					if (param.prec == 0)
+ 1489              		.loc 1 843 0
+ 1490 0610 7B6B     		ldr	r3, [r7, #52]
+ 1491 0612 002B     		cmp	r3, #0
+ 1492 0614 01D1     		bne	.L103
+ 844:xformatc.c    **** 						param.prec = 1;
+ 1493              		.loc 1 844 0
+ 1494 0616 0123     		movs	r3, #1
+ 1495 0618 7B63     		str	r3, [r7, #52]
+ 1496              	.L103:
+ 845:xformatc.c    **** 
+ 846:xformatc.c    **** 					if (!(param.flags & FLAG_VALUE))
+ 1497              		.loc 1 846 0
+ 1498 061a 3B6C     		ldr	r3, [r7, #64]
+ 1499 061c 03F40063 		and	r3, r3, #2048
+ 1500 0620 002B     		cmp	r3, #0
+ 1501 0622 4DD1     		bne	.L104
+ 847:xformatc.c    **** 					{
+ 848:xformatc.c    **** 						switch (param.flags & FLAG_TYPE_MASK)
+ 1502              		.loc 1 848 0
+ 1503 0624 3B6C     		ldr	r3, [r7, #64]
+ 1504 0626 03F00303 		and	r3, r3, #3
+ 1505 062a 032B     		cmp	r3, #3
+ 1506 062c 48D8     		bhi	.L104
+ 1507 062e 01A2     		adr	r2, .L106
+ 1508 0630 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 1509              		.p2align 2
+ 1510              	.L106:
+ 1511 0634 73060000 		.word	.L105+1
+ 1512 0638 51060000 		.word	.L107+1
+ 1513 063c 45060000 		.word	.L108+1
+ 1514 0640 A9060000 		.word	.L109+1
+ 1515              		.p2align 1
+ 1516              	.L108:
+ 849:xformatc.c    **** 						{
+ 850:xformatc.c    **** 							case FLAG_TYPE_SIZEOF:
+ 851:xformatc.c    **** 								param.values.lvalue = (unsigned LONG)va_arg(args,void *);
+ 1517              		.loc 1 851 0
+ 1518 0644 3B68     		ldr	r3, [r7]
+ 1519 0646 1A1D     		adds	r2, r3, #4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 43
+
+
+ 1520 0648 3A60     		str	r2, [r7]
+ 1521 064a 1B68     		ldr	r3, [r3]
+ 1522 064c 3B61     		str	r3, [r7, #16]
+ 852:xformatc.c    **** 								break;
+ 1523              		.loc 1 852 0
+ 1524 064e 37E0     		b	.L104
+ 1525              	.L107:
+ 853:xformatc.c    **** 							case FLAG_TYPE_LONG:
+ 854:xformatc.c    **** 								if (param.flags & FLAG_DECIMAL)
+ 1526              		.loc 1 854 0
+ 1527 0650 3B6C     		ldr	r3, [r7, #64]
+ 1528 0652 03F48073 		and	r3, r3, #256
+ 1529 0656 002B     		cmp	r3, #0
+ 1530 0658 05D0     		beq	.L110
+ 855:xformatc.c    **** 									param.values.lvalue = (LONG)va_arg(args,long);
+ 1531              		.loc 1 855 0
+ 1532 065a 3B68     		ldr	r3, [r7]
+ 1533 065c 1A1D     		adds	r2, r3, #4
+ 1534 065e 3A60     		str	r2, [r7]
+ 1535 0660 1B68     		ldr	r3, [r3]
+ 1536 0662 3B61     		str	r3, [r7, #16]
+ 856:xformatc.c    **** 								else
+ 857:xformatc.c    **** 									param.values.lvalue = (unsigned LONG)va_arg(args,unsigned long);
+ 858:xformatc.c    **** 								break;
+ 1537              		.loc 1 858 0
+ 1538 0664 2CE0     		b	.L104
+ 1539              	.L110:
+ 857:xformatc.c    **** 								break;
+ 1540              		.loc 1 857 0
+ 1541 0666 3B68     		ldr	r3, [r7]
+ 1542 0668 1A1D     		adds	r2, r3, #4
+ 1543 066a 3A60     		str	r2, [r7]
+ 1544 066c 1B68     		ldr	r3, [r3]
+ 1545 066e 3B61     		str	r3, [r7, #16]
+ 1546              		.loc 1 858 0
+ 1547 0670 26E0     		b	.L104
+ 1548              	.L105:
+ 859:xformatc.c    **** 								
+ 860:xformatc.c    **** 							case FLAG_TYPE_INT:
+ 861:xformatc.c    **** 								if (param.flags & FLAG_DECIMAL)
+ 1549              		.loc 1 861 0
+ 1550 0672 3B6C     		ldr	r3, [r7, #64]
+ 1551 0674 03F48073 		and	r3, r3, #256
+ 1552 0678 002B     		cmp	r3, #0
+ 1553 067a 05D0     		beq	.L112
+ 862:xformatc.c    **** 									param.values.lvalue = (LONG)va_arg(args,int);
+ 1554              		.loc 1 862 0
+ 1555 067c 3B68     		ldr	r3, [r7]
+ 1556 067e 1A1D     		adds	r2, r3, #4
+ 1557 0680 3A60     		str	r2, [r7]
+ 1558 0682 1B68     		ldr	r3, [r3]
+ 1559 0684 3B61     		str	r3, [r7, #16]
+ 863:xformatc.c    **** 								else
+ 864:xformatc.c    **** 									param.values.lvalue = (unsigned LONG)va_arg(args,unsigned int);
+ 865:xformatc.c    **** 								break;
+ 1560              		.loc 1 865 0
+ 1561 0686 1BE0     		b	.L104
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 44
+
+
+ 1562              	.L112:
+ 864:xformatc.c    **** 								break;
+ 1563              		.loc 1 864 0
+ 1564 0688 3B68     		ldr	r3, [r7]
+ 1565 068a 1A1D     		adds	r2, r3, #4
+ 1566 068c 3A60     		str	r2, [r7]
+ 1567 068e 1B68     		ldr	r3, [r3]
+ 1568 0690 3B61     		str	r3, [r7, #16]
+ 1569              		.loc 1 865 0
+ 1570 0692 15E0     		b	.L104
+ 1571              	.L140:
+ 1572              		.align	2
+ 1573              	.L139:
+ 1574 0694 00000000 		.word	ms_null
+ 1575 0698 0000E03F 		.word	1071644672
+ 1576 069c 00002440 		.word	1076101120
+ 1577 06a0 08000000 		.word	ms_true
+ 1578 06a4 10000000 		.word	ms_false
+ 1579              	.L109:
+ 866:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+ 867:xformatc.c    **** 							case FLAG_TYPE_LONGLONG:
+ 868:xformatc.c    **** 								param.values.llvalue = (LONGLONG)va_arg(args,long long);
+ 1580              		.loc 1 868 0
+ 1581 06a8 3B68     		ldr	r3, [r7]
+ 1582 06aa 0733     		adds	r3, r3, #7
+ 1583 06ac 23F00703 		bic	r3, r3, #7
+ 1584 06b0 03F10802 		add	r2, r3, #8
+ 1585 06b4 3A60     		str	r2, [r7]
+ 1586 06b6 D3E90023 		ldrd	r2, [r3]
+ 1587 06ba C7E90423 		strd	r2, [r7, #16]
+ 869:xformatc.c    **** 								break;
+ 1588              		.loc 1 869 0
+ 1589 06be 00BF     		nop
+ 1590              	.L104:
+ 870:xformatc.c    **** #endif
+ 871:xformatc.c    **** 						}
+ 872:xformatc.c    **** 
+ 873:xformatc.c    **** 					}
+ 874:xformatc.c    **** 
+ 875:xformatc.c    **** 					if ((param.flags & FLAG_PREFIX) && param.values.lvalue == 0)
+ 1591              		.loc 1 875 0
+ 1592 06c0 3B6C     		ldr	r3, [r7, #64]
+ 1593 06c2 03F02003 		and	r3, r3, #32
+ 1594 06c6 002B     		cmp	r3, #0
+ 1595 06c8 04D0     		beq	.L114
+ 1596              		.loc 1 875 0 is_stmt 0 discriminator 1
+ 1597 06ca 3B69     		ldr	r3, [r7, #16]
+ 1598 06cc 002B     		cmp	r3, #0
+ 1599 06ce 01D1     		bne	.L114
+ 876:xformatc.c    **** 					{
+ 877:xformatc.c    **** 						param.prefixlen = 0;
+ 1600              		.loc 1 877 0 is_stmt 1
+ 1601 06d0 0023     		movs	r3, #0
+ 1602 06d2 7B64     		str	r3, [r7, #68]
+ 1603              	.L114:
+ 878:xformatc.c    **** 					}
+ 879:xformatc.c    **** 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 45
+
+
+ 880:xformatc.c    **** 
+ 881:xformatc.c    **** 					/*
+ 882:xformatc.c    **** 					 * Manage signed integer
+ 883:xformatc.c    **** 					 */
+ 884:xformatc.c    **** 					if (param.flags & FLAG_DECIMAL)
+ 1604              		.loc 1 884 0
+ 1605 06d4 3B6C     		ldr	r3, [r7, #64]
+ 1606 06d6 03F48073 		and	r3, r3, #256
+ 1607 06da 002B     		cmp	r3, #0
+ 1608 06dc 2FD0     		beq	.L115
+ 885:xformatc.c    **** 					{
+ 886:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+ 887:xformatc.c    **** 						if ((param.flags & FLAG_TYPE_MASK) == FLAG_TYPE_LONGLONG)
+ 1609              		.loc 1 887 0
+ 1610 06de 3B6C     		ldr	r3, [r7, #64]
+ 1611 06e0 03F00303 		and	r3, r3, #3
+ 1612 06e4 032B     		cmp	r3, #3
+ 1613 06e6 11D1     		bne	.L116
+ 888:xformatc.c    **** 						{
+ 889:xformatc.c    **** 							if ((LONGLONG)param.values.llvalue < 0)
+ 1614              		.loc 1 889 0
+ 1615 06e8 D7E90423 		ldrd	r2, [r7, #16]
+ 1616 06ec 002A     		cmp	r2, #0
+ 1617 06ee 73F10003 		sbcs	r3, r3, #0
+ 1618 06f2 15DA     		bge	.L118
+ 890:xformatc.c    **** 							{
+ 891:xformatc.c    **** 								param.values.llvalue = ~param.values.llvalue + 1;
+ 1619              		.loc 1 891 0
+ 1620 06f4 D7E90423 		ldrd	r2, [r7, #16]
+ 1621 06f8 5242     		rsbs	r2, r2, #0
+ 1622 06fa 63EB4303 		sbc	r3, r3, r3, lsl #1
+ 1623 06fe C7E90423 		strd	r2, [r7, #16]
+ 892:xformatc.c    **** 								param.flags |= FLAG_MINUS;
+ 1624              		.loc 1 892 0
+ 1625 0702 3B6C     		ldr	r3, [r7, #64]
+ 1626 0704 43F48063 		orr	r3, r3, #1024
+ 1627 0708 3B64     		str	r3, [r7, #64]
+ 1628 070a 09E0     		b	.L118
+ 1629              	.L116:
+ 893:xformatc.c    **** 							}
+ 894:xformatc.c    **** 						}
+ 895:xformatc.c    **** 						else 
+ 896:xformatc.c    **** 						{
+ 897:xformatc.c    **** #endif
+ 898:xformatc.c    **** 							if ((LONG)param.values.lvalue < 0)
+ 1630              		.loc 1 898 0
+ 1631 070c 3B69     		ldr	r3, [r7, #16]
+ 1632 070e 002B     		cmp	r3, #0
+ 1633 0710 06DA     		bge	.L118
+ 899:xformatc.c    **** 							{
+ 900:xformatc.c    **** 								param.values.lvalue = ~param.values.lvalue + 1;
+ 1634              		.loc 1 900 0
+ 1635 0712 3B69     		ldr	r3, [r7, #16]
+ 1636 0714 5B42     		negs	r3, r3
+ 1637 0716 3B61     		str	r3, [r7, #16]
+ 901:xformatc.c    **** 								param.flags |= FLAG_MINUS;
+ 1638              		.loc 1 901 0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 46
+
+
+ 1639 0718 3B6C     		ldr	r3, [r7, #64]
+ 1640 071a 43F48063 		orr	r3, r3, #1024
+ 1641 071e 3B64     		str	r3, [r7, #64]
+ 1642              	.L118:
+ 902:xformatc.c    **** 
+ 903:xformatc.c    **** 							}
+ 904:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+ 905:xformatc.c    **** 						}
+ 906:xformatc.c    **** #endif
+ 907:xformatc.c    **** 						if (!(param.flags & FLAG_MINUS)  && (param.flags & FLAG_BLANK))
+ 1643              		.loc 1 907 0
+ 1644 0720 3B6C     		ldr	r3, [r7, #64]
+ 1645 0722 03F48063 		and	r3, r3, #1024
+ 1646 0726 002B     		cmp	r3, #0
+ 1647 0728 09D1     		bne	.L115
+ 1648              		.loc 1 907 0 is_stmt 0 discriminator 1
+ 1649 072a 3B6C     		ldr	r3, [r7, #64]
+ 1650 072c 03F01003 		and	r3, r3, #16
+ 1651 0730 002B     		cmp	r3, #0
+ 1652 0732 04D0     		beq	.L115
+ 908:xformatc.c    **** 						{
+ 909:xformatc.c    **** 							param.prefix[0] = ' ';
+ 1653              		.loc 1 909 0 is_stmt 1
+ 1654 0734 2023     		movs	r3, #32
+ 1655 0736 87F84830 		strb	r3, [r7, #72]
+ 910:xformatc.c    **** 							param.prefixlen = 1;
+ 1656              		.loc 1 910 0
+ 1657 073a 0123     		movs	r3, #1
+ 1658 073c 7B64     		str	r3, [r7, #68]
+ 1659              	.L115:
+ 911:xformatc.c    **** 						}
+ 912:xformatc.c    **** 					}
+ 913:xformatc.c    **** 
+ 914:xformatc.c    **** 					if ((param.flags & FLAG_BUFFER) == 0)
+ 1660              		.loc 1 914 0
+ 1661 073e 3B6C     		ldr	r3, [r7, #64]
+ 1662 0740 03F48053 		and	r3, r3, #4096
+ 1663 0744 002B     		cmp	r3, #0
+ 1664 0746 04D1     		bne	.L119
+ 915:xformatc.c    **** 					{
+ 916:xformatc.c    **** 						param.out = param.buffer + sizeof(param.buffer) - 1;
+ 1665              		.loc 1 916 0
+ 1666 0748 07F11003 		add	r3, r7, #16
+ 1667 074c 3A33     		adds	r3, r3, #58
+ 1668 074e 4033     		adds	r3, r3, #64
+ 1669 0750 BB61     		str	r3, [r7, #24]
+ 1670              	.L119:
+ 917:xformatc.c    **** 					}
+ 918:xformatc.c    **** 
+ 919:xformatc.c    **** 
+ 920:xformatc.c    **** #if XCFG_FORMAT_LONGLONG
+ 921:xformatc.c    **** 					if ((param.flags & FLAG_TYPE_MASK) == FLAG_TYPE_LONGLONG)
+ 1671              		.loc 1 921 0
+ 1672 0752 3B6C     		ldr	r3, [r7, #64]
+ 1673 0754 03F00303 		and	r3, r3, #3
+ 1674 0758 032B     		cmp	r3, #3
+ 1675 075a 05D1     		bne	.L120
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 47
+
+
+ 922:xformatc.c    **** 						ullong2a(&param);
+ 1676              		.loc 1 922 0
+ 1677 075c 07F11003 		add	r3, r7, #16
+ 1678 0760 1846     		mov	r0, r3
+ 1679 0762 FFF7FEFF 		bl	ullong2a
+ 1680 0766 04E0     		b	.L121
+ 1681              	.L120:
+ 923:xformatc.c    **** 					else
+ 924:xformatc.c    **** 						ulong2a(&param);
+ 1682              		.loc 1 924 0
+ 1683 0768 07F11003 		add	r3, r7, #16
+ 1684 076c 1846     		mov	r0, r3
+ 1685 076e FFF7FEFF 		bl	ulong2a
+ 1686              	.L121:
+ 925:xformatc.c    **** #else
+ 926:xformatc.c    **** 
+ 927:xformatc.c    **** 					ulong2a(&param);
+ 928:xformatc.c    **** #endif
+ 929:xformatc.c    **** 					param.out++;
+ 1687              		.loc 1 929 0
+ 1688 0772 BB69     		ldr	r3, [r7, #24]
+ 1689 0774 0133     		adds	r3, r3, #1
+ 1690 0776 BB61     		str	r3, [r7, #24]
+ 930:xformatc.c    **** 
+ 931:xformatc.c    **** 					/*
+ 932:xformatc.c    **** 					 * Check if a sign is required
+ 933:xformatc.c    **** 					 */
+ 934:xformatc.c    **** 					if (param.flags & (FLAG_MINUS|FLAG_PLUS))
+ 1691              		.loc 1 934 0
+ 1692 0778 3B6C     		ldr	r3, [r7, #64]
+ 1693 077a 03F48863 		and	r3, r3, #1088
+ 1694 077e 002B     		cmp	r3, #0
+ 1695 0780 28D0     		beq	.L126
+ 935:xformatc.c    **** 					{
+ 936:xformatc.c    **** 						c = param.flags & FLAG_MINUS ? '-' : '+';
+ 1696              		.loc 1 936 0
+ 1697 0782 3B6C     		ldr	r3, [r7, #64]
+ 1698 0784 03F48063 		and	r3, r3, #1024
+ 1699 0788 002B     		cmp	r3, #0
+ 1700 078a 01D0     		beq	.L123
+ 1701              		.loc 1 936 0 is_stmt 0 discriminator 1
+ 1702 078c 2D23     		movs	r3, #45
+ 1703 078e 00E0     		b	.L124
+ 1704              	.L123:
+ 1705              		.loc 1 936 0 discriminator 2
+ 1706 0790 2B23     		movs	r3, #43
+ 1707              	.L124:
+ 1708              		.loc 1 936 0 discriminator 4
+ 1709 0792 87F89330 		strb	r3, [r7, #147]
+ 937:xformatc.c    **** 
+ 938:xformatc.c    **** 						if (param.pad == '0')
+ 1710              		.loc 1 938 0 is_stmt 1 discriminator 4
+ 1711 0796 97F88C30 		ldrb	r3, [r7, #140]	@ zero_extendqisi2
+ 1712 079a 302B     		cmp	r3, #48
+ 1713 079c 06D1     		bne	.L125
+ 939:xformatc.c    **** 						{
+ 940:xformatc.c    **** 							param.prefixlen = 1;
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 48
+
+
+ 1714              		.loc 1 940 0
+ 1715 079e 0123     		movs	r3, #1
+ 1716 07a0 7B64     		str	r3, [r7, #68]
+ 941:xformatc.c    **** 							param.prefix[0] = c;
+ 1717              		.loc 1 941 0
+ 1718 07a2 97F89330 		ldrb	r3, [r7, #147]
+ 1719 07a6 87F84830 		strb	r3, [r7, #72]
+ 1720 07aa 13E0     		b	.L126
+ 1721              	.L125:
+ 942:xformatc.c    **** 						}
+ 943:xformatc.c    **** 						else
+ 944:xformatc.c    **** 						{
+ 945:xformatc.c    **** 							*--param.out = c;
+ 1722              		.loc 1 945 0
+ 1723 07ac BB69     		ldr	r3, [r7, #24]
+ 1724 07ae 013B     		subs	r3, r3, #1
+ 1725 07b0 BB61     		str	r3, [r7, #24]
+ 1726 07b2 BB69     		ldr	r3, [r7, #24]
+ 1727 07b4 97F89320 		ldrb	r2, [r7, #147]
+ 1728 07b8 1A70     		strb	r2, [r3]
+ 946:xformatc.c    **** 							param.length++;
+ 1729              		.loc 1 946 0
+ 1730 07ba 3B6B     		ldr	r3, [r7, #48]
+ 1731 07bc 0133     		adds	r3, r3, #1
+ 1732 07be 3B63     		str	r3, [r7, #48]
+ 1733 07c0 08E0     		b	.L126
+ 1734              	.L102:
+ 947:xformatc.c    **** 						}
+ 948:xformatc.c    **** 					}
+ 949:xformatc.c    **** 
+ 950:xformatc.c    **** 
+ 951:xformatc.c    **** 				}
+ 952:xformatc.c    **** 				else
+ 953:xformatc.c    **** 				{
+ 954:xformatc.c    **** 					if (param.width && param.length > param.width)
+ 1735              		.loc 1 954 0
+ 1736 07c2 BB6B     		ldr	r3, [r7, #56]
+ 1737 07c4 002B     		cmp	r3, #0
+ 1738 07c6 05D0     		beq	.L126
+ 1739              		.loc 1 954 0 is_stmt 0 discriminator 1
+ 1740 07c8 3A6B     		ldr	r2, [r7, #48]
+ 1741 07ca BB6B     		ldr	r3, [r7, #56]
+ 1742 07cc 9A42     		cmp	r2, r3
+ 1743 07ce 01DD     		ble	.L126
+ 955:xformatc.c    **** 					{
+ 956:xformatc.c    **** 						param.length = param.width;
+ 1744              		.loc 1 956 0 is_stmt 1
+ 1745 07d0 BB6B     		ldr	r3, [r7, #56]
+ 1746 07d2 3B63     		str	r3, [r7, #48]
+ 1747              	.L126:
+ 957:xformatc.c    **** 					}
+ 958:xformatc.c    **** 
+ 959:xformatc.c    **** 				}
+ 960:xformatc.c    **** 
+ 961:xformatc.c    **** 				/*
+ 962:xformatc.c    **** 				 * Now width contain the size of the pad
+ 963:xformatc.c    **** 				 */
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 49
+
+
+ 964:xformatc.c    **** 				param.width -= (param.length + param.prefixlen);
+ 1748              		.loc 1 964 0
+ 1749 07d4 BA6B     		ldr	r2, [r7, #56]
+ 1750 07d6 396B     		ldr	r1, [r7, #48]
+ 1751 07d8 7B6C     		ldr	r3, [r7, #68]
+ 1752 07da 0B44     		add	r3, r3, r1
+ 1753 07dc D31A     		subs	r3, r2, r3
+ 1754 07de BB63     		str	r3, [r7, #56]
+ 965:xformatc.c    **** 
+ 966:xformatc.c    **** 				param.count += outBuffer(outchar,arg,param.prefix,param.prefixlen,param.flags & FLAG_UPPER);
+ 1755              		.loc 1 966 0
+ 1756 07e0 796C     		ldr	r1, [r7, #68]
+ 1757 07e2 3B6C     		ldr	r3, [r7, #64]
+ 1758 07e4 03F08003 		and	r3, r3, #128
+ 1759 07e8 07F11002 		add	r2, r7, #16
+ 1760 07ec 3832     		adds	r2, r2, #56
+ 1761 07ee 0093     		str	r3, [sp]
+ 1762 07f0 0B46     		mov	r3, r1
+ 1763 07f2 B968     		ldr	r1, [r7, #8]
+ 1764 07f4 F868     		ldr	r0, [r7, #12]
+ 1765 07f6 FFF7FEFF 		bl	outBuffer
+ 1766 07fa 0246     		mov	r2, r0
+ 1767 07fc FB6B     		ldr	r3, [r7, #60]
+ 1768 07fe 1344     		add	r3, r3, r2
+ 1769 0800 FB63     		str	r3, [r7, #60]
+ 967:xformatc.c    **** 				if (!(param.flags & FLAG_LEFT))
+ 1770              		.loc 1 967 0
+ 1771 0802 3B6C     		ldr	r3, [r7, #64]
+ 1772 0804 03F00803 		and	r3, r3, #8
+ 1773 0808 002B     		cmp	r3, #0
+ 1774 080a 0AD1     		bne	.L127
+ 968:xformatc.c    **** 					param.count += outChars(outchar,arg,param.pad,param.width);
+ 1775              		.loc 1 968 0
+ 1776 080c 97F88C20 		ldrb	r2, [r7, #140]	@ zero_extendqisi2
+ 1777 0810 BB6B     		ldr	r3, [r7, #56]
+ 1778 0812 B968     		ldr	r1, [r7, #8]
+ 1779 0814 F868     		ldr	r0, [r7, #12]
+ 1780 0816 FFF7FEFF 		bl	outChars
+ 1781 081a 0246     		mov	r2, r0
+ 1782 081c FB6B     		ldr	r3, [r7, #60]
+ 1783 081e 1344     		add	r3, r3, r2
+ 1784 0820 FB63     		str	r3, [r7, #60]
+ 1785              	.L127:
+ 969:xformatc.c    **** 				param.count += outBuffer(outchar,arg,param.out,param.length,param.flags & FLAG_UPPER);
+ 1786              		.loc 1 969 0
+ 1787 0822 BA69     		ldr	r2, [r7, #24]
+ 1788 0824 396B     		ldr	r1, [r7, #48]
+ 1789 0826 3B6C     		ldr	r3, [r7, #64]
+ 1790 0828 03F08003 		and	r3, r3, #128
+ 1791 082c 0093     		str	r3, [sp]
+ 1792 082e 0B46     		mov	r3, r1
+ 1793 0830 B968     		ldr	r1, [r7, #8]
+ 1794 0832 F868     		ldr	r0, [r7, #12]
+ 1795 0834 FFF7FEFF 		bl	outBuffer
+ 1796 0838 0246     		mov	r2, r0
+ 1797 083a FB6B     		ldr	r3, [r7, #60]
+ 1798 083c 1344     		add	r3, r3, r2
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 50
+
+
+ 1799 083e FB63     		str	r3, [r7, #60]
+ 970:xformatc.c    **** 				if (param.flags & FLAG_LEFT)
+ 1800              		.loc 1 970 0
+ 1801 0840 3B6C     		ldr	r3, [r7, #64]
+ 1802 0842 03F00803 		and	r3, r3, #8
+ 1803 0846 002B     		cmp	r3, #0
+ 1804 0848 0AD0     		beq	.L39
+ 971:xformatc.c    **** 					param.count += outChars(outchar,arg,param.pad,param.width);
+ 1805              		.loc 1 971 0
+ 1806 084a 97F88C20 		ldrb	r2, [r7, #140]	@ zero_extendqisi2
+ 1807 084e BB6B     		ldr	r3, [r7, #56]
+ 1808 0850 B968     		ldr	r1, [r7, #8]
+ 1809 0852 F868     		ldr	r0, [r7, #12]
+ 1810 0854 FFF7FEFF 		bl	outChars
+ 1811 0858 0246     		mov	r2, r0
+ 1812 085a FB6B     		ldr	r3, [r7, #60]
+ 1813 085c 1344     		add	r3, r3, r2
+ 1814 085e FB63     		str	r3, [r7, #60]
+ 1815              	.L39:
+ 540:xformatc.c    **** 	{
+ 1816              		.loc 1 540 0
+ 1817 0860 7B68     		ldr	r3, [r7, #4]
+ 1818 0862 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1819 0864 002B     		cmp	r3, #0
+ 1820 0866 7FF4DAAB 		bne	.L128
+ 972:xformatc.c    **** 				
+ 973:xformatc.c    **** 		}
+ 974:xformatc.c    **** 	}
+ 975:xformatc.c    **** 
+ 976:xformatc.c    **** #if XCFG_FORMAT_VA_COPY
+ 977:xformatc.c    **** 	va_end(args);
+ 978:xformatc.c    **** #endif
+ 979:xformatc.c    **** 
+ 980:xformatc.c    **** 	return param.count;
+ 1821              		.loc 1 980 0
+ 1822 086a FB6B     		ldr	r3, [r7, #60]
+ 981:xformatc.c    **** }
+ 1823              		.loc 1 981 0
+ 1824 086c 1846     		mov	r0, r3
+ 1825 086e 9837     		adds	r7, r7, #152
+ 1826              		.cfi_def_cfa_offset 24
+ 1827 0870 BD46     		mov	sp, r7
+ 1828              		.cfi_def_cfa_register 13
+ 1829              		@ sp needed
+ 1830 0872 BDE8B083 		pop	{r4, r5, r7, r8, r9, pc}
+ 1831              		.cfi_endproc
+ 1832              	.LFE6:
+ 1833              		.size	xvformat, .-xvformat
+ 1834 0876 00BF     		.text
+ 1835              	.Letext0:
+ 1836              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1837              		.file 3 "<built-in>"
+ 1838              		.section	.debug_info,"",%progbits
+ 1839              	.Ldebug_info0:
+ 1840 0000 8F050000 		.4byte	0x58f
+ 1841 0004 0400     		.2byte	0x4
+ 1842 0006 00000000 		.4byte	.Ldebug_abbrev0
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 51
+
+
+ 1843 000a 04       		.byte	0x4
+ 1844 000b 01       		.uleb128 0x1
+ 1845 000c 17000000 		.4byte	.LASF65
+ 1846 0010 0C       		.byte	0xc
+ 1847 0011 D2010000 		.4byte	.LASF66
+ 1848 0015 4B020000 		.4byte	.LASF67
+ 1849 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1850 001d 00000000 		.4byte	0
+ 1851 0021 00000000 		.4byte	.Ldebug_line0
+ 1852 0025 02       		.uleb128 0x2
+ 1853 0026 26010000 		.4byte	.LASF0
+ 1854 002a 02       		.byte	0x2
+ 1855 002b 28       		.byte	0x28
+ 1856 002c 30000000 		.4byte	0x30
+ 1857 0030 03       		.uleb128 0x3
+ 1858 0031 3B020000 		.4byte	.LASF9
+ 1859 0035 04       		.byte	0x4
+ 1860 0036 03       		.byte	0x3
+ 1861 0037 00       		.byte	0
+ 1862 0038 47000000 		.4byte	0x47
+ 1863 003c 04       		.uleb128 0x4
+ 1864 003d 13020000 		.4byte	.LASF2
+ 1865 0041 47000000 		.4byte	0x47
+ 1866 0045 00       		.byte	0
+ 1867 0046 00       		.byte	0
+ 1868 0047 05       		.uleb128 0x5
+ 1869 0048 04       		.byte	0x4
+ 1870 0049 02       		.uleb128 0x2
+ 1871 004a 90010000 		.4byte	.LASF1
+ 1872 004e 02       		.byte	0x2
+ 1873 004f 62       		.byte	0x62
+ 1874 0050 25000000 		.4byte	0x25
+ 1875 0054 06       		.uleb128 0x6
+ 1876 0055 08       		.byte	0x8
+ 1877 0056 01       		.byte	0x1
+ 1878 0057 57       		.byte	0x57
+ 1879 0058 7E000000 		.4byte	0x7e
+ 1880 005c 07       		.uleb128 0x7
+ 1881 005d ED010000 		.4byte	.LASF3
+ 1882 0061 01       		.byte	0x1
+ 1883 0062 59       		.byte	0x59
+ 1884 0063 7E000000 		.4byte	0x7e
+ 1885 0067 07       		.uleb128 0x7
+ 1886 0068 CC000000 		.4byte	.LASF4
+ 1887 006c 01       		.byte	0x1
+ 1888 006d 5B       		.byte	0x5b
+ 1889 006e 85000000 		.4byte	0x85
+ 1890 0072 07       		.uleb128 0x7
+ 1891 0073 D4000000 		.4byte	.LASF5
+ 1892 0077 01       		.byte	0x1
+ 1893 0078 5E       		.byte	0x5e
+ 1894 0079 8C000000 		.4byte	0x8c
+ 1895 007d 00       		.byte	0
+ 1896 007e 08       		.uleb128 0x8
+ 1897 007f 04       		.byte	0x4
+ 1898 0080 07       		.byte	0x7
+ 1899 0081 55010000 		.4byte	.LASF6
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 52
+
+
+ 1900 0085 08       		.uleb128 0x8
+ 1901 0086 08       		.byte	0x8
+ 1902 0087 07       		.byte	0x7
+ 1903 0088 FC010000 		.4byte	.LASF7
+ 1904 008c 08       		.uleb128 0x8
+ 1905 008d 08       		.byte	0x8
+ 1906 008e 04       		.byte	0x4
+ 1907 008f B0010000 		.4byte	.LASF8
+ 1908 0093 03       		.uleb128 0x3
+ 1909 0094 11030000 		.4byte	.LASF10
+ 1910 0098 80       		.byte	0x80
+ 1911 0099 01       		.byte	0x1
+ 1912 009a 51       		.byte	0x51
+ 1913 009b 54010000 		.4byte	0x154
+ 1914 009f 09       		.uleb128 0x9
+ 1915 00a0 A6020000 		.4byte	.LASF11
+ 1916 00a4 01       		.byte	0x1
+ 1917 00a5 60       		.byte	0x60
+ 1918 00a6 54000000 		.4byte	0x54
+ 1919 00aa 00       		.byte	0
+ 1920 00ab 0A       		.uleb128 0xa
+ 1921 00ac 6F757400 		.ascii	"out\000"
+ 1922 00b0 01       		.byte	0x1
+ 1923 00b1 65       		.byte	0x65
+ 1924 00b2 54010000 		.4byte	0x154
+ 1925 00b6 08       		.byte	0x8
+ 1926 00b7 0A       		.uleb128 0xa
+ 1927 00b8 64626C00 		.ascii	"dbl\000"
+ 1928 00bc 01       		.byte	0x1
+ 1929 00bd 6B       		.byte	0x6b
+ 1930 00be 8C000000 		.4byte	0x8c
+ 1931 00c2 10       		.byte	0x10
+ 1932 00c3 09       		.uleb128 0x9
+ 1933 00c4 F6000000 		.4byte	.LASF12
+ 1934 00c8 01       		.byte	0x1
+ 1935 00c9 70       		.byte	0x70
+ 1936 00ca 85000000 		.4byte	0x85
+ 1937 00ce 18       		.byte	0x18
+ 1938 00cf 09       		.uleb128 0x9
+ 1939 00d0 0A030000 		.4byte	.LASF13
+ 1940 00d4 01       		.byte	0x1
+ 1941 00d5 78       		.byte	0x78
+ 1942 00d6 61010000 		.4byte	0x161
+ 1943 00da 20       		.byte	0x20
+ 1944 00db 09       		.uleb128 0x9
+ 1945 00dc D6020000 		.4byte	.LASF14
+ 1946 00e0 01       		.byte	0x1
+ 1947 00e1 7D       		.byte	0x7d
+ 1948 00e2 61010000 		.4byte	0x161
+ 1949 00e6 24       		.byte	0x24
+ 1950 00e7 09       		.uleb128 0x9
+ 1951 00e8 B5020000 		.4byte	.LASF15
+ 1952 00ec 01       		.byte	0x1
+ 1953 00ed 82       		.byte	0x82
+ 1954 00ee 61010000 		.4byte	0x161
+ 1955 00f2 28       		.byte	0x28
+ 1956 00f3 09       		.uleb128 0x9
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 53
+
+
+ 1957 00f4 BB020000 		.4byte	.LASF16
+ 1958 00f8 01       		.byte	0x1
+ 1959 00f9 88       		.byte	0x88
+ 1960 00fa 68010000 		.4byte	0x168
+ 1961 00fe 2C       		.byte	0x2c
+ 1962 00ff 09       		.uleb128 0x9
+ 1963 0100 E7010000 		.4byte	.LASF17
+ 1964 0104 01       		.byte	0x1
+ 1965 0105 8E       		.byte	0x8e
+ 1966 0106 68010000 		.4byte	0x168
+ 1967 010a 30       		.byte	0x30
+ 1968 010b 09       		.uleb128 0x9
+ 1969 010c B7010000 		.4byte	.LASF18
+ 1970 0110 01       		.byte	0x1
+ 1971 0111 A4       		.byte	0xa4
+ 1972 0112 61010000 		.4byte	0x161
+ 1973 0116 34       		.byte	0x34
+ 1974 0117 09       		.uleb128 0x9
+ 1975 0118 A9010000 		.4byte	.LASF19
+ 1976 011c 01       		.byte	0x1
+ 1977 011d A7       		.byte	0xa7
+ 1978 011e 6F010000 		.4byte	0x16f
+ 1979 0122 38       		.byte	0x38
+ 1980 0123 09       		.uleb128 0x9
+ 1981 0124 BD000000 		.4byte	.LASF20
+ 1982 0128 01       		.byte	0x1
+ 1983 0129 AC       		.byte	0xac
+ 1984 012a 86010000 		.4byte	0x186
+ 1985 012e 3A       		.byte	0x3a
+ 1986 012f 09       		.uleb128 0x9
+ 1987 0130 FC000000 		.4byte	.LASF21
+ 1988 0134 01       		.byte	0x1
+ 1989 0135 B2       		.byte	0xb2
+ 1990 0136 96010000 		.4byte	0x196
+ 1991 013a 7B       		.byte	0x7b
+ 1992 013b 0A       		.uleb128 0xa
+ 1993 013c 70616400 		.ascii	"pad\000"
+ 1994 0140 01       		.byte	0x1
+ 1995 0141 B5       		.byte	0xb5
+ 1996 0142 5A010000 		.4byte	0x15a
+ 1997 0146 7C       		.byte	0x7c
+ 1998 0147 09       		.uleb128 0x9
+ 1999 0148 A5000000 		.4byte	.LASF22
+ 2000 014c 01       		.byte	0x1
+ 2001 014d BB       		.byte	0xbb
+ 2002 014e 5A010000 		.4byte	0x15a
+ 2003 0152 7D       		.byte	0x7d
+ 2004 0153 00       		.byte	0
+ 2005 0154 0B       		.uleb128 0xb
+ 2006 0155 04       		.byte	0x4
+ 2007 0156 5A010000 		.4byte	0x15a
+ 2008 015a 08       		.uleb128 0x8
+ 2009 015b 01       		.byte	0x1
+ 2010 015c 08       		.byte	0x8
+ 2011 015d E5020000 		.4byte	.LASF23
+ 2012 0161 0C       		.uleb128 0xc
+ 2013 0162 04       		.byte	0x4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 54
+
+
+ 2014 0163 05       		.byte	0x5
+ 2015 0164 696E7400 		.ascii	"int\000"
+ 2016 0168 08       		.uleb128 0x8
+ 2017 0169 04       		.byte	0x4
+ 2018 016a 07       		.byte	0x7
+ 2019 016b 75010000 		.4byte	.LASF24
+ 2020 016f 0D       		.uleb128 0xd
+ 2021 0170 5A010000 		.4byte	0x15a
+ 2022 0174 7F010000 		.4byte	0x17f
+ 2023 0178 0E       		.uleb128 0xe
+ 2024 0179 7F010000 		.4byte	0x17f
+ 2025 017d 01       		.byte	0x1
+ 2026 017e 00       		.byte	0
+ 2027 017f 08       		.uleb128 0x8
+ 2028 0180 04       		.byte	0x4
+ 2029 0181 07       		.byte	0x7
+ 2030 0182 2A020000 		.4byte	.LASF25
+ 2031 0186 0D       		.uleb128 0xd
+ 2032 0187 5A010000 		.4byte	0x15a
+ 2033 018b 96010000 		.4byte	0x196
+ 2034 018f 0E       		.uleb128 0xe
+ 2035 0190 7F010000 		.4byte	0x17f
+ 2036 0194 40       		.byte	0x40
+ 2037 0195 00       		.byte	0
+ 2038 0196 08       		.uleb128 0x8
+ 2039 0197 01       		.byte	0x1
+ 2040 0198 08       		.byte	0x8
+ 2041 0199 47010000 		.4byte	.LASF26
+ 2042 019d 0F       		.uleb128 0xf
+ 2043 019e 04030000 		.4byte	.LASF35
+ 2044 01a2 01       		.byte	0x1
+ 2045 01a3 96010000 		.4byte	0x196
+ 2046 01a7 01       		.byte	0x1
+ 2047 01a8 C3       		.byte	0xc3
+ 2048 01a9 DE010000 		.4byte	0x1de
+ 2049 01ad 10       		.uleb128 0x10
+ 2050 01ae 3D010000 		.4byte	.LASF27
+ 2051 01b2 00       		.byte	0
+ 2052 01b3 10       		.uleb128 0x10
+ 2053 01b4 9E010000 		.4byte	.LASF28
+ 2054 01b8 01       		.byte	0x1
+ 2055 01b9 10       		.uleb128 0x10
+ 2056 01ba 82010000 		.4byte	.LASF29
+ 2057 01be 02       		.byte	0x2
+ 2058 01bf 10       		.uleb128 0x10
+ 2059 01c0 C9010000 		.4byte	.LASF30
+ 2060 01c4 03       		.byte	0x3
+ 2061 01c5 10       		.uleb128 0x10
+ 2062 01c6 B6000000 		.4byte	.LASF31
+ 2063 01ca 04       		.byte	0x4
+ 2064 01cb 10       		.uleb128 0x10
+ 2065 01cc DB020000 		.4byte	.LASF32
+ 2066 01d0 05       		.byte	0x5
+ 2067 01d1 10       		.uleb128 0x10
+ 2068 01d2 35010000 		.4byte	.LASF33
+ 2069 01d6 06       		.byte	0x6
+ 2070 01d7 10       		.uleb128 0x10
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 55
+
+
+ 2071 01d8 1E010000 		.4byte	.LASF34
+ 2072 01dc 07       		.byte	0x7
+ 2073 01dd 00       		.byte	0
+ 2074 01de 0F       		.uleb128 0xf
+ 2075 01df E3000000 		.4byte	.LASF36
+ 2076 01e3 01       		.byte	0x1
+ 2077 01e4 96010000 		.4byte	0x196
+ 2078 01e8 01       		.byte	0x1
+ 2079 01e9 E1       		.byte	0xe1
+ 2080 01ea 25020000 		.4byte	0x225
+ 2081 01ee 10       		.uleb128 0x10
+ 2082 01ef F3020000 		.4byte	.LASF37
+ 2083 01f3 00       		.byte	0
+ 2084 01f4 10       		.uleb128 0x10
+ 2085 01f5 AB000000 		.4byte	.LASF38
+ 2086 01f9 01       		.byte	0x1
+ 2087 01fa 10       		.uleb128 0x10
+ 2088 01fb 00000000 		.4byte	.LASF39
+ 2089 01ff 02       		.byte	0x2
+ 2090 0200 10       		.uleb128 0x10
+ 2091 0201 AD020000 		.4byte	.LASF40
+ 2092 0205 03       		.byte	0x3
+ 2093 0206 10       		.uleb128 0x10
+ 2094 0207 19030000 		.4byte	.LASF41
+ 2095 020b 04       		.byte	0x4
+ 2096 020c 10       		.uleb128 0x10
+ 2097 020d ED000000 		.4byte	.LASF42
+ 2098 0211 05       		.byte	0x5
+ 2099 0212 10       		.uleb128 0x10
+ 2100 0213 DB000000 		.4byte	.LASF43
+ 2101 0217 06       		.byte	0x6
+ 2102 0218 10       		.uleb128 0x10
+ 2103 0219 0F000000 		.4byte	.LASF44
+ 2104 021d 07       		.byte	0x7
+ 2105 021e 10       		.uleb128 0x10
+ 2106 021f C1010000 		.4byte	.LASF45
+ 2107 0223 08       		.byte	0x8
+ 2108 0224 00       		.byte	0
+ 2109 0225 11       		.uleb128 0x11
+ 2110 0226 F4010000 		.4byte	.LASF46
+ 2111 022a 01       		.byte	0x1
+ 2112 022b 3101     		.2byte	0x131
+ 2113 022d 00000000 		.4byte	.LFB0
+ 2114 0231 D4000000 		.4byte	.LFE0-.LFB0
+ 2115 0235 01       		.uleb128 0x1
+ 2116 0236 9C       		.byte	0x9c
+ 2117 0237 5A020000 		.4byte	0x25a
+ 2118 023b 12       		.uleb128 0x12
+ 2119 023c 8A010000 		.4byte	.LASF48
+ 2120 0240 01       		.byte	0x1
+ 2121 0241 3101     		.2byte	0x131
+ 2122 0243 5A020000 		.4byte	0x25a
+ 2123 0247 02       		.uleb128 0x2
+ 2124 0248 91       		.byte	0x91
+ 2125 0249 6C       		.sleb128 -20
+ 2126 024a 13       		.uleb128 0x13
+ 2127 024b 45020000 		.4byte	.LASF49
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 56
+
+
+ 2128 024f 01       		.byte	0x1
+ 2129 0250 3301     		.2byte	0x133
+ 2130 0252 96010000 		.4byte	0x196
+ 2131 0256 02       		.uleb128 0x2
+ 2132 0257 91       		.byte	0x91
+ 2133 0258 77       		.sleb128 -9
+ 2134 0259 00       		.byte	0
+ 2135 025a 0B       		.uleb128 0xb
+ 2136 025b 04       		.byte	0x4
+ 2137 025c 93000000 		.4byte	0x93
+ 2138 0260 14       		.uleb128 0x14
+ 2139 0261 67010000 		.4byte	.LASF47
+ 2140 0265 01       		.byte	0x1
+ 2141 0266 5C01     		.2byte	0x15c
+ 2142 0268 00000000 		.4byte	.LFB1
+ 2143 026c 04010000 		.4byte	.LFE1-.LFB1
+ 2144 0270 01       		.uleb128 0x1
+ 2145 0271 9C       		.byte	0x9c
+ 2146 0272 95020000 		.4byte	0x295
+ 2147 0276 12       		.uleb128 0x12
+ 2148 0277 8A010000 		.4byte	.LASF48
+ 2149 027b 01       		.byte	0x1
+ 2150 027c 5C01     		.2byte	0x15c
+ 2151 027e 5A020000 		.4byte	0x25a
+ 2152 0282 02       		.uleb128 0x2
+ 2153 0283 91       		.byte	0x91
+ 2154 0284 5C       		.sleb128 -36
+ 2155 0285 13       		.uleb128 0x13
+ 2156 0286 45020000 		.4byte	.LASF49
+ 2157 028a 01       		.byte	0x1
+ 2158 028b 5E01     		.2byte	0x15e
+ 2159 028d 96010000 		.4byte	0x196
+ 2160 0291 02       		.uleb128 0x2
+ 2161 0292 91       		.byte	0x91
+ 2162 0293 67       		.sleb128 -25
+ 2163 0294 00       		.byte	0
+ 2164 0295 15       		.uleb128 0x15
+ 2165 0296 0C010000 		.4byte	.LASF57
+ 2166 029a 01       		.byte	0x1
+ 2167 029b 9101     		.2byte	0x191
+ 2168 029d 68010000 		.4byte	0x168
+ 2169 02a1 00000000 		.4byte	.LFB2
+ 2170 02a5 30000000 		.4byte	.LFE2-.LFB2
+ 2171 02a9 01       		.uleb128 0x1
+ 2172 02aa 9C       		.byte	0x9c
+ 2173 02ab FC020000 		.4byte	0x2fc
+ 2174 02af 12       		.uleb128 0x12
+ 2175 02b0 C1020000 		.4byte	.LASF50
+ 2176 02b4 01       		.byte	0x1
+ 2177 02b5 9101     		.2byte	0x191
+ 2178 02b7 0C030000 		.4byte	0x30c
+ 2179 02bb 02       		.uleb128 0x2
+ 2180 02bc 91       		.byte	0x91
+ 2181 02bd 64       		.sleb128 -28
+ 2182 02be 16       		.uleb128 0x16
+ 2183 02bf 61726700 		.ascii	"arg\000"
+ 2184 02c3 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 57
+
+
+ 2185 02c4 9101     		.2byte	0x191
+ 2186 02c6 47000000 		.4byte	0x47
+ 2187 02ca 02       		.uleb128 0x2
+ 2188 02cb 91       		.byte	0x91
+ 2189 02cc 60       		.sleb128 -32
+ 2190 02cd 16       		.uleb128 0x16
+ 2191 02ce 666D7400 		.ascii	"fmt\000"
+ 2192 02d2 01       		.byte	0x1
+ 2193 02d3 9101     		.2byte	0x191
+ 2194 02d5 12030000 		.4byte	0x312
+ 2195 02d9 02       		.uleb128 0x2
+ 2196 02da 91       		.byte	0x91
+ 2197 02db 78       		.sleb128 -8
+ 2198 02dc 17       		.uleb128 0x17
+ 2199 02dd 13       		.uleb128 0x13
+ 2200 02de 70010000 		.4byte	.LASF51
+ 2201 02e2 01       		.byte	0x1
+ 2202 02e3 9301     		.2byte	0x193
+ 2203 02e5 49000000 		.4byte	0x49
+ 2204 02e9 02       		.uleb128 0x2
+ 2205 02ea 91       		.byte	0x91
+ 2206 02eb 68       		.sleb128 -24
+ 2207 02ec 13       		.uleb128 0x13
+ 2208 02ed BB020000 		.4byte	.LASF16
+ 2209 02f1 01       		.byte	0x1
+ 2210 02f2 9401     		.2byte	0x194
+ 2211 02f4 68010000 		.4byte	0x168
+ 2212 02f8 02       		.uleb128 0x2
+ 2213 02f9 91       		.byte	0x91
+ 2214 02fa 6C       		.sleb128 -20
+ 2215 02fb 00       		.byte	0
+ 2216 02fc 18       		.uleb128 0x18
+ 2217 02fd 0C030000 		.4byte	0x30c
+ 2218 0301 19       		.uleb128 0x19
+ 2219 0302 47000000 		.4byte	0x47
+ 2220 0306 19       		.uleb128 0x19
+ 2221 0307 5A010000 		.4byte	0x15a
+ 2222 030b 00       		.byte	0
+ 2223 030c 0B       		.uleb128 0xb
+ 2224 030d 04       		.byte	0x4
+ 2225 030e FC020000 		.4byte	0x2fc
+ 2226 0312 0B       		.uleb128 0xb
+ 2227 0313 04       		.byte	0x4
+ 2228 0314 18030000 		.4byte	0x318
+ 2229 0318 1A       		.uleb128 0x1a
+ 2230 0319 5A010000 		.4byte	0x15a
+ 2231 031d 1B       		.uleb128 0x1b
+ 2232 031e C4000000 		.4byte	.LASF52
+ 2233 0322 01       		.byte	0x1
+ 2234 0323 A601     		.2byte	0x1a6
+ 2235 0325 68010000 		.4byte	0x168
+ 2236 0329 00000000 		.4byte	.LFB3
+ 2237 032d 2C000000 		.4byte	.LFE3-.LFB3
+ 2238 0331 01       		.uleb128 0x1
+ 2239 0332 9C       		.byte	0x9c
+ 2240 0333 52030000 		.4byte	0x352
+ 2241 0337 16       		.uleb128 0x16
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 58
+
+
+ 2242 0338 7300     		.ascii	"s\000"
+ 2243 033a 01       		.byte	0x1
+ 2244 033b A601     		.2byte	0x1a6
+ 2245 033d 12030000 		.4byte	0x312
+ 2246 0341 02       		.uleb128 0x2
+ 2247 0342 91       		.byte	0x91
+ 2248 0343 6C       		.sleb128 -20
+ 2249 0344 1C       		.uleb128 0x1c
+ 2250 0345 6900     		.ascii	"i\000"
+ 2251 0347 01       		.byte	0x1
+ 2252 0348 A801     		.2byte	0x1a8
+ 2253 034a 12030000 		.4byte	0x312
+ 2254 034e 02       		.uleb128 0x2
+ 2255 034f 91       		.byte	0x91
+ 2256 0350 74       		.sleb128 -12
+ 2257 0351 00       		.byte	0
+ 2258 0352 1D       		.uleb128 0x1d
+ 2259 0353 DD010000 		.4byte	.LASF53
+ 2260 0357 01       		.byte	0x1
+ 2261 0358 B101     		.2byte	0x1b1
+ 2262 035a 68010000 		.4byte	0x168
+ 2263 035e 00000000 		.4byte	.LFB4
+ 2264 0362 62000000 		.4byte	.LFE4-.LFB4
+ 2265 0366 01       		.uleb128 0x1
+ 2266 0367 9C       		.byte	0x9c
+ 2267 0368 E1030000 		.4byte	0x3e1
+ 2268 036c 12       		.uleb128 0x12
+ 2269 036d 14010000 		.4byte	.LASF54
+ 2270 0371 01       		.byte	0x1
+ 2271 0372 B101     		.2byte	0x1b1
+ 2272 0374 0C030000 		.4byte	0x30c
+ 2273 0378 02       		.uleb128 0x2
+ 2274 0379 91       		.byte	0x91
+ 2275 037a 64       		.sleb128 -28
+ 2276 037b 16       		.uleb128 0x16
+ 2277 037c 61726700 		.ascii	"arg\000"
+ 2278 0380 01       		.byte	0x1
+ 2279 0381 B101     		.2byte	0x1b1
+ 2280 0383 47000000 		.4byte	0x47
+ 2281 0387 02       		.uleb128 0x2
+ 2282 0388 91       		.byte	0x91
+ 2283 0389 60       		.sleb128 -32
+ 2284 038a 12       		.uleb128 0x12
+ 2285 038b BD000000 		.4byte	.LASF20
+ 2286 038f 01       		.byte	0x1
+ 2287 0390 B101     		.2byte	0x1b1
+ 2288 0392 12030000 		.4byte	0x312
+ 2289 0396 02       		.uleb128 0x2
+ 2290 0397 91       		.byte	0x91
+ 2291 0398 5C       		.sleb128 -36
+ 2292 0399 16       		.uleb128 0x16
+ 2293 039a 6C656E00 		.ascii	"len\000"
+ 2294 039e 01       		.byte	0x1
+ 2295 039f B101     		.2byte	0x1b1
+ 2296 03a1 61010000 		.4byte	0x161
+ 2297 03a5 02       		.uleb128 0x2
+ 2298 03a6 91       		.byte	0x91
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 59
+
+
+ 2299 03a7 58       		.sleb128 -40
+ 2300 03a8 12       		.uleb128 0x12
+ 2301 03a9 33020000 		.4byte	.LASF55
+ 2302 03ad 01       		.byte	0x1
+ 2303 03ae B101     		.2byte	0x1b1
+ 2304 03b0 68010000 		.4byte	0x168
+ 2305 03b4 02       		.uleb128 0x2
+ 2306 03b5 91       		.byte	0x91
+ 2307 03b6 00       		.sleb128 0
+ 2308 03b7 13       		.uleb128 0x13
+ 2309 03b8 BB020000 		.4byte	.LASF16
+ 2310 03bc 01       		.byte	0x1
+ 2311 03bd B301     		.2byte	0x1b3
+ 2312 03bf 68010000 		.4byte	0x168
+ 2313 03c3 02       		.uleb128 0x2
+ 2314 03c4 91       		.byte	0x91
+ 2315 03c5 74       		.sleb128 -12
+ 2316 03c6 1C       		.uleb128 0x1c
+ 2317 03c7 6900     		.ascii	"i\000"
+ 2318 03c9 01       		.byte	0x1
+ 2319 03ca B401     		.2byte	0x1b4
+ 2320 03cc 61010000 		.4byte	0x161
+ 2321 03d0 02       		.uleb128 0x2
+ 2322 03d1 91       		.byte	0x91
+ 2323 03d2 70       		.sleb128 -16
+ 2324 03d3 1C       		.uleb128 0x1c
+ 2325 03d4 6300     		.ascii	"c\000"
+ 2326 03d6 01       		.byte	0x1
+ 2327 03d7 B501     		.2byte	0x1b5
+ 2328 03d9 5A010000 		.4byte	0x15a
+ 2329 03dd 02       		.uleb128 0x2
+ 2330 03de 91       		.byte	0x91
+ 2331 03df 6F       		.sleb128 -17
+ 2332 03e0 00       		.byte	0
+ 2333 03e1 1D       		.uleb128 0x1d
+ 2334 03e2 18020000 		.4byte	.LASF56
+ 2335 03e6 01       		.byte	0x1
+ 2336 03e7 C801     		.2byte	0x1c8
+ 2337 03e9 68010000 		.4byte	0x168
+ 2338 03ed 00000000 		.4byte	.LFB5
+ 2339 03f1 3A000000 		.4byte	.LFE5-.LFB5
+ 2340 03f5 01       		.uleb128 0x1
+ 2341 03f6 9C       		.byte	0x9c
+ 2342 03f7 46040000 		.4byte	0x446
+ 2343 03fb 12       		.uleb128 0x12
+ 2344 03fc 14010000 		.4byte	.LASF54
+ 2345 0400 01       		.byte	0x1
+ 2346 0401 C801     		.2byte	0x1c8
+ 2347 0403 0C030000 		.4byte	0x30c
+ 2348 0407 02       		.uleb128 0x2
+ 2349 0408 91       		.byte	0x91
+ 2350 0409 6C       		.sleb128 -20
+ 2351 040a 16       		.uleb128 0x16
+ 2352 040b 61726700 		.ascii	"arg\000"
+ 2353 040f 01       		.byte	0x1
+ 2354 0410 C801     		.2byte	0x1c8
+ 2355 0412 47000000 		.4byte	0x47
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 60
+
+
+ 2356 0416 02       		.uleb128 0x2
+ 2357 0417 91       		.byte	0x91
+ 2358 0418 68       		.sleb128 -24
+ 2359 0419 16       		.uleb128 0x16
+ 2360 041a 636800   		.ascii	"ch\000"
+ 2361 041d 01       		.byte	0x1
+ 2362 041e C801     		.2byte	0x1c8
+ 2363 0420 5A010000 		.4byte	0x15a
+ 2364 0424 02       		.uleb128 0x2
+ 2365 0425 91       		.byte	0x91
+ 2366 0426 67       		.sleb128 -25
+ 2367 0427 16       		.uleb128 0x16
+ 2368 0428 6C656E00 		.ascii	"len\000"
+ 2369 042c 01       		.byte	0x1
+ 2370 042d C801     		.2byte	0x1c8
+ 2371 042f 61010000 		.4byte	0x161
+ 2372 0433 02       		.uleb128 0x2
+ 2373 0434 91       		.byte	0x91
+ 2374 0435 60       		.sleb128 -32
+ 2375 0436 13       		.uleb128 0x13
+ 2376 0437 BB020000 		.4byte	.LASF16
+ 2377 043b 01       		.byte	0x1
+ 2378 043c CA01     		.2byte	0x1ca
+ 2379 043e 68010000 		.4byte	0x168
+ 2380 0442 02       		.uleb128 0x2
+ 2381 0443 91       		.byte	0x91
+ 2382 0444 74       		.sleb128 -12
+ 2383 0445 00       		.byte	0
+ 2384 0446 15       		.uleb128 0x15
+ 2385 0447 21020000 		.4byte	.LASF58
+ 2386 044b 01       		.byte	0x1
+ 2387 044c 0B02     		.2byte	0x20b
+ 2388 044e 68010000 		.4byte	0x168
+ 2389 0452 00000000 		.4byte	.LFB6
+ 2390 0456 76080000 		.4byte	.LFE6-.LFB6
+ 2391 045a 01       		.uleb128 0x1
+ 2392 045b 9C       		.byte	0x9c
+ 2393 045c CB040000 		.4byte	0x4cb
+ 2394 0460 12       		.uleb128 0x12
+ 2395 0461 C1020000 		.4byte	.LASF50
+ 2396 0465 01       		.byte	0x1
+ 2397 0466 0B02     		.2byte	0x20b
+ 2398 0468 0C030000 		.4byte	0x30c
+ 2399 046c 03       		.uleb128 0x3
+ 2400 046d 91       		.byte	0x91
+ 2401 046e DC7E     		.sleb128 -164
+ 2402 0470 16       		.uleb128 0x16
+ 2403 0471 61726700 		.ascii	"arg\000"
+ 2404 0475 01       		.byte	0x1
+ 2405 0476 0B02     		.2byte	0x20b
+ 2406 0478 47000000 		.4byte	0x47
+ 2407 047c 03       		.uleb128 0x3
+ 2408 047d 91       		.byte	0x91
+ 2409 047e D87E     		.sleb128 -168
+ 2410 0480 16       		.uleb128 0x16
+ 2411 0481 666D7400 		.ascii	"fmt\000"
+ 2412 0485 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 61
+
+
+ 2413 0486 0B02     		.2byte	0x20b
+ 2414 0488 12030000 		.4byte	0x312
+ 2415 048c 03       		.uleb128 0x3
+ 2416 048d 91       		.byte	0x91
+ 2417 048e D47E     		.sleb128 -172
+ 2418 0490 12       		.uleb128 0x12
+ 2419 0491 98010000 		.4byte	.LASF59
+ 2420 0495 01       		.byte	0x1
+ 2421 0496 0B02     		.2byte	0x20b
+ 2422 0498 49000000 		.4byte	0x49
+ 2423 049c 03       		.uleb128 0x3
+ 2424 049d 91       		.byte	0x91
+ 2425 049e D07E     		.sleb128 -176
+ 2426 04a0 13       		.uleb128 0x13
+ 2427 04a1 8A010000 		.4byte	.LASF48
+ 2428 04a5 01       		.byte	0x1
+ 2429 04a6 0D02     		.2byte	0x20d
+ 2430 04a8 93000000 		.4byte	0x93
+ 2431 04ac 03       		.uleb128 0x3
+ 2432 04ad 91       		.byte	0x91
+ 2433 04ae E07E     		.sleb128 -160
+ 2434 04b0 1C       		.uleb128 0x1c
+ 2435 04b1 6900     		.ascii	"i\000"
+ 2436 04b3 01       		.byte	0x1
+ 2437 04b4 0E02     		.2byte	0x20e
+ 2438 04b6 61010000 		.4byte	0x161
+ 2439 04ba 02       		.uleb128 0x2
+ 2440 04bb 91       		.byte	0x91
+ 2441 04bc 64       		.sleb128 -28
+ 2442 04bd 1C       		.uleb128 0x1c
+ 2443 04be 6300     		.ascii	"c\000"
+ 2444 04c0 01       		.byte	0x1
+ 2445 04c1 0F02     		.2byte	0x20f
+ 2446 04c3 5A010000 		.4byte	0x15a
+ 2447 04c7 02       		.uleb128 0x2
+ 2448 04c8 91       		.byte	0x91
+ 2449 04c9 63       		.sleb128 -29
+ 2450 04ca 00       		.byte	0
+ 2451 04cb 0D       		.uleb128 0xd
+ 2452 04cc 18030000 		.4byte	0x318
+ 2453 04d0 DB040000 		.4byte	0x4db
+ 2454 04d4 0E       		.uleb128 0xe
+ 2455 04d5 7F010000 		.4byte	0x17f
+ 2456 04d9 06       		.byte	0x6
+ 2457 04da 00       		.byte	0
+ 2458 04db 1E       		.uleb128 0x1e
+ 2459 04dc 07000000 		.4byte	.LASF60
+ 2460 04e0 01       		.byte	0x1
+ 2461 04e1 FC       		.byte	0xfc
+ 2462 04e2 EC040000 		.4byte	0x4ec
+ 2463 04e6 05       		.uleb128 0x5
+ 2464 04e7 03       		.byte	0x3
+ 2465 04e8 00000000 		.4byte	ms_null
+ 2466 04ec 1A       		.uleb128 0x1a
+ 2467 04ed CB040000 		.4byte	0x4cb
+ 2468 04f1 0D       		.uleb128 0xd
+ 2469 04f2 18030000 		.4byte	0x318
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 62
+
+
+ 2470 04f6 01050000 		.4byte	0x501
+ 2471 04fa 0E       		.uleb128 0xe
+ 2472 04fb 7F010000 		.4byte	0x17f
+ 2473 04ff 04       		.byte	0x4
+ 2474 0500 00       		.byte	0
+ 2475 0501 13       		.uleb128 0x13
+ 2476 0502 FC020000 		.4byte	.LASF61
+ 2477 0506 01       		.byte	0x1
+ 2478 0507 0001     		.2byte	0x100
+ 2479 0509 13050000 		.4byte	0x513
+ 2480 050d 05       		.uleb128 0x5
+ 2481 050e 03       		.byte	0x3
+ 2482 050f 08000000 		.4byte	ms_true
+ 2483 0513 1A       		.uleb128 0x1a
+ 2484 0514 F1040000 		.4byte	0x4f1
+ 2485 0518 0D       		.uleb128 0xd
+ 2486 0519 18030000 		.4byte	0x318
+ 2487 051d 28050000 		.4byte	0x528
+ 2488 0521 0E       		.uleb128 0xe
+ 2489 0522 7F010000 		.4byte	0x17f
+ 2490 0526 05       		.byte	0x5
+ 2491 0527 00       		.byte	0
+ 2492 0528 13       		.uleb128 0x13
+ 2493 0529 EA020000 		.4byte	.LASF62
+ 2494 052d 01       		.byte	0x1
+ 2495 052e 0501     		.2byte	0x105
+ 2496 0530 3A050000 		.4byte	0x53a
+ 2497 0534 05       		.uleb128 0x5
+ 2498 0535 03       		.byte	0x3
+ 2499 0536 10000000 		.4byte	ms_false
+ 2500 053a 1A       		.uleb128 0x1a
+ 2501 053b 18050000 		.4byte	0x518
+ 2502 053f 0D       		.uleb128 0xd
+ 2503 0540 18030000 		.4byte	0x318
+ 2504 0544 4F050000 		.4byte	0x54f
+ 2505 0548 0E       		.uleb128 0xe
+ 2506 0549 7F010000 		.4byte	0x17f
+ 2507 054d 10       		.byte	0x10
+ 2508 054e 00       		.byte	0
+ 2509 054f 13       		.uleb128 0x13
+ 2510 0550 02010000 		.4byte	.LASF63
+ 2511 0554 01       		.byte	0x1
+ 2512 0555 0B01     		.2byte	0x10b
+ 2513 0557 61050000 		.4byte	0x561
+ 2514 055b 05       		.uleb128 0x5
+ 2515 055c 03       		.byte	0x3
+ 2516 055d 18000000 		.4byte	ms_digits
+ 2517 0561 1A       		.uleb128 0x1a
+ 2518 0562 3F050000 		.4byte	0x53f
+ 2519 0566 0D       		.uleb128 0xd
+ 2520 0567 76050000 		.4byte	0x576
+ 2521 056b 76050000 		.4byte	0x576
+ 2522 056f 0E       		.uleb128 0xe
+ 2523 0570 7F010000 		.4byte	0x17f
+ 2524 0574 5A       		.byte	0x5a
+ 2525 0575 00       		.byte	0
+ 2526 0576 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 63
+
+
+ 2527 0577 96010000 		.4byte	0x196
+ 2528 057b 13       		.uleb128 0x13
+ 2529 057c C9020000 		.4byte	.LASF64
+ 2530 0580 01       		.byte	0x1
+ 2531 0581 1301     		.2byte	0x113
+ 2532 0583 8D050000 		.4byte	0x58d
+ 2533 0587 05       		.uleb128 0x5
+ 2534 0588 03       		.byte	0x3
+ 2535 0589 2C000000 		.4byte	formatStates
+ 2536 058d 1A       		.uleb128 0x1a
+ 2537 058e 66050000 		.4byte	0x566
+ 2538 0592 00       		.byte	0
+ 2539              		.section	.debug_abbrev,"",%progbits
+ 2540              	.Ldebug_abbrev0:
+ 2541 0000 01       		.uleb128 0x1
+ 2542 0001 11       		.uleb128 0x11
+ 2543 0002 01       		.byte	0x1
+ 2544 0003 25       		.uleb128 0x25
+ 2545 0004 0E       		.uleb128 0xe
+ 2546 0005 13       		.uleb128 0x13
+ 2547 0006 0B       		.uleb128 0xb
+ 2548 0007 03       		.uleb128 0x3
+ 2549 0008 0E       		.uleb128 0xe
+ 2550 0009 1B       		.uleb128 0x1b
+ 2551 000a 0E       		.uleb128 0xe
+ 2552 000b 55       		.uleb128 0x55
+ 2553 000c 17       		.uleb128 0x17
+ 2554 000d 11       		.uleb128 0x11
+ 2555 000e 01       		.uleb128 0x1
+ 2556 000f 10       		.uleb128 0x10
+ 2557 0010 17       		.uleb128 0x17
+ 2558 0011 00       		.byte	0
+ 2559 0012 00       		.byte	0
+ 2560 0013 02       		.uleb128 0x2
+ 2561 0014 16       		.uleb128 0x16
+ 2562 0015 00       		.byte	0
+ 2563 0016 03       		.uleb128 0x3
+ 2564 0017 0E       		.uleb128 0xe
+ 2565 0018 3A       		.uleb128 0x3a
+ 2566 0019 0B       		.uleb128 0xb
+ 2567 001a 3B       		.uleb128 0x3b
+ 2568 001b 0B       		.uleb128 0xb
+ 2569 001c 49       		.uleb128 0x49
+ 2570 001d 13       		.uleb128 0x13
+ 2571 001e 00       		.byte	0
+ 2572 001f 00       		.byte	0
+ 2573 0020 03       		.uleb128 0x3
+ 2574 0021 13       		.uleb128 0x13
+ 2575 0022 01       		.byte	0x1
+ 2576 0023 03       		.uleb128 0x3
+ 2577 0024 0E       		.uleb128 0xe
+ 2578 0025 0B       		.uleb128 0xb
+ 2579 0026 0B       		.uleb128 0xb
+ 2580 0027 3A       		.uleb128 0x3a
+ 2581 0028 0B       		.uleb128 0xb
+ 2582 0029 3B       		.uleb128 0x3b
+ 2583 002a 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 64
+
+
+ 2584 002b 01       		.uleb128 0x1
+ 2585 002c 13       		.uleb128 0x13
+ 2586 002d 00       		.byte	0
+ 2587 002e 00       		.byte	0
+ 2588 002f 04       		.uleb128 0x4
+ 2589 0030 0D       		.uleb128 0xd
+ 2590 0031 00       		.byte	0
+ 2591 0032 03       		.uleb128 0x3
+ 2592 0033 0E       		.uleb128 0xe
+ 2593 0034 49       		.uleb128 0x49
+ 2594 0035 13       		.uleb128 0x13
+ 2595 0036 38       		.uleb128 0x38
+ 2596 0037 0B       		.uleb128 0xb
+ 2597 0038 34       		.uleb128 0x34
+ 2598 0039 19       		.uleb128 0x19
+ 2599 003a 00       		.byte	0
+ 2600 003b 00       		.byte	0
+ 2601 003c 05       		.uleb128 0x5
+ 2602 003d 0F       		.uleb128 0xf
+ 2603 003e 00       		.byte	0
+ 2604 003f 0B       		.uleb128 0xb
+ 2605 0040 0B       		.uleb128 0xb
+ 2606 0041 00       		.byte	0
+ 2607 0042 00       		.byte	0
+ 2608 0043 06       		.uleb128 0x6
+ 2609 0044 17       		.uleb128 0x17
+ 2610 0045 01       		.byte	0x1
+ 2611 0046 0B       		.uleb128 0xb
+ 2612 0047 0B       		.uleb128 0xb
+ 2613 0048 3A       		.uleb128 0x3a
+ 2614 0049 0B       		.uleb128 0xb
+ 2615 004a 3B       		.uleb128 0x3b
+ 2616 004b 0B       		.uleb128 0xb
+ 2617 004c 01       		.uleb128 0x1
+ 2618 004d 13       		.uleb128 0x13
+ 2619 004e 00       		.byte	0
+ 2620 004f 00       		.byte	0
+ 2621 0050 07       		.uleb128 0x7
+ 2622 0051 0D       		.uleb128 0xd
+ 2623 0052 00       		.byte	0
+ 2624 0053 03       		.uleb128 0x3
+ 2625 0054 0E       		.uleb128 0xe
+ 2626 0055 3A       		.uleb128 0x3a
+ 2627 0056 0B       		.uleb128 0xb
+ 2628 0057 3B       		.uleb128 0x3b
+ 2629 0058 0B       		.uleb128 0xb
+ 2630 0059 49       		.uleb128 0x49
+ 2631 005a 13       		.uleb128 0x13
+ 2632 005b 00       		.byte	0
+ 2633 005c 00       		.byte	0
+ 2634 005d 08       		.uleb128 0x8
+ 2635 005e 24       		.uleb128 0x24
+ 2636 005f 00       		.byte	0
+ 2637 0060 0B       		.uleb128 0xb
+ 2638 0061 0B       		.uleb128 0xb
+ 2639 0062 3E       		.uleb128 0x3e
+ 2640 0063 0B       		.uleb128 0xb
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 65
+
+
+ 2641 0064 03       		.uleb128 0x3
+ 2642 0065 0E       		.uleb128 0xe
+ 2643 0066 00       		.byte	0
+ 2644 0067 00       		.byte	0
+ 2645 0068 09       		.uleb128 0x9
+ 2646 0069 0D       		.uleb128 0xd
+ 2647 006a 00       		.byte	0
+ 2648 006b 03       		.uleb128 0x3
+ 2649 006c 0E       		.uleb128 0xe
+ 2650 006d 3A       		.uleb128 0x3a
+ 2651 006e 0B       		.uleb128 0xb
+ 2652 006f 3B       		.uleb128 0x3b
+ 2653 0070 0B       		.uleb128 0xb
+ 2654 0071 49       		.uleb128 0x49
+ 2655 0072 13       		.uleb128 0x13
+ 2656 0073 38       		.uleb128 0x38
+ 2657 0074 0B       		.uleb128 0xb
+ 2658 0075 00       		.byte	0
+ 2659 0076 00       		.byte	0
+ 2660 0077 0A       		.uleb128 0xa
+ 2661 0078 0D       		.uleb128 0xd
+ 2662 0079 00       		.byte	0
+ 2663 007a 03       		.uleb128 0x3
+ 2664 007b 08       		.uleb128 0x8
+ 2665 007c 3A       		.uleb128 0x3a
+ 2666 007d 0B       		.uleb128 0xb
+ 2667 007e 3B       		.uleb128 0x3b
+ 2668 007f 0B       		.uleb128 0xb
+ 2669 0080 49       		.uleb128 0x49
+ 2670 0081 13       		.uleb128 0x13
+ 2671 0082 38       		.uleb128 0x38
+ 2672 0083 0B       		.uleb128 0xb
+ 2673 0084 00       		.byte	0
+ 2674 0085 00       		.byte	0
+ 2675 0086 0B       		.uleb128 0xb
+ 2676 0087 0F       		.uleb128 0xf
+ 2677 0088 00       		.byte	0
+ 2678 0089 0B       		.uleb128 0xb
+ 2679 008a 0B       		.uleb128 0xb
+ 2680 008b 49       		.uleb128 0x49
+ 2681 008c 13       		.uleb128 0x13
+ 2682 008d 00       		.byte	0
+ 2683 008e 00       		.byte	0
+ 2684 008f 0C       		.uleb128 0xc
+ 2685 0090 24       		.uleb128 0x24
+ 2686 0091 00       		.byte	0
+ 2687 0092 0B       		.uleb128 0xb
+ 2688 0093 0B       		.uleb128 0xb
+ 2689 0094 3E       		.uleb128 0x3e
+ 2690 0095 0B       		.uleb128 0xb
+ 2691 0096 03       		.uleb128 0x3
+ 2692 0097 08       		.uleb128 0x8
+ 2693 0098 00       		.byte	0
+ 2694 0099 00       		.byte	0
+ 2695 009a 0D       		.uleb128 0xd
+ 2696 009b 01       		.uleb128 0x1
+ 2697 009c 01       		.byte	0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 66
+
+
+ 2698 009d 49       		.uleb128 0x49
+ 2699 009e 13       		.uleb128 0x13
+ 2700 009f 01       		.uleb128 0x1
+ 2701 00a0 13       		.uleb128 0x13
+ 2702 00a1 00       		.byte	0
+ 2703 00a2 00       		.byte	0
+ 2704 00a3 0E       		.uleb128 0xe
+ 2705 00a4 21       		.uleb128 0x21
+ 2706 00a5 00       		.byte	0
+ 2707 00a6 49       		.uleb128 0x49
+ 2708 00a7 13       		.uleb128 0x13
+ 2709 00a8 2F       		.uleb128 0x2f
+ 2710 00a9 0B       		.uleb128 0xb
+ 2711 00aa 00       		.byte	0
+ 2712 00ab 00       		.byte	0
+ 2713 00ac 0F       		.uleb128 0xf
+ 2714 00ad 04       		.uleb128 0x4
+ 2715 00ae 01       		.byte	0x1
+ 2716 00af 03       		.uleb128 0x3
+ 2717 00b0 0E       		.uleb128 0xe
+ 2718 00b1 0B       		.uleb128 0xb
+ 2719 00b2 0B       		.uleb128 0xb
+ 2720 00b3 49       		.uleb128 0x49
+ 2721 00b4 13       		.uleb128 0x13
+ 2722 00b5 3A       		.uleb128 0x3a
+ 2723 00b6 0B       		.uleb128 0xb
+ 2724 00b7 3B       		.uleb128 0x3b
+ 2725 00b8 0B       		.uleb128 0xb
+ 2726 00b9 01       		.uleb128 0x1
+ 2727 00ba 13       		.uleb128 0x13
+ 2728 00bb 00       		.byte	0
+ 2729 00bc 00       		.byte	0
+ 2730 00bd 10       		.uleb128 0x10
+ 2731 00be 28       		.uleb128 0x28
+ 2732 00bf 00       		.byte	0
+ 2733 00c0 03       		.uleb128 0x3
+ 2734 00c1 0E       		.uleb128 0xe
+ 2735 00c2 1C       		.uleb128 0x1c
+ 2736 00c3 0B       		.uleb128 0xb
+ 2737 00c4 00       		.byte	0
+ 2738 00c5 00       		.byte	0
+ 2739 00c6 11       		.uleb128 0x11
+ 2740 00c7 2E       		.uleb128 0x2e
+ 2741 00c8 01       		.byte	0x1
+ 2742 00c9 03       		.uleb128 0x3
+ 2743 00ca 0E       		.uleb128 0xe
+ 2744 00cb 3A       		.uleb128 0x3a
+ 2745 00cc 0B       		.uleb128 0xb
+ 2746 00cd 3B       		.uleb128 0x3b
+ 2747 00ce 05       		.uleb128 0x5
+ 2748 00cf 27       		.uleb128 0x27
+ 2749 00d0 19       		.uleb128 0x19
+ 2750 00d1 11       		.uleb128 0x11
+ 2751 00d2 01       		.uleb128 0x1
+ 2752 00d3 12       		.uleb128 0x12
+ 2753 00d4 06       		.uleb128 0x6
+ 2754 00d5 40       		.uleb128 0x40
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 67
+
+
+ 2755 00d6 18       		.uleb128 0x18
+ 2756 00d7 9742     		.uleb128 0x2117
+ 2757 00d9 19       		.uleb128 0x19
+ 2758 00da 01       		.uleb128 0x1
+ 2759 00db 13       		.uleb128 0x13
+ 2760 00dc 00       		.byte	0
+ 2761 00dd 00       		.byte	0
+ 2762 00de 12       		.uleb128 0x12
+ 2763 00df 05       		.uleb128 0x5
+ 2764 00e0 00       		.byte	0
+ 2765 00e1 03       		.uleb128 0x3
+ 2766 00e2 0E       		.uleb128 0xe
+ 2767 00e3 3A       		.uleb128 0x3a
+ 2768 00e4 0B       		.uleb128 0xb
+ 2769 00e5 3B       		.uleb128 0x3b
+ 2770 00e6 05       		.uleb128 0x5
+ 2771 00e7 49       		.uleb128 0x49
+ 2772 00e8 13       		.uleb128 0x13
+ 2773 00e9 02       		.uleb128 0x2
+ 2774 00ea 18       		.uleb128 0x18
+ 2775 00eb 00       		.byte	0
+ 2776 00ec 00       		.byte	0
+ 2777 00ed 13       		.uleb128 0x13
+ 2778 00ee 34       		.uleb128 0x34
+ 2779 00ef 00       		.byte	0
+ 2780 00f0 03       		.uleb128 0x3
+ 2781 00f1 0E       		.uleb128 0xe
+ 2782 00f2 3A       		.uleb128 0x3a
+ 2783 00f3 0B       		.uleb128 0xb
+ 2784 00f4 3B       		.uleb128 0x3b
+ 2785 00f5 05       		.uleb128 0x5
+ 2786 00f6 49       		.uleb128 0x49
+ 2787 00f7 13       		.uleb128 0x13
+ 2788 00f8 02       		.uleb128 0x2
+ 2789 00f9 18       		.uleb128 0x18
+ 2790 00fa 00       		.byte	0
+ 2791 00fb 00       		.byte	0
+ 2792 00fc 14       		.uleb128 0x14
+ 2793 00fd 2E       		.uleb128 0x2e
+ 2794 00fe 01       		.byte	0x1
+ 2795 00ff 03       		.uleb128 0x3
+ 2796 0100 0E       		.uleb128 0xe
+ 2797 0101 3A       		.uleb128 0x3a
+ 2798 0102 0B       		.uleb128 0xb
+ 2799 0103 3B       		.uleb128 0x3b
+ 2800 0104 05       		.uleb128 0x5
+ 2801 0105 27       		.uleb128 0x27
+ 2802 0106 19       		.uleb128 0x19
+ 2803 0107 11       		.uleb128 0x11
+ 2804 0108 01       		.uleb128 0x1
+ 2805 0109 12       		.uleb128 0x12
+ 2806 010a 06       		.uleb128 0x6
+ 2807 010b 40       		.uleb128 0x40
+ 2808 010c 18       		.uleb128 0x18
+ 2809 010d 9642     		.uleb128 0x2116
+ 2810 010f 19       		.uleb128 0x19
+ 2811 0110 01       		.uleb128 0x1
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 68
+
+
+ 2812 0111 13       		.uleb128 0x13
+ 2813 0112 00       		.byte	0
+ 2814 0113 00       		.byte	0
+ 2815 0114 15       		.uleb128 0x15
+ 2816 0115 2E       		.uleb128 0x2e
+ 2817 0116 01       		.byte	0x1
+ 2818 0117 3F       		.uleb128 0x3f
+ 2819 0118 19       		.uleb128 0x19
+ 2820 0119 03       		.uleb128 0x3
+ 2821 011a 0E       		.uleb128 0xe
+ 2822 011b 3A       		.uleb128 0x3a
+ 2823 011c 0B       		.uleb128 0xb
+ 2824 011d 3B       		.uleb128 0x3b
+ 2825 011e 05       		.uleb128 0x5
+ 2826 011f 27       		.uleb128 0x27
+ 2827 0120 19       		.uleb128 0x19
+ 2828 0121 49       		.uleb128 0x49
+ 2829 0122 13       		.uleb128 0x13
+ 2830 0123 11       		.uleb128 0x11
+ 2831 0124 01       		.uleb128 0x1
+ 2832 0125 12       		.uleb128 0x12
+ 2833 0126 06       		.uleb128 0x6
+ 2834 0127 40       		.uleb128 0x40
+ 2835 0128 18       		.uleb128 0x18
+ 2836 0129 9642     		.uleb128 0x2116
+ 2837 012b 19       		.uleb128 0x19
+ 2838 012c 01       		.uleb128 0x1
+ 2839 012d 13       		.uleb128 0x13
+ 2840 012e 00       		.byte	0
+ 2841 012f 00       		.byte	0
+ 2842 0130 16       		.uleb128 0x16
+ 2843 0131 05       		.uleb128 0x5
+ 2844 0132 00       		.byte	0
+ 2845 0133 03       		.uleb128 0x3
+ 2846 0134 08       		.uleb128 0x8
+ 2847 0135 3A       		.uleb128 0x3a
+ 2848 0136 0B       		.uleb128 0xb
+ 2849 0137 3B       		.uleb128 0x3b
+ 2850 0138 05       		.uleb128 0x5
+ 2851 0139 49       		.uleb128 0x49
+ 2852 013a 13       		.uleb128 0x13
+ 2853 013b 02       		.uleb128 0x2
+ 2854 013c 18       		.uleb128 0x18
+ 2855 013d 00       		.byte	0
+ 2856 013e 00       		.byte	0
+ 2857 013f 17       		.uleb128 0x17
+ 2858 0140 18       		.uleb128 0x18
+ 2859 0141 00       		.byte	0
+ 2860 0142 00       		.byte	0
+ 2861 0143 00       		.byte	0
+ 2862 0144 18       		.uleb128 0x18
+ 2863 0145 15       		.uleb128 0x15
+ 2864 0146 01       		.byte	0x1
+ 2865 0147 27       		.uleb128 0x27
+ 2866 0148 19       		.uleb128 0x19
+ 2867 0149 01       		.uleb128 0x1
+ 2868 014a 13       		.uleb128 0x13
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 69
+
+
+ 2869 014b 00       		.byte	0
+ 2870 014c 00       		.byte	0
+ 2871 014d 19       		.uleb128 0x19
+ 2872 014e 05       		.uleb128 0x5
+ 2873 014f 00       		.byte	0
+ 2874 0150 49       		.uleb128 0x49
+ 2875 0151 13       		.uleb128 0x13
+ 2876 0152 00       		.byte	0
+ 2877 0153 00       		.byte	0
+ 2878 0154 1A       		.uleb128 0x1a
+ 2879 0155 26       		.uleb128 0x26
+ 2880 0156 00       		.byte	0
+ 2881 0157 49       		.uleb128 0x49
+ 2882 0158 13       		.uleb128 0x13
+ 2883 0159 00       		.byte	0
+ 2884 015a 00       		.byte	0
+ 2885 015b 1B       		.uleb128 0x1b
+ 2886 015c 2E       		.uleb128 0x2e
+ 2887 015d 01       		.byte	0x1
+ 2888 015e 03       		.uleb128 0x3
+ 2889 015f 0E       		.uleb128 0xe
+ 2890 0160 3A       		.uleb128 0x3a
+ 2891 0161 0B       		.uleb128 0xb
+ 2892 0162 3B       		.uleb128 0x3b
+ 2893 0163 05       		.uleb128 0x5
+ 2894 0164 27       		.uleb128 0x27
+ 2895 0165 19       		.uleb128 0x19
+ 2896 0166 49       		.uleb128 0x49
+ 2897 0167 13       		.uleb128 0x13
+ 2898 0168 11       		.uleb128 0x11
+ 2899 0169 01       		.uleb128 0x1
+ 2900 016a 12       		.uleb128 0x12
+ 2901 016b 06       		.uleb128 0x6
+ 2902 016c 40       		.uleb128 0x40
+ 2903 016d 18       		.uleb128 0x18
+ 2904 016e 9742     		.uleb128 0x2117
+ 2905 0170 19       		.uleb128 0x19
+ 2906 0171 01       		.uleb128 0x1
+ 2907 0172 13       		.uleb128 0x13
+ 2908 0173 00       		.byte	0
+ 2909 0174 00       		.byte	0
+ 2910 0175 1C       		.uleb128 0x1c
+ 2911 0176 34       		.uleb128 0x34
+ 2912 0177 00       		.byte	0
+ 2913 0178 03       		.uleb128 0x3
+ 2914 0179 08       		.uleb128 0x8
+ 2915 017a 3A       		.uleb128 0x3a
+ 2916 017b 0B       		.uleb128 0xb
+ 2917 017c 3B       		.uleb128 0x3b
+ 2918 017d 05       		.uleb128 0x5
+ 2919 017e 49       		.uleb128 0x49
+ 2920 017f 13       		.uleb128 0x13
+ 2921 0180 02       		.uleb128 0x2
+ 2922 0181 18       		.uleb128 0x18
+ 2923 0182 00       		.byte	0
+ 2924 0183 00       		.byte	0
+ 2925 0184 1D       		.uleb128 0x1d
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 70
+
+
+ 2926 0185 2E       		.uleb128 0x2e
+ 2927 0186 01       		.byte	0x1
+ 2928 0187 03       		.uleb128 0x3
+ 2929 0188 0E       		.uleb128 0xe
+ 2930 0189 3A       		.uleb128 0x3a
+ 2931 018a 0B       		.uleb128 0xb
+ 2932 018b 3B       		.uleb128 0x3b
+ 2933 018c 05       		.uleb128 0x5
+ 2934 018d 27       		.uleb128 0x27
+ 2935 018e 19       		.uleb128 0x19
+ 2936 018f 49       		.uleb128 0x49
+ 2937 0190 13       		.uleb128 0x13
+ 2938 0191 11       		.uleb128 0x11
+ 2939 0192 01       		.uleb128 0x1
+ 2940 0193 12       		.uleb128 0x12
+ 2941 0194 06       		.uleb128 0x6
+ 2942 0195 40       		.uleb128 0x40
+ 2943 0196 18       		.uleb128 0x18
+ 2944 0197 9642     		.uleb128 0x2116
+ 2945 0199 19       		.uleb128 0x19
+ 2946 019a 01       		.uleb128 0x1
+ 2947 019b 13       		.uleb128 0x13
+ 2948 019c 00       		.byte	0
+ 2949 019d 00       		.byte	0
+ 2950 019e 1E       		.uleb128 0x1e
+ 2951 019f 34       		.uleb128 0x34
+ 2952 01a0 00       		.byte	0
+ 2953 01a1 03       		.uleb128 0x3
+ 2954 01a2 0E       		.uleb128 0xe
+ 2955 01a3 3A       		.uleb128 0x3a
+ 2956 01a4 0B       		.uleb128 0xb
+ 2957 01a5 3B       		.uleb128 0x3b
+ 2958 01a6 0B       		.uleb128 0xb
+ 2959 01a7 49       		.uleb128 0x49
+ 2960 01a8 13       		.uleb128 0x13
+ 2961 01a9 02       		.uleb128 0x2
+ 2962 01aa 18       		.uleb128 0x18
+ 2963 01ab 00       		.byte	0
+ 2964 01ac 00       		.byte	0
+ 2965 01ad 00       		.byte	0
+ 2966              		.section	.debug_aranges,"",%progbits
+ 2967 0000 4C000000 		.4byte	0x4c
+ 2968 0004 0200     		.2byte	0x2
+ 2969 0006 00000000 		.4byte	.Ldebug_info0
+ 2970 000a 04       		.byte	0x4
+ 2971 000b 00       		.byte	0
+ 2972 000c 0000     		.2byte	0
+ 2973 000e 0000     		.2byte	0
+ 2974 0010 00000000 		.4byte	.LFB0
+ 2975 0014 D4000000 		.4byte	.LFE0-.LFB0
+ 2976 0018 00000000 		.4byte	.LFB1
+ 2977 001c 04010000 		.4byte	.LFE1-.LFB1
+ 2978 0020 00000000 		.4byte	.LFB2
+ 2979 0024 30000000 		.4byte	.LFE2-.LFB2
+ 2980 0028 00000000 		.4byte	.LFB3
+ 2981 002c 2C000000 		.4byte	.LFE3-.LFB3
+ 2982 0030 00000000 		.4byte	.LFB4
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 71
+
+
+ 2983 0034 62000000 		.4byte	.LFE4-.LFB4
+ 2984 0038 00000000 		.4byte	.LFB5
+ 2985 003c 3A000000 		.4byte	.LFE5-.LFB5
+ 2986 0040 00000000 		.4byte	.LFB6
+ 2987 0044 76080000 		.4byte	.LFE6-.LFB6
+ 2988 0048 00000000 		.4byte	0
+ 2989 004c 00000000 		.4byte	0
+ 2990              		.section	.debug_ranges,"",%progbits
+ 2991              	.Ldebug_ranges0:
+ 2992 0000 00000000 		.4byte	.LFB0
+ 2993 0004 D4000000 		.4byte	.LFE0
+ 2994 0008 00000000 		.4byte	.LFB1
+ 2995 000c 04010000 		.4byte	.LFE1
+ 2996 0010 00000000 		.4byte	.LFB2
+ 2997 0014 30000000 		.4byte	.LFE2
+ 2998 0018 00000000 		.4byte	.LFB3
+ 2999 001c 2C000000 		.4byte	.LFE3
+ 3000 0020 00000000 		.4byte	.LFB4
+ 3001 0024 62000000 		.4byte	.LFE4
+ 3002 0028 00000000 		.4byte	.LFB5
+ 3003 002c 3A000000 		.4byte	.LFE5
+ 3004 0030 00000000 		.4byte	.LFB6
+ 3005 0034 76080000 		.4byte	.LFE6
+ 3006 0038 00000000 		.4byte	0
+ 3007 003c 00000000 		.4byte	0
+ 3008              		.section	.debug_line,"",%progbits
+ 3009              	.Ldebug_line0:
+ 3010 0000 E6020000 		.section	.debug_str,"MS",%progbits,1
+ 3010      0200B100 
+ 3010      00000201 
+ 3010      FB0E0D00 
+ 3010      01010101 
+ 3011              	.LASF39:
+ 3012 0000 43485F44 		.ascii	"CH_DOT\000"
+ 3012      4F5400
+ 3013              	.LASF60:
+ 3014 0007 6D735F6E 		.ascii	"ms_null\000"
+ 3014      756C6C00 
+ 3015              	.LASF44:
+ 3016 000f 43485F53 		.ascii	"CH_SIZE\000"
+ 3016      495A4500 
+ 3017              	.LASF65:
+ 3018 0017 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3018      43313120 
+ 3018      352E342E 
+ 3018      31203230 
+ 3018      31363036 
+ 3019 004a 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3019      20726576 
+ 3019      6973696F 
+ 3019      6E203233 
+ 3019      37373135 
+ 3020 007d 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 3020      66756E63 
+ 3020      74696F6E 
+ 3020      2D736563 
+ 3020      74696F6E 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 72
+
+
+ 3021              	.LASF22:
+ 3022 00a5 73746174 		.ascii	"state\000"
+ 3022      6500
+ 3023              	.LASF38:
+ 3024 00ab 43485F50 		.ascii	"CH_PERCENT\000"
+ 3024      45524345 
+ 3024      4E5400
+ 3025              	.LASF31:
+ 3026 00b6 53545F44 		.ascii	"ST_DOT\000"
+ 3026      4F5400
+ 3027              	.LASF20:
+ 3028 00bd 62756666 		.ascii	"buffer\000"
+ 3028      657200
+ 3029              	.LASF52:
+ 3030 00c4 78737472 		.ascii	"xstrlen\000"
+ 3030      6C656E00 
+ 3031              	.LASF4:
+ 3032 00cc 6C6C7661 		.ascii	"llvalue\000"
+ 3032      6C756500 
+ 3033              	.LASF5:
+ 3034 00d4 6476616C 		.ascii	"dvalue\000"
+ 3034      756500
+ 3035              	.LASF43:
+ 3036 00db 43485F46 		.ascii	"CH_FLAG\000"
+ 3036      4C414700 
+ 3037              	.LASF36:
+ 3038 00e3 43686172 		.ascii	"CharClass\000"
+ 3038      436C6173 
+ 3038      7300
+ 3039              	.LASF42:
+ 3040 00ed 43485F44 		.ascii	"CH_DIGIT\000"
+ 3040      49474954 
+ 3040      00
+ 3041              	.LASF12:
+ 3042 00f6 69506172 		.ascii	"iPart\000"
+ 3042      7400
+ 3043              	.LASF21:
+ 3044 00fc 72616469 		.ascii	"radix\000"
+ 3044      7800
+ 3045              	.LASF63:
+ 3046 0102 6D735F64 		.ascii	"ms_digits\000"
+ 3046      69676974 
+ 3046      7300
+ 3047              	.LASF57:
+ 3048 010c 78666F72 		.ascii	"xformat\000"
+ 3048      6D617400 
+ 3049              	.LASF54:
+ 3050 0114 6D796F75 		.ascii	"myoutchar\000"
+ 3050      74636861 
+ 3050      7200
+ 3051              	.LASF34:
+ 3052 011e 53545F54 		.ascii	"ST_TYPE\000"
+ 3052      59504500 
+ 3053              	.LASF0:
+ 3054 0126 5F5F676E 		.ascii	"__gnuc_va_list\000"
+ 3054      75635F76 
+ 3054      615F6C69 
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 73
+
+
+ 3054      737400
+ 3055              	.LASF33:
+ 3056 0135 53545F53 		.ascii	"ST_SIZE\000"
+ 3056      495A4500 
+ 3057              	.LASF27:
+ 3058 013d 53545F4E 		.ascii	"ST_NORMAL\000"
+ 3058      4F524D41 
+ 3058      4C00
+ 3059              	.LASF26:
+ 3060 0147 756E7369 		.ascii	"unsigned char\000"
+ 3060      676E6564 
+ 3060      20636861 
+ 3060      7200
+ 3061              	.LASF6:
+ 3062 0155 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3062      20756E73 
+ 3062      69676E65 
+ 3062      6420696E 
+ 3062      7400
+ 3063              	.LASF47:
+ 3064 0167 756C6C6F 		.ascii	"ullong2a\000"
+ 3064      6E673261 
+ 3064      00
+ 3065              	.LASF51:
+ 3066 0170 6C697374 		.ascii	"list\000"
+ 3066      00
+ 3067              	.LASF24:
+ 3068 0175 756E7369 		.ascii	"unsigned int\000"
+ 3068      676E6564 
+ 3068      20696E74 
+ 3068      00
+ 3069              	.LASF29:
+ 3070 0182 53545F46 		.ascii	"ST_FLAG\000"
+ 3070      4C414700 
+ 3071              	.LASF48:
+ 3072 018a 70617261 		.ascii	"param\000"
+ 3072      6D00
+ 3073              	.LASF1:
+ 3074 0190 76615F6C 		.ascii	"va_list\000"
+ 3074      69737400 
+ 3075              	.LASF59:
+ 3076 0198 5F617267 		.ascii	"_args\000"
+ 3076      7300
+ 3077              	.LASF28:
+ 3078 019e 53545F50 		.ascii	"ST_PERCENT\000"
+ 3078      45524345 
+ 3078      4E5400
+ 3079              	.LASF19:
+ 3080 01a9 70726566 		.ascii	"prefix\000"
+ 3080      697800
+ 3081              	.LASF8:
+ 3082 01b0 646F7562 		.ascii	"double\000"
+ 3082      6C6500
+ 3083              	.LASF18:
+ 3084 01b7 70726566 		.ascii	"prefixlen\000"
+ 3084      69786C65 
+ 3084      6E00
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 74
+
+
+ 3085              	.LASF45:
+ 3086 01c1 43485F54 		.ascii	"CH_TYPE\000"
+ 3086      59504500 
+ 3087              	.LASF30:
+ 3088 01c9 53545F57 		.ascii	"ST_WIDTH\000"
+ 3088      49445448 
+ 3088      00
+ 3089              	.LASF66:
+ 3090 01d2 78666F72 		.ascii	"xformatc.c\000"
+ 3090      6D617463 
+ 3090      2E6300
+ 3091              	.LASF53:
+ 3092 01dd 6F757442 		.ascii	"outBuffer\000"
+ 3092      75666665 
+ 3092      7200
+ 3093              	.LASF17:
+ 3094 01e7 666C6167 		.ascii	"flags\000"
+ 3094      7300
+ 3095              	.LASF3:
+ 3096 01ed 6C76616C 		.ascii	"lvalue\000"
+ 3096      756500
+ 3097              	.LASF46:
+ 3098 01f4 756C6F6E 		.ascii	"ulong2a\000"
+ 3098      67326100 
+ 3099              	.LASF7:
+ 3100 01fc 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3100      206C6F6E 
+ 3100      6720756E 
+ 3100      7369676E 
+ 3100      65642069 
+ 3101              	.LASF2:
+ 3102 0213 5F5F6170 		.ascii	"__ap\000"
+ 3102      00
+ 3103              	.LASF56:
+ 3104 0218 6F757443 		.ascii	"outChars\000"
+ 3104      68617273 
+ 3104      00
+ 3105              	.LASF58:
+ 3106 0221 7876666F 		.ascii	"xvformat\000"
+ 3106      726D6174 
+ 3106      00
+ 3107              	.LASF25:
+ 3108 022a 73697A65 		.ascii	"sizetype\000"
+ 3108      74797065 
+ 3108      00
+ 3109              	.LASF55:
+ 3110 0233 746F7570 		.ascii	"toupper\000"
+ 3110      70657200 
+ 3111              	.LASF9:
+ 3112 023b 5F5F7661 		.ascii	"__va_list\000"
+ 3112      5F6C6973 
+ 3112      7400
+ 3113              	.LASF49:
+ 3114 0245 64696769 		.ascii	"digit\000"
+ 3114      7400
+ 3115              	.LASF67:
+ 3116 024b 463A5C50 		.ascii	"F:\\Programme_Scripts\\PSOC Creator\\FreeRTOS\\Free"
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 75
+
+
+ 3116      726F6772 
+ 3116      616D6D65 
+ 3116      5F536372 
+ 3116      69707473 
+ 3117 027a 52544F53 		.ascii	"RTOS_CY8CKIT_059-master\\FreeRTOS_Demo.cydsn\000"
+ 3117      5F435938 
+ 3117      434B4954 
+ 3117      5F303539 
+ 3117      2D6D6173 
+ 3118              	.LASF11:
+ 3119 02a6 76616C75 		.ascii	"values\000"
+ 3119      657300
+ 3120              	.LASF40:
+ 3121 02ad 43485F53 		.ascii	"CH_STAR\000"
+ 3121      54415200 
+ 3122              	.LASF15:
+ 3123 02b5 77696474 		.ascii	"width\000"
+ 3123      6800
+ 3124              	.LASF16:
+ 3125 02bb 636F756E 		.ascii	"count\000"
+ 3125      7400
+ 3126              	.LASF50:
+ 3127 02c1 6F757463 		.ascii	"outchar\000"
+ 3127      68617200 
+ 3128              	.LASF64:
+ 3129 02c9 666F726D 		.ascii	"formatStates\000"
+ 3129      61745374 
+ 3129      61746573 
+ 3129      00
+ 3130              	.LASF14:
+ 3131 02d6 70726563 		.ascii	"prec\000"
+ 3131      00
+ 3132              	.LASF32:
+ 3133 02db 53545F50 		.ascii	"ST_PRECIS\000"
+ 3133      52454349 
+ 3133      5300
+ 3134              	.LASF23:
+ 3135 02e5 63686172 		.ascii	"char\000"
+ 3135      00
+ 3136              	.LASF62:
+ 3137 02ea 6D735F66 		.ascii	"ms_false\000"
+ 3137      616C7365 
+ 3137      00
+ 3138              	.LASF37:
+ 3139 02f3 43485F4F 		.ascii	"CH_OTHER\000"
+ 3139      54484552 
+ 3139      00
+ 3140              	.LASF61:
+ 3141 02fc 6D735F74 		.ascii	"ms_true\000"
+ 3141      72756500 
+ 3142              	.LASF35:
+ 3143 0304 53746174 		.ascii	"State\000"
+ 3143      6500
+ 3144              	.LASF13:
+ 3145 030a 6C656E67 		.ascii	"length\000"
+ 3145      746800
+ 3146              	.LASF10:
+ARM GAS  C:\Users\THUNDE~1\AppData\Local\Temp\ccwnH2YE.s 			page 76
+
+
+ 3147 0311 70617261 		.ascii	"param_s\000"
+ 3147      6D5F7300 
+ 3148              	.LASF41:
+ 3149 0319 43485F5A 		.ascii	"CH_ZERO\000"
+ 3149      45524F00 
+ 3150              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

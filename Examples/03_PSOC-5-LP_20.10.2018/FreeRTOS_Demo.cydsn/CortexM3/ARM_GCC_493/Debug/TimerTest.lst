@@ -1,0 +1,823 @@
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"TimerTest.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	usMaxJitter
+  19              		.bss
+  20              		.align	1
+  21              		.type	usMaxJitter, %object
+  22              		.size	usMaxJitter, 2
+  23              	usMaxJitter:
+  24 0000 0000     		.space	2
+  25              		.section	.text.vSetupTimerTest,"ax",%progbits
+  26              		.align	2
+  27              		.global	vSetupTimerTest
+  28              		.thumb
+  29              		.thumb_func
+  30              		.type	vSetupTimerTest, %function
+  31              	vSetupTimerTest:
+  32              	.LFB68:
+  33              		.file 1 "TimerTest.c"
+   1:TimerTest.c   **** /*
+   2:TimerTest.c   ****     FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
+   3:TimerTest.c   ****     All rights reserved
+   4:TimerTest.c   **** 
+   5:TimerTest.c   ****     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
+   6:TimerTest.c   **** 
+   7:TimerTest.c   ****     This file is part of the FreeRTOS distribution.
+   8:TimerTest.c   **** 
+   9:TimerTest.c   ****     FreeRTOS is free software; you can redistribute it and/or modify it under
+  10:TimerTest.c   ****     the terms of the GNU General Public License (version 2) as published by the
+  11:TimerTest.c   ****     Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
+  12:TimerTest.c   **** 
+  13:TimerTest.c   ****     ***************************************************************************
+  14:TimerTest.c   ****     >>!   NOTE: The modification to the GPL is included to allow you to     !<<
+  15:TimerTest.c   ****     >>!   distribute a combined work that includes FreeRTOS without being   !<<
+  16:TimerTest.c   ****     >>!   obliged to provide the source code for proprietary components     !<<
+  17:TimerTest.c   ****     >>!   outside of the FreeRTOS kernel.                                   !<<
+  18:TimerTest.c   ****     ***************************************************************************
+  19:TimerTest.c   **** 
+  20:TimerTest.c   ****     FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
+  21:TimerTest.c   ****     WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  22:TimerTest.c   ****     FOR A PARTICULAR PURPOSE.  Full license text is available on the following
+  23:TimerTest.c   ****     link: http://www.freertos.org/a00114.html
+  24:TimerTest.c   **** 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 2
+
+
+  25:TimerTest.c   ****     ***************************************************************************
+  26:TimerTest.c   ****      *                                                                       *
+  27:TimerTest.c   ****      *    FreeRTOS provides completely free yet professionally developed,    *
+  28:TimerTest.c   ****      *    robust, strictly quality controlled, supported, and cross          *
+  29:TimerTest.c   ****      *    platform software that is more than just the market leader, it     *
+  30:TimerTest.c   ****      *    is the industry's de facto standard.                               *
+  31:TimerTest.c   ****      *                                                                       *
+  32:TimerTest.c   ****      *    Help yourself get started quickly while simultaneously helping     *
+  33:TimerTest.c   ****      *    to support the FreeRTOS project by purchasing a FreeRTOS           *
+  34:TimerTest.c   ****      *    tutorial book, reference manual, or both:                          *
+  35:TimerTest.c   ****      *    http://www.FreeRTOS.org/Documentation                              *
+  36:TimerTest.c   ****      *                                                                       *
+  37:TimerTest.c   ****     ***************************************************************************
+  38:TimerTest.c   **** 
+  39:TimerTest.c   ****     http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
+  40:TimerTest.c   ****     the FAQ page "My application does not run, what could be wrong?".  Have you
+  41:TimerTest.c   ****     defined configASSERT()?
+  42:TimerTest.c   **** 
+  43:TimerTest.c   ****     http://www.FreeRTOS.org/support - In return for receiving this top quality
+  44:TimerTest.c   ****     embedded software for free we request you assist our global community by
+  45:TimerTest.c   ****     participating in the support forum.
+  46:TimerTest.c   **** 
+  47:TimerTest.c   ****     http://www.FreeRTOS.org/training - Investing in training allows your team to
+  48:TimerTest.c   ****     be as productive as possible as early as possible.  Now you can receive
+  49:TimerTest.c   ****     FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
+  50:TimerTest.c   ****     Ltd, and the world's leading authority on the world's leading RTOS.
+  51:TimerTest.c   **** 
+  52:TimerTest.c   ****     http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
+  53:TimerTest.c   ****     including FreeRTOS+Trace - an indispensable productivity tool, a DOS
+  54:TimerTest.c   ****     compatible FAT file system, and our tiny thread aware UDP/IP stack.
+  55:TimerTest.c   **** 
+  56:TimerTest.c   ****     http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
+  57:TimerTest.c   ****     Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
+  58:TimerTest.c   **** 
+  59:TimerTest.c   ****     http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
+  60:TimerTest.c   ****     Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
+  61:TimerTest.c   ****     licenses offer ticketed support, indemnification and commercial middleware.
+  62:TimerTest.c   **** 
+  63:TimerTest.c   ****     http://www.SafeRTOS.com - High Integrity Systems also provide a safety
+  64:TimerTest.c   ****     engineered and independently SIL3 certified version for use in safety and
+  65:TimerTest.c   ****     mission critical applications that require provable dependability.
+  66:TimerTest.c   **** 
+  67:TimerTest.c   ****     1 tab == 4 spaces!
+  68:TimerTest.c   **** */
+  69:TimerTest.c   **** 
+  70:TimerTest.c   **** /* High speed timer test as described in main.c. */
+  71:TimerTest.c   **** #include <device.h>
+  72:TimerTest.c   **** 
+  73:TimerTest.c   **** /* Scheduler includes. */
+  74:TimerTest.c   **** #include "FreeRTOS.h"
+  75:TimerTest.c   **** 
+  76:TimerTest.c   **** /* The set frequency of the interrupt.  Deviations from this are measured as
+  77:TimerTest.c   **** the jitter. */
+  78:TimerTest.c   **** #define timerINTERRUPT_FREQUENCY		( ( unsigned short ) 20000 )
+  79:TimerTest.c   **** 
+  80:TimerTest.c   **** /* The expected time between each of the timer interrupts - if the jitter was
+  81:TimerTest.c   **** zero. */
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 3
+
+
+  82:TimerTest.c   **** #define timerEXPECTED_DIFFERENCE_VALUE	( configCPU_CLOCK_HZ / timerINTERRUPT_FREQUENCY )
+  83:TimerTest.c   **** 
+  84:TimerTest.c   **** /* The number of interrupts to pass before we start looking at the jitter. */
+  85:TimerTest.c   **** #define timerSETTLE_TIME			5
+  86:TimerTest.c   **** /*---------------------------------------------------------------------------*/
+  87:TimerTest.c   **** 
+  88:TimerTest.c   **** /*
+  89:TimerTest.c   ****  * Configures the two timers used to perform the test.
+  90:TimerTest.c   ****  */
+  91:TimerTest.c   **** void vSetupTimerTest( void );
+  92:TimerTest.c   **** 
+  93:TimerTest.c   **** /* Interrupt handler in which the jitter is measured. */
+  94:TimerTest.c   **** CY_ISR_PROTO(vTimer20KHzISR);
+  95:TimerTest.c   **** 
+  96:TimerTest.c   **** /* Stores the value of the maximum recorded jitter between interrupts. */
+  97:TimerTest.c   **** volatile unsigned short usMaxJitter = 0;
+  98:TimerTest.c   **** /*---------------------------------------------------------------------------*/
+  99:TimerTest.c   **** 
+ 100:TimerTest.c   **** void vSetupTimerTest( void )
+ 101:TimerTest.c   **** {
+  34              		.loc 1 101 0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 1, uses_anonymous_args = 0
+  38 0000 80B5     		push	{r7, lr}
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  42 0002 00AF     		add	r7, sp, #0
+  43              		.cfi_def_cfa_register 7
+ 102:TimerTest.c   **** 	/* Install the ISR. */
+ 103:TimerTest.c   **** 	isrTimer_20KHz_TC_StartEx(vTimer20KHzISR);
+  44              		.loc 1 103 0
+  45 0004 0148     		ldr	r0, .L2
+  46 0006 FFF7FEFF 		bl	isrTimer_20KHz_TC_StartEx
+ 104:TimerTest.c   **** }
+  47              		.loc 1 104 0
+  48 000a 80BD     		pop	{r7, pc}
+  49              	.L3:
+  50              		.align	2
+  51              	.L2:
+  52 000c 00000000 		.word	vTimer20KHzISR
+  53              		.cfi_endproc
+  54              	.LFE68:
+  55              		.size	vSetupTimerTest, .-vSetupTimerTest
+  56              		.section	.text.vTimer20KHzISR,"ax",%progbits
+  57              		.align	2
+  58              		.global	vTimer20KHzISR
+  59              		.thumb
+  60              		.thumb_func
+  61              		.type	vTimer20KHzISR, %function
+  62              	vTimer20KHzISR:
+  63              	.LFB69:
+ 105:TimerTest.c   **** /*---------------------------------------------------------------------------*/
+ 106:TimerTest.c   **** 
+ 107:TimerTest.c   **** CY_ISR(vTimer20KHzISR)
+ 108:TimerTest.c   **** {
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 4
+
+
+  64              		.loc 1 108 0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 8
+  67              		@ frame_needed = 1, uses_anonymous_args = 0
+  68 0000 80B5     		push	{r7, lr}
+  69              		.cfi_def_cfa_offset 8
+  70              		.cfi_offset 7, -8
+  71              		.cfi_offset 14, -4
+  72 0002 82B0     		sub	sp, sp, #8
+  73              		.cfi_def_cfa_offset 16
+  74 0004 00AF     		add	r7, sp, #0
+  75              		.cfi_def_cfa_register 7
+ 109:TimerTest.c   **** static unsigned short usLastCount = 0, usSettleCount = 0, usMaxDifference = 0;
+ 110:TimerTest.c   **** unsigned short usThisCount, usDifference;
+ 111:TimerTest.c   **** 
+ 112:TimerTest.c   **** 	/* Capture the free running timer value as we enter the interrupt. */
+ 113:TimerTest.c   **** 	usThisCount = Timer_48MHz_ReadCounter();
+  76              		.loc 1 113 0
+  77 0006 FFF7FEFF 		bl	Timer_48MHz_ReadCounter
+  78 000a 0346     		mov	r3, r0
+  79 000c FB80     		strh	r3, [r7, #6]	@ movhi
+ 114:TimerTest.c   **** 		
+ 115:TimerTest.c   **** 	if( usSettleCount >= timerSETTLE_TIME )
+  80              		.loc 1 115 0
+  81 000e 124B     		ldr	r3, .L8
+  82 0010 1B88     		ldrh	r3, [r3]
+  83 0012 042B     		cmp	r3, #4
+  84 0014 14D9     		bls	.L5
+ 116:TimerTest.c   **** 	{
+ 117:TimerTest.c   **** 		/* What is the difference between the timer value in this interrupt
+ 118:TimerTest.c   **** 		and the value from the last interrupt. Timer counts down. */
+ 119:TimerTest.c   **** 		usDifference = usLastCount + ~usThisCount + 1;
+  85              		.loc 1 119 0
+  86 0016 114B     		ldr	r3, .L8+4
+  87 0018 1A88     		ldrh	r2, [r3]
+  88 001a FB88     		ldrh	r3, [r7, #6]	@ movhi
+  89 001c D31A     		subs	r3, r2, r3
+  90 001e BB80     		strh	r3, [r7, #4]	@ movhi
+ 120:TimerTest.c   **** 
+ 121:TimerTest.c   **** 		/* Store the difference in the timer values if it is larger than the
+ 122:TimerTest.c   **** 		currently stored largest value.  The difference over and above the
+ 123:TimerTest.c   **** 		expected difference will give the 'jitter' in the processing of these
+ 124:TimerTest.c   **** 		interrupts. */
+ 125:TimerTest.c   **** 		if( usDifference > usMaxDifference )
+  91              		.loc 1 125 0
+  92 0020 0F4B     		ldr	r3, .L8+8
+  93 0022 1B88     		ldrh	r3, [r3]
+  94 0024 BA88     		ldrh	r2, [r7, #4]
+  95 0026 9A42     		cmp	r2, r3
+  96 0028 10D9     		bls	.L7
+ 126:TimerTest.c   **** 		{
+ 127:TimerTest.c   **** 			usMaxDifference = usDifference;
+  97              		.loc 1 127 0
+  98 002a 0D4A     		ldr	r2, .L8+8
+  99 002c BB88     		ldrh	r3, [r7, #4]	@ movhi
+ 100 002e 1380     		strh	r3, [r2]	@ movhi
+ 128:TimerTest.c   **** 			
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 5
+
+
+ 129:TimerTest.c   **** 			/* Calculate the Jitter based on the difference we expect. */
+ 130:TimerTest.c   **** 			usMaxJitter = usMaxDifference - timerEXPECTED_DIFFERENCE_VALUE;
+ 101              		.loc 1 130 0
+ 102 0030 0B4B     		ldr	r3, .L8+8
+ 103 0032 1B88     		ldrh	r3, [r3]
+ 104 0034 A3F51663 		sub	r3, r3, #2400
+ 105 0038 9AB2     		uxth	r2, r3
+ 106 003a 0A4B     		ldr	r3, .L8+12
+ 107 003c 1A80     		strh	r2, [r3]	@ movhi
+ 108 003e 05E0     		b	.L7
+ 109              	.L5:
+ 131:TimerTest.c   **** 		}
+ 132:TimerTest.c   **** 	}
+ 133:TimerTest.c   **** 	else
+ 134:TimerTest.c   **** 	{
+ 135:TimerTest.c   **** 		/* Don't bother storing any values for the first couple of
+ 136:TimerTest.c   **** 		interrupts. */
+ 137:TimerTest.c   **** 		usSettleCount++;
+ 110              		.loc 1 137 0
+ 111 0040 054B     		ldr	r3, .L8
+ 112 0042 1B88     		ldrh	r3, [r3]
+ 113 0044 0133     		adds	r3, r3, #1
+ 114 0046 9AB2     		uxth	r2, r3
+ 115 0048 034B     		ldr	r3, .L8
+ 116 004a 1A80     		strh	r2, [r3]	@ movhi
+ 117              	.L7:
+ 138:TimerTest.c   **** 	}
+ 139:TimerTest.c   **** 
+ 140:TimerTest.c   **** 	/* Remember what the timer value was this time through, so we can calculate
+ 141:TimerTest.c   **** 	the difference the next time through. */
+ 142:TimerTest.c   **** 	usLastCount = usThisCount;
+ 118              		.loc 1 142 0
+ 119 004c 034A     		ldr	r2, .L8+4
+ 120 004e FB88     		ldrh	r3, [r7, #6]	@ movhi
+ 121 0050 1380     		strh	r3, [r2]	@ movhi
+ 143:TimerTest.c   **** }
+ 122              		.loc 1 143 0
+ 123 0052 0837     		adds	r7, r7, #8
+ 124              		.cfi_def_cfa_offset 8
+ 125 0054 BD46     		mov	sp, r7
+ 126              		.cfi_def_cfa_register 13
+ 127              		@ sp needed
+ 128 0056 80BD     		pop	{r7, pc}
+ 129              	.L9:
+ 130              		.align	2
+ 131              	.L8:
+ 132 0058 02000000 		.word	usSettleCount.6302
+ 133 005c 04000000 		.word	usLastCount.6301
+ 134 0060 06000000 		.word	usMaxDifference.6303
+ 135 0064 00000000 		.word	usMaxJitter
+ 136              		.cfi_endproc
+ 137              	.LFE69:
+ 138              		.size	vTimer20KHzISR, .-vTimer20KHzISR
+ 139              		.bss
+ 140              		.align	1
+ 141              	usSettleCount.6302:
+ 142 0002 0000     		.space	2
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 6
+
+
+ 143              		.align	1
+ 144              	usLastCount.6301:
+ 145 0004 0000     		.space	2
+ 146              		.align	1
+ 147              	usMaxDifference.6303:
+ 148 0006 0000     		.space	2
+ 149              		.text
+ 150              	.Letext0:
+ 151              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 152              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 153              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+ 154              		.section	.debug_info,"",%progbits
+ 155              	.Ldebug_info0:
+ 156 0000 37010000 		.4byte	0x137
+ 157 0004 0400     		.2byte	0x4
+ 158 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 159 000a 04       		.byte	0x4
+ 160 000b 01       		.uleb128 0x1
+ 161 000c B6000000 		.4byte	.LASF22
+ 162 0010 01       		.byte	0x1
+ 163 0011 3A000000 		.4byte	.LASF23
+ 164 0015 C6010000 		.4byte	.LASF24
+ 165 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 166 001d 00000000 		.4byte	0
+ 167 0021 00000000 		.4byte	.Ldebug_line0
+ 168 0025 02       		.uleb128 0x2
+ 169 0026 01       		.byte	0x1
+ 170 0027 06       		.byte	0x6
+ 171 0028 2E000000 		.4byte	.LASF0
+ 172 002c 02       		.uleb128 0x2
+ 173 002d 01       		.byte	0x1
+ 174 002e 08       		.byte	0x8
+ 175 002f 96000000 		.4byte	.LASF1
+ 176 0033 02       		.uleb128 0x2
+ 177 0034 02       		.byte	0x2
+ 178 0035 05       		.byte	0x5
+ 179 0036 AB010000 		.4byte	.LASF2
+ 180 003a 02       		.uleb128 0x2
+ 181 003b 02       		.byte	0x2
+ 182 003c 07       		.byte	0x7
+ 183 003d 0E000000 		.4byte	.LASF3
+ 184 0041 03       		.uleb128 0x3
+ 185 0042 8B010000 		.4byte	.LASF9
+ 186 0046 02       		.byte	0x2
+ 187 0047 3F       		.byte	0x3f
+ 188 0048 4C000000 		.4byte	0x4c
+ 189 004c 02       		.uleb128 0x2
+ 190 004d 04       		.byte	0x4
+ 191 004e 05       		.byte	0x5
+ 192 004f 59010000 		.4byte	.LASF4
+ 193 0053 02       		.uleb128 0x2
+ 194 0054 04       		.byte	0x4
+ 195 0055 07       		.byte	0x7
+ 196 0056 52000000 		.4byte	.LASF5
+ 197 005a 02       		.uleb128 0x2
+ 198 005b 08       		.byte	0x8
+ 199 005c 05       		.byte	0x5
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 7
+
+
+ 200 005d 00000000 		.4byte	.LASF6
+ 201 0061 02       		.uleb128 0x2
+ 202 0062 08       		.byte	0x8
+ 203 0063 07       		.byte	0x7
+ 204 0064 64000000 		.4byte	.LASF7
+ 205 0068 04       		.uleb128 0x4
+ 206 0069 04       		.byte	0x4
+ 207 006a 05       		.byte	0x5
+ 208 006b 696E7400 		.ascii	"int\000"
+ 209 006f 02       		.uleb128 0x2
+ 210 0070 04       		.byte	0x4
+ 211 0071 07       		.byte	0x7
+ 212 0072 21000000 		.4byte	.LASF8
+ 213 0076 03       		.uleb128 0x3
+ 214 0077 B5010000 		.4byte	.LASF10
+ 215 007b 03       		.byte	0x3
+ 216 007c 2C       		.byte	0x2c
+ 217 007d 41000000 		.4byte	0x41
+ 218 0081 02       		.uleb128 0x2
+ 219 0082 04       		.byte	0x4
+ 220 0083 04       		.byte	0x4
+ 221 0084 A5010000 		.4byte	.LASF11
+ 222 0088 02       		.uleb128 0x2
+ 223 0089 08       		.byte	0x8
+ 224 008a 04       		.byte	0x4
+ 225 008b 52010000 		.4byte	.LASF12
+ 226 008f 02       		.uleb128 0x2
+ 227 0090 01       		.byte	0x1
+ 228 0091 08       		.byte	0x8
+ 229 0092 A4000000 		.4byte	.LASF13
+ 230 0096 02       		.uleb128 0x2
+ 231 0097 04       		.byte	0x4
+ 232 0098 07       		.byte	0x7
+ 233 0099 BD010000 		.4byte	.LASF14
+ 234 009d 05       		.uleb128 0x5
+ 235 009e 7B010000 		.4byte	.LASF25
+ 236 00a2 01       		.byte	0x1
+ 237 00a3 64       		.byte	0x64
+ 238 00a4 00000000 		.4byte	.LFB68
+ 239 00a8 10000000 		.4byte	.LFE68-.LFB68
+ 240 00ac 01       		.uleb128 0x1
+ 241 00ad 9C       		.byte	0x9c
+ 242 00ae 06       		.uleb128 0x6
+ 243 00af 7B000000 		.4byte	.LASF26
+ 244 00b3 01       		.byte	0x1
+ 245 00b4 6B       		.byte	0x6b
+ 246 00b5 00000000 		.4byte	.LFB69
+ 247 00b9 68000000 		.4byte	.LFE69-.LFB69
+ 248 00bd 01       		.uleb128 0x1
+ 249 00be 9C       		.byte	0x9c
+ 250 00bf 13010000 		.4byte	0x113
+ 251 00c3 07       		.uleb128 0x7
+ 252 00c4 6F010000 		.4byte	.LASF15
+ 253 00c8 01       		.byte	0x1
+ 254 00c9 6D       		.byte	0x6d
+ 255 00ca 3A000000 		.4byte	0x3a
+ 256 00ce 05       		.uleb128 0x5
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 8
+
+
+ 257 00cf 03       		.byte	0x3
+ 258 00d0 04000000 		.4byte	usLastCount.6301
+ 259 00d4 07       		.uleb128 0x7
+ 260 00d5 44010000 		.4byte	.LASF16
+ 261 00d9 01       		.byte	0x1
+ 262 00da 6D       		.byte	0x6d
+ 263 00db 3A000000 		.4byte	0x3a
+ 264 00df 05       		.uleb128 0x5
+ 265 00e0 03       		.byte	0x3
+ 266 00e1 02000000 		.4byte	usSettleCount.6302
+ 267 00e5 07       		.uleb128 0x7
+ 268 00e6 95010000 		.4byte	.LASF17
+ 269 00ea 01       		.byte	0x1
+ 270 00eb 6D       		.byte	0x6d
+ 271 00ec 3A000000 		.4byte	0x3a
+ 272 00f0 05       		.uleb128 0x5
+ 273 00f1 03       		.byte	0x3
+ 274 00f2 06000000 		.4byte	usMaxDifference.6303
+ 275 00f6 07       		.uleb128 0x7
+ 276 00f7 46000000 		.4byte	.LASF18
+ 277 00fb 01       		.byte	0x1
+ 278 00fc 6E       		.byte	0x6e
+ 279 00fd 3A000000 		.4byte	0x3a
+ 280 0101 02       		.uleb128 0x2
+ 281 0102 91       		.byte	0x91
+ 282 0103 76       		.sleb128 -10
+ 283 0104 07       		.uleb128 0x7
+ 284 0105 A9000000 		.4byte	.LASF19
+ 285 0109 01       		.byte	0x1
+ 286 010a 6E       		.byte	0x6e
+ 287 010b 3A000000 		.4byte	0x3a
+ 288 010f 02       		.uleb128 0x2
+ 289 0110 91       		.byte	0x91
+ 290 0111 74       		.sleb128 -12
+ 291 0112 00       		.byte	0
+ 292 0113 08       		.uleb128 0x8
+ 293 0114 62010000 		.4byte	.LASF20
+ 294 0118 04       		.byte	0x4
+ 295 0119 9606     		.2byte	0x696
+ 296 011b 1F010000 		.4byte	0x11f
+ 297 011f 09       		.uleb128 0x9
+ 298 0120 76000000 		.4byte	0x76
+ 299 0124 0A       		.uleb128 0xa
+ 300 0125 8A000000 		.4byte	.LASF21
+ 301 0129 01       		.byte	0x1
+ 302 012a 61       		.byte	0x61
+ 303 012b 35010000 		.4byte	0x135
+ 304 012f 05       		.uleb128 0x5
+ 305 0130 03       		.byte	0x3
+ 306 0131 00000000 		.4byte	usMaxJitter
+ 307 0135 09       		.uleb128 0x9
+ 308 0136 3A000000 		.4byte	0x3a
+ 309 013a 00       		.byte	0
+ 310              		.section	.debug_abbrev,"",%progbits
+ 311              	.Ldebug_abbrev0:
+ 312 0000 01       		.uleb128 0x1
+ 313 0001 11       		.uleb128 0x11
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 9
+
+
+ 314 0002 01       		.byte	0x1
+ 315 0003 25       		.uleb128 0x25
+ 316 0004 0E       		.uleb128 0xe
+ 317 0005 13       		.uleb128 0x13
+ 318 0006 0B       		.uleb128 0xb
+ 319 0007 03       		.uleb128 0x3
+ 320 0008 0E       		.uleb128 0xe
+ 321 0009 1B       		.uleb128 0x1b
+ 322 000a 0E       		.uleb128 0xe
+ 323 000b 55       		.uleb128 0x55
+ 324 000c 17       		.uleb128 0x17
+ 325 000d 11       		.uleb128 0x11
+ 326 000e 01       		.uleb128 0x1
+ 327 000f 10       		.uleb128 0x10
+ 328 0010 17       		.uleb128 0x17
+ 329 0011 00       		.byte	0
+ 330 0012 00       		.byte	0
+ 331 0013 02       		.uleb128 0x2
+ 332 0014 24       		.uleb128 0x24
+ 333 0015 00       		.byte	0
+ 334 0016 0B       		.uleb128 0xb
+ 335 0017 0B       		.uleb128 0xb
+ 336 0018 3E       		.uleb128 0x3e
+ 337 0019 0B       		.uleb128 0xb
+ 338 001a 03       		.uleb128 0x3
+ 339 001b 0E       		.uleb128 0xe
+ 340 001c 00       		.byte	0
+ 341 001d 00       		.byte	0
+ 342 001e 03       		.uleb128 0x3
+ 343 001f 16       		.uleb128 0x16
+ 344 0020 00       		.byte	0
+ 345 0021 03       		.uleb128 0x3
+ 346 0022 0E       		.uleb128 0xe
+ 347 0023 3A       		.uleb128 0x3a
+ 348 0024 0B       		.uleb128 0xb
+ 349 0025 3B       		.uleb128 0x3b
+ 350 0026 0B       		.uleb128 0xb
+ 351 0027 49       		.uleb128 0x49
+ 352 0028 13       		.uleb128 0x13
+ 353 0029 00       		.byte	0
+ 354 002a 00       		.byte	0
+ 355 002b 04       		.uleb128 0x4
+ 356 002c 24       		.uleb128 0x24
+ 357 002d 00       		.byte	0
+ 358 002e 0B       		.uleb128 0xb
+ 359 002f 0B       		.uleb128 0xb
+ 360 0030 3E       		.uleb128 0x3e
+ 361 0031 0B       		.uleb128 0xb
+ 362 0032 03       		.uleb128 0x3
+ 363 0033 08       		.uleb128 0x8
+ 364 0034 00       		.byte	0
+ 365 0035 00       		.byte	0
+ 366 0036 05       		.uleb128 0x5
+ 367 0037 2E       		.uleb128 0x2e
+ 368 0038 00       		.byte	0
+ 369 0039 3F       		.uleb128 0x3f
+ 370 003a 19       		.uleb128 0x19
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 10
+
+
+ 371 003b 03       		.uleb128 0x3
+ 372 003c 0E       		.uleb128 0xe
+ 373 003d 3A       		.uleb128 0x3a
+ 374 003e 0B       		.uleb128 0xb
+ 375 003f 3B       		.uleb128 0x3b
+ 376 0040 0B       		.uleb128 0xb
+ 377 0041 27       		.uleb128 0x27
+ 378 0042 19       		.uleb128 0x19
+ 379 0043 11       		.uleb128 0x11
+ 380 0044 01       		.uleb128 0x1
+ 381 0045 12       		.uleb128 0x12
+ 382 0046 06       		.uleb128 0x6
+ 383 0047 40       		.uleb128 0x40
+ 384 0048 18       		.uleb128 0x18
+ 385 0049 9642     		.uleb128 0x2116
+ 386 004b 19       		.uleb128 0x19
+ 387 004c 00       		.byte	0
+ 388 004d 00       		.byte	0
+ 389 004e 06       		.uleb128 0x6
+ 390 004f 2E       		.uleb128 0x2e
+ 391 0050 01       		.byte	0x1
+ 392 0051 3F       		.uleb128 0x3f
+ 393 0052 19       		.uleb128 0x19
+ 394 0053 03       		.uleb128 0x3
+ 395 0054 0E       		.uleb128 0xe
+ 396 0055 3A       		.uleb128 0x3a
+ 397 0056 0B       		.uleb128 0xb
+ 398 0057 3B       		.uleb128 0x3b
+ 399 0058 0B       		.uleb128 0xb
+ 400 0059 27       		.uleb128 0x27
+ 401 005a 19       		.uleb128 0x19
+ 402 005b 11       		.uleb128 0x11
+ 403 005c 01       		.uleb128 0x1
+ 404 005d 12       		.uleb128 0x12
+ 405 005e 06       		.uleb128 0x6
+ 406 005f 40       		.uleb128 0x40
+ 407 0060 18       		.uleb128 0x18
+ 408 0061 9642     		.uleb128 0x2116
+ 409 0063 19       		.uleb128 0x19
+ 410 0064 01       		.uleb128 0x1
+ 411 0065 13       		.uleb128 0x13
+ 412 0066 00       		.byte	0
+ 413 0067 00       		.byte	0
+ 414 0068 07       		.uleb128 0x7
+ 415 0069 34       		.uleb128 0x34
+ 416 006a 00       		.byte	0
+ 417 006b 03       		.uleb128 0x3
+ 418 006c 0E       		.uleb128 0xe
+ 419 006d 3A       		.uleb128 0x3a
+ 420 006e 0B       		.uleb128 0xb
+ 421 006f 3B       		.uleb128 0x3b
+ 422 0070 0B       		.uleb128 0xb
+ 423 0071 49       		.uleb128 0x49
+ 424 0072 13       		.uleb128 0x13
+ 425 0073 02       		.uleb128 0x2
+ 426 0074 18       		.uleb128 0x18
+ 427 0075 00       		.byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 11
+
+
+ 428 0076 00       		.byte	0
+ 429 0077 08       		.uleb128 0x8
+ 430 0078 34       		.uleb128 0x34
+ 431 0079 00       		.byte	0
+ 432 007a 03       		.uleb128 0x3
+ 433 007b 0E       		.uleb128 0xe
+ 434 007c 3A       		.uleb128 0x3a
+ 435 007d 0B       		.uleb128 0xb
+ 436 007e 3B       		.uleb128 0x3b
+ 437 007f 05       		.uleb128 0x5
+ 438 0080 49       		.uleb128 0x49
+ 439 0081 13       		.uleb128 0x13
+ 440 0082 3F       		.uleb128 0x3f
+ 441 0083 19       		.uleb128 0x19
+ 442 0084 3C       		.uleb128 0x3c
+ 443 0085 19       		.uleb128 0x19
+ 444 0086 00       		.byte	0
+ 445 0087 00       		.byte	0
+ 446 0088 09       		.uleb128 0x9
+ 447 0089 35       		.uleb128 0x35
+ 448 008a 00       		.byte	0
+ 449 008b 49       		.uleb128 0x49
+ 450 008c 13       		.uleb128 0x13
+ 451 008d 00       		.byte	0
+ 452 008e 00       		.byte	0
+ 453 008f 0A       		.uleb128 0xa
+ 454 0090 34       		.uleb128 0x34
+ 455 0091 00       		.byte	0
+ 456 0092 03       		.uleb128 0x3
+ 457 0093 0E       		.uleb128 0xe
+ 458 0094 3A       		.uleb128 0x3a
+ 459 0095 0B       		.uleb128 0xb
+ 460 0096 3B       		.uleb128 0x3b
+ 461 0097 0B       		.uleb128 0xb
+ 462 0098 49       		.uleb128 0x49
+ 463 0099 13       		.uleb128 0x13
+ 464 009a 3F       		.uleb128 0x3f
+ 465 009b 19       		.uleb128 0x19
+ 466 009c 02       		.uleb128 0x2
+ 467 009d 18       		.uleb128 0x18
+ 468 009e 00       		.byte	0
+ 469 009f 00       		.byte	0
+ 470 00a0 00       		.byte	0
+ 471              		.section	.debug_aranges,"",%progbits
+ 472 0000 24000000 		.4byte	0x24
+ 473 0004 0200     		.2byte	0x2
+ 474 0006 00000000 		.4byte	.Ldebug_info0
+ 475 000a 04       		.byte	0x4
+ 476 000b 00       		.byte	0
+ 477 000c 0000     		.2byte	0
+ 478 000e 0000     		.2byte	0
+ 479 0010 00000000 		.4byte	.LFB68
+ 480 0014 10000000 		.4byte	.LFE68-.LFB68
+ 481 0018 00000000 		.4byte	.LFB69
+ 482 001c 68000000 		.4byte	.LFE69-.LFB69
+ 483 0020 00000000 		.4byte	0
+ 484 0024 00000000 		.4byte	0
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 12
+
+
+ 485              		.section	.debug_ranges,"",%progbits
+ 486              	.Ldebug_ranges0:
+ 487 0000 00000000 		.4byte	.LFB68
+ 488 0004 10000000 		.4byte	.LFE68
+ 489 0008 00000000 		.4byte	.LFB69
+ 490 000c 68000000 		.4byte	.LFE69
+ 491 0010 00000000 		.4byte	0
+ 492 0014 00000000 		.4byte	0
+ 493              		.section	.debug_line,"",%progbits
+ 494              	.Ldebug_line0:
+ 495 0000 70010000 		.section	.debug_str,"MS",%progbits,1
+ 495      02003F01 
+ 495      00000201 
+ 495      FB0E0D00 
+ 495      01010101 
+ 496              	.LASF6:
+ 497 0000 6C6F6E67 		.ascii	"long long int\000"
+ 497      206C6F6E 
+ 497      6720696E 
+ 497      7400
+ 498              	.LASF3:
+ 499 000e 73686F72 		.ascii	"short unsigned int\000"
+ 499      7420756E 
+ 499      7369676E 
+ 499      65642069 
+ 499      6E7400
+ 500              	.LASF8:
+ 501 0021 756E7369 		.ascii	"unsigned int\000"
+ 501      676E6564 
+ 501      20696E74 
+ 501      00
+ 502              	.LASF0:
+ 503 002e 7369676E 		.ascii	"signed char\000"
+ 503      65642063 
+ 503      68617200 
+ 504              	.LASF23:
+ 505 003a 54696D65 		.ascii	"TimerTest.c\000"
+ 505      72546573 
+ 505      742E6300 
+ 506              	.LASF18:
+ 507 0046 75735468 		.ascii	"usThisCount\000"
+ 507      6973436F 
+ 507      756E7400 
+ 508              	.LASF5:
+ 509 0052 6C6F6E67 		.ascii	"long unsigned int\000"
+ 509      20756E73 
+ 509      69676E65 
+ 509      6420696E 
+ 509      7400
+ 510              	.LASF7:
+ 511 0064 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 511      206C6F6E 
+ 511      6720756E 
+ 511      7369676E 
+ 511      65642069 
+ 512              	.LASF26:
+ 513 007b 7654696D 		.ascii	"vTimer20KHzISR\000"
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 13
+
+
+ 513      65723230 
+ 513      4B487A49 
+ 513      535200
+ 514              	.LASF21:
+ 515 008a 75734D61 		.ascii	"usMaxJitter\000"
+ 515      784A6974 
+ 515      74657200 
+ 516              	.LASF1:
+ 517 0096 756E7369 		.ascii	"unsigned char\000"
+ 517      676E6564 
+ 517      20636861 
+ 517      7200
+ 518              	.LASF13:
+ 519 00a4 63686172 		.ascii	"char\000"
+ 519      00
+ 520              	.LASF19:
+ 521 00a9 75734469 		.ascii	"usDifference\000"
+ 521      66666572 
+ 521      656E6365 
+ 521      00
+ 522              	.LASF22:
+ 523 00b6 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 523      4320342E 
+ 523      392E3320 
+ 523      32303135 
+ 523      30333033 
+ 524 00e9 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 524      20726576 
+ 524      6973696F 
+ 524      6E203232 
+ 524      31323230 
+ 525 011c 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 525      66756E63 
+ 525      74696F6E 
+ 525      2D736563 
+ 525      74696F6E 
+ 526              	.LASF16:
+ 527 0144 75735365 		.ascii	"usSettleCount\000"
+ 527      74746C65 
+ 527      436F756E 
+ 527      7400
+ 528              	.LASF12:
+ 529 0152 646F7562 		.ascii	"double\000"
+ 529      6C6500
+ 530              	.LASF4:
+ 531 0159 6C6F6E67 		.ascii	"long int\000"
+ 531      20696E74 
+ 531      00
+ 532              	.LASF20:
+ 533 0162 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 533      52784275 
+ 533      66666572 
+ 533      00
+ 534              	.LASF15:
+ 535 016f 75734C61 		.ascii	"usLastCount\000"
+ 535      7374436F 
+ 535      756E7400 
+ARM GAS  C:\Users\bmt\AppData\Local\Temp\cc8p0V7T.s 			page 14
+
+
+ 536              	.LASF25:
+ 537 017b 76536574 		.ascii	"vSetupTimerTest\000"
+ 537      75705469 
+ 537      6D657254 
+ 537      65737400 
+ 538              	.LASF9:
+ 539 018b 5F5F696E 		.ascii	"__int32_t\000"
+ 539      7433325F 
+ 539      7400
+ 540              	.LASF17:
+ 541 0195 75734D61 		.ascii	"usMaxDifference\000"
+ 541      78446966 
+ 541      66657265 
+ 541      6E636500 
+ 542              	.LASF11:
+ 543 01a5 666C6F61 		.ascii	"float\000"
+ 543      7400
+ 544              	.LASF2:
+ 545 01ab 73686F72 		.ascii	"short int\000"
+ 545      7420696E 
+ 545      7400
+ 546              	.LASF10:
+ 547 01b5 696E7433 		.ascii	"int32_t\000"
+ 547      325F7400 
+ 548              	.LASF14:
+ 549 01bd 73697A65 		.ascii	"sizetype\000"
+ 549      74797065 
+ 549      00
+ 550              	.LASF24:
+ 551 01c6 433A5C55 		.ascii	"C:\\Users\\bmt\\Documents\\GitHub\\FreeRTOS_CY8CKIT"
+ 551      73657273 
+ 551      5C626D74 
+ 551      5C446F63 
+ 551      756D656E 
+ 552 01f4 5F303539 		.ascii	"_059\\FreeRTOS_Demo.cydsn\000"
+ 552      5C467265 
+ 552      6552544F 
+ 552      535F4465 
+ 552      6D6F2E63 
+ 553              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br
