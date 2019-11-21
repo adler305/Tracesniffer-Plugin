@@ -16,8 +16,8 @@
     
 #define portNVIC_SYSTICK_CURRENT_VALUE_REG  ( * ( ( volatile uint32_t * ) 0xe000e018 ) )
     
-//#define sendByteOverInterface(sendByte)  TRACE_UART_UartPutChar(sendByte);/**<the function to send over the preferred Interface has to be implemented here, an interrupt should be used*/
-#define sendByteOverInterface(sendByte) NULL;
+#define sendByteOverInterface(sendByte)  TRACE_UART_UartPutChar(sendByte);/**<the function to send over the preferred Interface has to be implemented here, an interrupt should be used*/
+//#define sendByteOverInterface(sendByte) NULL; /**<Used to Debug TRACER_UART Component */
 #define enableReceiveInterrupt() TRACE_UART_Start(); /**<the code for enabling the receive Interrupt should be added here*/
 #define sendReceivedByteToSniffTask(receivedByte) {writeFIFO(&receivedByte,1,prioRECEIVE);}/**<this definition should be placed in the receiving interrupt*/
 

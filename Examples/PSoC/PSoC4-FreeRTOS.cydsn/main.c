@@ -95,10 +95,12 @@ void vBlinkTask( void* pvParameters)
         
 		vTaskDelay( 125/portTICK_RATE_MS );
         
+        /*
         if(xSemaphoreTake(buttonSemaphore, portMAX_DELAY)) {
             Test_LED_Write( ~Test_LED_Read() );
         }
-        //Test_LED_Write( ~Test_LED_Read() );
+        */
+        Test_LED_Write( ~Test_LED_Read() );
         /*
         if(CapSense_Trace_NOT_BUSY == CapSense_Trace_IsBusy()) {
             if(CapSense_Trace_IsAnyWidgetActive()) {
