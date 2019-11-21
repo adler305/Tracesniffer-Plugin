@@ -77,18 +77,18 @@ Examples/PSoC/**/*.cywrk.*
 Examples/PSoC/**/*.cyprj.*
 
 # Generated Assets and Resources
-Debug/
-Release/
-Export/
-*/codegentemp
-*/Generated_Source
-*_datasheet.pdf
-*_timing.html
-*.cycdx
-*.cyfit
-*.rpt
-*.svd
-*.log
-*.zip
+Examples/PSoC/**/Debug/
+Examples/PSoC/**/Release/
+Examples/PSoC/**/Export/
+Examples/PSoC/**/*/codegentemp
+Examples/PSoC/**/*/Generated_Source
+Examples/PSoC/**/*_datasheet.pdf
+Examples/PSoC/**/*_timing.html
+Examples/PSoC/**/*.cycdx
+Examples/PSoC/**/*.cyfit
+Examples/PSoC/**/*.rpt
+Examples/PSoC/**/*.svd
+Examples/PSoC/**/*.log
+Examples/PSoC/**/*.zip
 
 # End of https://www.gitignore.io/api/eclipse,psoccreator
