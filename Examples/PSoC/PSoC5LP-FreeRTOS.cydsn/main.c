@@ -76,33 +76,33 @@ void vBlinkTask( void* pvParameters)
 
 int readTemp()    //Reads the temp // Displayed with flashing of LED3
 {
-
-	CyDelay(50);
-
-	return rand();
+    Temp_LED_Write(1);
+	CyDelay(100);
+    Temp_LED_Write(0);
+	return 0;
 }
 int readHumidity() //Reads the humidity // Displayed with flashing of LED3
 {
-
-	CyDelay(50);
-
-	return rand();
+    Humid_LED_Write(1);
+	CyDelay(120);
+    Humid_LED_Write(0);
+	return 0;
 }
 
 void writeToLCD() // The LCD is a shared resource// It takes 500ms to write to the LCD // Displayed with LED1
 {
-	
-	CyDelay(40);
-	
-	CyDelay(50);
+    LCD_LED_Write(1);
+	CyDelay(70);
+    LCD_LED_Write(0);
 }
 
 void saveData() //Data is saved // Displayed by LED2
 {
-
-	CyDelay(100);
-
+    Data_LED_Write(1);
+	CyDelay(140);
+    Data_LED_Write(0);
 }
+
 
 
 void TempReadTask()

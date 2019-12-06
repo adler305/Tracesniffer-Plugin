@@ -251,9 +251,13 @@
   <Data key="DataVersionKey" value="2" />
   <Group key="DWRInstGuidMapping">
     <Group key="Pin">
+      <Data key="8f9df295-145a-4e30-ba3f-35cf9c782d0a" value="Data_LED" />
       <Data key="0597a1a1-24cf-4a7e-9b5f-508b33bbff63" value="Test_LED" />
+      <Data key="726a64fc-4d8a-4608-ab00-1a09744022d1" value="Temp_LED" />
       <Data key="1425177d-0d0e-4468-8bcc-e638e5509a9b" value="Rx_1" />
+      <Data key="af5496e3-1ec2-4105-b5a4-edd22799e368" value="Humid_LED" />
       <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="LED" />
+      <Data key="ea70c8c3-5f8e-484e-98ff-05707f279283" value="LCD_LED" />
       <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="Tx_1" />
     </Group>
   </Group>
@@ -3341,9 +3345,19 @@
     </Group>
   </Group>
   <Group key="Pin2">
+    <Group key="8f9df295-145a-4e30-ba3f-35cf9c782d0a">
+      <Group key="0">
+        <Data key="Port Format" value="0,6" />
+      </Group>
+    </Group>
     <Group key="0597a1a1-24cf-4a7e-9b5f-508b33bbff63">
       <Group key="0">
         <Data key="Port Format" value="2,1" />
+      </Group>
+    </Group>
+    <Group key="726a64fc-4d8a-4608-ab00-1a09744022d1">
+      <Group key="0">
+        <Data key="Port Format" value="2,4" />
       </Group>
     </Group>
     <Group key="1425177d-0d0e-4468-8bcc-e638e5509a9b">
@@ -3351,9 +3365,19 @@
         <Data key="Port Format" value="12,6" />
       </Group>
     </Group>
+    <Group key="af5496e3-1ec2-4105-b5a4-edd22799e368">
+      <Group key="0">
+        <Data key="Port Format" value="2,3" />
+      </Group>
+    </Group>
     <Group key="e851a3b9-efb8-48be-bbb8-b303b216c393">
       <Group key="0">
         <Data key="Port Format" value="2,1" />
+      </Group>
+    </Group>
+    <Group key="ea70c8c3-5f8e-484e-98ff-05707f279283">
+      <Group key="0">
+        <Data key="Port Format" value="0,7" />
       </Group>
     </Group>
     <Group key="ed092b9b-d398-4703-be89-cebf998501f6">
@@ -3361,6 +3385,7 @@
         <Data key="Port Format" value="12,7" />
       </Group>
     </Group>
+    <Group key="UnAssigned Pins" />
   </Group>
   <Group key="PlaceDir">
     <Data key="count" value="0" />

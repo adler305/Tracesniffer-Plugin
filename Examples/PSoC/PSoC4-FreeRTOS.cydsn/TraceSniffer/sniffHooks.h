@@ -90,7 +90,7 @@
 
 #define traceQUEUE_CREATE_FAILED( ucQueueType ) {packPayload1(ID_QUEUE_CREATE_FAILED,ucQueueType);}/**< Traces if the queue creation failed  */
 
-#define traceCREATE_MUTEX( pxNewQueue ) {packPayload1(ID_CREATE_MUTEX,pxNewQueue->uxQueueNumber);}/**< Traces if a mutex is created, updateObjectList() gets called in the nested QUEUE_CREATE  */
+#define traceCREATE_MUTEX( pxNewQueue ) {pxNewQueue->uxQueueNumber = updateObjectList(pxNewQueue->ucQueueType,"Mutex"); packPayload1(ID_CREATE_MUTEX,pxNewQueue->uxQueueNumber);}/**< Traces if a mutex is created, updateObjectList() gets called in the nested QUEUE_CREATE  */
 
 #define traceCREATE_MUTEX_FAILED() {packPayload0(ID_CREATE_MUTEX_FAILED);}/**< Traces if the mutex creation failed  */
 
