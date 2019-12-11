@@ -31,9 +31,12 @@ uint8_t initialiseTraceSniffer() {
 	payloadType* type;
 	while(readReceiveFIFO(data,type)!=0);
 #endif
+#if SEND_WITHOUT_SNIFF_TASK == 0
+	//Create Task
 	xTaskCreate(sniffTask, "sniffTask", STACK_SIZE_OF_SNIFF_TASK, NULL,
 	PRIORITY_OF_SNIFF_TASK, &sniffTaskHandle);
-	//Create Task
+#endif
+	
 	return 0;
 }
 
