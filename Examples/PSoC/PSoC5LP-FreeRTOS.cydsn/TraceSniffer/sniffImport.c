@@ -10,10 +10,8 @@
 
 //! @cond Doxygen_Suppress
 typedef void* TaskHandle_t;
-extern long xTaskCreate();
 extern long xTaskGenericCreate();
 extern void vTaskSuspend(TaskHandle_t xTaskToSuspend);
-
 //! @endcond
 static TaskHandle_t sniffTaskHandle = NULL;/**<The sniffTaskHandle*/
 /**
@@ -33,9 +31,11 @@ uint8_t initialiseTraceSniffer() {
 	payloadType* type;
 	while(readReceiveFIFO(data,type)!=0);
 #endif
-    xTaskGenericCreate(sniffTask, "sniffTask", STACK_SIZE_OF_SNIFF_TASK, NULL, PRIORITY_OF_SNIFF_TASK, &sniffTaskHandle,NULL, NULL);
-    //xTaskCreate(sniffTask, "sniffTask", STACK_SIZE_OF_SNIFF_TASK, NULL, PRIORITY_OF_SNIFF_TASK, &sniffTaskHandle);
+#if !SEND_WITHOUT_SNIFF_TASK
 	//Create Task
+	xTaskGenericCreate(sniffTask, "sniffTask", STACK_SIZE_OF_SNIFF_TASK, NULL,PRIORITY_OF_SNIFF_TASK, &sniffTaskHandle,NULL,NULL);
+#endif
+	
 	return 0;
 }
 

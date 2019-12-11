@@ -21,6 +21,7 @@
 #define enableReceiveInterrupt() TRACE_UART_Start(); /**<the code for enabling the receive Interrupt should be added here*/
 #define sendReceivedByteToSniffTask(receivedByte) {writeFIFO(&receivedByte,1,prioRECEIVE);}/**<this definition should be placed in the receiving interrupt*/
 
+#define readOutTickCount() xTaskGetTickCount()  /**<the function to read out the tick Count, in FreeRTOS: xTaskGetTickCount()*/
 #define readOutSysTimerHigh() (portNVIC_SYSTICK_CURRENT_VALUE_REG>>16)&0xff /**<the function to read the SysTimer-HighByte should be implemented here*/
 #define readOutSysTimerLow() (portNVIC_SYSTICK_CURRENT_VALUE_REG>>8)&0xff /**<the function to read the SysTimer-LowByte should be implemented here*/
 

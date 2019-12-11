@@ -18,7 +18,7 @@
 uint8_t objectCounter[NUMBER_OF_OBJECTTYPES];/**<Counts the number of objects of one specific type*/
 uint8_t sniffIDFilter[SIZE_OF_FILTER];/**<Saves the ID-Filter*/
 extern ObjectList objectList[NUMBER_OF_OBJECTTYPES];
-extern uint32_t xTaskGetTickCount();/**<extern function to read out the SysTick*/
+extern uint32_t readOutTickCount();/**<extern function to read out the SysTick*/
 
 #if SEND_WITHOUT_SNIFF_TASK == 0
 extern void stopTraceSniffer();
@@ -44,16 +44,16 @@ inline void packPayload0(InformationID informationID) {
 		;
 		sendByteOverInterface(packetCounter++);
 		sendByteOverInterface(informationID);
-		sendByteOverInterface(xTaskGetTickCount() >> 8);
-		sendByteOverInterface(xTaskGetTickCount());
+		sendByteOverInterface(readOutTickCount() >> 8);
+		sendByteOverInterface(readOutTickCount());
 		sendByteOverInterface(readOutSysTimerHigh());
 		sendByteOverInterface(readOutSysTimerLow());
 	}
 #else
 	Payload0 payload;
 	payload.payloadHead.informationID = informationID;
-	payload.payloadHead.tickCountHigh = xTaskGetTickCount() >> 8;
-	payload.payloadHead.tickCountLow = xTaskGetTickCount();
+	payload.payloadHead.tickCountHigh = readOutTickCount() >> 8;
+	payload.payloadHead.tickCountLow = readOutTickCount();
 	payload.payloadHead.timerByteHigh = readOutSysTimerHigh();
 	payload.payloadHead.timerByteLow = readOutSysTimerLow();
 	if(writeFIFO(&payload,PAYLOAD_0,prioSTREAM)!=0) {
@@ -76,8 +76,8 @@ inline void packPayload1(InformationID informationID, uint8_t data1) {
 		SEND_PREAMBLE
 		sendByteOverInterface(packetCounter++);
 		sendByteOverInterface(informationID);
-		sendByteOverInterface(xTaskGetTickCount() >> 8);
-		sendByteOverInterface(xTaskGetTickCount());
+		sendByteOverInterface(readOutTickCount() >> 8);
+		sendByteOverInterface(readOutTickCount());
 		sendByteOverInterface(readOutSysTimerHigh());
 		sendByteOverInterface(readOutSysTimerLow());
 		sendByteOverInterface(data1);
@@ -85,8 +85,8 @@ inline void packPayload1(InformationID informationID, uint8_t data1) {
 #else
 	Payload1 payload;
 	payload.payloadHead.informationID = informationID;
-	payload.payloadHead.tickCountHigh = xTaskGetTickCount() >> 8;
-	payload.payloadHead.tickCountLow = xTaskGetTickCount();
+	payload.payloadHead.tickCountHigh = readOutTickCount() >> 8;
+	payload.payloadHead.tickCountLow = readOutTickCount();
 	payload.payloadHead.timerByteHigh = readOutSysTimerHigh();
 	payload.payloadHead.timerByteLow = readOutSysTimerLow();
 	payload.data1 = data1;
@@ -111,8 +111,8 @@ inline void packPayload2(InformationID informationID, uint8_t data1,
 		SEND_PREAMBLE
 		sendByteOverInterface(packetCounter++);
 		sendByteOverInterface(informationID);
-		sendByteOverInterface(xTaskGetTickCount() >> 8);
-		sendByteOverInterface(xTaskGetTickCount());
+		sendByteOverInterface(readOutTickCount() >> 8);
+		sendByteOverInterface(readOutTickCount());
 		sendByteOverInterface(readOutSysTimerHigh());
 		sendByteOverInterface(readOutSysTimerLow());
 		sendByteOverInterface(data1);
@@ -122,8 +122,8 @@ inline void packPayload2(InformationID informationID, uint8_t data1,
 #else
 	Payload2 payload;
 	payload.payloadHead.informationID = informationID;
-	payload.payloadHead.tickCountHigh = xTaskGetTickCount() >> 8;
-	payload.payloadHead.tickCountLow = xTaskGetTickCount();
+	payload.payloadHead.tickCountHigh = readOutTickCount() >> 8;
+	payload.payloadHead.tickCountLow = readOutTickCount();
 	payload.payloadHead.timerByteHigh = readOutSysTimerHigh();
 	payload.payloadHead.timerByteLow = readOutSysTimerLow();
 	payload.data1 = data1;
@@ -150,8 +150,8 @@ inline void packPayload3(InformationID informationID, uint8_t data1,
 		SEND_PREAMBLE
 		sendByteOverInterface(packetCounter++);
 		sendByteOverInterface(informationID);
-		sendByteOverInterface(xTaskGetTickCount() >> 8);
-		sendByteOverInterface(xTaskGetTickCount());
+		sendByteOverInterface(readOutTickCount() >> 8);
+		sendByteOverInterface(readOutTickCount());
 		sendByteOverInterface(readOutSysTimerHigh());
 		sendByteOverInterface(readOutSysTimerLow());
 		sendByteOverInterface(data1);
@@ -162,8 +162,8 @@ inline void packPayload3(InformationID informationID, uint8_t data1,
 	Payload3 payload;
 	payload.payloadHead.packetID = 0; // packetCounter++;
 	payload.payloadHead.informationID = informationID;
-	payload.payloadHead.tickCountHigh = xTaskGetTickCount() >> 8;
-	payload.payloadHead.tickCountLow = xTaskGetTickCount();
+	payload.payloadHead.tickCountHigh = readOutTickCount() >> 8;
+	payload.payloadHead.tickCountLow = readOutTickCount();
 	payload.payloadHead.timerByteHigh = readOutSysTimerHigh();
 	payload.payloadHead.timerByteLow = readOutSysTimerLow();
 	payload.data1 = data1;
@@ -186,15 +186,15 @@ inline void packPayloadError(ErrorID errorID) {
 	SEND_PREAMBLE
 	sendByteOverInterface(packetCounter);
 	sendByteOverInterface(errorID);
-	sendByteOverInterface(xTaskGetTickCount() >> 8);
-	sendByteOverInterface(xTaskGetTickCount());
+	sendByteOverInterface(readOutTickCount() >> 8);
+	sendByteOverInterface(readOutTickCount());
 	sendByteOverInterface(readOutSysTimerHigh());
 	sendByteOverInterface(readOutSysTimerLow());
 #else
 	PayloadError payload;
 	payload.payloadHead.informationID = errorID;
-	payload.payloadHead.tickCountHigh = xTaskGetTickCount() >> 8;
-	payload.payloadHead.tickCountLow = xTaskGetTickCount();
+	payload.payloadHead.tickCountHigh = readOutTickCount() >> 8;
+	payload.payloadHead.tickCountLow = readOutTickCount();
 	payload.payloadHead.timerByteHigh = readOutSysTimerHigh();
 	payload.payloadHead.timerByteLow = readOutSysTimerLow();
 	if(writeFIFO(&payload,PAYLOAD_ERROR,prioERROR)!=0) {

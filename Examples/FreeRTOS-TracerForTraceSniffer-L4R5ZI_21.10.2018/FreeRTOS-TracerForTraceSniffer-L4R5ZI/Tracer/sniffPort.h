@@ -28,6 +28,8 @@ extern UART_HandleTypeDef huart2;
 
 #define sendByteOverInterface(sendByte) {BufferIn(sendByte);SET_BIT(huart2.Instance->CR1, USART_CR1_TXEIE_TXFNFIE);}// Wie genau?
 #define sendReceivedByteToSniffTask(receivedByte) {writeReceiveFIFO(&receivedByte,1);}
+
+#define readOutTickCount() xTaskGetTickCount()   /**<the function to read out the tick Count, in FreeRTOS: xTaskGetTickCount()*/
 #define readOutSysTimerHigh() 	__HAL_TIM_GetCounter(&htim1)>>8
 #define readOutSysTimerLow()	(__HAL_TIM_GetCounter(&htim1)&0xFF)
 

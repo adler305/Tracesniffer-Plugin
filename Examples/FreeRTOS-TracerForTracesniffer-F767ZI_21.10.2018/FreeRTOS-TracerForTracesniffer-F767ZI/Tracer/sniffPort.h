@@ -27,6 +27,7 @@ extern UART_HandleTypeDef huart2;
 #define enableReceiveInterrupt() SET_BIT(huart2.Instance->CR1, USART_CR1_RXNEIE);/**<the code for enabling the receive Interrupt should be added here*/
 #define sendReceivedByteToSniffTask(receivedByte) {writeFIFO(&receivedByte,1,prioRECEIVE);}/**<this definition should be placed in the receiving interrupt*/
 
+#define readOutTickCount() xTaskGetTickCount()   /**<the function to read out the tick Count, in FreeRTOS: xTaskGetTickCount()*/
 #define readOutSysTimerHigh() 	__HAL_TIM_GetCounter(&htim1)>>8 /**<the function to read the SysTimer-HighByte should be implemented here*/
 #define readOutSysTimerLow()	(__HAL_TIM_GetCounter(&htim1)&0xFF)/**<the function to read the SysTimer-LowByte should be implemented here*/
 

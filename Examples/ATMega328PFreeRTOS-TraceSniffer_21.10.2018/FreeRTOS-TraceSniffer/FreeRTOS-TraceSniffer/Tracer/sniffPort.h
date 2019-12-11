@@ -24,6 +24,8 @@
 
 #define sendByteOverInterface(sendByte) uart_putc(sendByte);// Wie genau?
 #define sendReceivedByteToSniffTask(receivedByte) {writeFIFO(&receivedByte,1,prioRECEIVE);}
+
+#define readOutTickCount() xTaskGetTickCount()   /**<the function to read out the tick Count, in FreeRTOS: xTaskGetTickCount()*/
 #define readOutSysTimerHigh() 	TCNT1H
 #define readOutSysTimerLow()	TCNT1L
 
